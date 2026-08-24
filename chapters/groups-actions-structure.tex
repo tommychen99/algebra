@@ -1,0 +1,772 @@
+\chapter[Group Actions and Structure]{Group Actions and Structural Group Theory}
+
+\section{Actions, Orbits, Stabilizers, and Permutation Representations}
+
+An action studies a group by observing the objects it moves.  This makes an
+abstract group concrete without choosing generators or a multiplication table:
+an action is a systematic way to realize its elements as permutations.
+
+\begin{definition}
+An \emph{action} of \(G\) on \(X\) is a map \(G\times X\to X\), written
+\((g,x)\mapsto g\cdot x\), satisfying the following two requirements:
+\begin{enumerate}
+\setlength{\itemsep}{5pt}
+\item the group identity does nothing: \(1\cdot x=x\) for all \(x\in X\);
+\item successive motions combine according to multiplication:
+      \((gh)\cdot x=g\cdot(h\cdot x)\).
+\end{enumerate}
+The \emph{orbit} of \(x\) is \(Gx=\{g\cdot x:g\in G\}\), and its
+\emph{stabilizer} is \(G_x=\{g\in G:g\cdot x=x\}\).
+\end{definition}
+
+Equivalently, an action is a homomorphism \(G\to\operatorname{Sym}(X)\).
+This equivalence explains the two action axioms: they say exactly that the
+identity acts as the identity permutation and a product acts by composition.
+The natural action of \(S_n\) on \(\{1,\ldots,n\}\), the action of \(D_n\)
+on the vertices of a regular polygon, and the left-translation action of \(G\)
+on itself are the basic examples.
+
+It is useful to pause over these examples.  The natural action of \(S_n\) is
+transitive, and the stabilizer of \(1\) consists of permutations of the other
+\(n-1\) letters.  The geometric action of \(D_n\) is also transitive; the
+stabilizer of a vertex has two elements, the identity and the reflection through
+that vertex.  The left regular action of \(G\) is transitive with trivial
+stabilizer.  Finally, the coset action on \(G/H\) is transitive and has
+stabilizer \(H\) at the coset \(H\).  These are the examples to test whenever
+an abstract action appears later.
+
+\begin{definition}
+Let \(\rho:G\to\operatorname{Sym}(X)\) be the homomorphism associated to an
+action.  Its \emph{kernel} is
+\[\ker\rho=\{g\in G:g\cdot x=x\text{ for every }x\in X\}.\]
+The action is \emph{faithful} if this kernel is trivial.
+\end{definition}
+
+Thus an action is faithful exactly when no nonidentity group element is
+invisible on \(X\), equivalently when \(\rho\) is injective.  The natural
+action of \(S_n\) and the left regular action of any group are faithful.  By
+contrast, the action of \(D_4\) on the set of diagonals of a square is not
+faithful: distinct geometric symmetries can induce the same diagonal action.
+
+\begin{proposition}
+The stabilizer is a subgroup, the orbits partition \(X\), and an action gives
+a homomorphism \(G\to\operatorname{Sym}(X)\).
+\end{proposition}
+\begin{proof}
+For the stabilizer, \(1\cdot x=x\), so \(1\in G_x\).  If \(g,h\in G_x\),
+then \((gh^{-1})\cdot x=g\cdot(h^{-1}\cdot x)=g\cdot x=x\), so the subgroup
+test applies.  If two orbits meet, say \(g\cdot x=h\cdot y\), then applying
+\(g^{-1}\) yields \(x=g^{-1}h\cdot y\).  Hence \(x\in Gy\), and applying
+group elements shows \(Gx\subseteq Gy\); symmetry gives equality.  Finally,
+the assignment \(g\mapsto\rho(g)\), where \(\rho(g)(x)=g\cdot x\), satisfies
+\(\rho(gh)=\rho(g)\rho(h)\) by the second action axiom.
+\end{proof}
+
+\begin{theorem}[Cayley]
+Every group \(G\) is isomorphic to a subgroup of \(\operatorname{Sym}(G)\).
+\end{theorem}
+\begin{proof}
+Let \(G\) act on itself by left translation, \(g\cdot x=gx\).  The associated
+homomorphism sends \(g\) to the permutation \(x\mapsto gx\).  If this
+permutation is the identity, then evaluating it at \(1\) gives \(g=1\).
+Its kernel is therefore trivial, so the homomorphism is injective.
+\end{proof}
+
+\begin{example}
+For the left action of \(G\) on itself, the orbit of \(1\) is all of \(G\)
+and its stabilizer is trivial.  For the conjugation action, the orbit and
+stabilizer become a conjugacy class and a centralizer.  These examples show
+that one definition organizes both the regular action and the internal
+symmetry of a group.
+\end{example}
+
+\begin{example}[The Coset Action]
+For \(H\leq G\), left multiplication defines \(g\cdot(aH)=(ga)H\) on
+\(G/H\).  The action is transitive and the stabilizer of \(H\) is \(H\).
+Its kernel is
+\[\bigcap_{g\in G}gHg^{-1}.\]
+Indeed, an element fixes every coset exactly when it belongs to every conjugate
+of \(H\).  This intersection, called the \emph{core} of \(H\), is the largest
+normal subgroup of \(G\) contained in \(H\).  The example is an important way
+to construct permutation representations from subgroups.
+\end{example}
+
+\begin{theorem}[Orbit--Stabilizer]
+For a finite group action, \(|Gx|=[G:G_x]\), and therefore
+\(|G|=|Gx|\,|G_x|\).
+\end{theorem}
+\begin{proofidea}
+The cosets of \(G_x\) are exactly the different ways to move \(x\).  Two
+elements \(g,h\) send \(x\) to the same point precisely when
+\(h^{-1}g\) fixes \(x\), which is the equivalence relation defining the cosets.
+\end{proofidea}
+\begin{proof}
+Define \(\Phi:G/G_x\to Gx\) by \(\Phi(gG_x)=g\cdot x\).  To check
+well-definedness, suppose \(gG_x=hG_x\).  Then \(h^{-1}g\in G_x\), whence
+\(g\cdot x=h\cdot((h^{-1}g)\cdot x)=h\cdot x\).  Conversely, if
+\(g\cdot x=h\cdot x\), applying \(h^{-1}\) gives
+\((h^{-1}g)\cdot x=x\); thus \(h^{-1}g\in G_x\) and \(gG_x=hG_x\).  This
+proves injectivity at the same time.  Surjectivity holds because every point
+of the orbit has the form \(g\cdot x\).  Therefore \(|Gx|=[G:G_x]\), and
+Lagrange's theorem yields \(|G|=|Gx|\,|G_x|\).
+\end{proof}
+
+\begin{example}
+Let \(D_4\) act on the four vertices of a square.  The orbit of any vertex is
+the whole vertex set, so it has size four.  Its stabilizer contains the identity
+and the reflection across the diagonal through that vertex, so it has size two.
+Thus \(|D_4|=4\cdot2\), as orbit--stabilizer predicts.
+\end{example}
+
+\begin{corollary}[Burnside's Counting Lemma]
+The number of orbits of a finite action on \(X\) is
+\[\frac{1}{|G|}\sum_{g\in G}|\{x\in X:g\cdot x=x\}|.\]
+\end{corollary}
+\begin{proof}
+Count pairs \((g,x)\) with \(g\cdot x=x\).  Counting by \(g\) gives the
+numerator.  Counting by orbits gives \(|G|\) for each orbit, by
+orbit--stabilizer.
+\end{proof}
+
+\begin{example}[Counting Colourings up to Symmetry]
+Let the rotation group \(C_4\) act on the two-colourings of the vertices of a
+square.  The identity fixes all \(2^4\) colourings, a quarter-turn fixes two,
+the half-turn fixes four, and the other quarter-turn fixes two.  Burnside's
+lemma gives \((16+2+4+2)/4=6\) rotational symmetry types.  The point is not
+the answer itself: the action replaces a potentially awkward case distinction
+by a fixed-point count.
+\end{example}
+
+\section{Conjugation, Centralizers, and the Class Equation}
+
+Conjugation answers the question ``which elements look the same from inside
+the group?''  It preserves order and many other structural properties.
+
+\begin{definition}
+For a group \(G\) and an element \(x\in G\), the \emph{centralizer} of \(x\)
+is
+\[C_G(x)=\{g\in G:gx=xg\}.\]
+The \emph{center} of \(G\) is
+\[Z(G)=\{g\in G:gx=xg\text{ for every }x\in G\};\]
+thus \(Z(G)\) is the collection of elements that commute with all of \(G\).
+For a subgroup \(H\leq G\), the \emph{normalizer} of \(H\) is
+\[N_G(H)=\{g\in G:gHg^{-1}=H\}.\]
+It consists of the elements whose conjugation preserves \(H\) as a set.
+\end{definition}
+
+Each of these sets is a subgroup of \(G\).  For example, the subgroup test
+for \(C_G(x)\) follows from the fact that if \(a,b\) commute with \(x\), then
+\((ab^{-1})x=a(b^{-1}x)=a(xb^{-1})=(ax)b^{-1}=x(ab^{-1})\).
+The same calculation with every \(x\) gives the assertion for \(Z(G)\), and
+the identity \((ab^{-1})H(ab^{-1})^{-1}=H\) gives it for \(N_G(H)\).
+
+Conjugation, \(g\cdot x=gxg^{-1}\), has conjugacy classes as its orbits and
+centralizer \(C_G(x)\) as the stabilizer.  The elements fixed by all of \(G\)
+are precisely the center \(Z(G)\).  The normalizer similarly records the
+largest subgroup of \(G\) in which \(H\) is normal.
+
+\begin{lemma}[\(p\)-Group Action Congruence]
+If a finite \(p\)-group \(P\) acts on a finite set \(X\), then
+\[|X|\equiv|X^P|\pmod p,\]
+where \(X^P=\{x\in X:g\cdot x=x\text{ for every }g\in P\}\).
+\end{lemma}
+\begin{proof}
+Partition \(X\) into \(P\)-orbits.  Orbit--stabilizer makes every orbit size
+a power of \(p\).  The orbits of size one are exactly the points fixed by all
+of \(P\); every other orbit has size divisible by \(p\).  Adding orbit sizes
+gives the stated congruence.
+\end{proof}
+
+This elementary congruence is a reusable engine: it converts a group action
+into the existence of fixed points whenever \(|X|\) is not divisible by \(p\).
+
+\begin{example}[A Fixed Point Forced Modulo \(p\)]
+Let a group of order \(p\) act on a set with \(p+1\) elements.  The congruence
+gives \(|X^P|\equiv p+1\equiv1\pmod p\), so there is a global fixed point.
+The same orbit-counting idea powers the center theorem and Sylow congruence.
+\end{example}
+
+\begin{remark}[How to Design an Action Argument]
+An action proof begins by choosing a set whose points encode the objects one
+wants to study.  To prove a divisibility statement, choose a set with an
+accessible cardinality and compare orbit sizes.  To prove a containment
+statement, let a subgroup act on a coset space, so that a fixed coset translates
+into a conjugate containment.  To study elements inside one group, use
+conjugation: its orbits are conjugacy classes and its stabilizers are
+centralizers.  In each case the formal calculation is short only after the
+right action and the right set have been chosen.
+\end{remark}
+
+\begin{theorem}[Class Equation]
+If \(x_1,\ldots,x_r\) represent the noncentral conjugacy classes of finite
+\(G\), then
+\[
+|G|=|Z(G)|+\sum_i[G:C_G(x_i)].
+\]
+\end{theorem}
+\begin{proof}
+Partition \(G\) into conjugacy classes.  Central elements yield singleton
+classes, and orbit--stabilizer gives the size of every other class.
+\end{proof}
+
+\begin{example}
+In \(S_3\), the three transpositions form one conjugacy class, the two
+three-cycles form another, and the identity is central.  Thus
+\(6=1+3+2\).  This small example already illustrates the class equation as a
+partition into symmetry types rather than a numerical trick.
+\end{example}
+
+\begin{example}[Centralizers in \(S_3\)]
+The preceding equality can be recovered directly from centralizers.  The
+centralizer of \((12)\) is \(\{1,(12)\}\), so orbit--stabilizer gives a
+conjugacy class of size \([S_3:C_{S_3}((12))]=3\).  The centralizer of
+\((123)\) is \(\langle(123)\rangle\), so its class has size two.  This is a
+useful practical lesson: to count conjugates of an element, compute the
+subgroup of elements that commute with it.
+\end{example}
+
+\begin{corollary}
+Every finite \(p\)-group has nontrivial center.
+\end{corollary}
+\begin{proofidea}
+For a \(p\)-group, every noncentral orbit under conjugation has size divisible
+by \(p\).  The class equation therefore forces the fixed-point part, the
+center, to have size divisible by \(p\) as well.
+\end{proofidea}
+\begin{proof}
+For a noncentral \(x\), the centralizer \(C_G(x)\) is proper.  Its order is a
+proper divisor of the order of the \(p\)-group \(G\), hence
+\([G:C_G(x)]\) is divisible by \(p\).  Therefore the class equation gives
+\[|G|=|Z(G)|+\sum_i[G:C_G(x_i)]\equiv|Z(G)|\pmod p.\]
+Since \(p\mid|G|\), also \(p\mid|Z(G)|\).  In particular the center has more
+than its identity element.
+\end{proof}
+
+\section{The Sylow Theorems and Structural Applications}
+
+Sylow theory turns the divisibility of \(|G|\) into actual subgroups.  Its
+proofs are a model use of actions: choose a finite set on which a \(p\)-group
+acts, observe that nontrivial orbit sizes are divisible by \(p\), and extract
+a fixed point from a count not divisible by \(p\).
+
+\begin{theorem}[Cauchy]
+If a prime \(p\) divides the order of a finite group \(G\), then \(G\) has an
+element of order \(p\).
+\end{theorem}
+The unusual-looking tuple set is chosen so that it has a readily computed size
+and a natural cyclic symmetry.  Once the first \(p-1\) entries are selected,
+the last must be \((g_1\cdots g_{p-1})^{-1}\), so there are exactly
+\(|G|^{p-1}\) tuples.  Rotation preserves the condition that the product is
+one because a cyclic rotation conjugates the total product by its first entry.
+\begin{proofidea}
+The set of tuples has cardinality divisible by \(p\), while cyclic rotation
+organizes it into orbits of size \(1\) or \(p\).  The fixed points are exactly
+the repeated tuples, which encode elements satisfying \(g^p=1\).
+\end{proofidea}
+\begin{proof}
+Let \(X\) be the set of \(p\)-tuples \((g_1,\ldots,g_p)\) with
+\(g_1\cdots g_p=1\).  Its first \(p-1\) entries may be chosen freely, so
+\(|X|=|G|^{p-1}\), which is divisible by \(p\).  Cyclically rotate these
+tuples.  Every orbit has size \(1\) or \(p\), and the fixed tuples are exactly
+\((g,\ldots,g)\) with \(g^p=1\).  Thus the number of such \(g\) is divisible
+by \(p\).  It includes \(1\), so there is a nonidentity one; its order divides
+the prime \(p\), hence equals \(p\).
+\end{proof}
+
+This proof illustrates a recurring discovery principle: construct a finite set
+whose cardinality is divisible by \(p\), then let a group of order \(p\) act so
+that its fixed points encode the desired elements.
+
+\begin{theorem}[Sylow I: existence]
+Let \(|G|=p^am\), where \(p\) is prime and \(p\nmid m\).  Then \(G\) has a
+subgroup of order \(p^a\).  Such a subgroup is called a \emph{Sylow
+\(p\)-subgroup}.
+\end{theorem}
+\begin{proofidea}
+Induct on the group order.  A central element of order \(p\) lets us reduce to
+a quotient.  If the center does not supply one, the class equation locates a
+proper centralizer that still contains the full \(p\)-part of \(|G|\).
+\end{proofidea}
+\begin{proof}
+We use strong induction on \(|G|\); the assertion is immediate when \(a=0\).
+First suppose that \(p\mid |Z(G)|\).  By Cauchy's theorem, \(Z(G)\) contains
+a subgroup \(C\) of order \(p\).  It is normal in \(G\), and
+\(|G/C|=p^{a-1}m<|G|\).  Let \(\pi:G\to G/C\) be the quotient map.  The
+induction hypothesis applied to \(G/C\) gives a subgroup
+\(\overline P\leq G/C\) of order \(p^{a-1}\).  Define
+\(P=\pi^{-1}(\overline P)\).  Then \(P/C\cong\overline P\), so
+\(|P|=|C|\,|\overline P|=p\cdot p^{a-1}=p^a\).
+
+Now suppose \(p\nmid |Z(G)|\).  In the class equation, the noncentral terms
+are conjugacy-class sizes \([G:C_G(x_i)]\).  Since \(|G|\equiv0\pmod p\) but
+\(|Z(G)|\not\equiv0\pmod p\), at least one of these indices is not divisible
+by \(p\).  For that noncentral \(x_i\), the centralizer \(C_G(x_i)\) is a
+proper subgroup of \(G\), while
+\[
+ |C_G(x_i)|=\frac{|G|}{[G:C_G(x_i)]}
+\]
+still has \(p^a\) as its full \(p\)-part.  The induction hypothesis inside
+this strictly smaller group produces a subgroup of order \(p^a\), which is
+also a subgroup of \(G\).
+\end{proof}
+
+\begin{theorem}[Sylow II: containment and conjugacy]
+Let \(Q\) be a Sylow \(p\)-subgroup of a finite group \(G\).  Every
+\(p\)-subgroup \(P\leq G\) has a conjugate contained in \(Q\).  In particular,
+all Sylow \(p\)-subgroups are conjugate.
+\end{theorem}
+\begin{proof}
+Let \(P\) act by left multiplication on the coset set \(G/Q\).  Its size is
+\([G:Q]=m\), which is not divisible by \(p\).  Every \(P\)-orbit has size a
+power of \(p\), by orbit--stabilizer.  If there were no fixed coset, the sum
+of the orbit sizes would be divisible by \(p\), contrary to \(p\nmid m\).
+Thus some coset \(gQ\) is fixed by every element of \(P\).  The equality
+\(pgQ=gQ\) for all \(p\in P\) is equivalent to
+\(g^{-1}pg\in Q\) for all \(p\in P\), hence to \(g^{-1}Pg\leq Q\).
+If \(P\) is itself Sylow, the two groups in this containment have the same
+finite order, so they are equal.  This proves conjugacy.
+\end{proof}
+
+\begin{theorem}[Sylow III: number of Sylow subgroups]
+If \(|G|=p^am\) with \(p\nmid m\), the number \(n_p\) of Sylow
+\(p\)-subgroups divides \(m\) and satisfies \(n_p\equiv1\pmod p\).
+\end{theorem}
+\begin{proof}
+Fix a Sylow subgroup \(Q\).  Sylow II makes conjugation by \(G\) transitive
+on the set \(\mathcal S\) of Sylow \(p\)-subgroups, so orbit--stabilizer gives
+\[n_p=|\mathcal S|=[G:N_G(Q)].\]
+Because \(Q\leq N_G(Q)\), the index divides \(|G|/|Q|=m\).
+
+Now let \(Q\) act by conjugation on \(\mathcal S\).  Suppose that \(R\in
+\mathcal S\) is fixed.  Then \(Q\leq N_G(R)\); since \(R\trianglelefteq
+N_G(R)\), the product \(QR\) is a subgroup.  It is a \(p\)-subgroup
+containing the Sylow subgroup \(R\), hence \(QR=R\), and therefore \(Q\leq
+R\).  Equal orders give \(Q=R\).  Thus \(Q\) is the unique fixed point of
+this action.  Every remaining orbit has size divisible by \(p\), so
+\(|\mathcal S|\equiv1\pmod p\).
+\end{proof}
+
+\begin{example}
+If \(|G|=21\), then \(n_7\) divides \(3\) and is congruent to \(1\) modulo
+\(7\); hence \(n_7=1\), so the Sylow \(7\)-subgroup is normal.  This is a
+structural conclusion, not a classification of all groups of order \(21\).
+\end{example}
+
+\begin{corollary}
+A Sylow \(p\)-subgroup is normal if and only if it is the unique Sylow
+\(p\)-subgroup.  In particular, every group of order \(45\) has a normal
+Sylow \(5\)-subgroup.
+\end{corollary}
+\begin{proof}
+Conjugation carries a Sylow \(p\)-subgroup to another one.  Thus a normal one
+is fixed by all conjugations and, by Sylow II, is the only one.  Conversely,
+a unique Sylow subgroup is fixed under conjugation, so it is normal.  For
+\(|G|=45=5\cdot9\), Sylow III says \(n_5\mid9\) and \(n_5\equiv1\pmod5\);
+among \(1,3,9\), only \(1\) has this congruence.
+\end{proof}
+
+\section{Semidirect Products and Split Extensions}
+
+A direct product describes two components that commute and have no interaction.
+A semidirect product records the next possibility: the second component acts on
+the first by automorphisms.  The homomorphism \(\alpha:H\to\operatorname{Aut}(N)\)
+is therefore not auxiliary data; it is the rule describing that interaction.
+
+The multiplication formula is forced by the internal situation.  Suppose
+\(N\trianglelefteq G\), \(H\leq G\), and every element of \(G\) has a unique
+form \(nh\).  Then
+\[
+ (nh)(n'h')=n\bigl(hn'h^{-1}\bigr)hh'.
+\]
+Normality puts \(hn'h^{-1}\) back in \(N\), while the element \(h\) acts on
+\(N\) by conjugation.  The external definition simply preserves this rule
+when the two groups have not yet been placed inside a common ambient group.
+
+\begin{definition}
+For \(\alpha:H\to\operatorname{Aut}(N)\), the \emph{semidirect product}
+\(N\rtimes_\alpha H\) is \(N\times H\) with
+\((n,h)(n',h')=(n\alpha(h)(n'),hh')\).
+\end{definition}
+
+\begin{proposition}
+This operation makes \(N\rtimes_\alpha H\) a group; \(N\times\{1\}\) is
+normal, \(\{1\}\times H\) is a subgroup, and they have trivial intersection.
+\end{proposition}
+\begin{proof}
+The identity is \((1,1)\).  Since every \(\alpha(h)\) is an automorphism,
+\[(n,h)^{-1}=(\alpha(h^{-1})(n^{-1}),h^{-1}).\]
+For associativity, the first coordinates of the two possible products are
+\begin{align*}
+ ((n,h)(n',h'))(n'',h'')&:
+ n\alpha(h)(n')\alpha(hh')(n''),\\
+ (n,h)((n',h')(n'',h''))&:
+ n\alpha(h)\bigl(n'\alpha(h')(n'')\bigr).
+\end{align*}
+They agree because \(\alpha(hh')=\alpha(h)\alpha(h')\).  The two displayed subsets have the
+claimed subgroup properties.  Finally,
+\[
+ (n,h)(n',1)(n,h)^{-1}=
+ \bigl(n\alpha(h)(n')n^{-1},1\bigr)\in N\times\{1\},
+\]
+so \(N\times\{1\}\) is normal.  The two subgroups meet only in \((1,1)\).
+\end{proof}
+
+An internal semidirect product is equivalently a split short exact sequence
+\[1\longrightarrow N\longrightarrow G\longrightarrow H\longrightarrow1.\]
+Here ``split'' means that the quotient map \(q:G\to H\) has a homomorphic
+section \(s:H\to G\). Then \(q\) restricted to \(s(H)\) is inverse to \(s\),
+so \(N\cap s(H)=1\), where \(N=\ker q\). Moreover, if \(g\in G\) and
+\(h=q(g)\), then
+\[
+q\bigl(gs(h)^{-1}\bigr)=hh^{-1}=1,
+\]
+so \(gs(h)^{-1}\in N\) and \(g\in Ns(H)\). Hence \(G=Ns(H)\), and
+Proposition~\ref{prop:internal-semiproduct} applies. Conversely, an internal
+semidirect product gives \(G/N\cong H\), and the inclusion of the complement
+gives a homomorphic section. This is only a first encounter with extensions,
+but it explains why semidirect products are ubiquitous.
+
+\begin{example}
+Let \(C_2=\langle s\rangle\) act on \(C_3=\langle r\rangle\) by inversion,
+\(srs^{-1}=r^{-1}\).  Then \(C_3\rtimes C_2\) has presentation
+\(\langle r,s\mid r^3=s^2=1,\ srs^{-1}=r^{-1}\rangle\), and the map sending
+\(r\) to \((123)\) and \(s\) to \((12)\) identifies it with \(S_3\).  It is
+not a direct product because its two factors do not commute.
+\end{example}
+
+\begin{example}
+More generally, \(D_n\cong C_n\rtimes C_2\), where the nontrivial element of
+\(C_2\) acts on \(C_n\) by inversion.  The relation \(srs^{-1}=r^{-1}\) is
+exactly the twisting encoded by this action.  Thus the dihedral examples
+introduced in Chapter~2 provide a geometric model for every semidirect product
+in which a reflection reverses a cyclic rotation.
+\end{example}
+
+\begin{proposition}[Internal Semidirect Product]\label{prop:internal-semiproduct}
+If \(N\trianglelefteq G\), \(H\leq G\), \(G=NH\), and \(N\cap H=1\), then
+\(G\cong N\rtimes H\), where \(H\) acts on \(N\) by conjugation.
+\end{proposition}
+\begin{proof}
+Every element has an expression \(nh\).  It is unique: if \(nh=n'h'\), then
+\(n^{-1}n'=hh'^{-1}\) belongs to both \(N\) and \(H\), hence is \(1\).
+Sending \((n,h)\) to \(nh\) is therefore bijective.  Its compatibility with multiplication is
+\(nhn'h'=n(hn'h^{-1})hh'\), which is exactly the external semidirect-product
+law for conjugation.
+\end{proof}
+
+\section{Composition Series, Solvability, and Nilpotence}
+
+Composition series make precise the idea of breaking a group into indivisible
+layers.  A simple group has no nontrivial proper normal subgroup, so it cannot
+be decomposed further by quotients.  Jordan--H\"older says that, although the
+intermediate subgroups may differ, the resulting simple layers are intrinsic.
+
+\begin{definition}
+A \emph{composition series} is a finite normal series with simple factors.  A
+group is \emph{solvable} when it has a finite normal series with abelian factors.
+\end{definition}
+
+\begin{example}
+The chain \(S_3\trianglerighteq A_3\trianglerighteq1\) is a composition
+series, with factors \(C_2\) and \(C_3\).  The order in which the factors are
+listed has no intrinsic significance; their isomorphism types do.
+\end{example}
+
+\begin{proposition}
+Every finite group has a composition series.
+\end{proposition}
+\begin{proof}
+Induct on the group order.  If \(G\ne1\), choose a maximal proper normal
+subgroup \(N\), which exists because the group is finite.  Then \(G/N\) is
+simple, and induction gives a composition series for \(N\).  Prepending \(G\)
+to that series gives one for \(G\).
+\end{proof}
+
+\begin{theorem}[Jordan--H\"older]
+Any two composition series of a finite group have the same length and the same
+simple factors, up to ordering and isomorphism.
+\end{theorem}
+\begin{proof}
+We argue by induction on \(|G|\).  There is nothing to prove for \(G=1\).
+Write the two series as
+\[
+ G=G_0\trianglerighteq G_1=N\trianglerighteq\cdots\trianglerighteq1,
+ \qquad
+ G=H_0\trianglerighteq H_1=M\trianglerighteq\cdots\trianglerighteq1.
+\]
+The quotients \(G/N\) and \(G/M\) are simple, so \(N\) and \(M\) are maximal
+proper normal subgroups of \(G\).
+
+If \(N=M\), the tails are composition series of the smaller group \(N\).
+The induction hypothesis says that these tails have the same length and the
+same factors, and adding their common first factor \(G/N\) proves the claim.
+
+Suppose \(N\ne M\).  The product \(NM\) is normal in \(G\): for \(g\in G\),
+\(g(NM)g^{-1}=(gNg^{-1})(gMg^{-1})=NM\).  It strictly contains \(N\), since
+otherwise \(M\leq N\), and then the maximality of \(M\) would force
+\(N=M\).  Maximality of \(N\) consequently gives \(NM=G\).  Put
+\(I=N\cap M\).  Since both \(N\) and \(M\) are normal in \(G\), so is \(I\),
+and in particular \(I\) is normal in both \(N\) and \(M\).  Applying the Second
+Isomorphism Theorem in the forms
+\[
+ M/(M\cap N)\cong MN/N=G/N,\qquad
+ N/(N\cap M)\cong NM/M=G/M
+\]
+shows that \(M/I\) and \(N/I\) are simple.
+
+Choose a composition series from \(I\) down to \(1\).  Because \(N/I\) is
+simple, adjoining \(N\) as a new initial term produces a composition series
+of \(N\), whose new factor is \(N/I\); similarly, adjoining \(M\) produces a
+composition series of \(M\) with new factor \(M/I\).  By induction, the first constructed series has the same factors as
+the tail of the original \(G\)-series beginning at \(N\), and the second has
+the same factors as the tail beginning at \(M\).  The complete first factor
+list is therefore the factors below \(I\), followed by \(N/I\) and \(G/N\);
+the second is the same factors below \(I\), followed by \(M/I\) and \(G/M\).
+The displayed isomorphisms identify \(N/I\cong G/M\) and
+\(M/I\cong G/N\), so the two lists agree up to interchanging these final two
+factors.
+\end{proof}
+
+For Galois theory it is useful to recognize solvability without guessing a
+normal series.  The commutator \([x,y]=xyx^{-1}y^{-1}\) measures the failure
+of \(x\) and \(y\) to commute: \([x,y]=1\) if and only if \(xy=yx\).  Indeed,
+\(xyx^{-1}y^{-1}=1\) is equivalent, after multiplying on the right by \(yx\),
+to \(xy=yx\).  The subgroup generated by all commutators is the
+\emph{derived subgroup} \([G,G]\); define \(G^{(0)}=G\) and
+\(G^{(i+1)}=[G^{(i)},G^{(i)}]\).
+
+For later quotient constructions, it matters that \([G,G]\) is normal.
+Conjugation sends a commutator to a commutator:
+\[
+ g[x,y]g^{-1}=[gxg^{-1},gyg^{-1}].
+\]
+Thus conjugation preserves the subgroup generated by all commutators, and
+\([G,G]\trianglelefteq G\).
+
+\begin{proposition}
+The quotient \(G/[G,G]\) is abelian and is the largest abelian quotient of
+\(G\): every homomorphism from \(G\) to an abelian group factors uniquely
+through it.
+\end{proposition}
+\begin{proof}
+Every commutator becomes trivial in the quotient, so its cosets commute.  If
+\(f:G\to A\) and \(A\) is abelian, then \(f([x,y])=1\) for all \(x,y\), hence
+\([G,G]\leq\ker f\).  The universal property of the quotient map now gives
+the unique factorization.
+\end{proof}
+
+\begin{example}[The Derived Subgroup of \(S_3\)]
+The quotient \(S_3/A_3\cong C_2\) is abelian, so the universal property above
+gives \([S_3,S_3]\leq A_3\).  On the other hand, direct calculation gives
+\[
+ [(12),(23)]=(12)(23)(12)(23)=(123)^2=(132).
+\]
+This nonidentity element generates \(A_3\), so \(A_3\leq[S_3,S_3]\).  Hence
+\([S_3,S_3]=A_3\), and \(S_3/[S_3,S_3]\cong C_2\).
+\end{example}
+
+\begin{theorem}
+A group \(G\) is solvable if and only if \(G^{(r)}=1\) for some \(r\geq0\).
+\end{theorem}
+\begin{proof}
+If the derived series reaches \(1\), its successive quotients are abelian by
+the preceding proposition.  Conversely, let
+\(G=G_0\trianglerighteq\cdots\trianglerighteq G_r=1\) have abelian factors.
+Inductively, \(G^{(i)}\leq G_i\): if \(G^{(i)}\leq G_i\), then the image of
+\(G^{(i)}\) in the abelian group \(G_i/G_{i+1}\) has trivial derived subgroup,
+so \(G^{(i+1)}\leq G_{i+1}\).  Hence \(G^{(r)}=1\).
+\end{proof}
+
+Solvability asks for a group built by successive abelian quotients.  Nilpotence
+is stronger: it asks that the construction proceed from the center outward.
+This distinction matters already for \(S_3\), which is solvable but not
+nilpotent.
+
+\begin{definition}
+Set \(Z_0(G)=1\) and define the \emph{upper central series} inductively by
+\[Z_{i+1}(G)/Z_i(G)=Z\bigl(G/Z_i(G)\bigr).\]
+The group \(G\) is \emph{nilpotent} if \(Z_c(G)=G\) for some \(c\).  The least
+such \(c\) is its nilpotence class (unless \(G=1\)).
+\end{definition}
+
+Equivalently, a nilpotent group admits a finite chain
+\[
+1=N_0\leq N_1\leq\cdots\leq N_c=G
+\]
+with \(N_{i+1}/N_i\leq Z(G/N_i)\).  Indeed, inductively
+\(N_i\leq Z_i(G)\): this is clear for \(i=0\), and centrality of
+\(N_{i+1}/N_i\) gives \(N_{i+1}\leq Z_{i+1}(G)\).  Thus
+\(G=N_c\leq Z_c(G)\), so \(G\) is nilpotent.  Conversely, the upper central
+series itself is such a chain.  The upper central series is therefore the
+canonical maximal central series, obtained by repeatedly pulling back the
+center of the current quotient.  Thus abelian groups are nilpotent of class
+at most one.  A nontrivial nilpotent group has nontrivial center; therefore
+\(S_3\), whose center is trivial, is not nilpotent.
+
+\begin{theorem}
+Every finite \(p\)-group is nilpotent.
+\end{theorem}
+\begin{proof}
+Induct on \(|G|\).  The center of a nontrivial finite \(p\)-group is
+nontrivial, and Cauchy's theorem gives a central subgroup \(C\) of order
+\(p\).  By induction, \(G/C\) has an upper central series
+\[
+ 1=\overline Z_0\leq\overline Z_1\leq\cdots\leq\overline Z_c=G/C.
+\]
+Let \(Z_i\) be the inverse image of \(\overline Z_i\) in \(G\).  Then
+\(Z_0=C\), and the chain
+\[
+ 1\leq C=Z_0\leq Z_1\leq\cdots\leq Z_c=G
+\]
+is central: if \(z\in Z_{i+1}\) and \(g\in G\), then the image of \(z\)
+is central modulo \(\overline Z_i\), so \([z,g]\in Z_i\).  The first step
+is central because \(C\leq Z(G)\).  Thus this is a central series from
+\(1\) to \(G\), proving that \(G\) is nilpotent.
+\end{proof}
+
+\begin{proposition}
+Every nilpotent group is solvable.
+\end{proposition}
+\begin{proof}
+In the upper central series, each factor
+\(Z_{i+1}(G)/Z_i(G)\) lies in the center of \(G/Z_i(G)\), so it is abelian.
+Thus the upper central series is a solvable series.
+\end{proof}
+
+\begin{proposition}[Subgroups and quotients]
+Subgroups and quotients of solvable groups are solvable.
+\end{proposition}
+\begin{proof}
+Let \(G=G_0\trianglerighteq G_1\trianglerighteq\cdots\trianglerighteq
+G_r=1\) be a solvable series, and let \(H\leq G\).  Intersecting gives
+\[
+ H=H\cap G_0\trianglerighteq H\cap G_1\trianglerighteq\cdots
+ \trianglerighteq H\cap G_r=1.
+\]
+Each term is normal in the preceding one.  The map
+\(H\cap G_i\to G_i/G_{i+1}\) has kernel \(H\cap G_{i+1}\), so its quotient
+\((H\cap G_i)/(H\cap G_{i+1})\) is isomorphic to a subgroup of the abelian
+group \(G_i/G_{i+1}\).  Removing repeated terms leaves a solvable series for
+\(H\).
+
+If \(q:G\to Q\) is onto, the chain
+\(Q=q(G_0)\trianglerighteq q(G_1)\trianglerighteq\cdots\trianglerighteq
+q(G_r)=1\) has normal terms.  Each nontrivial factor is an image of a
+subgroup of some abelian factor \(G_i/G_{i+1}\), and is therefore abelian.
+After repetitions are removed, this is a solvable series for \(Q\).
+\end{proof}
+
+\begin{proposition}[Extensions]
+If \(N\trianglelefteq G\), and both \(N\) and \(G/N\) are solvable, then
+\(G\) is solvable.
+\end{proposition}
+\begin{proof}
+Take a solvable series for \(N\).  Take also a solvable series for \(G/N\)
+and pull its terms back under the quotient map \(G\to G/N\).  Splicing the
+first series to these inverse images gives a normal series for \(G\); its
+factors are, respectively, factors from the series for \(N\) and factors
+isomorphic to those from the series for \(G/N\).  They are all abelian.
+\end{proof}
+
+\begin{remark}[Looking Ahead]
+The action of a Galois group on roots and intermediate fields will make these
+methods central again.  Solvability of groups eventually characterizes
+solvability of polynomial equations by radicals.
+\end{remark}
+
+\section{Two Recurring Structural Laboratories}
+
+The abstract constructions of this chapter become much easier to retain when
+they are repeatedly tested on a few familiar groups.  The following two
+examples summarize how the same group can illuminate several different ideas.
+
+\subsection*{The Group \(S_3\)}
+
+The six-element symmetric group is the smallest nonabelian group.  It acts
+faithfully and transitively on three letters.  Orbit--stabilizer at the letter
+\(1\) gives
+\[|S_3|=|S_3\cdot1|\,|(S_3)_1|=3\cdot2.\]
+The stabilizer is \(\{1,(23)\}\), a copy of \(C_2\).  Thus the action turns a
+concrete observation about permutations into a coset calculation.
+
+Under conjugation, its elements separate into the classes
+\[\{1\},\qquad\{(12),(13),(23)\},\qquad\{(123),(132)\}.
+\]
+The class equation is \(6=1+3+2\).  This is more than bookkeeping: it shows
+that the three transpositions are structurally indistinguishable within
+\(S_3\), whereas a transposition subgroup is not normal because conjugation
+moves it to another such subgroup.
+
+The subgroup \(A_3=\langle(123)\rangle\) is normal, and the quotient
+\(S_3/A_3\cong C_2\) records parity.  The subgroup \(A_3\) is complemented by
+\(\langle(12)\rangle\), and conjugation by \((12)\) inverts \((123)\).  Hence
+\[S_3\cong C_3\rtimes C_2.\]
+Finally the chain \(S_3\trianglerighteq A_3\trianglerighteq1\) shows that
+\(S_3\) is solvable.  Its derived subgroup is \(A_3\), so its abelianization
+is \(C_2\).  One group has therefore illustrated actions, cosets, normality,
+quotients, conjugacy, semidirect products, composition factors, and
+solvability.
+
+\subsection*{The Group \(D_4\)}
+
+The square group \(D_4=\langle r,s\mid r^4=s^2=1,\ srs^{-1}=r^{-1}\rangle\)
+has eight elements.  Its geometric action on the four vertices is transitive,
+and the stabilizer of a vertex has two elements.  This gives \(8=4\cdot2\),
+the orbit--stabilizer formula in a visibly geometric form.
+
+The rotation subgroup \(\langle r\rangle\cong C_4\) is normal because
+\(s r^i s^{-1}=r^{-i}\) remains a rotation.  The quotient by rotations is
+\(C_2\): it distinguishes orientation-preserving symmetries from reflections.
+The relation \(srs^{-1}=r^{-1}\) also displays \(D_4\) as
+\(C_4\rtimes C_2\).  This is an especially useful contrast with
+\(C_4\times C_2\), whose two factors commute; the dihedral relation gives the
+nontrivial twisting.
+
+The center of \(D_4\) is \(\{1,r^2\}\).  Since the quotient by this subgroup
+is abelian, the chain \(1\leq\langle r^2\rangle\leq D_4\) is a central series.
+Thus \(D_4\) is nilpotent.  Comparing it with \(S_3\), which is solvable but
+has trivial center and is not nilpotent, makes the hierarchy
+\[\text{abelian}\ \Longrightarrow\ \text{nilpotent}\ \Longrightarrow\
+\text{solvable}\]
+concrete rather than merely formal.
+
+\begin{remark}[A Study Method]
+When a new group-theoretic construction is introduced, revisit \(S_3\) and
+\(D_4\).  Ask which subgroups are normal, what the natural actions are, what a
+quotient remembers, and whether the group decomposes as a direct or semidirect
+product.  This practice develops structural intuition more effectively than a
+long list of unrelated calculations.
+\end{remark}
+
+\section*{Exercises}
+\begin{exercise}[Basic]
+Show that the kernel of a permutation representation is the intersection of
+all point stabilizers.
+\end{exercise}
+\begin{exercise}[Core]
+Let \(G\) act transitively on a set \(X\), and fix \(x\in X\).  Prove that
+the stabilizers of the points of \(X\) are conjugate.  Interpret this result
+for the left action of \(G\) on the cosets of a subgroup \(H\).
+\end{exercise}
+\begin{exercise}[Core]
+Compute the conjugacy classes, centralizers, and class equation of \(S_3\).
+Explain which features of the computation reflect the geometry of a triangle.
+\end{exercise}
+\begin{exercise}[Core]
+Let \(P\) be a Sylow \(p\)-subgroup of a finite group \(G\).  Prove that
+\(P\trianglelefteq G\) if and only if it is the unique Sylow \(p\)-subgroup.
+Deduce that any Sylow subgroup whose number is forced to be one by the Sylow
+divisibility and congruence conditions is normal.
+\end{exercise}
+\begin{exercise}[Core]
+Let \(G\) be a finite \(p\)-group.  Prove that every nontrivial normal
+subgroup of \(G\) meets \(Z(G)\) nontrivially.
+\end{exercise}
+\begin{exercise}[Further]
+Show that \(S_3\cong C_3\rtimes C_2\), but is not a direct product of them.
+\end{exercise}
+\begin{exercise}[Looking Ahead]
+Let \(|G|=p^2\), where \(p\) is prime.  Use the center theorem and the
+quotient by a central subgroup of order \(p\) to prove that \(G\) is abelian.
+Explain why this does not classify such groups.
+\end{exercise}

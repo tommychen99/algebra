@@ -1,0 +1,358 @@
+\chapter{Polynomial Rings and Factorization}
+
+Polynomials turn arithmetic in a ring into a tool for studying roots, maps,
+and later linear operators.  Over a field, division of polynomials recovers
+the Euclidean algorithm; this leads from fields to PIDs and UFDs.
+
+\section{Polynomial Rings and Evaluation}
+For a commutative ring \(R\), \(R[x]\) consists of finite sums
+\(a_0+a_1x+\cdots+a_nx^n\), with coefficientwise addition and convolution
+multiplication.  If \(R\) is a domain and \(f,g\ne0\), then
+\(\deg(fg)=\deg f+\deg g\), because the product of leading coefficients is
+nonzero.
+\begin{proposition}[Degree Rule]
+If \(R\) is a domain and \(f,g\in R[x]\) are nonzero, then
+\(\deg(fg)=\deg f+\deg g\).  The units of \(R[x]\) are exactly the constant
+polynomials whose value is a unit of \(R\).
+\end{proposition}
+\begin{proof}
+Writing \(f=a_mx^m+\cdots\), \(g=b_nx^n+\cdots\), the coefficient of
+\(x^{m+n}\) in \(fg\) is \(a_mb_n\), which is nonzero precisely because a
+domain has no zero divisors.  Thus a product can have degree zero only when
+both factors have degree zero, proving the assertion about units.
+\end{proof}
+\begin{proposition}[Evaluation] For \(a\in R\), evaluation
+\(\operatorname{ev}_a:R[x]\to R\), \(f\mapsto f(a)\), is a ring
+homomorphism.  If \(R\) is a field, its kernel is \((x-a)\). \end{proposition}
+\begin{proof} The first assertion follows by distributing finite sums.  The
+division algorithm below writes \(f=(x-a)q+r\), where \(r\) is constant;
+then \(r=f(a)\), proving the kernel statement. \end{proof}
+
+\section{Division Algorithms and Roots}
+\begin{theorem}[Division Algorithm] If \(F\) is a field and \(f,g\in F[x]\),
+\(g\ne0\), then there are unique \(q,r\in F[x]\) with
+\[f=qg+r,\qquad r=0\ \text{or}\ \deg r<\deg g.\]
+\end{theorem}
+\begin{proof} Write \(g=b_nx^n+\cdots\), with \(b_n\ne0\).  If the current
+dividend is \(h=c_mx^m+\cdots\) with \(m\ge n\), subtract
+\((c_mb_n^{-1})x^{m-n}g\).  This is possible because \(F\) is a field, and
+it cancels the \(x^m\)-term, leaving a polynomial of smaller degree.  Iterating
+must stop, since nonnegative degrees cannot decrease forever; collecting the
+subtracted terms gives \(f=qg+r\).  If two such expressions exist, then
+\((q-q')g=r'-r\).  Unless both sides are zero, the left side has degree at
+least \(\deg g\), while the right side has smaller degree, a contradiction.
+\end{proof}
+\begin{example}[Long Division]
+Dividing \(x^3-2x+4\) by \(x-1\), first subtract \(x^2(x-1)\), then
+\(x(x-1)\), then \(-1(x-1)\).  Thus
+\[x^3-2x+4=(x^2+x-1)(x-1)+3.\]
+\end{example}
+\begin{corollary}[Factor Theorem] For \(f\in F[x]\), \(f(a)=0\) iff
+\(x-a\) divides \(f\). \end{corollary}
+\begin{proof} Apply the division algorithm to \(f\) by \(x-a\) and evaluate.
+\end{proof}
+\begin{corollary} A nonzero polynomial of degree \(n\) over a field has at
+most \(n\) roots. \end{corollary}
+\begin{proof} Each root supplies a distinct linear factor; induction on
+degree proves the assertion. \end{proof}
+
+\section{Euclidean Domains and Principal Ideal Domains}
+\begin{definition} A domain \(R\) is \emph{Euclidean} if it has a function
+\(\delta:R\setminus\{0\}\to\mathbb N\) such that division with remainder
+reduces \(\delta\).  A \emph{principal ideal domain} (PID) is a domain in
+which every ideal is principal. \end{definition}
+\begin{definition}
+For \(a,b\) in a domain, a \emph{greatest common divisor} is an element \(d\)
+such that \(d\mid a\), \(d\mid b\), and every common divisor of \(a,b\)
+divides \(d\).  A gcd, when it exists, is unique only up to associates.  In
+\(\mathbb Z\) one chooses the positive representative, but a general domain
+need not have a preferred associate.
+\end{definition}
+\begin{theorem} Every Euclidean domain is a PID.  In particular \(F[x]\) is a
+PID for every field \(F\). \end{theorem}
+\begin{proof} Let \(I\ne0\) be an ideal and choose \(d\in I\) with minimal
+\(\delta(d)\).  Divide any \(a\in I\) by \(d\): \(a=qd+r\).  Then
+\(r\in I\), so minimality gives \(r=0\), hence \(I=(d)\).  Polynomial degree
+is a Euclidean function by the division algorithm. \end{proof}
+\begin{proposition}[B\'ezout and gcd]
+In a PID, \((a,b)=(d)\) if and only if \(d\) is a gcd of \(a,b\), up to
+associates.  Consequently every pair has a gcd and
+\[d=ra+sb\]
+for suitable \(r,s\).
+\end{proposition}
+\begin{proof}
+If \((a,b)=(d)\), then \(a,b\in(d)\), so \(d\mid a,b\).  A common divisor
+\(c\) divides every linear combination of \(a,b\), and hence divides
+\(d\in(a,b)\).  Thus \(d\) is a gcd.  Conversely, write
+\((a,b)=(g)\), which is possible because \(R\) is a PID.  The forward
+direction shows that \(g\) is a gcd.  If \(d\) is another gcd, then
+\(d\mid g\), since \(d\) is a common divisor, and \(g\mid d\), since \(g\)
+is a common divisor.  Thus \(d\) and \(g\) are associates, so
+\((d)=(g)=(a,b)\).  Consequently \(d\in(a,b)\), giving the displayed
+B\'ezout representation.  This connects gcds, generated ideals, and
+B\'ezout identities.
+\end{proof}
+
+\section{Unique Factorization Domains and Gauss's Lemma}
+The factorization of an integer into primes is a model for a property enjoyed
+by many domains.  The central question here is whether the property survives
+the passage from a UFD \(R\) to \(R[x]\).  The answer is yes, and Gauss's
+lemma explains why coefficients do not introduce hidden factorizations.
+
+\begin{definition}
+Let \(R\) be a domain.  Nonzero \(a,b\in R\) are \emph{associates} if
+\(a=ub\) for a unit \(u\).  A nonzero nonunit \(p\) is \emph{irreducible} if
+\(p=ab\) implies that \(a\) or \(b\) is a unit.  It is \emph{prime} if
+\(p\mid ab\) implies \(p\mid a\) or \(p\mid b\).  A \emph{UFD} is a domain
+where every nonzero nonunit has a factorization into irreducibles, unique up
+to ordering and replacement by associates.
+\end{definition}
+
+Every prime is irreducible: if \(p=ab\), then \(p\mid a\) or \(p\mid b\);
+cancellation makes the other factor a unit.  The converse need not hold in
+an arbitrary domain, but it does hold in a PID.
+
+\begin{proposition}[Irreducibles are prime in a PID]
+Every irreducible element of a principal ideal domain is prime.
+\end{proposition}
+\begin{proof}
+Let \(p\) be irreducible, suppose \(p\mid ab\), and assume \(p\nmid a\).
+The gcd \(d\) of \(p,a\) cannot be associated to \(p\), so it is a unit.
+Thus \((p,a)=R\), and B\'ezout gives \(rp+sa=1\).  After multiplication by
+\(b\), both terms on the left of \(rpb+sab=b\) are divisible by \(p\).
+Hence \(p\mid b\).
+\end{proof}
+
+\phantomsection\label{thm:irreducible-maximal-field}
+\begin{applicationtheorem}[Irreducible polynomials and field quotients]
+Let \(F\) be a field and let \(f\in F[x]\) be nonconstant.  The following are
+equivalent:
+\[
+f\text{ is irreducible},
+\qquad
+(f)\text{ is a maximal ideal of }F[x],
+\qquad
+F[x]/(f)\text{ is a field}.
+\]
+\end{applicationtheorem}
+\begin{proof}
+Since \(F[x]\) is a PID, every ideal containing \((f)\) has the form
+\((g)\), where \(g\mid f\).  If \(f\) is irreducible, then \(g\) is either a
+unit or an associate of \(f\).  Thus there is no ideal strictly between
+\((f)\) and \(F[x]\), so \((f)\) is maximal.  Conversely, if
+\(f=gh\) with both \(g\) and \(h\) nonunits, then
+\[
+(f)\subsetneq(g)\subsetneq F[x],
+\]
+contradicting maximality.  The equivalence between maximal ideals and field
+quotients is the quotient characterization of maximal ideals from Chapter~4.
+\end{proof}
+
+Irreducibility therefore does more than forbid a factorization: it is exactly
+what makes the quotient obtained by adjoining a formal root into a field.
+
+\begin{theorem}[Every PID is a UFD]
+Every principal ideal domain is a unique factorization domain.
+\end{theorem}
+\begin{proofidea}
+Existence comes from the ascending-chain condition on ideals: an element that
+could not be factored would force a strictly increasing chain of principal
+ideals.  Uniqueness follows by cancelling prime factors.
+\end{proofidea}
+\begin{proof}
+An ascending chain of ideals in a PID stabilizes, since its union is an ideal
+\((d)\), and \(d\) belongs to one member of the chain.  Suppose some nonzero
+nonunit does not factor into irreducibles, and choose \(a\) with \((a)\)
+maximal among ideals generated by such elements.  Then \(a=bc\), with both
+\(b,c\) nonunits.  Therefore \((a)\subsetneq(b)\) and
+\((a)\subsetneq(c)\), so maximality gives factorizations of \(b,c\), a
+contradiction.  Thus factorizations exist.
+
+If \(p_1\cdots p_m=q_1\cdots q_n\) are products of irreducibles, \(p_1\) is
+prime by the proposition, hence divides some \(q_j\).  Since \(q_j\) is
+irreducible, they are associates.  Reorder, absorb the unit, and cancel.
+Induction gives uniqueness.
+\end{proof}
+
+Let \(R\) now be a UFD.  A gcd of coefficients is only determined up to a
+unit, precisely the ambiguity that factorization theory permits.
+
+Gcds exist in every UFD, although they need not have B\'ezout
+representations.  After choosing representatives of irreducible associate
+classes, write
+\[a=u\prod p_i^{\alpha_i},\qquad b=v\prod p_i^{\beta_i}.\]
+Then, up to associates,
+\[\gcd(a,b)\sim\prod p_i^{\min(\alpha_i,\beta_i)}.\]
+The exponents show at once that this element divides both \(a\) and \(b\),
+and that every common divisor divides it.  In a PID, gcds are B\'ezout
+combinations; in a general UFD this is false.  For example,
+\(\gcd(x,y)=1\) in \(F[x,y]\), but \((x,y)\ne F[x,y]\): an identity
+\(fx+gy=1\) would become \(0=1\) after evaluation at \(x=y=0\).
+Thus factorization-coprime and comaximal agree in a PID but not in every UFD.
+
+\begin{definition}[Content]
+For \(0\ne f=a_0+\cdots+a_nx^n\in R[x]\), its \emph{content} is
+\[\operatorname{cont}(f)=\gcd(a_0,\ldots,a_n),\]
+where the gcd is understood up to multiplication by a unit.  The polynomial
+is \emph{primitive} exactly when \(\operatorname{cont}(f)\) is a unit,
+equivalently when no nonunit divides all of its coefficients.
+\end{definition}
+
+The content is therefore simply the gcd of the coefficients, whose existence
+is supplied by the UFD property just discussed.
+
+Every nonzero \(f\) has the form
+\[f=\operatorname{cont}(f)f_0\]
+up to multiplication by a unit, with \(f_0\) primitive.
+For example,
+\[6x^2-9x+3=3(2x^2-3x+1),\]
+and the parenthesized factor is primitive in \(\mathbb Z[x]\).
+
+\begin{lemma}[Primitive Product Lemma]
+The product of two primitive polynomials in \(R[x]\) is primitive.
+\end{lemma}
+\begin{proof}
+If a nonunit divided every coefficient of \(fg\), some irreducible factor
+\(p\) would do so.  In a UFD, irreducibles are prime, so \((p)\) is a prime
+ideal: \(ab\in(p)\) means \(p\mid ab\).  Hence \(R/(p)\) is a domain by
+Chapter~4.  The reductions of \(f\) and \(g\) modulo \(p\) are nonzero,
+because \(f,g\) are primitive, but their product is zero.  This contradicts
+the degree rule in the polynomial ring over a domain.
+\end{proof}
+
+\begin{corollary}[Content formula]
+For nonzero \(f,g\in R[x]\),
+\[\operatorname{cont}(fg)\sim\operatorname{cont}(f)\operatorname{cont}(g),\]
+where \(\sim\) denotes association.  Equality is naturally only up to
+associates in a general UFD.  For \(R=\mathbb Z\), normalizing content to
+be positive gives the literal equality
+\(\operatorname{cont}(fg)=\operatorname{cont}(f)\operatorname{cont}(g)\).
+\end{corollary}
+\begin{proof}
+Write \(f=\operatorname{cont}(f)f_0\),
+\(g=\operatorname{cont}(g)g_0\), where \(f_0,g_0\) are primitive.
+Then \(fg=\operatorname{cont}(f)\operatorname{cont}(g)f_0g_0\), and the
+lemma says the final factor has unit
+content.
+\end{proof}
+
+Let \(K=\operatorname{Frac}(R)\).  The next statement is the precise form
+of clearing denominators.
+
+\begin{lemma}[Gauss's factorization lemma]
+If \(f\in R[x]\) is primitive and \(f=gh\) in \(K[x]\), then there are
+primitive \(g_0,h_0\in R[x]\) and a unit \(\varepsilon\in R\) such that
+\[f=(\varepsilon g_0)h_0.\]
+Thus a positive-degree factorization over \(K\) yields one over \(R\).
+\end{lemma}
+\begin{proof}
+Choose nonzero \(a,b\in R\) such that \(G=ag\) and \(H=bh\) lie in \(R[x]\).
+Write \(G=\operatorname{cont}(G)g_0\),
+\(H=\operatorname{cont}(H)h_0\) with primitive parts.  Since
+\(GH=abf\), the content formula gives
+\[\operatorname{cont}(G)\operatorname{cont}(H)
+\sim\operatorname{cont}(GH)=\operatorname{cont}(abf)\sim ab.\]
+Thus \(\operatorname{cont}(G)\operatorname{cont}(H)=\varepsilon ab\) for a
+unit \(\varepsilon\), and
+\[abf=GH=\varepsilon abg_0h_0.\]
+Cancellation in the domain \(R[x]\) gives the result.  Scaling does not
+change degree.
+\end{proof}
+
+\begin{corollary}[Irreducibility transfer]
+For primitive \(f\in R[x]\),
+\[f\text{ is irreducible in }R[x]\quad\Longleftrightarrow\quad
+f\text{ is irreducible in }K[x].\]
+\end{corollary}
+\begin{proof}
+A factorization in \(R[x]\) is one in \(K[x]\).  Conversely, a nontrivial
+factorization in \(K[x]\) has two positive-degree factors; the lemma turns it
+into one in \(R[x]\).
+\end{proof}
+
+\begin{lemma}
+If primitive \(g,h\in R[x]\) are associates in \(K[x]\), then they are
+associates in \(R[x]\).
+\end{lemma}
+\begin{proof}
+Write \(h=(a/b)g\) with \(a,b\in R\setminus\{0\}\).  Then \(bh=ag\).
+Taking contents gives \(b\sim a\), so \(a/b\) is a unit of \(R\).
+\end{proof}
+
+\begin{theorem}[Polynomial UFD Theorem]
+If \(R\) is a UFD, then \(R[x]\) is a UFD.  Hence
+\(R[x_1,\ldots,x_n]\) is a UFD for every \(n\ge1\).
+\end{theorem}
+\begin{proof}
+The field \(K\) has \(K[x]\) a PID, hence a UFD.  For \(0\ne f\in R[x]\),
+factor its content in \(R\), then factor its primitive part in \(K[x]\).
+The factorization lemma clears the denominators of the latter factors; the
+irreducibility-transfer corollary makes the resulting primitive factors
+irreducible in \(R[x]\).  Irreducible constants of \(R\) remain irreducible
+in \(R[x]\), by the degree rule.  This proves existence.
+
+For uniqueness, compare two factorizations in the UFD \(K[x]\).  Its
+uniqueness pairs the primitive factors up to association, and the preceding
+lemma upgrades these associations to \(R[x]\).  Unique factorization of the
+remaining contents occurs in \(R\).  Repeated application of the one-variable
+result gives the multivariable assertion.
+\end{proof}
+
+\begin{corollary}
+\(\mathbb Z[x]\) and \(\mathbb Q[x]\) are UFDs.  A primitive polynomial in
+\(\mathbb Z[x]\) is irreducible over \(\mathbb Z\) exactly when it is
+irreducible over \(\mathbb Q\).
+\end{corollary}
+\begin{proof}
+Apply the theorem to the UFD \(\mathbb Z\), whose fraction field is
+\(\mathbb Q\), and use irreducibility transfer.
+\end{proof}
+
+\section{Irreducibility Criteria and Factorization over Fields}
+\begin{proposition}
+A polynomial of degree two or three over a field is reducible if and only if
+it has a root in that field.
+\end{proposition}
+\begin{proof} A root yields a linear factor by the Factor Theorem.  Conversely,
+a proper factorization of degree two or three has a factor of degree one,
+which has a root. \end{proof}
+\begin{theorem}[Eisenstein's Criterion]
+Let \(f=a_nx^n+\cdots+a_0\in\mathbb Z[x]\).  If a prime \(p\) divides every
+\(a_i\) for \(i<n\), does not divide \(a_n\), and \(p^2\nmid a_0\), then
+\(f\) is irreducible over \(\mathbb Q\).
+\end{theorem}
+\begin{proof} By Gauss's Lemma it is enough to rule out a factorization in
+\(\mathbb Z[x]\); the factors may be chosen primitive.  Hence neither has
+all coefficients divisible by \(p\), so their reductions modulo \(p\) are
+nonzero.  Reducing a hypothetical \(f=gh\) modulo \(p\) gives
+\(\overline g\,\overline h=\overline {a_n}x^n\).  Since the reduced factors
+are nonzero and \(\mathbb F_p[x]\) is a domain, each is a nonzero scalar
+times a power of \(x\).  Thus every nonleading coefficient of \(g,h\) is
+divisible by \(p\).  Their constant terms are therefore both divisible by
+\(p\), contradicting \(p^2\nmid a_0\).
+\end{proof}
+\begin{example} Eisenstein at \(p=2\) proves \(x^n-2\) irreducible over
+\(\mathbb Q\) for every \(n\ge1\). \end{example}
+
+\section*{Exercises}
+\begin{exercise}[Basic] Divide \(x^3-1\) by \(x-1\) and factor the result over \(\mathbb Q\). \end{exercise}
+\begin{exercise}[Core] Use the Euclidean algorithm in \(\mathbb Q[x]\) to
+find a gcd of \(x^3-1\) and \(x^2-1\), and express it as a B\'ezout combination.
+\end{exercise}
+\begin{exercise}[Core] Determine whether \(x^3-2\) and \(x^4+1\) are irreducible over \(\mathbb Q\). \end{exercise}
+\begin{exercise}[Core] Find the content and primitive part of each of
+\(12x^3-18x^2+6x\) and \(15x^2+10x+5\).  Verify the content formula for
+their product. \end{exercise}
+\begin{exercise}[Core] Prove directly from the definition that a primitive
+polynomial in \(\mathbb Z[x]\) cannot have all of its coefficients divisible
+by the same prime.  Use reduction modulo \(2\) to show that
+\(x^3+x+1\) is irreducible over \(\mathbb Q\).
+\emph{Hint:} use Gauss's Lemma; a nontrivial factorization of this primitive
+polynomial would reduce to one in \(\mathbb F_2[x]\), where the cubic has no
+root. \end{exercise}
+\begin{exercise}[Further] Use B\'ezout to show that coprime polynomials in \(F[x]\) have no common root in any extension field. \end{exercise}
+\begin{exercise}[Further, Challenging] Let \(R\) be a UFD and let
+\(f\in R[x]\) be primitive.  Show that if \(f\) divides \(g\) in
+\(\operatorname{Frac}(R)[x]\) and \(g\in R[x]\), then there is a
+primitive polynomial \(h\in R[x]\) and \(a\in R\) such that
+\(g=ahf\) up to multiplication by a unit. \end{exercise}

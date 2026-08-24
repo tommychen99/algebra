@@ -1,0 +1,1706 @@
+\chapter[Galois Theory]{Galois Theory, Limits, and Profinite Groups}
+
+Galois theory replaces the study of intermediate fields by the study of the
+symmetries of the larger field.  In the finite case this is an exact
+dictionary.  In the infinite case the same dictionary survives once the
+symmetry group remembers agreement at every finite stage through a topology.
+
+\section{Galois Groups and Fixed Fields}
+
+\begin{definition}
+For an extension \(E/F\), its \emph{Galois group} is
+\[
+\operatorname{Gal}(E/F)=\operatorname{Aut}_F(E).
+\]
+If \(H\leq\operatorname{Gal}(E/F)\), its \emph{fixed field} is
+\[
+E^H=\{x\in E:\sigma(x)=x\text{ for every }\sigma\in H\}.
+\]
+For an intermediate field \(F\subseteq K\subseteq E\), write
+\[
+\operatorname{Gal}(E/K)=\{\sigma\in\operatorname{Gal}(E/F):
+\sigma|_K=1_K\}.
+\]
+\end{definition}
+
+The fixed field records the elements on which the chosen symmetries are
+invisible; it will be the inverse operation to taking an automorphism group.
+
+\begin{lemma}\label{lem:fixed-field-intermediate}
+The set \(E^H\) is an intermediate field.  Furthermore,
+\[
+K_1\subseteq K_2\Longrightarrow
+\operatorname{Gal}(E/K_2)\leq\operatorname{Gal}(E/K_1),
+\qquad
+H_1\leq H_2\Longrightarrow E^{H_2}\subseteq E^{H_1}.
+\]
+\end{lemma}
+\begin{proof}
+Every element of \(H\) fixes \(0\) and \(1\).  If \(x,y\in E^H\), then each
+\(\sigma\in H\) fixes \(x-y\), \(xy\), and \(x^{-1}\) when \(x\ne0\).
+Thus \(E^H\) is a subfield containing \(F\).  The two inclusions say,
+respectively, that fixing more elements imposes more conditions and that
+asking more automorphisms to fix an element imposes more conditions.
+\end{proof}
+
+\begin{example}
+Complex conjugation has fixed field \(\mathbb R\) in \(\mathbb C\).  If \(d\)
+is squarefree, the nonidentity automorphism of \(\mathbb Q(\sqrt d)\) sends
+\(\sqrt d\) to \(-\sqrt d\) and fixes precisely \(\mathbb Q\).  In
+\(\mathbb Q(\zeta_5)\), the automorphisms are
+\(\zeta_5\mapsto\zeta_5^a\), \(a\in(\mathbb Z/5\mathbb Z)^\times\); its
+unique order-two subgroup fixes \(\mathbb Q(\sqrt5)\).
+\end{example}
+
+The following linear-algebra fact is the key input in Artin's theorem.
+Distinct field homomorphisms cannot satisfy an accidental linear relation as
+functions.
+
+\begin{lemma}[Artin independence lemma]\label{lem:artin-independence}
+Let \(\sigma_1,\ldots,\sigma_n:E\to L\) be distinct field homomorphisms.
+Then they are linearly independent over \(L\) as functions \(E\to L\).
+\end{lemma}
+\begin{proof}
+Suppose that a nontrivial relation
+\[
+a_1\sigma_1+\cdots+a_n\sigma_n=0
+\]
+exists, and choose one with the fewest nonzero coefficients.  Omit zero
+terms, so every \(a_i\ne0\) and \(n\ge2\).  Choose \(x\in E\) with
+\(\sigma_1(x)\ne\sigma_n(x)\).  Evaluating at \(xy\), then subtracting
+\(\sigma_n(x)\) times the original relation evaluated at \(y\), yields
+\[
+\sum_{i=1}^{n-1}a_i\bigl(\sigma_i(x)-\sigma_n(x)\bigr)\sigma_i(y)=0
+\quad\text{for all }y\in E.
+\]
+The coefficient of \(\sigma_n\) has vanished while that of \(\sigma_1\) is
+nonzero.  This is a shorter nontrivial relation, a contradiction.
+\end{proof}
+
+The proof of Artin's theorem has a useful two-sided shape.  Independence of
+the automorphisms first produces enough linearly independent elements to give
+the lower bound \(|G|\leq[E:E^G]\).  Orbit polynomials then show that every
+finitely generated subfield has degree at most \(|G|\), producing the reverse
+bound.  The final embedding count identifies the automorphisms.  This is the
+bridge from a concrete group action to the field--subgroup dictionary.
+
+\begin{theorem}[Artin fixed-field theorem]\label{thm:artin-fixed-field}
+If \(G\) is a finite group of automorphisms of a field \(E\), then
+\[
+[E:E^G]=|G|,
+\qquad
+\operatorname{Gal}(E/E^G)=G.
+\]
+\end{theorem}
+\begin{proof}
+Put \(F=E^G\) and \(n=|G|\).  Artin independence implies that there are
+\(x_1,\ldots,x_n\in E\) for which the evaluation matrix
+\[
+\bigl(\sigma_i(x_j)\bigr)_{1\leq i,j\leq n}
+\]
+is invertible.  Indeed, consider the evaluation vectors
+\[
+v(x)=(\sigma_1(x),\ldots,\sigma_n(x))\in E^n.
+\]
+If these did not span \(E^n\), a nonzero linear functional
+\((a_1,\ldots,a_n)\) would vanish on every \(v(x)\), giving
+\[
+a_1\sigma_1+\cdots+a_n\sigma_n=0,
+\]
+contrary to Artin independence.  Choose \(n\) evaluation vectors forming a
+basis, and use them as the columns of the displayed matrix.  The \(x_j\) are
+therefore \(F\)-linearly independent, so \(n\leq[E:F]\).
+
+For the reverse inequality, let \(\alpha\in E\) and form
+\[
+P_\alpha(X)=\prod_{\sigma\in G}(X-\sigma(\alpha)).
+\]
+Every \(\tau\in G\) permutes these factors, so the coefficients belong to
+\(F\).  The minimal polynomial of \(\alpha\) over \(F\) divides
+\(P_\alpha\), and is separable of degree at most \(n\).  Given finitely many
+elements of \(E\), the field they generate over \(F\) is finite separable;
+the primitive element theorem makes it \(F(\alpha)\), hence of degree at most
+\(n\).  Therefore \(E\) has no \(n+1\) linearly independent elements over
+\(F\), and \([E:F]\leq n\).
+
+Finally \(G\leq\operatorname{Gal}(E/F)\), while the embedding-count
+inequality (Theorem~\ref{thm:embedding-count}) gives
+\[
+|\operatorname{Gal}(E/F)|\leq[E:F]=|G|.
+\]
+Therefore the inclusion is equality.
+\end{proof}
+
+\begin{corollary}\label{cor:finite-automorphism-consequences}
+If \(E/F\) is finite Galois, then
+\[
+E^{\operatorname{Gal}(E/F)}=F.
+\]
+Conversely, if \(G\) is a finite subgroup of \(\operatorname{Aut}(E)\), then
+\(E/E^G\) is finite Galois with Galois group \(G\).
+\end{corollary}
+\begin{proof}
+The first assertion follows by combining Artin's theorem with the finite
+Galois criterion (Proposition~\ref{prop:finite-galois-criteria}).  The second
+follows from the same two results.
+\end{proof}
+
+\section{The Fundamental Theorem of Finite Galois Theory}
+
+\begin{theorem}[Finite Galois correspondence]\label{thm:finite-galois}
+Let \(E/F\) be finite Galois and put \(G=\operatorname{Gal}(E/F)\).  The maps
+\[
+K\longmapsto\operatorname{Gal}(E/K),
+\qquad
+H\longmapsto E^H
+\]
+are inverse inclusion-reversing bijections between intermediate fields
+\(F\subseteq K\subseteq E\) and subgroups \(H\leq G\).  Moreover,
+\[
+[E:K]=|\operatorname{Gal}(E/K)|,
+\qquad
+[K:F]=[G:\operatorname{Gal}(E/K)].
+\]
+\end{theorem}
+\begin{proof}
+For an intermediate \(K\), separability and normality descend from \(E/F\)
+to \(E/K\): a minimal polynomial over \(K\) divides the corresponding
+polynomial over \(F\), so it is separable and splits in \(E\).  Thus \(E/K\)
+is finite Galois, and Corollary~\ref{cor:finite-automorphism-consequences}
+gives
+\[
+E^{\operatorname{Gal}(E/K)}=K.
+\]
+For \(H\leq G\), Artin's theorem applied to the finite group \(H\) gives
+\[
+\operatorname{Gal}(E/E^H)=H.
+\]
+These identities prove the bijection.  The first degree formula is Artin's
+theorem applied to \(E/K\), and the Tower Law gives
+\[
+[K:F]=\frac{[E:F]}{[E:K]}
+=\frac{|G|}{|\operatorname{Gal}(E/K)|}.
+\]
+\end{proof}
+
+The reversal is the central visual idea: a larger field has fewer
+automorphisms that fix it.
+\[
+\begin{tikzcd}[column sep=large,row sep=small]
+E \arrow[d,phantom,"\longleftrightarrow" description] & \{1\} \\
+K \arrow[u] \arrow[d,phantom,"\longleftrightarrow" description] & H \arrow[u] \\
+F \arrow[u] & G \arrow[u]
+\end{tikzcd}
+\]
+
+\begin{proposition}[Normality refinement]\label{prop:finite-normality-refinement}
+For an intermediate field \(K\),
+\[
+K/F\text{ is Galois}
+\quad\Longleftrightarrow\quad
+\operatorname{Gal}(E/K)\trianglelefteq G.
+\]
+When these conditions hold, restriction induces
+\[
+G/\operatorname{Gal}(E/K)\cong\operatorname{Gal}(K/F).
+\]
+\end{proposition}
+\begin{proof}
+Write \(H=\operatorname{Gal}(E/K)\).  First,
+\[
+K/F\text{ is normal}\quad\Longleftrightarrow\quad
+\sigma(K)=K\text{ for every }\sigma\in G. \tag{12.1}
+\]
+Normality makes every conjugate of an element of \(K\) remain in \(K\).
+Conversely, extend any \(F\)-embedding of \(K\) to \(E\) by
+Theorem~\ref{thm:embedding-extension}; normality of \(E/F\) makes the
+extension an automorphism, and stability then proves normality of \(K/F\).
+
+For \(\sigma\in G\),
+\[
+\sigma H\sigma^{-1}=\operatorname{Gal}(E/\sigma(K)).
+\]
+The finite correspondence and (12.1) show that \(H\) is normal exactly when
+\(K/F\) is normal.  Every intermediate extension is separable, so this is
+equivalent to Galoisness.
+
+When \(K\) is stable, restriction
+\[
+\operatorname{res}:G\longrightarrow\operatorname{Gal}(K/F)
+\]
+is well-defined and has kernel \(H\).  An \(F\)-automorphism of \(K\) extends
+to an \(F\)-embedding of \(E\), and normality of \(E/F\) makes the extension
+an automorphism.  Thus restriction is onto, and the First Isomorphism Theorem
+gives the quotient isomorphism.
+\end{proof}
+
+\begin{example}[The full lattice for a cubic splitting field]
+Put
+\[
+r=\sqrt[3]2,
+\qquad
+E=\mathbb Q(r,\zeta_3).
+\]
+The roots of \(x^3-2\) are \(r,\zeta_3r,\zeta_3^2r\), and
+\(\operatorname{Gal}(E/\mathbb Q)\cong S_3\) acts by permuting them.  Let
+\[
+K_1=\mathbb Q(r),\qquad
+K_2=\mathbb Q(\zeta_3r),\qquad
+K_3=\mathbb Q(\zeta_3^2r).
+\]
+The intermediate fields have the following lattice; each displayed
+intermediate field is contained in \(E\), and the arrows are inclusions.
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+&& E &&\\
+K_1 \arrow[urr] & K_2 \arrow[ur] & K_3 \arrow[u] &
+\mathbb Q(\sqrt{-3}) \arrow[ul] \\
+&& \mathbb Q \arrow[ull] \arrow[ul] \arrow[u] \arrow[ur] &&
+\end{tikzcd}
+\]
+The order-two subgroup stabilizing the indicated root fixes the corresponding
+\(K_i\), so the three order-two subgroups correspond to the three cubic
+subfields.  The alternating subgroup \(A_3\) fixes
+\(\mathbb Q(\sqrt{-3})=\mathbb Q(\zeta_3)\), and the trivial and full
+subgroups correspond to \(E\) and \(\mathbb Q\), respectively:
+\[
+\begin{array}{c|c|c}
+\text{field (degree)} & \text{subgroup} & \text{order}\\ \hline
+E\ (6) & \{1\} & 1\\
+K_1,\ K_2,\ K_3\ (3) & \text{three root stabilizers} & 2\\
+\mathbb Q(\sqrt{-3})\ (2) & A_3 & 3\\
+\mathbb Q\ (1) & S_3 & 6
+\end{array}
+\]
+The three order-two subgroups are not normal.  Accordingly the three cubic
+fields are not Galois over \(\mathbb Q\), whereas
+\(\mathbb Q(\sqrt{-3})/\mathbb Q\) is Galois.  This is a useful contrast
+between the field lattice itself and the additional normality information
+carried by the group lattice.
+\end{example}
+
+\begin{example}[A biquadratic contrast]
+For
+\[
+E=\mathbb Q(\sqrt2,\sqrt3),
+\]
+every \(\mathbb Q\)-automorphism independently changes the signs of
+\(\sqrt2\) and \(\sqrt3\).  Hence
+\[
+\operatorname{Gal}(E/\mathbb Q)\cong C_2\oplus C_2.
+\]
+Its three order-two subgroups fix, respectively,
+\[
+\mathbb Q(\sqrt2),\qquad
+\mathbb Q(\sqrt3),\qquad
+\mathbb Q(\sqrt6).
+\]
+Unlike the \(S_3\) example, every subgroup is normal because the group is
+abelian.  Thus all three quadratic intermediate fields are Galois over
+\(\mathbb Q\).  The two examples show that the same-looking degree pattern
+can have very different normality behavior.
+\end{example}
+
+\begin{example}[A cyclic correspondence]
+\(\operatorname{Gal}(\mathbb Q(\zeta_5)/\mathbb Q)\cong C_4\).  Its unique
+subgroup of order two fixes \(\mathbb Q(\sqrt5)\).  All subgroups are normal,
+so every intermediate field is Galois over \(\mathbb Q\).
+\end{example}
+
+\subsection*{Optional Application: A Galois-Theoretic Proof of the Fundamental Theorem of Algebra}
+
+Chapter~8 used the Fundamental Theorem of Algebra to obtain an eigenvalue of a
+complex operator.  We now discharge that dependence using the field and group
+theory developed so far.  Apart from the standard elementary properties of
+the real numbers, including square roots of nonnegative reals, the only
+substantive real-analysis input is the Intermediate Value Theorem.  The
+needed facts are developed in \emph{Lecture Notes on Mathematical Analysis}
+\cite{MA}: polynomials are continuous (\S5.2), and the Intermediate Value
+Theorem is Theorem~5.14 (\S5.4).  Hence every real polynomial of odd degree
+has a real root.  Indeed, if
+\[
+p(x)=a_{2m+1}x^{2m+1}+\cdots,
+\qquad
+a_{2m+1}\ne0,
+\]
+then, for sufficiently large \(R>0\), leading-term behavior makes \(p(R)\)
+and \(p(-R)\) have opposite signs.  Continuity and the Intermediate Value
+Theorem therefore give a point \(c\in(-R,R)\) with \(p(c)=0\).
+
+\begin{applicationtheorem}[Fundamental Theorem of Algebra]
+Every nonconstant polynomial in \(\mathbb C[x]\) has a root in \(\mathbb C\).
+Equivalently, \(\mathbb C\) is algebraically closed.
+\end{applicationtheorem}
+\begin{proof}
+We first show that every finite extension of \(\mathbb R\) has degree a power
+of \(2\).  Let \(M/\mathbb R\) be finite.  Characteristic zero makes
+\(M/\mathbb R\) separable, so the
+\hyperref[thm:finite-galois-closure]{finite Galois closure theorem} supplies
+a finite Galois extension \(L/\mathbb R\) containing \(M\).  Put
+\(G=\operatorname{Gal}(L/\mathbb R)\).
+If an odd prime divided \(|G|\), let \(P\) be a Sylow \(2\)-subgroup.  Then
+\[
+[G:P]
+\]
+is odd and greater than one.  By the finite Galois correspondence,
+\(L^P/\mathbb R\) has this odd degree.  The primitive element theorem writes
+\(L^P=\mathbb R(\beta)\), so the minimal polynomial of \(\beta\) has odd
+degree.  It has a root in \(\mathbb R\) by the stated external fact, which
+contradicts irreducibility unless the degree is one.  Thus \(G\) is a
+\(2\)-group.  Since
+\[
+[M:\mathbb R]\mid[L:\mathbb R]=|G|,
+\]
+the claimed power-of-two conclusion follows.
+
+Fix an algebraic closure \(\overline{\mathbb R}\) and an element
+\(i\in\overline{\mathbb R}\) with \(i^2=-1\), so that
+\(\mathbb C=\mathbb R(i)\).  Every nontrivial quadratic extension of
+\(\mathbb R\) is this field.  Indeed, if \(\mathbb R(\alpha)/\mathbb R\) is
+quadratic, the minimal polynomial of \(\alpha\) is an irreducible quadratic
+with negative discriminant.  Completing the square therefore produces an
+element of the extension whose square is \(-1\): after division by the
+leading coefficient, a polynomial \(x^2+bx+c\) gives
+\[
+\left(\alpha+\frac b2\right)^2=\frac{b^2-4c}{4}<0,
+\]
+and rescaling by the positive real square root of its negative gives a square
+root of \(-1\).  It is \(i\) or \(-i\), so the extension is
+\(\mathbb R(i)=\mathbb C\).
+
+We next show directly that every element of \(\mathbb C\) has a square root.
+For \(z=a+bi\), put
+\[
+r=\sqrt{a^2+b^2}.
+\]
+If \(r+a>0\), set
+\[
+x=\sqrt{\frac{r+a}{2}},
+\qquad
+y=\frac{b}{2x}.
+\]
+Then \(x^2-y^2=a\) and \(2xy=b\), so \((x+iy)^2=z\).  If \(r+a=0\), then
+\(b=0\) and \(a\leq0\), and \((i\sqrt{-a})^2=z\).  Consequently the
+quadratic formula shows that every quadratic polynomial over \(\mathbb C\)
+has a root.  Hence \(\mathbb C\) has no nontrivial quadratic extension.
+
+We claim that no finite Galois extension \(L/\mathbb R\) has degree greater
+than \(2\).  Otherwise its group \(G\) is a \(2\)-group of order greater than
+two.  Every nontrivial finite \(2\)-group has a normal subgroup of index two:
+for order two this is clear, and in general the center theorem and Cauchy's
+theorem supply a central subgroup of order two; induction in the quotient
+then gives the asserted subgroup.  Choose a normal subgroup \(H\trianglelefteq
+G\) of index two.  The finite correspondence makes
+\[
+L^H/\mathbb R
+\]
+a quadratic extension, hence \(L^H=\mathbb C\).  Now \(H=
+\operatorname{Gal}(L/\mathbb C)\) is a nontrivial \(2\)-group, so it has a
+subgroup \(J\) of index two.  The finite correspondence for \(L/\mathbb C\)
+then makes
+\[
+L^J/\mathbb C
+\]
+a quadratic extension, a contradiction.  Therefore \([L:\mathbb R]\leq2\).
+
+Finally, let \(\alpha\in\overline{\mathbb R}\).  The finite extension
+\(\mathbb R(\alpha)/\mathbb R\) is separable, so the
+\hyperref[thm:finite-galois-closure]{finite Galois closure theorem} gives a
+finite Galois extension containing it, whose degree is at most two by the
+preceding argument.  The Tower Law therefore
+gives \([\mathbb R(\alpha):\mathbb R]\leq2\), so it is either \(\mathbb R\)
+or, in the quadratic case, \(\mathbb C\).  Thus every \(\alpha\) belongs to \(\mathbb C\), and
+\(\overline{\mathbb R}=\mathbb C\).  Hence \(\mathbb C\) is algebraically
+closed.
+\end{proof}
+
+\begin{unremark}
+Chapter~8 met the Fundamental Theorem of Algebra through complex linear
+algebra, while its classical proof belongs to complex analysis.  The present
+proof instead reveals field extensions, finite \(2\)-groups, and the Galois
+correspondence behind the same theorem.
+\end{unremark}
+
+\section{Radicals and Classical Constructions}
+
+\begin{definition}
+A \emph{radical extension} is an extension contained in a tower
+\[
+F=K_0\subseteq K_1\subseteq\cdots\subseteq K_r,
+\]
+where \(K_i=K_{i-1}(\alpha_i)\) and
+\(\alpha_i^{n_i}\in K_{i-1}\) for some \(n_i>0\).  A polynomial is
+\emph{solvable by radicals} if its splitting field is contained in a radical
+extension of its coefficient field.
+\end{definition}
+
+Roots of unity govern the conjugates of an \(n\)-th root, which explains the
+following honest part of the radicals--groups connection.
+
+\begin{proposition}[A root-of-unity radical direction]\label{prop:radical-solvable}
+Let
+\[
+F=K_0\subseteq K_1\subseteq\cdots\subseteq K_r
+\]
+be a tower such that every \(K_i/F\) is finite Galois and
+\[
+K_i=K_{i-1}(\alpha_i),
+\qquad
+\alpha_i^{n_i}\in K_{i-1}.
+\]
+Assume that \(K_{i-1}\) contains all \(n_i\)-th roots of unity.  Then
+\[
+\operatorname{Gal}(K_r/F)
+\]
+is solvable.
+\end{proposition}
+\begin{proof}
+If \(\alpha_i=0\), then \(K_i=K_{i-1}\), so the relevant Galois group is
+trivial.  Otherwise define
+\[
+\chi_i:\operatorname{Gal}(K_i/K_{i-1})\longrightarrow\mu_{n_i},
+\qquad
+\chi_i(\sigma)=\frac{\sigma(\alpha_i)}{\alpha_i}.
+\]
+The equation \(\alpha_i^{n_i}\in K_{i-1}\) shows that \(\chi_i(\sigma)\)
+is an \(n_i\)-th root of unity.  Since \(\mu_{n_i}\subseteq K_{i-1}\), every
+\(\sigma\) fixes it pointwise; consequently
+\[
+\chi_i(\sigma\tau)
+=\frac{\sigma\tau(\alpha_i)}{\alpha_i}
+=\frac{\sigma\bigl(\chi_i(\tau)\alpha_i\bigr)}{\alpha_i}
+=\chi_i(\tau)\chi_i(\sigma).
+\]
+The target is abelian, so this is the homomorphism law.  Moreover,
+\(\chi_i(\sigma)=1\) means that \(\sigma\) fixes \(\alpha_i\); since
+\(K_i=K_{i-1}(\alpha_i)\), it is then the identity.  Thus \(\chi_i\) is
+injective.  Therefore \(\operatorname{Gal}(K_i/K_{i-1})\) is isomorphic to
+a subgroup of the abelian group \(\mu_{n_i}\), and hence is abelian.
+
+Put
+\[
+G_i=\operatorname{Gal}(K_r/K_i).
+\]
+The hypothesis that \(K_i/F\) is Galois makes \(G_i\) normal in
+\(G_0=\operatorname{Gal}(K_r/F)\).  The finite normality refinement
+(Proposition~\ref{prop:finite-normality-refinement}) gives
+\[
+G_{i-1}/G_i\cong\operatorname{Gal}(K_i/K_{i-1}).
+\]
+Consequently
+\[
+G_0\trianglerighteq G_1\trianglerighteq\cdots\trianglerighteq G_r=1
+\]
+is a normal series with abelian factors.  Thus \(G_0\) is solvable.
+\end{proof}
+
+\begin{remark}
+The classical theorem in characteristic zero says that a polynomial is
+solvable by radicals if and only if its Galois group is solvable.  The converse
+requires Kummer theory, which is outside these notes.  The proposition above
+captures the group-theoretic mechanism after a radical tower has been placed
+inside a suitable Galois tower; it does not prove the converse.  Accordingly,
+we do not claim a proof here of the general quintic theorem.
+\end{remark}
+
+\begin{definition}
+A real number is \emph{constructible over \(\mathbb Q\)} if it belongs to a
+tower of subfields of \(\mathbb R\)
+\[
+\mathbb Q=K_0\subseteq K_1\subseteq\cdots\subseteq K_r\subseteq\mathbb R
+\]
+whose successive degrees are at most two.  This is the field-theoretic form
+of straightedge-and-compass
+construction: line intersections use field operations and circle
+intersections require a quadratic equation.
+\end{definition}
+
+The algebraic definition records a necessary consequence of the ordinary
+geometric construction rules.  Indeed, the intersection of two lines has
+coordinates obtained by field operations from the preceding coordinates.
+After eliminating one variable, the intersection of a line and a circle, or
+of two circles, is obtained by solving a quadratic equation.  Hence every
+ordinary straightedge-and-compass construction produces coordinates in a
+tower whose successive degrees are at most two.  This one direction is all
+that is needed for the impossibility results below.
+
+\begin{proposition}[Degree obstruction]\label{prop:construction-degree}
+If \(\alpha\) is constructible over \(\mathbb Q\), then
+\[
+[\mathbb Q(\alpha):\mathbb Q]
+\]
+divides a power of \(2\).
+\end{proposition}
+\begin{proof}
+The construction operations give a tower with successive degrees at most two.
+The Tower Law makes the degree of its top field a power of two, and the degree
+of the subfield \(\mathbb Q(\alpha)\) divides that degree.
+\end{proof}
+
+\begin{corollary}
+Doubling the cube and trisecting a general angle are impossible with
+straightedge and compass.
+\end{corollary}
+\begin{proof}
+\(\sqrt[3]2\) has irreducible minimal polynomial \(X^3-2\).  For angle
+trisection, a \(60^\circ\) angle is constructible.  If arbitrary angle
+trisection were possible, then \(20^\circ\) would be constructible.  But
+\(\cos20^\circ\) satisfies
+\[
+8X^3-6X-1=0,
+\]
+which is irreducible over \(\mathbb Q\) by the rational-root test.  Both
+degrees are \(3\), so Proposition~\ref{prop:construction-degree} applies.
+Squaring the circle uses the transcendence of \(\pi\), outside the present
+scope.
+\end{proof}
+
+\section{Direct and Inverse Limits}
+
+Infinite Galois theory is assembled from finite stages.  Direct limits join
+objects that grow; inverse limits record compatible information at all finite
+quotients.  The common indexing language is designed so that a finite number
+of comparisons can always be made at one later stage.
+
+\begin{definition}
+A partially ordered set \(I\) is \emph{directed} if it is nonempty and every
+pair \(i,j\) has an upper bound \(k\).  Examples are \(\mathbb N\), finite
+subsets of a set ordered by inclusion, and finite intermediate extensions
+ordered by inclusion.  Repeatedly applying the pair condition gives a common
+upper bound for every finite collection.  This is exactly what lets a direct
+limit turn a finite sum of representatives into one representative later on.
+\end{definition}
+
+\begin{definition}
+A \emph{direct system} of \(R\)-modules over \(I\) is a family
+\((M_i)_{i\in I}\) and maps
+\[
+\phi_i^j:M_i\longrightarrow M_j\qquad(i\leq j)
+\]
+with \(\phi_i^i=1_{M_i}\) and
+\[
+\phi_j^k\phi_i^j=\phi_i^k
+\qquad(i\leq j\leq k).
+\]
+For \(i\leq j\leq k\), this says that the following triangle commutes:
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+M_i \arrow[rr,"\phi_i^k"] \arrow[dr,"\phi_i^j"'] && M_k \\
+& M_j \arrow[ur,"\phi_j^k"'] &
+\end{tikzcd}
+\]
+Thus passing from \(i\) to \(k\) does not depend on whether one pauses at
+\(j\).
+\end{definition}
+
+\Needspace{24\baselineskip}
+\begin{definition}
+A \emph{direct limit} of a direct system is an \(R\)-module
+\(\varinjlim_iM_i\), together with maps
+\[
+\iota_i:M_i\longrightarrow\varinjlim_iM_i,
+\]
+such that \(\iota_j\phi_i^j=\iota_i\) for \(i\leq j\), and satisfying the
+following universal property: whenever maps \(f_i:M_i\to N\) satisfy
+\[
+f_j\phi_i^j=f_i,
+\]
+there is a unique map
+\[
+u:\varinjlim_iM_i\longrightarrow N
+\]
+with \(u\iota_i=f_i\) for every \(i\).
+\end{definition}
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+M_i \arrow[rr,"\phi_i^j"] \arrow[dr,"\iota_i"'] \arrow[ddr,bend right=35,"f_i"']&&
+M_j \arrow[dl,"\iota_j"] \arrow[ddl,bend left=35,"f_j"]\\
+&\varinjlim_iM_i \arrow[d,dashed,"u"]\\
+&N
+\end{tikzcd}
+\]
+
+\begin{proposition}[Uniqueness of direct limits]
+Two direct limits of the same direct system are uniquely isomorphic by an
+isomorphism commuting with every canonical map.
+\end{proposition}
+\begin{proof}
+Let \((M,\iota_i)\) and \((M',\iota_i')\) be direct limits.  The universal
+property of \(M\), applied to the compatible family \((\iota_i')\), gives a
+unique \(u:M\to M'\) with \(u\iota_i=\iota_i'\).  Similarly there is a unique
+\(v:M'\to M\) with \(v\iota_i'=\iota_i\).  Both \(vu\) and \(1_M\) have the
+same composites with every \(\iota_i\), so uniqueness gives \(vu=1_M\).
+Likewise \(uv=1_{M'}\).
+\end{proof}
+
+\begin{proposition}[Construction of direct limits]
+Every direct system of \(R\)-modules has a direct limit.  It is
+\[
+\varinjlim_{i\in I}M_i=
+\left(\bigoplus_{i\in I}M_i\right)\bigg/D,
+\]
+where \(D\) is generated by
+\[
+e_i(m)-e_j(\phi_i^j(m))\qquad(i\leq j,\ m\in M_i).
+\]
+\end{proposition}
+\begin{proof}
+Let \(\iota_i(m)\) be the class of \(e_i(m)\).  The displayed relations give
+\(\iota_j\phi_i^j=\iota_i\).  A compatible family \(f_i:M_i\to N\) defines
+\[
+\sum_i e_i(m_i)\longmapsto\sum_i f_i(m_i).
+\]
+The sums are finite because the source is a direct sum, and each defining
+relation maps to
+\[
+f_i(m)-f_j(\phi_i^j(m))=0.
+\]
+Hence the map descends to a map \(u\) from the quotient.  It satisfies
+\(u\iota_i=f_i\).  Since every quotient class is a finite sum of classes from
+the summands, these identities also force uniqueness.
+\end{proof}
+
+\begin{proposition}[Maps induced on direct limits]\label{prop:direct-limit-maps}
+Suppose \((M_i,\phi_i^j)\) and \((N_i,\psi_i^j)\) are direct systems and maps
+\(\rho_i:M_i\to N_i\) satisfy
+\[
+\rho_j\phi_i^j=\psi_i^j\rho_i
+\qquad(i\leq j).
+\]
+Then there is a unique map
+\[
+\rho:\varinjlim_iM_i\longrightarrow\varinjlim_iN_i
+\]
+with \(\rho\iota_i=\kappa_i\rho_i\), where \(\kappa_i\) are the canonical maps
+for the second limit.
+\end{proposition}
+\begin{proof}
+The maps \(\kappa_i\rho_i\) are compatible, since
+\[
+\kappa_j\rho_j\phi_i^j
+=\kappa_j\psi_i^j\rho_i
+=\kappa_i\rho_i.
+\]
+The universal property of \(\varinjlim_iM_i\) gives exactly the asserted map.
+\end{proof}
+
+\begin{proposition}[Element criteria]\label{prop:direct-limit-elements}
+Every element of a direct limit has the form \(\iota_i(m)\) for some
+\(i\in I\) and \(m\in M_i\).  In addition,
+\[
+\iota_i(m)=0
+\quad\Longleftrightarrow\quad
+\phi_i^j(m)=0\text{ for some }j\geq i,
+\]
+and
+\[
+\iota_i(m)=\iota_j(n)
+\quad\Longleftrightarrow\quad
+\phi_i^k(m)=\phi_j^k(n)\text{ for some }k\geq i,j.
+\]
+\end{proposition}
+\begin{proof}
+A quotient element is represented by
+\[
+\sum_{\ell=1}^re_{i_\ell}(m_\ell).
+\]
+Choose \(k\) above every \(i_\ell\).
+Compatibility gives
+\[
+\sum_{\ell=1}^r\iota_{i_\ell}(m_\ell)
+=\iota_k\left(\sum_{\ell=1}^r\phi_{i_\ell}^k(m_\ell)\right),
+\]
+which proves the first assertion.  The reverse implications in the displayed
+criteria are compatibility.  For the forward implications, the asserted
+zero or equality in the quotient is a finite sum of defining relations.
+Choose an index above all of the finitely many stages occurring in this
+expression.  Mapping every summand to that stage cancels the relations and
+gives the desired zero or equality.
+\end{proof}
+
+\begin{example}[A directed union written as fractions]
+Consider the direct system indexed by \(n\geq0\)
+\[
+\mathbb Z\xrightarrow{\times2}\mathbb Z\xrightarrow{\times2}\mathbb Z
+\xrightarrow{\times2}\cdots.
+\]
+Its direct limit is naturally
+\[
+\mathbb Z[1/2]
+=\left\{\frac{m}{2^n}:m\in\mathbb Z,\ n\geq0\right\}.
+\]
+Indeed, send the integer \(m\) at stage \(n\) to \(m/2^n\).  The transition
+map sends \(m\) to \(2m\), and
+\[
+\frac{2m}{2^{n+1}}=\frac{m}{2^n},
+\]
+so these maps are compatible.  They induce a map from the direct limit to
+\(\mathbb Z[1/2]\), and it is onto by definition.  If two representatives
+\(m\) at stage \(n\) and \(a\) at stage \(r\) give the same fraction, then
+after multiplying their equality by a sufficiently large power of \(2\),
+their images agree at a common later stage.  Proposition~\ref{prop:direct-limit-elements}
+therefore makes the induced map one-to-one.  This example turns the abstract
+identification of forward representatives into the familiar rule for
+equivalent fractions.
+\end{example}
+
+\begin{corollary}[Directed unions]
+If \(M_i\subseteq M_j\) for \(i\leq j\) and the transition maps are
+inclusions, then
+\[
+\varinjlim_iM_i\cong\bigcup_iM_i.
+\]
+\end{corollary}
+\begin{proof}
+The inclusions into the union are compatible.  The induced map is onto, and
+the zero criterion in Proposition~\ref{prop:direct-limit-elements} makes it
+one-to-one.
+\end{proof}
+
+\begin{theorem}[Exactness of directed direct limits]\label{thm:direct-limit-exact}
+Suppose that
+\[
+A_i\xrightarrow{u_i}B_i\xrightarrow{v_i}C_i
+\]
+is exact for every \(i\), and all transition maps commute with these maps.
+Then
+\[
+\varinjlim_iA_i\longrightarrow\varinjlim_iB_i
+\longrightarrow\varinjlim_iC_i
+\]
+is exact.  Thus directed direct limits preserve injections and surjections
+when these occur stagewise.
+\end{theorem}
+\begin{proof}
+The composite is zero at every stage.  Conversely, suppose that
+\(\iota_i(b)\) maps to zero.  The zero criterion gives \(j\geq i\) with
+\[
+v_j(\phi_i^j(b))=0.
+\]
+At stage \(j\), exactness supplies \(a\in A_j\) with
+\(u_j(a)=\phi_i^j(b)\).  Therefore \(\iota_i(b)\) is the image of
+\(\iota_j(a)\).  Applying this to sequences beginning or ending in zero gives
+the final statement.
+\end{proof}
+
+\begin{definition}
+An \emph{inverse system} of \(R\)-modules over the directed set \(I\) is a
+family \((N_i)_{i\in I}\) and maps
+\[
+\psi_i^j:N_j\longrightarrow N_i\qquad(i\leq j)
+\]
+such that \(\psi_i^i=1_{N_i}\) and
+\[
+\psi_i^j\psi_j^k=\psi_i^k
+\qquad(i\leq j\leq k).
+\]
+For \(i\leq j\leq k\), the corresponding reversed triangle commutes:
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+& N_j \arrow[dr,"\psi_i^j"] & \\
+N_k \arrow[ur,"\psi_j^k"] \arrow[rr,"\psi_i^k"'] && N_i
+\end{tikzcd}
+\]
+Thus information at a later stage restricts consistently to every earlier
+stage.  Unlike a direct limit, an inverse limit will retain only collections
+of data that agree under all these restrictions.
+\end{definition}
+
+\begin{definition}
+An \emph{inverse limit} of an inverse system is an \(R\)-module
+\[
+\varprojlim_iN_i,
+\]
+together with maps \(\pi_i:\varprojlim_iN_i\to N_i\) satisfying
+\[
+\psi_i^j\pi_j=\pi_i
+\qquad(i\leq j),
+\]
+with the following universal property.  Whenever maps \(g_i:X\to N_i\)
+satisfy \(\psi_i^jg_j=g_i\), there is a unique map
+\[
+u:X\longrightarrow\varprojlim_iN_i
+\]
+for which \(\pi_i u=g_i\) for every \(i\).
+\end{definition}
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+& X \arrow[d,dashed,"u"] \arrow[ddl,bend right=35,"g_i"']
+  \arrow[ddr,bend left=35,"g_j"] & \\
+& \varprojlim_iN_i \arrow[dl,"\pi_i"] \arrow[dr,"\pi_j"'] & \\
+N_i && N_j \arrow[ll,"\psi_i^j"]
+\end{tikzcd}
+\]
+
+\begin{proposition}[Uniqueness of inverse limits]
+Two inverse limits of the same inverse system are uniquely isomorphic by an
+isomorphism commuting with all projections.
+\end{proposition}
+\begin{proof}
+Let \((N,\pi_i)\) and \((N',\pi_i')\) be inverse limits.  The universal
+property of \(N'\), applied to the compatible family \((\pi_i)\), produces a
+unique \(u:N\to N'\) with \(\pi_i'u=\pi_i\).  Similarly there is a unique
+\(v:N'\to N\) with \(\pi_iv=\pi_i'\).  The maps \(vu\) and \(1_N\) have the
+same composites with every \(\pi_i\); uniqueness gives \(vu=1_N\).  The
+same argument gives \(uv=1_{N'}\).
+\end{proof}
+
+\begin{proposition}[Construction of inverse limits]
+Every inverse system of \(R\)-modules has an inverse limit.  It is
+\[
+\varprojlim_{i\in I}N_i=
+\left\{(n_i)\in\prod_{i\in I}N_i:
+\psi_i^j(n_j)=n_i\text{ whenever }i\leq j\right\}.
+\]
+\end{proposition}
+\begin{proof}
+The displayed set is a submodule of the product: the compatibility equations
+are preserved under addition and scalar multiplication.  Its coordinate
+projections are compatible.  A compatible family \(g_i:X\to N_i\) gives the
+map
+\[
+x\longmapsto(g_i(x))_{i\in I}
+\]
+to this submodule, because the assumed equations say precisely that this
+tuple is compatible.  Its \(i\)-th coordinate is \(g_i(x)\), and a map to a
+submodule of a product is determined by its coordinates.  This proves the
+universal property.  Thus a direct limit is a quotient of a direct sum,
+whereas an inverse limit is a compatible submodule of a direct product.
+\end{proof}
+
+\begin{proposition}[Maps induced on inverse limits]
+Suppose \((M_i,\phi_i^j)\) and \((N_i,\psi_i^j)\) are inverse systems and
+maps \(\rho_i:M_i\to N_i\) satisfy
+\[
+\psi_i^j\rho_j=\rho_i\phi_i^j
+\qquad(i\leq j).
+\]
+Then there is a unique map
+\[
+\rho:\varprojlim_iM_i\longrightarrow\varprojlim_iN_i
+\]
+whose \(i\)-th coordinate is \(\rho_i\) applied to the \(i\)-th coordinate.
+\end{proposition}
+\begin{proof}
+For \((m_i)_i\in\varprojlim_iM_i\), the compatibility calculation
+\[
+\psi_i^j\bigl(\rho_j(m_j)\bigr)
+=\rho_i\bigl(\phi_i^j(m_j)\bigr)
+=\rho_i(m_i)
+\]
+shows that \((\rho_i(m_i))_i\) is a compatible tuple.  The asserted formula
+therefore defines \(\rho\); uniqueness follows from the coordinate
+projections.
+\end{proof}
+
+\begin{example}[The \(2\)-adic and profinite integers]
+The inverse limit of the reductions
+\[
+\mathbb Z/2^{n+1}\mathbb Z\longrightarrow\mathbb Z/2^n\mathbb Z
+\]
+is \(\mathbb Z_2\).  An element is a compatible sequence
+\[
+(a_n\bmod2^n)_{n\geq1};
+\]
+the ordinary integer \(5\), for instance, gives
+\((1\bmod2,1\bmod4,5\bmod8,5\bmod16,\ldots)\).  Ordered by divisibility,
+\[
+\widehat{\mathbb Z}=\varprojlim_{n\geq1}\mathbb Z/n\mathbb Z.
+\]
+The former retains only powers of \(2\); the latter retains every modulus.
+\(\mathbb Z_2\) also contains compatible sequences not coming from a
+nonnegative ordinary integer in any fixed finite stage.  For example,
+\[
+(-1\bmod2,\,-1\bmod4,\,-1\bmod8,\,-1\bmod16,\ldots)
+\]
+is compatible and represents \(-1\), while the proposed first two entries
+\[
+(0\bmod2,\ 1\bmod4)
+\]
+cannot occur in a compatible sequence, because \(1\bmod4\) reduces to
+\(1\bmod2\), not to \(0\bmod2\).  Compatibility is therefore a real
+restriction, not merely a way of listing residues.
+\end{example}
+
+\begin{proposition}[Left exactness of inverse limits]
+Inverse limits preserve kernels and hence are left exact, but need not
+preserve surjectivity at the right end.
+\end{proposition}
+\begin{proof}
+In the product description, a compatible family lies in the kernel of an
+induced map exactly when every coordinate lies in the corresponding kernel.
+The same compatibility equations remain, so the kernel is the inverse limit
+of the kernels.  Compatible lifts of a compatible family need not exist,
+which is why right exactness is not claimed.
+\end{proof}
+
+\begin{example}[Stagewise surjections need not lift compatibly]
+For every \(n\geq1\), let \(X_n=\mathbb Z\) with identity transition maps,
+let
+\[
+Y_n=\mathbb Z/2^n\mathbb Z
+\]
+with the reduction maps, and let \(q_n:X_n\to Y_n\) be the quotient map.
+Each \(q_n\) is surjective, and the maps commute with the transitions.  Yet
+\[
+\varprojlim_nX_n\cong\mathbb Z,
+\qquad
+\varprojlim_nY_n\cong\mathbb Z_2,
+\]
+and the induced map \(\mathbb Z\to\mathbb Z_2\) is not surjective.  For
+example, the compatible sequence
+\[
+(1\bmod2,\ 1\bmod4,\ 5\bmod8,\ 5\bmod16,\ 21\bmod32,\ldots)
+\]
+is not the image of an ordinary integer.  Its \(2\)-adic binary expansion has
+infinitely many zeros and ones.  A nonnegative ordinary integer has only
+finitely many nonzero binary digits, whereas a negative ordinary integer has a
+\(2\)-adic binary expansion that is eventually all ones.  Thus compatible
+stagewise lifts need not be selectable simultaneously.
+\end{example}
+
+\begin{remark}[Looking Ahead: the Mittag--Leffler condition]
+The preceding proposition identifies the difficulty with inverse limits: one
+can take compatible kernels coordinatewise, but compatible choices of
+preimages need not exist.  For an inverse system \((M_i,\psi_i^j)\), the
+\emph{Mittag--Leffler condition} says that for every fixed \(i\), there is a
+\(j\geq i\) such that
+\[
+\operatorname{im}(\psi_i^k)=\operatorname{im}(\psi_i^j)
+\qquad\text{for every }k\geq j.
+\]
+In other words, the images inside the fixed earlier module \(M_i\), as seen
+from later and later stages, eventually stabilize.  Surjective transition
+maps satisfy the condition because all these images are \(M_i\).  It also
+holds when each \(M_i\) is finite as a set, since a descending family of
+submodules of a fixed finite module stabilizes; for finite-dimensional vector
+spaces, one may instead use the eventually constant nonincreasing dimensions
+of the images.
+
+Under standard hypotheses, a Mittag--Leffler condition on the kernel system
+in an inverse system of short exact sequences restores surjectivity at the
+right-hand end after taking inverse limits.  It is not needed for the present
+Galois application: restriction maps between finite Galois stages are already
+surjective.  The derived obstruction to exactness is usually denoted
+\(\varprojlim{}^{1}\); its systematic treatment belongs to later homological
+algebra.
+\end{remark}
+
+\section{Topological Preliminaries}
+
+In finite Galois theory the group alone remembers all the relevant
+information.  For an infinite extension, however, one must also remember when
+automorphisms agree on larger and larger finite Galois subextensions.  Topology
+is the concise language for this finite-stage approximation: in the Krull
+topology, two automorphisms are close when they agree on a sufficiently large
+finite Galois field.  We develop only the small amount of topology needed to
+make this statement precise.
+
+\subsection{Basic Point-Set Topology}
+
+\begin{definition}
+A \emph{topology} on a set \(X\) is a collection \(\tau\) of subsets of \(X\)
+such that
+\[
+\varnothing,\ X\in\tau;
+\]
+an arbitrary union of members of \(\tau\) is in \(\tau\); and a finite
+intersection of members of \(\tau\) is in \(\tau\).  The members of \(\tau\)
+are the \emph{open sets}.  A set is \emph{closed} if its complement is open,
+and a \emph{neighborhood} of \(x\in X\) is a set containing an open set that
+contains \(x\).
+\end{definition}
+
+The discrete topology, in which every subset is open, is the important
+example here: every finite Galois group will be given this topology.  At the
+opposite extreme, the indiscrete topology has only \(\varnothing\) and \(X\)
+open.  The usual topology on \(\mathbb R\) is familiar intuition, but no
+analysis on \(\mathbb R\) is needed below.
+
+\begin{definition}
+A collection \(\mathcal B\) of open sets is a \emph{basis} if every open set
+is a union of members of \(\mathcal B\).  A collection of neighborhoods of
+\(x\) is a \emph{neighborhood basis at \(x\)} if every neighborhood of \(x\)
+contains one of its members.  A map \(f:X\to Y\) is \emph{continuous} if
+\(f^{-1}(U)\) is open whenever \(U\) is open.  A bijective continuous map
+whose inverse is continuous is a \emph{homeomorphism}.
+\end{definition}
+
+For \(A\subseteq X\), its \emph{closure} \(\overline A\) is the intersection
+of all closed subsets of \(X\) containing \(A\).  We say that \(A\) is
+\emph{dense} when \(\overline A=X\).  For example, a nonempty subset of a
+finite discrete space is closed, so it is dense exactly when it is the whole
+space.
+
+If \(Y\subseteq X\), the \emph{subspace topology} on \(Y\) declares
+\[
+U\subseteq Y\text{ open}\quad\Longleftrightarrow\quad
+U=Y\cap V\text{ for some open }V\subseteq X.
+\]
+For a family of spaces, the product topology on
+\[
+\prod_{i\in I}X_i
+\]
+has as a basis the sets which restrict only finitely many coordinates to open
+sets and leave every remaining coordinate unrestricted.  Thus a basic
+neighborhood records finite information.  When every \(X_i\) is finite
+discrete, it may simply prescribe the values of finitely many coordinates.
+For example, in
+\[
+\prod_{n\geq1}\mathbb Z/2^n\mathbb Z,
+\]
+the condition
+\[
+a_1=1\bmod2,
+\qquad
+a_2=3\bmod4
+\]
+with all higher coordinates unrestricted is a basic open set of the full
+product.  Compatibility is imposed only after one passes to the inverse-limit
+subspace.
+Inverse limits will be compatible subspaces of precisely such products.
+
+\begin{definition}
+A space is \emph{Hausdorff} if distinct points have disjoint neighborhoods.
+It is \emph{compact} if every open cover has a finite subcover.  A space is
+\emph{connected} if it cannot be written as the union of two disjoint nonempty
+open sets, and \emph{totally disconnected} if every connected subset has at
+most one point.
+\end{definition}
+
+Finite discrete spaces are Hausdorff, compact, and totally disconnected:
+singletons separate points and are open, while an open cover of a finite set
+has an evident finite subcover.
+
+\begin{theorem}[Tychonoff's theorem {\rm(external)}]
+An arbitrary product of compact spaces is compact in the product topology.
+\end{theorem}
+
+\begin{remark}[Foundational scope]
+In standard set theory with the Axiom of Choice, Tychonoff's theorem gives
+compactness for arbitrary products of compact spaces.  In fact, over ZF, this
+full arbitrary-product form is equivalent to the Axiom of Choice.  The present
+notes use it only as an external input for products of finite discrete spaces;
+this is consistent with the earlier use of Zorn's Lemma in the construction of
+algebraic closures.
+\end{remark}
+
+\subsection{Topological Groups}
+
+\begin{definition}
+A \emph{topological group} is a group \(G\) with a topology for which
+\[
+G\times G\longrightarrow G,\qquad (x,y)\longmapsto xy,
+\]
+and
+\[
+G\longrightarrow G,\qquad x\longmapsto x^{-1},
+\]
+are continuous.  A homomorphism of topological groups is \emph{continuous}
+when it is continuous as a map of spaces; a \emph{topological-group
+isomorphism} is a group isomorphism that is also a homeomorphism.
+\end{definition}
+
+\begin{proposition}
+For \(g\in G\), left and right translation,
+\[
+L_g(x)=gx,\qquad R_g(x)=xg,
+\]
+are homeomorphisms of a topological group.  Consequently, the neighborhoods
+of the identity determine all neighborhoods: if \(U\) is a neighborhood of
+\(1\), then \(gU\) is a neighborhood of \(g\).
+\end{proposition}
+\begin{proof}
+The map \(x\mapsto(g,x)\) is continuous, and left translation is its
+composite with multiplication.  Similarly, \(x\mapsto(x,g)\) followed by
+multiplication is right translation.  Their inverse translations are
+\(L_{g^{-1}}\) and \(R_{g^{-1}}\), which are continuous by the same argument.
+The final assertion follows by applying \(L_g\) to a neighborhood of \(1\).
+\end{proof}
+
+\begin{proposition}
+If \(\phi:G\to H\) is a continuous homomorphism and \(H\) is discrete, then
+\(\ker\phi\) is open.  If \(H\) is finite, this kernel has finite index.
+Further, every subgroup with its subspace topology and every product of
+topological groups with coordinatewise operations are topological groups.
+\end{proposition}
+\begin{proof}
+Since \(\{1\}\) is open in a discrete group,
+\[
+\ker\phi=\phi^{-1}(\{1\})
+\]
+is open.  The First Isomorphism Theorem identifies \(G/\ker\phi\) with the
+finite group \(\operatorname{im}\phi\).  The remaining assertions follow by
+restricting the continuous group operations, respectively by checking
+continuity coordinatewise on basic product opens.
+\end{proof}
+
+\subsection{Profinite Groups}
+
+\begin{definition}
+A \emph{profinite group} is an inverse limit of finite discrete groups, with
+the subspace topology inherited from
+\[
+\prod_{i\in I}G_i.
+\]
+The topology says that two elements are close when they have the same image at
+many finite stages.  The next proposition makes this intuition precise in the
+particularly useful form of a neighborhood basis.
+\end{definition}
+
+One may think of a profinite group as an infinite symmetry group observed
+through compatible finite stages.  No single stage sees the entire element,
+but a compatible answer at every stage does.
+The prototype is \(\widehat{\mathbb Z}\): an element gives a residue class
+modulo every positive integer, with all reductions agreeing.  This viewpoint
+is exactly suited to an infinite algebraic extension, whose individual
+elements and automorphisms can be tested on finite subextensions.
+
+\begin{proposition}
+An inverse limit of finite discrete groups is a closed topological subgroup of
+their product.  Consequently every profinite group is compact, Hausdorff, and
+totally disconnected.
+\end{proposition}
+\begin{proof}
+The product is a topological group and is compact by Tychonoff's theorem.  It
+is Hausdorff: distinct points differ in one coordinate, and disjoint open
+neighborhoods in that finite discrete factor pull back to disjoint product
+neighborhoods.  It is totally disconnected for the same clopen-cylinder
+reason: if \(x\ne y\), choose a coordinate where they differ; fixing that
+coordinate to \(x_i\) gives a clopen set containing \(x\) but not \(y\), so
+no connected subset can contain both points.  For \(i\leq j\), define
+\[
+\rho_i^j:\prod_kG_k\longrightarrow G_i\times G_i,
+\qquad
+(g_k)_k\longmapsto\bigl(\psi_i^j(g_j),g_i\bigr).
+\]
+This map is continuous.  The compatibility condition
+\(\psi_i^j(g_j)=g_i\) is the inverse image under \(\rho_i^j\) of the
+diagonal, which is closed because the finite discrete target is Hausdorff.
+Intersecting these closed conditions over all \(i\leq j\) gives the inverse
+limit.  A closed subspace of a compact space is compact, since an open cover
+of it extends by its open complement to an open cover of the ambient space.
+Hausdorffness and total disconnectedness pass to subspaces: separating open
+sets and clopen cylinders may simply be intersected with the subspace.
+\end{proof}
+
+\begin{proposition}[The projection-kernel basis]\label{prop:profinite-open-subgroups}
+Let
+\[
+G=\varprojlim_{i\in I}G_i
+\]
+be a profinite group, indexed by a directed set.  The subgroups
+\[
+\ker(\pi_i)\qquad(i\in I)
+\]
+form a neighborhood basis at the identity.  They are open normal subgroups,
+and every open subgroup has finite index and is closed.
+\end{proposition}
+\begin{proof}
+In the product topology, a basic neighborhood of the identity restricts only
+finitely many coordinates, say those indexed by \(i_1,\ldots,i_r\).  Choose
+\(k\) above all these indices.  Compatibility implies
+\[
+\ker(\pi_k)\subseteq
+\bigcap_{\ell=1}^r\ker(\pi_{i_\ell}),
+\]
+so one projection kernel lies inside the given neighborhood.  Conversely,
+each \(\ker(\pi_i)\) is open because it is the inverse image of the open
+singleton \(\{1\}\subseteq G_i\).  It is normal, and its quotient is a
+subgroup of the finite group \(G_i\).  An open subgroup contains one such
+kernel, hence has finite index.  Its complement is a finite union of its open
+cosets, so it is closed.
+\end{proof}
+
+\begin{example}[The topology of \(\mathbb Z_p\)]
+For a prime \(p\), define
+\[
+\mathbb Z_p=\varprojlim_{n\geq1}\mathbb Z/p^n\mathbb Z
+\]
+using the usual reduction maps.  The projection
+\[
+\mathbb Z_p\longrightarrow\mathbb Z/p^n\mathbb Z
+\]
+has kernel customarily denoted \(p^n\mathbb Z_p\).  Thus
+\[
+p^n\mathbb Z_p\qquad(n\geq1)
+\]
+is a neighborhood basis at \(0\).  In particular, congruence modulo a high
+power of \(p\) is the topological notion of being close in \(\mathbb Z_p\).
+This is the additive prototype for the Krull topology below.
+\end{example}
+
+\section{Infinite Galois Theory}
+
+Let \(E/F\) be algebraic Galois.  Each element of \(E\) lies in a finite
+Galois subextension: take the splitting field in \(E\) of its separable
+minimal polynomial.  If \(K/F\) and \(L/F\) are finite Galois subextensions,
+their \emph{compositum} \(KL\) is the smallest subfield of \(E\) containing
+both.  It is finite over \(F\), separable because it lies in the separable
+extension \(E/F\), and normal because \(K\) and \(L\) are splitting fields
+over \(F\) of finitely many separable polynomials, while \(KL\) is the
+splitting field of the product of those polynomials.  Thus \(KL/F\) is again
+finite Galois and contains both fields.  These subextensions are therefore
+directed by compositum, and
+\[
+E=\bigcup_{K/F\ \mathrm{finite\ Galois}}K.
+\]
+For the running finite-field example, the finite stages inside
+\(\mathbb F_q^{\mathrm{sep}}\) are the fields \(\mathbb F_{q^n}\), ordered
+by divisibility of \(n\).  Restriction from a larger finite field to a smaller
+one is the concrete model for every inverse-limit transition map used below.
+
+\begin{lemma}[Extension to an algebraic closure]\label{lem:closure-auto-extension}
+Let \(L/F\) be algebraic inside a fixed algebraic closure \(\overline F\).
+Every \(F\)-embedding
+\[
+\sigma:L\longrightarrow\overline F
+\]
+extends to an element of \(\operatorname{Aut}_F(\overline F)\).
+\end{lemma}
+\begin{proof}
+The embedding-extension theorem (Theorem~\ref{thm:embedding-extension}) extends \(\sigma\) to an \(F\)-embedding
+\[
+\widetilde\sigma:\overline F\longrightarrow\overline F.
+\]
+Its image is an algebraically closed subfield.  Since \(\overline F/F\) is
+algebraic, \(\overline F/\widetilde\sigma(\overline F)\) is algebraic.  An
+algebraically closed field has no proper algebraic extension: if \(B/A\) is
+algebraic and \(A\) is algebraically closed, then the minimal polynomial over
+\(A\) of any \(\beta\in B\) has a root in \(A\), so irreducibility forces it
+to be linear.  Hence \(\beta\in A\).  Thus
+\(\widetilde\sigma\) is onto, as required.
+\end{proof}
+
+\begin{lemma}[Extension through a normal algebraic extension]
+If \(E/F\) is algebraic and normal and \(L/F\) is an algebraic subextension
+of \(E/F\), every \(F\)-embedding \(L\to\overline F\) that maps \(L\) into
+\(E\) extends to an \(F\)-automorphism of \(E\).  In particular, every
+\(F\)-automorphism of a finite subextension \(L/F\) extends to an
+\(F\)-automorphism of \(E\).
+\end{lemma}
+\begin{proof}
+Extend the given embedding to
+\(\widetilde\sigma\in\operatorname{Aut}_F(\overline F)\) by
+Lemma~\ref{lem:closure-auto-extension}.  If \(x\in E\), then
+\(\widetilde\sigma(x)\) is another root of the minimal polynomial of \(x\)
+over \(F\).  Normality says that all such roots lie in \(E\), so
+\(\widetilde\sigma(E)\subseteq E\).  Applying the same argument to
+\(\widetilde\sigma^{-1}\) gives the reverse inclusion.  Hence
+\(\widetilde\sigma|_E\) is the desired automorphism.
+\end{proof}
+
+\begin{theorem}[Infinite Galois groups as inverse limits]\label{thm:infinite-galois-limit}
+For a Galois extension \(E/F\), restriction induces an isomorphism
+\[
+\operatorname{Gal}(E/F)\cong
+\varprojlim_{K/F\ \mathrm{finite\ Galois}}\operatorname{Gal}(K/F).
+\]
+\end{theorem}
+\begin{proof}
+For \(K\subseteq L\), restriction
+\(\operatorname{Gal}(L/F)\to\operatorname{Gal}(K/F)\) is well-defined and
+surjective by extension through the finite normal extension \(L/F\), and the
+composition law is immediate.
+
+An automorphism of \(E\) gives compatible restrictions.  It is determined by
+them because the finite Galois fields cover \(E\).  Conversely, for a
+compatible family \((\sigma_K)_K\), define \(\sigma(x)=\sigma_K(x)\) at any
+finite Galois stage containing \(x\).  A common larger stage proves this is
+well-defined and respects addition and multiplication.  It fixes \(F\), and
+the compatible inverse family defines its inverse.  Thus it is an
+automorphism of \(E\).
+\end{proof}
+
+\begin{definition}
+The \emph{Krull topology} on \(\operatorname{Gal}(E/F)\) has basic
+neighborhoods of the identity
+\[
+\operatorname{Gal}(E/K),
+\]
+where \(K/F\) is finite Galois.  Their cosets are the other basic open sets.
+\end{definition}
+
+This topology is forced by the finite-stage viewpoint: two automorphisms
+\(\sigma,\tau\) are close when they agree on a large finite Galois
+subextension \(K/F\).  Equivalently,
+\[
+\tau^{-1}\sigma\in\operatorname{Gal}(E/K).
+\]
+Thus the displayed stabilizers are exactly the natural identity
+neighborhoods, and their translates are all other basic neighborhoods.
+They do form a basis: for finite Galois \(K_1/F\) and \(K_2/F\), the
+directedness argument above gives a finite Galois compositum \(K_1K_2/F\),
+and
+\[
+\operatorname{Gal}(E/K_1)\cap\operatorname{Gal}(E/K_2)
+=\operatorname{Gal}(E/K_1K_2).
+\]
+
+Under Theorem~\ref{thm:infinite-galois-limit}, these subgroups are exactly the
+kernels of finite-stage projections.  Thus the Krull topology is the
+inverse-limit topology, the displayed isomorphism is an isomorphism of
+topological groups, and \(\operatorname{Gal}(E/F)\) is profinite.
+Concretely, in the finite-field case a basic neighborhood of the identity
+consists of the automorphisms that fix a prescribed
+\(\mathbb F_{q^n}\).  The topology therefore says that two automorphisms are
+close when their Frobenius powers agree on a sufficiently large finite field.
+
+The infinite correspondence follows the same finite-stage logic as the
+finite theorem, with one new feature: closedness is what guarantees that a
+subgroup is recovered from all of its finite-stage images.  The proof
+first recovers an intermediate field from its stabilizer, then uses the
+finite correspondence at every finite Galois stage, and finally translates
+finiteness and normality into openness and normality of the subgroup.
+In the finite case every subgroup is automatically closed.  In the infinite
+case a nonclosed subgroup can omit automorphisms that its elements approximate
+at every finite stage, so it cannot be recovered from its finite images.
+
+\begin{theorem}[Infinite Galois correspondence]\label{thm:infinite-galois}
+For a Galois extension \(E/F\), the assignments
+\[
+K\longmapsto\operatorname{Gal}(E/K),
+\qquad
+H\longmapsto E^H
+\]
+are inverse inclusion-reversing bijections between intermediate fields and
+closed subgroups of \(\operatorname{Gal}(E/F)\).  Further,
+\[
+K/F\text{ finite}\quad\Longleftrightarrow\quad
+\operatorname{Gal}(E/K)\text{ open},
+\]
+and
+\[
+K/F\text{ Galois}\quad\Longleftrightarrow\quad
+\operatorname{Gal}(E/K)\text{ normal}.
+\]
+Consequently, finite Galois intermediate extensions correspond to open normal
+subgroups.
+\end{theorem}
+\begin{proof}
+For \(\alpha\in E\), choose a finite Galois subextension \(L/F\) containing
+\(\alpha\).  Its point stabilizer contains the open subgroup
+\(\operatorname{Gal}(E/L)\), hence is itself open.  It has finite index and
+is closed by Proposition~\ref{prop:profinite-open-subgroups}.  Therefore, for
+an intermediate \(K\),
+\[
+\operatorname{Gal}(E/K)=\bigcap_{\alpha\in K}\operatorname{Stab}(\alpha)
+\]
+is closed.  We have
+\[
+E^{\operatorname{Gal}(E/K)}=K. \tag{12.2}
+\]
+Indeed, if \(\alpha\notin K\), its minimal polynomial over \(K\) has degree
+larger than one.  The extension \(E/K\) is normal and separable, so that
+polynomial has in \(E\) a second, distinct root \(\beta\).  The map
+\(K(\alpha)\to K(\beta)\) fixing \(K\) and taking \(\alpha\) to \(\beta\)
+extends, by the preceding lemma applied over \(K\), to a \(K\)-automorphism of
+\(E\).  It moves \(\alpha\), proving (12.2).
+
+Let \(H\) be closed, and let \(H_L\) be its image in
+\(\operatorname{Gal}(L/F)\) for a finite Galois \(L/F\).  The field
+\(L^{H_L}\) lies in \(E^H\).  If \(\sigma\) fixes \(E^H\), then
+\(\sigma|_L\) fixes \(L^{H_L}\), so the finite correspondence gives
+\(\sigma|_L\in H_L\).  Thus the image of \(\sigma\) lies in the image of
+\(H\) at every finite stage; equivalently, every basic open neighborhood of
+\(\sigma\) meets \(H\).  Hence \(\sigma\) lies in the closure of \(H\), and so
+in \(H\).  Therefore \(\operatorname{Gal}(E/E^H)=H\), completing the
+correspondence.
+
+If \(K/F\) is finite, then it is separable; by the
+\hyperref[thm:finite-galois-closure]{finite Galois closure theorem} and
+normality of \(E/F\), choose a finite Galois extension \(L/F\) in \(E\)
+containing \(K\).
+Then \(\operatorname{Gal}(E/L)\) is open and is contained in
+\(\operatorname{Gal}(E/K)\).  Conversely, openness supplies a finite Galois
+\(L/F\) with \(\operatorname{Gal}(E/L)\) contained in
+\(\operatorname{Gal}(E/K)\).  Taking fixed fields in (12.2) gives
+\(K\subseteq L\).
+For the normality assertion, write \(G=\operatorname{Gal}(E/F)\) and
+\(H=\operatorname{Gal}(E/K)\).  First observe that
+\[
+\sigma H\sigma^{-1}=\operatorname{Gal}(E/\sigma(K))
+\qquad(\sigma\in G).
+\]
+Indeed, an element on the left fixes \(\sigma(K)\), and the converse follows
+by conjugating back.  If \(K/F\) is Galois, each \(\sigma\in G\) preserves
+\(K\), so this formula gives \(\sigma H\sigma^{-1}=H\).  Conversely, if
+\(H\) is normal, the formula and (12.2) give
+\[
+\sigma(K)=E^{\operatorname{Gal}(E/\sigma(K))}=E^H=K
+\qquad(\sigma\in G).
+\]
+To prove that \(K/F\) is normal, let \(\tau:K\to\overline F\) be an
+\(F\)-embedding.  By Lemma~\ref{lem:closure-auto-extension}, it extends to
+an automorphism \(\widetilde\tau\) of \(\overline F\) fixing \(F\).  Since
+\(E/F\) is normal, \(\widetilde\tau(E)=E\), so its restriction belongs to \(G\).
+The displayed stability of \(K\) therefore yields \(\tau(K)=K\).  Thus
+\(K/F\) is normal; it is separable because it is an intermediate extension
+of the separable extension \(E/F\).  Hence it is Galois.
+\end{proof}
+
+\begin{definition}
+Inside a fixed algebraic closure, \(F^{\mathrm{sep}}\) is the
+\emph{separable closure} of \(F\), and
+\[
+G_F=\operatorname{Gal}(F^{\mathrm{sep}}/F)
+\]
+is its \emph{absolute Galois group}.
+\end{definition}
+
+\begin{theorem}[The absolute Galois group of a finite field]
+Let \(\mathbb F_q^{\mathrm{sep}}\) be a separable closure of \(\mathbb F_q\).
+Then
+\[
+G_{\mathbb F_q}
+\cong
+\varprojlim_{n\geq1}\mathbb Z/n\mathbb Z
+=\widehat{\mathbb Z}
+\]
+as topological groups.  Under this identification, Frobenius
+\[
+\operatorname{Fr}_q:x\longmapsto x^q
+\]
+corresponds to \((1\bmod n)_{n\geq1}\) and is a dense topological generator.
+\end{theorem}
+\begin{proof}
+Every element of \(\mathbb F_q^{\mathrm{sep}}\) has finite degree over
+\(\mathbb F_q\), and hence lies in some \(\mathbb F_{q^n}\).  The finite
+extensions \(\mathbb F_{q^n}\) are directed by divisibility, so
+Theorem~\ref{thm:infinite-galois-limit} gives
+\[
+G_{\mathbb F_q}
+\cong
+\varprojlim_{n\geq1}\operatorname{Gal}(\mathbb F_{q^n}/\mathbb F_q).
+\]
+By Proposition~\ref{prop:frobenius-order}, the \(n\)-th group is cyclic of
+order \(n\), generated by \(\operatorname{Fr}_q\).  Identify it with
+\(\mathbb Z/n\mathbb Z\) by sending the class of \(a\) to
+\(\operatorname{Fr}_q^a\).  If \(n\mid m\), restriction from
+\(\mathbb F_{q^m}\) to \(\mathbb F_{q^n}\) sends
+\(\operatorname{Fr}_q^a\) to \(\operatorname{Fr}_q^a\), which is exactly
+the reduction map
+\[
+\mathbb Z/m\mathbb Z\longrightarrow\mathbb Z/n\mathbb Z.
+\]
+The resulting inverse limit is \(\widehat{\mathbb Z}\).  Frobenius maps to
+the compatible family \((1\bmod n)_n\).  Its cyclic subgroup maps onto every
+finite quotient \(\mathbb Z/n\mathbb Z\), so it meets every basic open coset;
+the projection-kernel basis in Proposition~\ref{prop:profinite-open-subgroups}
+therefore shows that it is dense.
+\end{proof}
+
+Here dense generator is deliberately topological language.  Frobenius does
+not generate \(\widehat{\mathbb Z}\) as an abstract cyclic group; rather, the
+ordinary cyclic subgroup generated by Frobenius is dense in
+\(\widehat{\mathbb Z}\).
+
+Under this identification,
+\[
+\operatorname{Gal}(\mathbb F_q^{\mathrm{sep}}/\mathbb F_{q^n})
+\]
+corresponds to
+\[
+\ker\bigl(\widehat{\mathbb Z}\longrightarrow\mathbb Z/n\mathbb Z\bigr)
+=n\widehat{\mathbb Z},
+\]
+the unique open subgroup of index \(n\); its uniqueness also follows from the
+infinite Galois correspondence together with the uniqueness of the degree-
+\(n\) extension \(\mathbb F_{q^n}/\mathbb F_q\).  Thus the finite fields,
+Frobenius, inverse limits, and the open-subgroup part of the infinite Galois
+correspondence meet in one explicit example.
+
+\section{Further Topics in Algebra}
+
+This final section is orientation rather than prerequisite material.  Its aim
+is to show how the four viewpoints developed in these notes become the common
+language of later algebra.  The universal properties of free objects,
+quotients, tensor products, and limits encountered throughout these notes are
+organized systematically by category theory, whose formal development belongs
+to later study.
+
+\subsection{Groups, Actions, and Linear Algebra}
+
+At its most elementary, a representation of a group \(G\) is a homomorphism
+\[
+G\longrightarrow\operatorname{GL}(V).
+\]
+Thus representation theory combines group theory with linear algebra.
+Actions from Part~I are actions on sets; representations are the especially
+structured case in which the set is a vector space.  Invariant subspaces,
+irreducible representations, characters, and induction and restriction
+organize this richer form of symmetry.
+
+Normal subgroups, quotients, semidirect products, and exact sequences lead to
+the study of group extensions.  Group cohomology later organizes extension
+and obstruction questions.  Groups also arise outside algebra: fundamental
+groups, covering spaces, and deck transformations make group actions central
+in algebraic topology.  Matrix groups, Lie groups, and Lie algebras are a
+further meeting point of group theory and linear algebra.
+
+\subsection{Rings, Local Structure, and Geometry}
+
+Part~II is the entry point to commutative algebra.  Ideals, localization,
+polynomial rings, prime and maximal ideals, and modules lead onward to
+Noetherian rings, primary decomposition, integral dependence, Krull
+dimension, completions, and local algebra.  Localization deserves special
+emphasis: it is algebraic zooming-in near a prime ideal.
+
+Affine algebraic geometry studies spaces encoded by commutative rings.
+Informally, \(\operatorname{Spec}(R)\) has prime ideals as points;
+localization describes what is visible near a point, residue fields record
+its scalar data, and modules supply algebraic analogues of geometric linear
+data.  Scheme theory systematically combines rings, localization, modules,
+tensor products, and field extensions.
+
+\subsection{Modules, Exactness, and Multilinear Algebra}
+
+Exact sequences, projective and injective modules, flatness, Hom, tensor
+products, and direct and inverse limits form the starting vocabulary of
+homological algebra.  Projective and injective resolutions, \(\operatorname{Tor}\),
+\(\operatorname{Ext}\), derived functors, and spectral sequences are later
+tools built from this vocabulary.  The Mittag--Leffler remark and the symbol
+\(\varprojlim{}^1\) are early signals of that theory.
+
+Tensor products, dual spaces, exterior powers, and alternating forms also
+lead to differential geometry: they organize differential forms, orientation,
+volume forms, and tangent and cotangent spaces.  No manifold theory is needed
+to recognize this continuation.
+
+\subsection{Fields, Arithmetic, and Galois Symmetry}
+
+Finite extensions of \(\mathbb Q\) lead to number fields.  Their rings of
+algebraic integers, ideals in Dedekind domains, factorization of prime ideals,
+ramification, and decomposition and inertia groups combine the themes of
+rings, localization, field extensions, and Galois groups.  The present notes
+also deliberately stop before the full solvability-by-radicals theorem;
+Kummer theory is a natural next step when suitable roots of unity are present.
+
+Absolute Galois groups act on algebraic objects, and Galois cohomology later
+organizes these actions in field arithmetic, descent, and number theory.
+Continuous homomorphisms
+\[
+G_F\longrightarrow\operatorname{GL}_n(R)
+\]
+for suitable topological coefficient rings are Galois representations, a
+major meeting point of Galois theory, representation theory, and topology.
+Algebraic geometry has a parallel profinite fundamental group: finite
+\'etale covers play the role of finite covering spaces.  Differential Galois
+theory and covering-space Galois theory offer further variants of the same
+symmetry principle.
+
+\subsection{A Synthesis}
+
+\[
+\begin{array}{rcl}
+\text{Groups} &\longrightarrow& \text{symmetry and actions},\\
+\text{Rings} &\longrightarrow& \text{arithmetic and local structure},\\
+\text{Modules} &\longrightarrow& \text{linearized algebra and exactness},\\
+\text{Fields} &\longrightarrow& \text{algebraic equations and Galois symmetry}.
+\end{array}
+\]
+Later subjects arise by combining these viewpoints: representation theory is
+groups plus linear algebra; homological algebra is modules plus exact
+sequences and Hom/tensor; algebraic geometry is commutative rings plus
+localization, modules, and field extensions; algebraic number theory is rings
+plus fields and Galois theory; and arithmetic geometry joins algebraic
+geometry, number theory, and Galois representations.  These are conceptual
+slogans, not formal identities.  The recurring methods of the notes---quotient,
+localization, universal property, action, kernel and image, exact sequence,
+tensor construction, passage to finite stages, and symmetry---continue to
+reappear throughout advanced mathematics.
+
+\section*{Exercises}
+\subsection*{Basic}
+\begin{exercise}[Basic] Prove directly that the fixed set of field
+automorphisms is a field.
+\end{exercise}
+\begin{exercise}[Basic] Verify Artin independence for the two embeddings of
+\(\mathbb Q(\sqrt2)\) in \(\mathbb C\).
+\end{exercise}
+\begin{exercise}[Basic] Determine the correspondence for
+\(\mathbb Q(\sqrt2,\sqrt3)/\mathbb Q\).
+\end{exercise}
+\begin{exercise}[Basic] Compute the direct limit of
+\(\mathbb Z\xrightarrow{\times3}\mathbb Z\xrightarrow{\times3}\cdots\).
+\end{exercise}
+\begin{exercise}[Basic] Describe the compatible sequence in \(\mathbb Z_2\)
+associated with each of \(-1,0,1,2\).
+\end{exercise}
+\begin{exercise}[Basic] Prove that every discrete space is Hausdorff, and
+describe a basic open set in a product of finite discrete spaces.
+\end{exercise}
+
+\subsection*{Core}
+\begin{exercise}[Core] Reprove Lemma~\ref{lem:artin-independence} using any
+chosen pair of distinct embeddings.
+\end{exercise}
+\begin{exercise}[Core] List all subgroup-field pairs in the splitting field
+of \(X^3-2\), including their degrees.
+\end{exercise}
+\begin{exercise}[Core] Work out the correspondence for
+\(\mathbb Q(\zeta_5)/\mathbb Q\), including normality.
+\end{exercise}
+\begin{exercise}[Core] Prove the equality criterion in
+Proposition~\ref{prop:direct-limit-elements} from the quotient construction.
+\end{exercise}
+\begin{exercise}[Core] Use the element criteria to prove exactness for a
+specified directed system of short exact sequences.
+\end{exercise}
+\begin{exercise}[Core] Give an inverse system for which surjectivity at each
+stage does not give surjectivity on inverse limits.
+\end{exercise}
+\begin{exercise}[Core] Show that projection kernels form a neighborhood basis
+in a profinite group.
+\end{exercise}
+\begin{exercise}[Core] Prove that the kernel of a continuous homomorphism to a
+discrete group is open, and use translations to describe its cosets as open
+sets.
+\end{exercise}
+\begin{exercise}[Core] Verify directly the gluing step in
+Theorem~\ref{thm:infinite-galois-limit}.
+\end{exercise}
+\begin{exercise}[Core] Give a direct alternative proof that
+\(\operatorname{Gal}(E/K)\) is closed in the Krull topology.
+\end{exercise}
+\begin{exercise}[Core] Show that an open subgroup of a profinite group has
+finite index.
+\end{exercise}
+
+\subsection*{Further}
+\begin{exercise}[Further] Prove the root-of-unity radical proposition in full
+for a single radical step.
+\end{exercise}
+\begin{exercise}[Further] Use the degree obstruction to show that a regular
+heptagon is not straightedge-and-compass constructible.
+\end{exercise}
+\begin{exercise}[Further] Show that \(\widehat{\mathbb Z}\) maps onto
+\(\mathbb Z/n\mathbb Z\) for every \(n>0\).
+\end{exercise}
+\begin{exercise}[Further] Prove surjectivity of restriction from an infinite
+Galois group to a finite Galois stage.
+\end{exercise}
+\begin{exercise}[Further] Let \(E/F\) be Galois and let \(K/F\) be finite.
+Choose a finite Galois extension \(L/F\) in \(E\) containing \(K\).  Use the
+finite correspondence in \(L/F\) to decide when
+\(\operatorname{Gal}(E/K)\) is normal in \(\operatorname{Gal}(E/F)\).
+\end{exercise}
+
+\subsection*{Looking Ahead}
+\begin{exercise}[Looking Ahead] For \(n\mid m\), verify that the restriction
+map
+\[
+\operatorname{Gal}(\mathbb F_{q^m}/\mathbb F_q)
+\longrightarrow
+\operatorname{Gal}(\mathbb F_{q^n}/\mathbb F_q)
+\]
+corresponds, under the Frobenius generators, to reduction
+\[
+\mathbb Z/m\mathbb Z\longrightarrow\mathbb Z/n\mathbb Z.
+\]
+\end{exercise}
+\begin{exercise}[Looking Ahead] Explain why finite separable subextensions of
+\(F^{\mathrm{sep}}/F\) correspond to open subgroups of \(G_F\).
+\end{exercise}

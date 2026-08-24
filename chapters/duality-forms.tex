@@ -1,0 +1,386 @@
+\section{Dual Spaces and Dual Maps}\label{sec:dual-spaces}
+Coordinates record a vector after a basis has been chosen.  There is another
+useful way to probe a vector: apply every scalar-valued linear measurement to
+it.  This viewpoint is intrinsic, and it is the starting point for
+bilinear forms and alternating forms.
+
+\begin{definition}
+A \emph{linear functional} on an \(F\)-vector space \(V\) is a linear map
+\(\varphi:V\to F\).  The \emph{algebraic dual space} of \(V\) is
+\[
+V^\vee=\operatorname{Hom}_F(V,F).
+\]
+\end{definition}
+
+The notation \(V^\vee\) is deliberately different from the notation
+\(T^*\) used for the inner-product adjoint in Chapter~8.  The construction
+below is algebraic and requires no inner product.
+
+\begin{proposition}[Dual basis]\label{prop:dual-basis}
+Let \(\beta=(v_1,\ldots,v_n)\) be an ordered basis of a finite-dimensional
+vector space \(V\).  There are unique linear functionals
+\[
+v_i^\vee:V\longrightarrow F
+\]
+such that
+\[
+v_i^\vee(v_j)=\delta_{ij}.
+\]
+Moreover,
+\[
+\beta^\vee=(v_1^\vee,\ldots,v_n^\vee)
+\]
+is a basis of \(V^\vee\).  In particular,
+\[
+\dim_FV^\vee=\dim_FV.
+\]
+\end{proposition}
+\begin{proof}
+For
+\[
+v=\sum_{j=1}^na_jv_j,
+\]
+define \(v_i^\vee(v)=a_i\).  The uniqueness of basis coordinates proves
+that this is well-defined and linear, and gives the displayed values.
+If
+\[
+\sum_{i=1}^nc_iv_i^\vee=0,
+\]
+evaluation at \(v_j\) gives \(c_j=0\), so the functionals are independent.
+For \(\varphi\in V^\vee\), linearity gives
+\[
+\varphi=\sum_{i=1}^n\varphi(v_i)v_i^\vee.
+\]
+Thus they span and form a basis.
+\end{proof}
+
+Consequently \(V\) and \(V^\vee\) are isomorphic when \(V\) is
+finite-dimensional, but this proof used the chosen basis.  In general there
+is no preferred isomorphism
+\[
+V\cong V^\vee.
+\]
+An inner product can supply one, but that is additional structure.
+
+\begin{definition}
+For a linear map
+\[
+T:V\longrightarrow W,
+\]
+its \emph{dual map}, also called its algebraic transpose, is
+\[
+T^\vee:W^\vee\longrightarrow V^\vee,
+\qquad
+T^\vee(\varphi)=\varphi\circ T.
+\]
+\end{definition}
+
+The direction reverses because a measurement on \(W\) can be pulled back
+along \(T\) to a measurement on \(V\).
+
+\begin{proposition}[Functorial identities and transpose matrix]
+For linear maps \(T:V\to W\) and \(S:W\to U\),
+\[
+(\operatorname{id}_V)^\vee=\operatorname{id}_{V^\vee},
+\qquad
+(S\circ T)^\vee=T^\vee\circ S^\vee.
+\]
+If \(\beta\) and \(\gamma\) are ordered bases of \(V\) and \(W\), then
+\[
+[T^\vee]^{\beta^\vee}_{\gamma^\vee}
+=\left([T]^\gamma_\beta\right)^t.
+\]
+\end{proposition}
+\begin{proof}
+For \(\varphi\in V^\vee\),
+\[
+(\operatorname{id}_V)^\vee(\varphi)
+=\varphi\circ\operatorname{id}_V=\varphi.
+\]
+Likewise, for \(\psi\in U^\vee\),
+\[
+(S\circ T)^\vee(\psi)
+=\psi\circ S\circ T
+=T^\vee(S^\vee(\psi)).
+\]
+Write
+\[
+T(v_j)=\sum_{i=1}^ma_{ij}w_i,
+\qquad
+[T]^\gamma_\beta=(a_{ij}).
+\]
+For the \(i\)-th dual basis vector of \(W^\vee\),
+\[
+T^\vee(w_i^\vee)(v_j)=w_i^\vee(T(v_j))=a_{ij}.
+\]
+Hence
+\[
+T^\vee(w_i^\vee)=\sum_{j=1}^na_{ij}v_j^\vee.
+\]
+Its matrix therefore has \((j,i)\)-entry \(a_{ij}\), which is the transpose
+of the matrix of \(T\).
+\end{proof}
+
+\begin{definition}
+The \emph{evaluation map} is
+\[
+\iota_V:V\longrightarrow V^{\vee\vee},
+\qquad
+\iota_V(v)(\varphi)=\varphi(v).
+\]
+\end{definition}
+
+\begin{proposition}[Double dual]\label{prop:double-dual}
+The evaluation map \(\iota_V\) is linear and injective.  If \(V\) is
+finite-dimensional, it is an isomorphism.
+\end{proposition}
+\begin{proof}
+For \(a,b\in F\), \(v,w\in V\), and \(\varphi\in V^\vee\),
+\[
+\iota_V(av+bw)(\varphi)
+=\varphi(av+bw)
+=a\iota_V(v)(\varphi)+b\iota_V(w)(\varphi),
+\]
+so \(\iota_V\) is linear.  If \(v\ne0\), extend \(v\) to a basis and take
+the corresponding first coordinate functional.  It does not vanish on
+\(v\), so \(\iota_V(v)\ne0\).  Thus \(\iota_V\) is injective.  In finite
+dimension, Proposition~\ref{prop:dual-basis} gives
+\[
+\dim V^{\vee\vee}=\dim V,
+\]
+so an injective map between these finite-dimensional spaces is surjective.
+\end{proof}
+
+Thus finite-dimensional vector spaces have a canonical isomorphism
+\[
+V\cong V^{\vee\vee},
+\]
+even though an isomorphism with the first dual is usually noncanonical.
+
+\begin{definition}
+For a subspace \(W\leq V\), its \emph{annihilator} is
+\[
+W^\circ=\{\varphi\in V^\vee:\varphi(w)=0\text{ for every }w\in W\}.
+\]
+\end{definition}
+
+\begin{proposition}
+If \(V\) is finite-dimensional, then
+\[
+\dim W^\circ=\dim V-\dim W.
+\]
+\end{proposition}
+\begin{proof}
+Choose a basis \(w_1,\ldots,w_r\) of \(W\) and extend it to a basis
+\[
+(w_1,\ldots,w_r,u_1,\ldots,u_s)
+\]
+of \(V\).  Its dual basis shows that \(W^\circ\) has basis
+\[
+(u_1^\vee,\ldots,u_s^\vee).
+\]
+Since \(r+s=\dim V\), the result follows.
+\end{proof}
+
+\section{Bilinear and Quadratic Forms}\label{sec:bilinear-quadratic-forms}
+Duality turns a vector into a linear measurement.  A bilinear form instead
+assigns a scalar to an ordered pair of vectors, linearly in each argument.
+This is the algebraic framework behind dot products, but it does not include
+positivity or conjugation.
+
+\begin{definition}
+A \emph{bilinear form} on an \(F\)-vector space \(V\) is a map
+\[
+B:V\times V\longrightarrow F
+\]
+that is linear in each variable.  It is \emph{symmetric} if
+\[
+B(x,y)=B(y,x),
+\]
+\emph{skew-symmetric} if
+\[
+B(x,y)=-B(y,x),
+\]
+and \emph{alternating} if
+\[
+B(v,v)=0
+\qquad(v\in V).
+\]
+\end{definition}
+
+Every alternating bilinear form is skew-symmetric, by expanding
+\[
+0=B(x+y,x+y).
+\]
+Conversely, a skew-symmetric form is alternating only when the
+characteristic is not \(2\).  This distinction is essential in
+characteristic \(2\).
+
+\begin{proposition}[Matrix and congruence]\label{prop:bilinear-matrix}
+For an ordered basis \(\beta=(v_1,\ldots,v_n)\), put
+\[
+[B]_\beta=(B(v_i,v_j)).
+\]
+Then
+\[
+B(x,y)=[x]_\beta^t[B]_\beta[y]_\beta.
+\]
+If
+\[
+P=[I_V]^\beta_{\beta'},
+\]
+so that
+\[
+[x]_\beta=P[x]_{\beta'},
+\]
+then
+\[
+[B]_{\beta'}=P^t[B]_\beta P.
+\]
+\end{proposition}
+\begin{proof}
+Write
+\[
+x=\sum_i a_iv_i,
+\qquad
+y=\sum_j b_jv_j.
+\]
+By bilinearity,
+\[
+B(x,y)=\sum_{i,j}a_iB(v_i,v_j)b_j,
+\]
+which is the stated matrix product.  The columns of \(P\) are the
+\(\beta\)-coordinates of the vectors of \(\beta'\).  Substitution of
+\[
+[x]_\beta=P[x]_{\beta'},
+\qquad
+[y]_\beta=P[y]_{\beta'}
+\]
+into the coordinate formula gives
+\[
+B(x,y)
+=[x]_{\beta'}^tP^t[B]_\beta P[y]_{\beta'},
+\]
+and uniqueness of a matrix representing the form in \(\beta'\) proves the
+claim.
+\end{proof}
+
+This is \emph{congruence}, not similarity.  For an operator, one input is
+converted into output coordinates and change of basis gives
+\[
+[T]_{\beta'}=P^{-1}[T]_\beta P.
+\]
+A bilinear form has two vector inputs, so both coordinates are substituted
+and the formula has \(P^t\) on the left instead.
+
+\begin{definition}
+The \emph{left radical} and \emph{right radical} of \(B\) are, respectively,
+\[
+\operatorname{rad}_L(B)
+=\{v\in V:B(v,w)=0\text{ for every }w\in V\},
+\]
+\[
+\operatorname{rad}_R(B)
+=\{w\in V:B(v,w)=0\text{ for every }v\in V\}.
+\]
+For a general bilinear form these are conceptually distinct.  The associated
+linear maps are
+\[
+\Phi_B:V\longrightarrow V^\vee,
+\qquad
+\Phi_B(v)=B(v,-).
+\]
+and
+\[
+\Psi_B:V\longrightarrow V^\vee,
+\qquad
+\Psi_B(w)=B(-,w).
+\]
+\end{definition}
+
+\begin{proposition}[Nondegeneracy criterion]
+For a finite-dimensional vector space, the following are equivalent:
+\begin{enumerate}
+\item \(\operatorname{rad}_L(B)=\{0\}\);
+\item \(\operatorname{rad}_R(B)=\{0\}\);
+\item \([B]_\beta\) is invertible for one, equivalently every, basis
+\(\beta\).
+\end{enumerate}
+When these conditions hold, \(B\) is called \emph{nondegenerate}.
+\end{proposition}
+\begin{proof}
+By their definitions,
+\[
+\ker\Phi_B=\operatorname{rad}_L(B),
+\qquad
+\ker\Psi_B=\operatorname{rad}_R(B).
+\]
+In the basis \(\beta\) and its dual, the matrices of these maps are
+\[
+[\Phi_B]_{\beta}^{\beta^\vee}=[B]_\beta^t,
+\qquad
+[\Psi_B]_{\beta}^{\beta^\vee}=[B]_\beta.
+\]
+Indeed, the \(j\)-th coordinate of \(\Phi_B(v_i)\) is \(B(v_i,v_j)\),
+whereas that of \(\Psi_B(v_i)\) is \(B(v_j,v_i)\).  Thus either map is
+injective exactly when \([B]_\beta\) is invertible.  Since
+\[
+\dim V=\dim V^\vee,
+\]
+injectivity is equivalent to bijectivity for both maps.  Finally, the
+congruence formula in Proposition~\ref{prop:bilinear-matrix} shows that
+matrix invertibility is independent of the chosen basis.
+\end{proof}
+
+For a symmetric bilinear form, \(B(v,w)=B(w,v)\), so the two radicals
+coincide.  In that case we write their common value as \(\operatorname{rad}(B)\).
+
+\begin{definition}
+Assume \(\operatorname{char}F\ne2\).  A quadratic form associated with a
+symmetric bilinear form \(B\) is
+\[
+q(v)=B(v,v).
+\]
+\end{definition}
+
+The form can be recovered from its quadratic function by polarization:
+\[
+B(x,y)
+=\frac12\bigl(q(x+y)-q(x)-q(y)\bigr).
+\]
+Characteristic \(2\) requires a separate theory: a quadratic form must not
+there be identified blindly with a symmetric bilinear form.
+
+\begin{theorem}[Diagonalization of symmetric bilinear forms]
+Suppose that \(\operatorname{char}F\ne2\).  Every symmetric bilinear form on
+a finite-dimensional \(F\)-vector space has a basis in which its matrix is
+diagonal.  Equivalently, its quadratic form has coordinates
+\[
+q(x_1,\ldots,x_n)=a_1x_1^2+\cdots+a_nx_n^2.
+\]
+\end{theorem}
+\begin{proof}
+Induct on \(\dim V\).  If \(B=0\), there is nothing to prove.  Otherwise
+some \(v\) satisfies \(B(v,v)\ne0\): if every such value were zero, then
+polarization would give \(B=0\).  Let
+\[
+W=\{w\in V:B(v,w)=0\}.
+\]
+For \(x\in V\),
+\[
+x=\frac{B(x,v)}{B(v,v)}v+
+\left(x-\frac{B(x,v)}{B(v,v)}v\right),
+\]
+and the parenthesized vector lies in \(W\).  Thus
+\[
+V=Fv\oplus W.
+\]
+The restriction of \(B\) to \(W\) is symmetric, so induction supplies a
+diagonalizing basis of \(W\); adjoining \(v\) gives the desired basis.
+\end{proof}
+
+Over \(\mathbb R\), inner products are precisely positive-definite symmetric
+bilinear forms.  Over \(\mathbb C\), the inner products of Chapter~8 are
+Hermitian: they are linear in the first variable and conjugate-linear in the
+second.  Thus Chapter~8 is not merely the complex special case of this
+bilinear discussion.

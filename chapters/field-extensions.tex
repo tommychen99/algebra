@@ -1,0 +1,708 @@
+\chapter{Field Extensions}
+
+Many equations require a larger field before they can be solved:
+\(\mathbb Q(\sqrt2)\) contains a root of \(x^2-2\), and \(\mathbb C\)
+contains a root of \(x^2+1\) over \(\mathbb R\).  Extensions also let us
+place several related quantities in a single field and, later, enlarge the
+scalars on which a vector space is considered.  This chapter makes adjoining
+elements precise and establishes the results on which separability and Galois
+theory later depend.
+
+\section{Extensions and Degree}
+The vector-space language developed in Chapter~6 is therefore immediately
+available: once \(F\subseteq E\), scalar multiplication by elements of \(F\)
+makes \(E\) into an \(F\)-vector space, and degree is simply its dimension.
+For instance, the common field \(\mathbb Q(\sqrt2,\sqrt3)\) is where the two
+square roots can be added and multiplied while still retaining
+\(\mathbb Q\) as the base field.
+
+\begin{definition}
+An \emph{extension field} \(E/F\), written \(F\subseteq E\), is a field
+\(E\) containing \(F\) as a subfield.  Then \(E\) is an \(F\)-vector space.
+Its \emph{degree} is
+\[
+[E:F]=\dim_F E.
+\]
+The extension is \emph{finite} when this dimension is finite.
+\; If
+\[
+F\subseteq K\subseteq E,
+\]
+then \(K\) is an \emph{intermediate field} of \(E/F\).
+\end{definition}
+
+This definition deliberately reuses familiar linear algebra.  The field
+operations in \(E\) are richer than vector-space operations, but the smaller
+field \(F\) may still be used as a field of scalars.  Thus the degree measures
+how many independent \(F\)-directions must be added in passing from \(F\) to
+\(E\).  For example,
+\[
+[\mathbb Q(\sqrt2):\mathbb Q]=2,
+\qquad
+[\mathbb C:\mathbb R]=2,
+\]
+with bases \(1,\sqrt2\) and \(1,i\), respectively.  For elements in a common
+ambient field, \(F(S)\) denotes the smallest subfield containing \(F\cup S\).
+The inclusion \(\mathbb Q\subseteq\mathbb R\), by contrast, has infinite
+degree: no finite list of real numbers spans all of \(\mathbb R\) over
+\(\mathbb Q\).  The degree is therefore a genuine measure of the amount of
+new scalar information in the extension, not merely a count of symbols.
+The infinite extension \(F(t)/F\), formed by adjoining an indeterminate, will
+appear in \S10.2; its powers \(1,t,t^2,\ldots\) cannot fit into any finite
+basis.
+
+The Tower Law is the numerical bookkeeping principle for successive
+adjunctions.  It says that a basis for the top field is obtained by first
+choosing coordinates over the middle field and then expanding each of those
+coordinates over the base field.
+
+\begin{theorem}[Tower Law]\label{thm:tower-law}
+If
+\[
+F\subseteq E\subseteq L
+\]
+and \([E:F]\), \([L:E]\) are finite, then
+\[
+[L:F]=[L:E][E:F].
+\]
+\end{theorem}
+\begin{proof}
+Let \(e_1,\ldots,e_m\) be an \(F\)-basis of \(E\) and
+\(u_1,\ldots,u_n\) an \(E\)-basis of \(L\).  The products \(e_i u_j\) span:
+expand first in the \(u_j\), then expand each coefficient in the \(e_i\).
+If
+\[
+\sum_{i,j}c_{ij}e_i u_j=0,
+\]
+then grouping by \(u_j\) and using their independence gives
+\[
+\sum_i c_{ij}e_i=0
+\]
+for each \(j\).  Independence of the \(e_i\) makes all \(c_{ij}\) zero.
+Thus the products are a basis of size \(mn\).
+\end{proof}
+
+\begin{corollary}
+If \(F\subseteq E\subseteq L\) and \([L:F]\) is finite, then
+\([E:F]\) divides \([L:F]\).  In particular, a prime-degree extension has
+no proper intermediate field.
+\end{corollary}
+\begin{proof}
+Apply the Tower Law and factor the prime integer \([L:F]\).
+\end{proof}
+
+\section{Algebraic and Transcendental Elements}
+\begin{definition}
+For an extension \(E/F\) and \(\alpha\in E\), the element \(\alpha\) is
+\emph{algebraic over \(F\)} if \(f(\alpha)=0\) for some nonzero
+\(f\in F[x]\); otherwise it is \emph{transcendental}.  The extension is
+\emph{algebraic} when each of its elements is algebraic.
+\end{definition}
+
+The evaluation homomorphism
+\[
+\operatorname{ev}_\alpha:F[x]\longrightarrow E,
+\qquad
+f\longmapsto f(\alpha)
+\]
+collects all relations on \(\alpha\).  If \(\alpha\) is algebraic, its
+nonzero kernel has a unique monic generator, the \emph{minimal polynomial}
+\(m_{\alpha,F}\).
+
+Thus the minimal polynomial is not an arbitrary equation satisfied by
+\(\alpha\): it is the irreducible relation of least degree, and it records
+exactly the algebraic information lost when the indeterminate \(x\) is
+replaced by \(\alpha\).  The next proposition explains why every other
+polynomial relation is a consequence of this one.
+
+\begin{proposition}[Minimal-polynomial properties]\label{thm:minimal-polynomial}
+The minimal polynomial \(m_{\alpha,F}\) is irreducible and divides every
+polynomial in \(F[x]\) which vanishes at \(\alpha\).
+\end{proposition}
+\begin{proof}
+If \(m=gh\), then \(g(\alpha)h(\alpha)=0\), so one factor belongs to the
+evaluation kernel.  Minimal positive degree forces the other factor to be a
+unit.  For a polynomial \(f\) vanishing at \(\alpha\), divide by \(m\):
+\[
+f=qm+r,
+\qquad
+\deg r<\deg m.
+\]
+Then \(r(\alpha)=0\), so \(r=0\) by minimality.
+\end{proof}
+
+\begin{definition}
+\(F[\alpha]\) is the subring consisting of polynomial expressions in
+\(\alpha\), while \(F(\alpha)\) is the smallest subfield containing \(F\)
+and \(\alpha\).
+\end{definition}
+
+\begin{theorem}[Simple algebraic extensions]\label{thm:simple-algebraic}
+If \(\alpha\) is algebraic and \(d=\deg m_{\alpha,F}\), then
+\[
+F[\alpha]\cong F[x]/(m_{\alpha,F})=F(\alpha).
+\]
+The elements
+\[
+1,\alpha,\ldots,\alpha^{d-1}
+\]
+are an \(F\)-basis of \(F(\alpha)\), so
+\[
+[F(\alpha):F]=d.
+\]
+\end{theorem}
+\begin{proof}
+Evaluation and the First Isomorphism Theorem give the quotient.  Since the
+minimal polynomial is irreducible, that quotient is a field, and therefore
+\(F[\alpha]=F(\alpha)\).  Division by the minimal polynomial gives spanning
+by the displayed powers.  A relation among them is a smaller nonzero
+polynomial in the evaluation kernel, which is impossible.
+\end{proof}
+
+\begin{example}[Two square roots]\label{ex:two-square-roots}
+The simple-extension theorem now lets us complete the calculation suggested
+in \S10.1.  The polynomial \(x^2-3\) has no root in
+\(\mathbb Q(\sqrt2)\).  Indeed, every element of this field has the form
+\(a+b\sqrt2\) with \(a,b\in\mathbb Q\).  If
+\[
+(a+b\sqrt2)^2=3,
+\]
+comparison of the rational and \(\sqrt2\) parts gives
+\[
+a^2+2b^2=3,
+\qquad
+2ab=0.
+\]
+If \(a=0\), then \(b^2=3/2\), impossible in \(\mathbb Q\); if \(b=0\), then
+\(a^2=3\), also impossible in \(\mathbb Q\).  Thus \(x^2-3\) is
+irreducible over \(\mathbb Q(\sqrt2)\), so it is the minimal polynomial of
+\(\sqrt3\) over that field.  The theorem gives
+\[
+[\mathbb Q(\sqrt2,\sqrt3):\mathbb Q(\sqrt2)]=2.
+\]
+The Tower Law therefore yields
+\[
+[\mathbb Q(\sqrt2,\sqrt3):\mathbb Q]
+=2\cdot2=4.
+\]
+This is the first synthesis of irreducibility, minimal polynomials, simple
+extension degree, and the Tower Law.  A second square root increases the
+degree precisely when it was absent from the first extension.
+\end{example}
+
+\begin{proposition}[The transcendental case]
+If \(t\) is transcendental over \(F\), then
+\[
+F[t]\cong F[x],
+\qquad
+F(t)\cong F(x).
+\]
+In particular \(F(t)/F\) is infinite.
+\end{proposition}
+\begin{proof}
+The evaluation kernel is zero.  Passing from the polynomial ring to its
+field of fractions gives the second isomorphism, and the powers of \(t\) are
+linearly independent over \(F\).
+\end{proof}
+
+The algebraic and transcendental cases have opposite shapes.  An algebraic
+element has a power that can be reduced to a combination of finitely many
+earlier powers, whereas the powers of a transcendental element never satisfy
+such a relation.  Passing from \(F[t]\) to \(F(t)\) adds fractions, just as
+passing from \(\mathbb Z\) to \(\mathbb Q\) adds quotients; it does not create
+a polynomial relation for \(t\).
+\[
+\begin{array}{c|c|c}
+& \text{algebraic }\alpha & \text{transcendental }t\\ \hline
+\text{polynomial relations} & \text{generated by }m_{\alpha,F} & \text{none}\\
+\text{associated field} & F(\alpha)\cong F[x]/(m_{\alpha,F}) & F(t)\cong F(x)\\
+\text{degree over }F & \text{finite} & \text{infinite}
+\end{array}
+\]
+
+\begin{example}
+Eisenstein's criterion makes \(x^3-2\) the minimal polynomial of
+\(\sqrt[3]2\) over \(\mathbb Q\).  Thus
+\[
+\mathbb Q(\sqrt[3]2)
+=\mathbb Q\oplus\mathbb Q\sqrt[3]2\oplus\mathbb Q\sqrt[3]4.
+\]
+In contrast, \(F(x)\) contains rational functions not in \(F[x]\).
+\end{example}
+
+\begin{definition}
+An extension is \emph{finitely generated} if it has the form
+\[
+F(\alpha_1,\ldots,\alpha_r).
+\]
+\end{definition}
+
+\begin{proposition}\label{prop:algebraic-towers}
+Finite extensions are algebraic, finitely generated algebraic extensions are
+finite, and algebraicity is transitive through towers.
+\end{proposition}
+\begin{proof}
+First suppose \([E:F]=n\), and let \(a\in E\).  The \(n+1\) elements
+\[
+1,a,\ldots,a^n
+\]
+are linearly dependent over \(F\).  Their dependence relation is a nonzero
+polynomial over \(F\) which kills \(a\), proving that \(E/F\) is algebraic.
+
+Next let
+\[
+E=F(\alpha_1,\ldots,\alpha_r)
+\]
+with every \(\alpha_i\) algebraic over \(F\).  Each \(\alpha_i\) remains
+algebraic over the intermediate field already constructed, because its
+polynomial over \(F\) is also a polynomial over that field.  Thus every
+successive extension is finite by Theorem~\ref{thm:simple-algebraic}; repeated
+use of the Tower Law makes \(E/F\) finite.
+
+Finally suppose \(F\subseteq E\subseteq L\), \(E/F\) is algebraic, and
+\(\alpha\in L\) is algebraic over \(E\).  Write a monic relation
+\[
+\alpha^n+a_{n-1}\alpha^{n-1}+\cdots+a_0=0,
+\qquad
+a_i\in E,
+\]
+and put
+\[
+K=F(a_0,\ldots,a_{n-1}).
+\]
+The elements \(a_i\) are algebraic over \(F\), so \(K/F\) is finite by the
+second part.  The displayed relation shows that \(\alpha\) is algebraic over
+\(K\); hence \(K(\alpha)/K\) is finite.  The Tower Law gives
+\[
+[K(\alpha):F]<\infty.
+\]
+Its first part now says that \(\alpha\) is algebraic over \(F\).  This proves
+transitivity.
+\end{proof}
+
+\section{Root Adjunction and Splitting Fields}
+When an irreducible polynomial has no root in the current field, this is not
+an obstruction to doing algebra with a root.  The quotient construction below
+creates the smallest possible field in which a formal symbol is required to
+satisfy that polynomial.
+
+\begin{theorem}[Root adjunction]\label{thm:root-adjunction}
+If \(f\in F[x]\) is irreducible, then
+\[
+F[x]/(f)
+\]
+is a field containing \(F\), and \(x+(f)\) is a root of \(f\).  Its minimal
+polynomial is \(f\), and its degree over \(F\) is \(\deg f\).
+\end{theorem}
+\begin{proof}
+The quotient is the formal way to impose the single relation \(f(x)=0\).
+Because \(f\) is irreducible, the
+\hyperref[thm:irreducible-maximal-field]{irreducible-quotient theorem of
+Chapter~5} makes the principal ideal \((f)\) maximal; hence the quotient is a
+field rather than merely a ring.
+Constants embed as their residue classes, and the class
+\[
+\alpha=x+(f)
+\]
+is the formal adjoined root since \(f(\alpha)=f(x)+(f)=0\).  The evaluation
+kernel is \((f)\); the remaining claims follow from
+Theorem~\ref{thm:simple-algebraic}.
+\end{proof}
+
+\begin{example}[A root made concrete]
+Taking \(f=x^2-2\in\mathbb Q[x]\) gives
+\[
+\mathbb Q[x]/(x^2-2).
+\]
+If \(\alpha=x+(x^2-2)\), then \(\alpha^2=2\), and every residue class has
+a unique form
+\[
+a+b\alpha,
+\qquad a,b\in\mathbb Q.
+\]
+For instance,
+\[
+(a+b\alpha)(c+d\alpha)=(ac+2bd)+(ad+bc)\alpha.
+\]
+Sending \(\alpha\) to the usual real number \(\sqrt2\) identifies this
+quotient with \(\mathbb Q(\sqrt2)\).  The quotient construction is useful
+because it works before a convenient ambient field, such as \(\mathbb R\),
+has been chosen.
+\end{example}
+
+\begin{lemma}[Extension of embeddings]\label{lem:root-extension}
+Let \(\sigma:K\to\Omega\) be an \(F\)-embedding.  Let \(\alpha\) be
+algebraic over \(K\), with minimal polynomial \(m\).  Extensions
+\[
+\widetilde\sigma:K(\alpha)\longrightarrow\Omega
+\]
+of \(\sigma\) correspond bijectively to roots in \(\Omega\) of the
+coefficientwise image \(\sigma(m)\).
+\end{lemma}
+\begin{proof}
+Write
+\[
+m(x)=a_0+a_1x+\cdots+a_nx^n,
+\qquad
+\sigma(m)(x)=\sigma(a_0)+\sigma(a_1)x+\cdots+\sigma(a_n)x^n.
+\]
+For a root \(\beta\) of this transported polynomial, the map
+\[
+\sum a_ix^i\longmapsto\sum\sigma(a_i)\beta^i
+\]
+has \(m\) in its kernel and descends to a homomorphism from
+\[
+K[x]/(m)\cong K(\alpha)
+\]
+to \(\Omega\).  This is well-defined precisely because the defining relation
+\(m(\alpha)=0\) is respected by the chosen root \(\beta\).  The source is a
+field, so it is injective.  It is uniquely determined by its values on \(K\)
+and \(\alpha\).  Conversely an extension
+sends \(m(\alpha)=0\) to
+\[
+\sigma(m)(\widetilde\sigma(\alpha))=0.
+\]
+\end{proof}
+
+\begin{definition}
+A \emph{splitting field} of a nonconstant polynomial \(f\in F[x]\) is an
+extension generated over \(F\) by the roots of \(f\), in which \(f\) splits
+into linear factors.
+\end{definition}
+
+\begin{theorem}[Splitting fields]\label{thm:splitting-existence}
+Every nonconstant polynomial in \(F[x]\) has a splitting field, unique up to
+an \(F\)-isomorphism.
+\end{theorem}
+\begin{proof}
+For existence, induct on \(n=\deg f\).  There is nothing to prove for
+\(n=1\).  Otherwise choose an irreducible factor \(p\) of \(f\), and use
+Theorem~\ref{thm:root-adjunction} to obtain a field \(K/F\) containing a root
+\(\alpha\) of \(p\).  In \(K[x]\), division gives
+\[
+f(x)=(x-\alpha)g(x),
+\qquad
+\deg g=n-1.
+\]
+By induction, \(g\) has a splitting field \(L/K\).  Then \(f\) splits in
+\(L\), and \(L\) is generated over \(F\) by \(\alpha\) together with the
+roots of \(g\), which are precisely all roots of \(f\).
+
+For uniqueness, let \(L=F(\alpha_1,\ldots,\alpha_r)\) and \(L'\) be
+splitting fields of \(f\).  Start with \(1_F:F\to L'\).  Suppose that an
+embedding has been defined on \(F(\alpha_1,\ldots,\alpha_{j-1})\).  The
+minimal polynomial of \(\alpha_j\) over this field divides \(f\), after the
+coefficients have been transported.  Since \(f\) splits in \(L'\), that
+transported minimal polynomial has a root in \(L'\).  Lemma
+\ref{lem:root-extension} extends the embedding over \(\alpha_j\).
+
+After the last step we have an \(F\)-embedding \(\sigma:L\to L'\).  If
+\[
+f(x)=c\prod_i(x-\alpha_i)
+\]
+in \(L[x]\), then applying \(\sigma\), which fixes the coefficients of
+\(f\), gives
+\[
+f(x)=c\prod_i(x-\sigma(\alpha_i))
+\]
+in \(L'[x]\).  Thus the images are the complete roots of \(f\), with
+multiplicities.  Since \(L'\) is generated by those roots, it lies in
+\(\sigma(L)\).  Therefore \(\sigma\) is onto and is an isomorphism.
+\end{proof}
+
+\begin{example}
+The splitting field of \(x^2-2\) is \(\mathbb Q(\sqrt2)\).  The three roots
+of \(x^3-2\) are
+\[
+\sqrt[3]2,\qquad\zeta_3\sqrt[3]2,\qquad\zeta_3^2\sqrt[3]2,
+\]
+so its splitting field is
+\[
+\mathbb Q(\sqrt[3]2,\zeta_3).
+\]
+The first adjunction supplies one real root, but it does not supply the two
+conjugate nonreal roots.  The primitive cube root \(\zeta_3\) is precisely
+what rotates \(\sqrt[3]2\) into those roots, so adjoining it produces the
+whole splitting field.  This is the first indication that the symmetries of
+all roots together, rather than a single chosen root, are what Galois theory
+will study.  The polynomial \((x-1)(x+2)\) already splits over
+\(\mathbb Q\), so its splitting field is \(\mathbb Q\).  In characteristic
+\(p\), the polynomial \(x^p-x\) splits in \(\mathbb F_p\), because each
+\(a\in\mathbb F_p\) satisfies \(a^p=a\), and it has degree \(p\).
+\end{example}
+
+\section{Algebraically Closed Fields and Embeddings}
+\begin{definition}
+A field \(\Omega\) is \emph{algebraically closed} if every nonconstant
+polynomial in \(\Omega[x]\) has a root in \(\Omega\).
+\end{definition}
+\begin{proposition}
+A field is algebraically closed if and only if every nonconstant polynomial
+splits into linear factors.
+\end{proposition}
+\begin{proof}
+Repeatedly factor out a root and induct on degree.  The converse is immediate.
+\end{proof}
+
+\begin{definition}
+An \emph{\(F\)-embedding} \(\sigma:E\to\Omega\) is a field homomorphism
+between extensions of \(F\) that fixes \(F\) pointwise.  Its images of an
+algebraic element are called its \emph{conjugates}.
+\end{definition}
+
+\begin{proposition}[Embeddings and conjugates]\label{prop:embeddings-roots}
+If \(\Omega\) is algebraically closed and \(\alpha\) is algebraic over \(F\),
+then
+\[
+\sigma\longmapsto\sigma(\alpha)
+\]
+is a bijection from \(F\)-embeddings
+\[
+F(\alpha)\longrightarrow\Omega
+\]
+to roots of \(m_{\alpha,F}\) in \(\Omega\).
+\end{proposition}
+\begin{proof}
+An embedding sends the equation \(m_{\alpha,F}(\alpha)=0\) to the required
+root relation.  Thus every image is a root of the minimal polynomial; these
+are exactly the possible algebraic realizations of \(\alpha\) compatible with
+the base field.  Conversely, a root gives the unique embedding by
+Lemma~\ref{lem:root-extension}.  The two constructions are inverse because
+an embedding of \(F(\alpha)\) is determined by its value on \(\alpha\).
+\end{proof}
+
+\begin{example}
+The conjugates of \(\sqrt2\) over \(\mathbb Q\) are
+\[
+\sqrt2,\qquad-\sqrt2.
+\]
+There are correspondingly two \(\mathbb Q\)-embeddings of
+\(\mathbb Q(\sqrt2)\) into \(\mathbb C\).  The conjugates of
+\(\sqrt[3]2\) are its three complex cube roots; Chapter~11 will explain why
+the number of distinct conjugates can be smaller than the degree in positive
+characteristic.
+\end{example}
+
+More explicitly, the three \(\mathbb Q\)-embeddings of
+\(\mathbb Q(\sqrt[3]2)\) into \(\mathbb C\) are determined by the three
+possible images
+\[
+\sqrt[3]2,
+\qquad
+\zeta_3\sqrt[3]2,
+\qquad
+\zeta_3^2\sqrt[3]2.
+\]
+Only the first has image equal to the original real cubic field.  The other
+two land in different conjugate subfields of its splitting field.  This is
+why embeddings are the right preliminary notion: automorphisms are the
+special embeddings whose image remains in the same field.
+
+The next extension theorem is the standard place where Zorn's Lemma enters
+field theory.  Start with every partial extension of the prescribed embedding,
+order these choices by further extension, take the union along a chain, and
+observe that a maximal partial embedding can be enlarged unless its domain is
+already all of \(E\).  The proof records the details because this pattern will
+return when algebraic closures and normal extensions are compared.
+
+\begin{theorem}[Extension of embeddings]\label{thm:embedding-extension}
+If \(E/K\) is algebraic, \(\Omega\) is algebraically closed, and
+\(\sigma:K\to\Omega\) is an \(F\)-embedding, then \(\sigma\) extends to an
+\(F\)-embedding \(E\to\Omega\).
+\end{theorem}
+\begin{proof}
+Let \(\mathcal P\) consist of pairs \((M,\tau)\) with
+\[
+K\subseteq M\subseteq E
+\]
+and \(\tau:M\to\Omega\) an \(F\)-embedding extending \(\sigma\).  Define
+\[
+(M,\tau)\leq(N,\rho)
+\]
+when \(M\subseteq N\) and \(\rho|_M=\tau\).  This is a set: the possible
+domains are subsets of the fixed set \(E\), and possible maps are subsets of
+\(E\times\Omega\).
+
+Let \(\mathcal C\) be a chain.  Its domains have union
+\[
+M_{\mathcal C}=\bigcup_{(M,\tau)\in\mathcal C}M.
+\]
+For two elements of this union, one chain member contains both, so it
+contains their sum, product, and inverses.  Hence the union is a field.  The
+maps agree on overlaps because the pairs are comparable; their union is
+therefore a well-defined \(F\)-embedding
+\(\tau_{\mathcal C}:M_{\mathcal C}\to\Omega\).  It is an upper bound.
+Zorn's Lemma supplies a maximal pair \((M,\tau)\).
+
+If \(M\ne E\), choose \(\alpha\in E\setminus M\).  Since \(E/M\) is
+algebraic, \(\alpha\) has a minimal polynomial over \(M\).  The coefficientwise
+image of that polynomial has a root in the algebraically closed field
+\(\Omega\), and Lemma~\ref{lem:root-extension} extends \(\tau\) to
+\(M(\alpha)\), contradicting maximality.  Thus \(M=E\).
+\end{proof}
+
+\section{Algebraic Closures}
+\begin{definition}
+An \emph{algebraic closure} \(\overline F/F\) is an algebraic extension
+\(\overline F\) that is algebraically closed.
+\end{definition}
+
+An algebraic closure is a sufficiently large, but still algebraic, universe
+in which every polynomial over the starting field can be completely split.
+The construction below first enlarges a field so that every current polynomial
+has a root, then repeats, and finally retains the elements algebraic over the
+original field.  That final restriction is what keeps the closure algebraic
+over \(F\).
+
+\begin{theorem}[Existence of algebraic closures]\label{thm:algebraic-closure-existence}
+Every field has an algebraic closure.
+\end{theorem}
+\begin{proof}
+We use a construction that works within ordinary sets throughout.  For any
+field \(K\), let \(S_K\) be the set of nonconstant polynomials in \(K[x]\).
+Introduce one indeterminate \(X_f\) for each \(f\in S_K\), and form
+\[
+R_K=K[X_f:f\in S_K].
+\]
+Let \(I_K\) be the ideal generated by the elements
+\[
+f(X_f),
+\qquad
+f\in S_K.
+\]
+This ideal is proper.  Indeed, any alleged relation \(1\in I_K\) involves
+only finitely many variables \(X_{f_1},\ldots,X_{f_r}\).  Adjoin roots one at
+a time by Theorem~\ref{thm:root-adjunction}; in the resulting field every
+\(f_i(X_{f_i})\) vanishes, while \(1\) does not.  Thus no such relation can
+exist.
+
+By the \hyperref[thm:maximal-ideal-existence]{maximal-ideal theorem}, choose
+a maximal ideal \(\mathfrak m_K\supseteq I_K\), and set
+\[
+K^+=R_K/\mathfrak m_K.
+\]
+The quotient is a field containing a copy of \(K\): the ideal
+\(\mathfrak m_K\cap K\) is an ideal of the field \(K\), and it cannot equal
+\(K\), since then \(1\in\mathfrak m_K\).  Hence
+\[
+\mathfrak m_K\cap K=(0),
+\]
+so the composite \(K\to R_K\to K^+\) is injective.  Every nonconstant
+polynomial \(f\in K[x]\) has the root \(X_f+\mathfrak m_K\) in \(K^+\).
+
+Starting with \(F_0=F\), recursively construct
+\[
+F_0\subseteq F_1\subseteq F_2\subseteq\cdots,
+\qquad
+F_{n+1}=F_n^+,
+\]
+and set
+\[
+\Omega=\bigcup_{n\geq0}F_n.
+\]
+This union is a field.  If \(g\in\Omega[x]\) is nonconstant, its finitely
+many coefficients lie in some \(F_n\), and then \(g\) has a root in
+\(F_{n+1}\subseteq\Omega\).  Hence \(\Omega\) is algebraically closed.
+
+Finally let \(\overline F\) be the subfield of \(\Omega\) consisting of
+elements algebraic over \(F\).  This set is a field: if \(\alpha,\beta\) are
+algebraic over \(F\), then \(F(\alpha,\beta)/F\) is finite.  Hence
+\[
+\alpha+\beta,\qquad \alpha-\beta,\qquad \alpha\beta,
+\qquad \alpha^{-1}\quad(\alpha\ne0)
+\]
+belong to a finite extension of \(F\), and are therefore algebraic over \(F\).
+If \(h\in\overline F[x]\) is nonconstant, its coefficients lie in a finite
+algebraic extension \(K/F\) inside \(\overline F\).  A root \(b\in\Omega\)
+of \(h\) is algebraic over \(K\), hence algebraic over \(F\); so
+\(b\in\overline F\).  Therefore \(\overline F\) is algebraically closed and
+is an algebraic closure of \(F\).
+\end{proof}
+
+\begin{theorem}[Uniqueness of algebraic closures]
+Any two algebraic closures of \(F\) are \(F\)-isomorphic.
+\end{theorem}
+\begin{proof}
+For closures \(\overline F,\overline F'\), Theorem
+\ref{thm:embedding-extension} extends \(1_F\) to an embedding
+\[
+\sigma:\overline F\longrightarrow\overline F'.
+\]
+The image is algebraically closed: if a polynomial has coefficients in
+\(\sigma(\overline F)\), transport its coefficients back through \(\sigma\),
+take a root in \(\overline F\), and transport that root forward.  Now take
+\(\beta\in\overline F'\).  It is algebraic over \(\sigma(\overline F)\).
+Its irreducible minimal polynomial has a root in the algebraically closed
+field \(\sigma(\overline F)\), so it is linear.  Hence
+\(\beta\in\sigma(\overline F)\).  Therefore the image is all of
+\(\overline F'\).
+\end{proof}
+
+\begin{remark}
+An algebraic closure is thus unique only up to an isomorphism fixing \(F\).
+There is usually no distinguished isomorphism between two constructions, so one fixes
+a chosen algebraic closure when it is useful to speak of all conjugates in a
+single ambient field.
+\end{remark}
+
+\section*{Exercises}
+\begin{exercise}[Basic] Prove directly that
+\[
+[\mathbb Q(\sqrt2,\sqrt3):\mathbb Q]=4.
+\]
+\end{exercise}
+\begin{exercise}[Basic] Find the minimal polynomial of \(1+\sqrt2\) over
+\(\mathbb Q\).
+\end{exercise}
+\begin{exercise}[Basic] Show that \(\mathbb Q(\sqrt2)=\mathbb Q(1+\sqrt2)\).
+\end{exercise}
+\begin{exercise}[Basic] Prove that \(\mathbb Q(\sqrt2)\cap\mathbb Q(\sqrt3)
+=\mathbb Q\).
+\end{exercise}
+\begin{exercise}[Basic] Show that \(F[t]\) is not a field when \(t\) is
+transcendental over \(F\), whereas \(F(t)\) is a field.
+\end{exercise}
+\begin{exercise}[Core] Show that if \(\alpha\) has odd degree over \(F\),
+then \(F(\alpha^2)=F(\alpha)\).
+\end{exercise}
+\begin{exercise}[Core] Let \(\alpha\) have minimal polynomial
+\(x^4+2x^2+2\) over \(F\).  Write \(\alpha^7\) as an \(F\)-linear combination
+of \(1,\alpha,\alpha^2,\alpha^3\).
+\end{exercise}
+\begin{exercise}[Core] Prove that every element of a finite extension
+\(E/F\) has minimal polynomial of degree at most \([E:F]\).
+\end{exercise}
+\begin{exercise}[Core] If \(F\subseteq E\subseteq L\), with
+\([L:F]=12\), list the possible degrees of \(E/F\).
+\end{exercise}
+\begin{exercise}[Core] Construct the splitting field of \(x^4-2\) over
+\(\mathbb Q\) and determine its degree.
+\end{exercise}
+\begin{exercise}[Core] Prove that an intermediate field of a degree-six
+extension cannot have degree four over the base.
+\end{exercise}
+\begin{exercise}[Further] Show that the number of \(F\)-embeddings of
+\(F(\alpha)\) into an algebraic closure is at most \(\deg m_{\alpha,F}\).
+\end{exercise}
+\begin{exercise}[Further] Let \(f\in F[x]\) be irreducible and let
+\(\alpha,\beta\) be roots of \(f\) in an algebraically closed field.  Use the
+root-extension lemma to construct an \(F\)-isomorphism
+\[
+F(\alpha)\longrightarrow F(\beta).
+\]
+\end{exercise}
+\begin{exercise}[Further] Prove that a field which is algebraic over an
+algebraically closed field is that field itself.
+\end{exercise}
+\begin{exercise}[Further] Show that \(\mathbb C\) is an algebraic closure of
+\(\mathbb R\), using the Fundamental Theorem of Algebra as an external input.
+A Galois-theoretic proof of that theorem appears later in Chapter~12.
+\end{exercise}
+\begin{exercise}[Looking Ahead] Show that every finite extension of a finite
+field is a splitting field of a polynomial over that finite field.
+\end{exercise}
+\begin{exercise}[Looking Ahead] Let \(f\in F[x]\) be irreducible.  Show that
+every \(F\)-embedding of \(F(\alpha)\) into an algebraic closure sends
+\(\alpha\) to a root of \(f\), and compare this with the automorphisms of a
+splitting field of \(f\).
+\end{exercise}

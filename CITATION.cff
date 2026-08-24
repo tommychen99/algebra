@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use these notes, please cite them as follows."
+title: "Lecture Notes on Algebra"
+type: book
+authors:
+  - family-names: Chen
+    given-names: Tommy
+version: "1.0"
+abstract: "Groups, Rings, Modules, Vector Spaces, and Fields."
+repository-code: "https://github.com/tommychen99/algebra"
+license: CC-BY-4.0
