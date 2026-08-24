@@ -1,0 +1,127 @@
+\documentclass[11pt,oneside,openany]{book}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{tikz-cd}
+\usepackage{needspace}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  citecolor=blue!50!black,
+  urlcolor=blue!50!black,
+  hypertexnames=false,
+  pdftitle={Lecture Notes on Algebra: Groups, Rings, Modules, Vector Spaces, and Fields},
+  pdfsubject={Introductory graduate algebra},
+  pdfkeywords={algebra, groups, rings, modules, vector spaces, fields, Galois theory}
+}
+\raggedbottom
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+  \vspace*{30\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \huge\bfseries \@chapapp\space \thechapter\par\nobreak
+      \vskip 14\p@
+    \fi
+    \Huge \bfseries #1\par\nobreak
+    \vskip 30\p@
+  }}
+\renewcommand{\@makeschapterhead}[1]{%
+  \vspace*{30\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \Huge \bfseries #1\par\nobreak
+    \vskip 30\p@
+  }}
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}%
+  {2.3ex \@plus .2ex}%
+  {\normalfont\large\bfseries}}
+\makeatother
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem*{applicationtheorem}{Theorem}
+\newtheorem*{undefinition}{Definition}
+% Exercises have their own counter within each chapter; they do not share the
+% theorem/proposition sequence.
+\newtheorem{exercise}{Exercise}[chapter]
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{unremark}{Remark}
+\newcommand{\highlight}[1]{\textbf{#1}}
+\renewcommand{\emph}[1]{\textbf{#1}}
+\newenvironment{proofidea}{\par\medskip\noindent\textbf{Proof Idea.}\ }{\par\medskip}
+
+\begin{document}
+\frontmatter
+\hypersetup{pageanchor=false}
+\pdfbookmark[0]{Cover}{cover}
+\begin{titlepage}
+\centering
+\vspace*{0.18\textheight}
+{\Huge\bfseries Lecture Notes on Algebra\par}
+\vspace{0.8em}
+{\Large Groups, Rings, Modules, Vector Spaces, and Fields\par}
+\vspace{2.25em}
+{\Large Tommy Chen\par}
+\vfill
+{\large Version 1.0\par}
+\vspace{0.45em}
+{\small Licensed under CC BY 4.0.\par}
+\end{titlepage}
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+These notes offer a self-contained introduction to the central ideas of modern algebra, beginning with groups and proceeding through rings, modules, linear algebra, fields, and Galois theory.  Their guiding ambition is an elementary entry point with a graduate destination: definitions are motivated by familiar examples, while the later chapters develop the structural language needed for further study in algebra, number theory, geometry, and representation theory.
+
+The exposition is cumulative.  Results are proved before they are used, and the hypotheses that make a construction meaningful are stated explicitly.  In particular, the notes promote important structural results that are often assigned as exercises in the primary reference into the main narrative when later arguments depend on them.  The exercises are intentionally selective: they are designed to consolidate the main ideas rather than to conceal essential theory.
+
+The chapters may be read in order as a first course in abstract algebra with substantial linear-algebraic and homological preparation.  Readers already familiar with an earlier portion may also use the later parts as a reference, subject to the stated dependencies.  The author hopes that the recurring themes---symmetry, quotient constructions, universal properties, and decomposition---will make the subject feel like a connected whole rather than a collection of techniques.
+
+\vspace{1.5em}
+\noindent
+Tommy Chen
+\pdfbookmark[0]{Contents}{contents}
+\tableofcontents
+\clearpage
+\hypersetup{pageanchor=true}
+\chapter*{Editorial convention}
+\addcontentsline{toc}{chapter}{Editorial convention}
+Completed portions of these notes are intended to be logically complete within their chosen scope.  Important
+results in the primary reference are incorporated and proved according to
+mathematical dependency, whether the source presents them in its text or its
+exercises.  The accompanying coverage audit records each verified promotion
+with an exact source reference.
+\mainmatter
+\input{chapters/introduction}
+\part{Groups}
+\input{chapters/groups-foundations}
+\input{chapters/groups-actions-structure}
+\part{Rings and Polynomial Rings}
+\input{chapters/rings-ideals}
+\input{chapters/polynomials-factorization}
+\part{Modules and Linear Algebra}
+\input{chapters/modules}
+\input{chapters/pid-modules-linear-algebra}
+\input{chapters/inner-product-spaces}
+\input{chapters/tensor-products}
+\part{Fields and Galois Theory}
+\input{chapters/field-extensions}
+\input{chapters/separability-normality}
+\input{chapters/galois-theory}
+\backmatter
+\begin{thebibliography}{9}
+\raggedright
+\bibitem{DF} David S. Dummit and Richard M. Foote,
+\emph{Abstract Algebra}, 3rd ed., Wiley, 2004.
+\bibitem{MA} Tommy Chen, \href{https://github.com/tommychen99/mathematical-analysis/releases/tag/v1.0.1}{\emph{Lecture Notes on Mathematical Analysis}}, Version 1.0.1, August 23, 2026.
+GitHub release.
+\end{thebibliography}
+\end{document}
