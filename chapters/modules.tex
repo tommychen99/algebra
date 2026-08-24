@@ -1,0 +1,1558 @@
+\chapter{Modules and Linear Algebra}\label{chap:modules-linear-algebra}
+
+Vector spaces combine addition with scalar multiplication by numbers from a
+field. Modules keep the same formal operations while allowing scalars from a
+ring. This modest-looking change includes abelian groups, ideals, quotient
+rings, and vector spaces in one language. It also explains why linear algebra
+is the first important special case of module theory: over a field one can
+divide by every nonzero scalar, whereas a general module can have torsion and
+need not possess coordinates.
+
+Throughout \(R\) is a ring with identity, and a module means a unital left
+\(R\)-module unless a different convention is stated. For a noncommutative
+ring this is important: a right module has its scalar multiplication on the
+other side. From \S6.8 onward, \(F\) denotes a field and \(V,W\) denote
+finite-dimensional \(F\)-vector spaces.
+
+\section{Modules and Submodules}
+The vector-space axioms make sense before one assumes that nonzero scalars
+are invertible. That observation gives the correct setting for relations such
+as \(n\bar a=0\) in \(\mathbb Z/n\mathbb Z\), which cannot occur in a
+nonzero vector space.
+
+\begin{definition}
+An \emph{\(R\)-module} is an abelian group \((M,+)\) equipped with a map
+\(R\times M\to M\), \((r,m)\mapsto rm\), such that, for \(r,s\in R\) and
+\(m,n\in M\),
+\[
+\begin{aligned}
+(r+s)m&=rm+sm, & r(m+n)&=rm+rn,\\
+(rs)m&=r(sm), & 1m&=m.
+\end{aligned}
+\]
+A subset \(N\subseteq M\) is a \emph{submodule}, written \(N\leq M\), if
+\(m-n\in N\) and \(rm\in N\) whenever \(m,n\in N\) and \(r\in R\).
+An \emph{\(R\)-module homomorphism} \(f:M\to P\) preserves addition and
+scalar multiplication. Its \emph{kernel} and \emph{image} are
+\(\ker f=\{m:f(m)=0\}\) and \(\operatorname{im}f=\{f(m):m\in M\}\).
+An isomorphism is a bijective module homomorphism.
+\end{definition}
+
+The principal examples should be kept in view. A vector space is a module
+over its scalar field; abelian groups are exactly \(\mathbb Z\)-modules;
+\(R\) and \(R^n\) are left \(R\)-modules; and every left ideal is a
+submodule of the regular module \(R\). If \(R\) is commutative, every ideal
+has this role. The module \(\mathbb Z/n\mathbb Z\) is not free over
+\(\mathbb Z\), because its nonzero elements are killed by a nonzero scalar.
+
+There is a useful one-line test hidden in the definition. A nonempty subset
+\(N\) of a module is a submodule precisely when it is closed under
+subtraction and under multiplication by every scalar. The subtraction test
+contains both additive closure and additive inverses, just as it did for
+subgroups. For instance, \(2\mathbb Z\leq\mathbb Z\) as a
+\(\mathbb Z\)-module, while the set of odd integers is not a submodule:
+the difference of two odd integers is even. Such examples are elementary,
+but they train the reader to distinguish closure conditions from merely
+familiar-looking subsets.
+
+\begin{proposition}
+For a module homomorphism \(f:M\to P\), both \(\ker f\) and
+\(\operatorname{im}f\) are submodules.
+\end{proposition}
+\begin{proof}
+If \(m,n\in\ker f\), then \(f(m-n)=0\), and \(f(rm)=rf(m)=0\). Thus the
+kernel is a submodule. If \(f(m),f(n)\in\operatorname{im}f\), then
+\(f(m)-f(n)=f(m-n)\) and \(rf(m)=f(rm)\), so the image is one as well.
+\end{proof}
+
+\section{Quotient Modules and the Isomorphism Theorems}
+Submodules are precisely the pieces that can be collapsed to zero without
+destroying scalar multiplication. Quotient modules therefore generalize the
+quotient groups and quotient rings developed earlier.
+
+\begin{definition}
+If \(N\leq M\), the \emph{quotient module} \(M/N\) is the additive quotient
+group with scalar multiplication \(r(m+N)=rm+N\).
+\end{definition}
+\begin{proof}
+If \(m+N=m'+N\), then \(m-m'\in N\), whence \(r(m-m')\in N\). Therefore
+\(rm+N=rm'+N\), so the operation is well-defined. Each module axiom follows
+from the corresponding axiom in \(M\).
+\end{proof}
+
+\begin{theorem}[Module isomorphism theorems]
+Let \(f:M\to P\) be linear.
+\begin{enumerate}
+\item \(M/\ker f\cong\operatorname{im}f\).
+\item If \(A,B\leq M\), then \((A+B)/B\cong A/(A\cap B)\).
+\item If \(N\leq L\leq M\), then \((M/N)/(L/N)\cong M/L\).
+\item Submodules of \(M/N\) correspond bijectively to submodules of \(M\)
+containing \(N\), under inverse image and quotient by \(N\).
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For (1), \(m+\ker f\mapsto f(m)\) is well-defined, onto the image, and has
+zero kernel. For (2), restrict \(M\to M/B\) to \(A\): its kernel is
+\(A\cap B\), and its image is \((A+B)/B\). For (3), map
+\((m+N)+(L/N)\) to \(m+L\), checking directly that the map is well-defined
+and has zero kernel. Finally, if \(\pi:M\to M/N\) is the quotient map,
+then \(Q\mapsto\pi^{-1}(Q)\) and \(K\mapsto K/N\) are inverse operations.
+\end{proof}
+
+\begin{theorem}[Universal property of a quotient]
+If \(f:M\to P\) is linear and \(N\subseteq\ker f\), there is a unique
+linear map \(\bar f:M/N\to P\) with \(f=\bar f\pi\), where \(\pi\) is the
+quotient map.
+\end{theorem}
+\[
+\begin{tikzcd}[column sep=large, row sep=large]
+M \arrow[r, "\pi"] \arrow[dr, "f"'] & M/N \arrow[d, "\bar f"] \\
+& P
+\end{tikzcd}
+\]
+\begin{proof}
+Set \(\bar f(m+N)=f(m)\). If \(m-m'\in N\), then \(f(m-m')=0\), so this
+does not depend on the representative. It is linear, and surjectivity of
+\(\pi\) forces uniqueness.
+\end{proof}
+
+Thus the group, ring, and module isomorphism theorems are not unrelated
+coincidences: they express one recurring quotient pattern.
+
+\begin{example}[A quotient module]
+The quotient \(\mathbb Z/6\mathbb Z\) is a \(\mathbb Z\)-module, and its
+submodule generated by \(\bar2\) is \(\{\bar0,\bar2,\bar4\}\). Collapsing
+this submodule gives a quotient with two elements,
+\[(\mathbb Z/6\mathbb Z)/\langle\bar2\rangle\cong\mathbb Z/2\mathbb Z.
+\]
+The example is the module version of reducing a group by a normal subgroup;
+the point of the module language is that multiplication by every integer also
+descends automatically.
+\end{example}
+
+\section{Direct Sums and Products}
+Products collect arbitrary coordinate choices; direct sums collect finite
+linear combinations of contributions from separate modules. The latter is the
+algebraic construction needed for bases and for decompositions.
+
+\begin{definition}
+For a family \((M_i)_{i\in I}\), the product
+\[
+\prod_{i\in I}M_i
+\]
+consists of all tuples \((m_i)\), with coordinatewise operations. The direct
+sum
+\[
+\bigoplus_{i\in I}M_i
+\]
+is its submodule consisting of
+tuples with \emph{finite support}: only finitely many \(m_i\) are nonzero.
+For a finite family, product and direct sum have the same elements and are
+both denoted
+\[
+M_1\oplus\cdots\oplus M_n.
+\]
+\end{definition}
+
+There are canonical injections and projections
+\[
+\iota_i:M_i\longrightarrow\bigoplus_{i\in I}M_i,
+\qquad
+\pi_i:\prod_{i\in I}M_i\longrightarrow M_i.
+\]
+A map
+\[
+X\longrightarrow\prod_{i\in I}M_i
+\]
+is
+equivalent to a family of maps \(X\to M_i\), obtained by composing with the
+projections. Conversely, a family \(M_i\to Y\) determines a unique map
+\[
+\bigoplus_{i\in I}M_i\longrightarrow Y,
+\]
+because every element is a finite sum of injected
+components. For example,
+\(\mathbb Z/2\mathbb Z\oplus\mathbb Z/3\mathbb Z\cong\mathbb Z/6\mathbb Z\).
+
+For an infinite family the finite-support requirement matters. The element
+\[
+(1,1,1,\ldots)\in\prod_{n\geq1}\mathbb Z
+\]
+does not belong to
+\[
+\bigoplus_{n\geq1}\mathbb Z.
+\]
+A map out of the direct sum can be defined
+by adding only finitely many contributions, whereas there is no reason an
+infinite sum should make sense in an arbitrary module. This is why direct
+sums, rather than products, are the natural home for bases.
+
+\section{Cyclic Modules, Annihilators, Torsion, and Exact Sequences}
+The simplest module is generated by one element. Understanding such modules
+is useful because a generator has exactly one kind of obstruction: some
+scalars may kill it. The annihilator records those scalar relations and turns
+cyclic modules into quotients of the ring itself.
+
+\begin{definition}
+An \(R\)-module is \emph{cyclic} if \(M=Rm\) for some \(m\in M\). The
+\emph{annihilator} of \(m\) is
+\[\operatorname{Ann}_R(m)=\{r\in R:rm=0\};\]
+the annihilator of \(M\) consists of scalars that kill every element of
+\(M\). If \(R\) is a domain, an element \(m\) is \emph{torsion} if
+\(rm=0\) for some nonzero \(r\in R\). A module is torsion-free if its only
+torsion element is zero.
+\end{definition}
+
+For a left module, an annihilator is a left ideal; in the commutative rings
+used later it is an ideal in the unqualified sense. Over \(\mathbb Z\),
+torsion means finite additive order. Thus \(\mathbb Z^n\) is torsion-free,
+whereas every element of \(\mathbb Z/n\mathbb Z\) is torsion.
+
+When \(R\) is a domain, the set \(T(M)\) of torsion elements is a submodule,
+called the \emph{torsion submodule}. Indeed, if \(am=0\) and \(bn=0\) with
+\(a,b\ne0\), then \(ab(m-n)=0\); and \(a(rm)=0\) for every \(r\in R\).
+The domain hypothesis ensures \(ab\ne0\). This construction will make the
+free part of a finitely generated PID module intrinsic in Chapter~7.
+
+\begin{theorem}[Cyclic-module classification]
+For \(m\in M\), there is an isomorphism
+\[Rm\cong R/\operatorname{Ann}_R(m).\]
+Consequently every cyclic module over a commutative ring is isomorphic to
+\(R/I\) for an ideal \(I\).
+\end{theorem}
+\begin{proof}
+The map \(R\to Rm\), \(r\mapsto rm\), is a surjective module
+homomorphism, and its kernel is exactly \(\operatorname{Ann}_R(m)\). The
+first isomorphism theorem supplies the stated isomorphism. Conversely,
+\(R/I\) is generated by \(1+I\).
+\end{proof}
+
+Exact sequences provide a compact language for saying that a module is built
+from a submodule and a quotient. They will later organize module
+decompositions and further constructions.
+\begin{definition}
+A sequence \(A\xrightarrow{u}B\xrightarrow{v}C\) is \emph{exact at
+\(B\)} if \(\operatorname{im}u=\ker v\). A \emph{short exact sequence}
+\[0\longrightarrow A\xrightarrow{i}B\xrightarrow{q}C\longrightarrow0\]
+is exact everywhere; equivalently, \(i\) is injective, \(q\) is surjective,
+and \(\operatorname{im}i=\ker q\).
+\end{definition}
+
+\begin{undefinition}[Cokernel]
+For a module homomorphism \(f:M\to N\), its \emph{cokernel} is
+\[
+\operatorname{coker}(f)=N/\operatorname{im}f.
+\]
+The canonical map \(N\to\operatorname{coker}(f)\) is the quotient map.
+\end{undefinition}
+
+Kernels measure what a map kills; cokernels measure what remains in its target
+after the image is collapsed.  Concretely, if \(g:N\to P\) satisfies
+\(gf=0\), then \(g\) vanishes on \(\operatorname{im}f\), so there is a
+unique map \(\widetilde g:\operatorname{coker}(f)\to P\) with
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+N\arrow[r]\arrow[dr,"g"']&\operatorname{coker}(f)\arrow[d,"\widetilde g"]\\
+&P.
+\end{tikzcd}
+\]
+
+The quotient sequence \(0\to N\to M\to M/N\to0\) is the basic example.
+It is useful to distinguish equality of short exact sequences from the
+weaker fact that their three terms happen to be isomorphic.
+
+\begin{definition}
+An \emph{isomorphism of short exact sequences} is a commutative diagram
+\[
+\begin{tikzcd}[column sep=large]
+0\arrow[r]&A\arrow[r,"i"]\arrow[d,"\alpha", "\sim"']&
+B\arrow[r,"q"]\arrow[d,"\beta", "\sim"']&
+C\arrow[r]\arrow[d,"\gamma", "\sim"']&0\\
+0\arrow[r]&A'\arrow[r,"i'"]&B'\arrow[r,"q'"]&C'\arrow[r]&0
+\end{tikzcd}
+\]
+in which the three vertical maps are module isomorphisms.
+\end{definition}
+
+\begin{proposition}[The canonical split sequence]\label{prop:canonical-split-sequence}
+For modules \(A\) and \(C\), the sequence
+\[
+0\longrightarrow A\xrightarrow{a\mapsto(a,0)}A\oplus C
+\xrightarrow{(a,c)\mapsto c}C\longrightarrow0
+\]
+is short exact.
+\end{proposition}
+\begin{proof}
+The first map is injective and the second is surjective.  Its kernel consists
+precisely of the pairs \((a,0)\), which are exactly the image of the first
+map.  Thus exactness says, quite literally, that \(A\oplus C\) contains
+\(A\) as its first coordinate and has quotient \(C\).
+\end{proof}
+
+\section{Splitting and Diagram Chases}
+The preceding observation asks when a short exact sequence contains no
+extension information beyond its two ends.  A map \(s:C\to B\) with
+\(qs=1_C\) is a \emph{section}; a map \(r:B\to A\) with \(ri=1_A\) is a
+\emph{retraction}.
+
+\begin{theorem}[Splitting Lemma]\label{thm:splitting-lemma}
+For a short exact sequence
+\[
+0\longrightarrow A\xrightarrow{i}B\xrightarrow{q}C\longrightarrow0,
+\]
+the following are equivalent: \(q\) has a section; \(i\) has a retraction;
+and the given short exact sequence is isomorphic, as a short exact sequence,
+to the canonical split sequence of
+Proposition~\ref{prop:canonical-split-sequence}.  Concretely, the end maps
+are \(1_A\) and \(1_C\), and the middle isomorphism
+\(\Phi:A\oplus C\to B\) satisfies
+\[
+\Phi(a,0)=i(a),
+\qquad
+q\Phi(a,c)=c.
+\]
+\end{theorem}
+\begin{proof}
+A section gives the map
+\[
+\Phi:A\oplus C\longrightarrow B,\qquad
+\Phi(a,c)=i(a)+s(c).
+\]
+It is onto: for \(b\in B\), the element \(b-sq(b)\) lies in \(\ker q\), hence
+is \(i(a)\) for some \(a\).  If \(\Phi(a,c)=0\), applying \(q\) gives
+\(c=0\), and then injectivity of \(i\) gives \(a=0\).  Thus \(\Phi\) is an
+isomorphism, and it gives an isomorphism to the canonical sequence in
+Proposition~\ref{prop:canonical-split-sequence}.  The map
+\(r=\operatorname{pr}_A\Phi^{-1}\) is a retraction of \(i\).
+
+Conversely, suppose that \(ri=1_A\).  For \(c\in C\), choose \(b\in B\) with
+\(q(b)=c\), and put
+\[
+s(c)=b-i(r(b)).
+\]
+If \(b'=b+i(a)\) is another lift, then
+\[
+b'-i(r(b'))=b+i(a)-i(r(b)+a)=b-i(r(b)),
+\]
+so the formula is independent of the lift.  It is linear, and
+\(q(s(c))=c\).  Hence it is a section.
+\end{proof}
+
+Commutative diagrams organize a \emph{diagram chase}: start with an element,
+use exactness to replace a kernel element by a preimage, and use commutativity
+to transport the resulting equality vertically.  The Five Lemma is the basic
+instance.
+
+\begin{theorem}[Five Lemma]\label{thm:five-lemma}
+In a commutative diagram with exact rows
+\[
+\begin{tikzcd}[column sep=small]
+A_1\arrow[r]\arrow[d,"f_1"]&A_2\arrow[r]\arrow[d,"f_2"]&A_3\arrow[r]\arrow[d,"f_3"]&A_4\arrow[r]\arrow[d,"f_4"]&A_5\arrow[d,"f_5"]\\
+B_1\arrow[r]&B_2\arrow[r]&B_3\arrow[r]&B_4\arrow[r]&B_5
+\end{tikzcd}
+\]
+if \(f_1\) is surjective, \(f_2,f_4\) are isomorphisms, and \(f_5\) is
+injective, then \(f_3\) is an isomorphism.
+\end{theorem}
+\begin{proof}
+Write the horizontal maps as \(d_i:A_i\to A_{i+1}\) and
+\(e_i:B_i\to B_{i+1}\).  Suppose first that \(f_3(x)=0\).  Then
+\(f_4d_3(x)=e_3f_3(x)=0\).  Since \(f_4\) is injective,
+\(d_3(x)=0\), so \(x=d_2(y)\).  As
+\[
+0=f_3d_2(y)=e_2f_2(y),
+\]
+there is \(z\in B_1\) with \(e_1(z)=f_2(y)\).  Choose \(w\in A_1\) with
+\(f_1(w)=z\).  Then
+\[
+f_2(y-d_1(w))=0.
+\]
+Injectivity of \(f_2\) gives \(y=d_1(w)\), hence \(x=d_2d_1(w)=0\).
+This proves the \emph{injectivity} of \(f_3\).
+
+\emph{Surjectivity.} Now take \(b\in B_3\).  Since \(e_3(b)\in B_4\), choose
+\(a_4\in A_4\) with \(f_4(a_4)=e_3(b)\).  Exactness gives
+\(d_4(a_4)=0\), because \(f_5d_4(a_4)=e_4f_4(a_4)=0\) and \(f_5\) is
+injective.  Choose \(a_3\in A_3\) with \(d_3(a_3)=a_4\).  Then
+\[
+e_3(b-f_3(a_3))=0,
+\]
+so \(b-f_3(a_3)=e_2(b_2)\) for some \(b_2\in B_2\).  Choose
+\(a_2\in A_2\) with \(f_2(a_2)=b_2\).  Replacing \(a_3\) by
+\(a_3+d_2(a_2)\) gives \(f_3(a_3)=b\).  This proves the \emph{surjectivity}
+of \(f_3\).
+
+\emph{Isomorphism.} A module homomorphism is an isomorphism precisely when it
+is both injective and surjective.  The preceding two parts prove the claim.
+\end{proof}
+
+\begin{theorem}[Snake Lemma]\label{thm:snake-lemma}
+In a commutative diagram with exact rows
+\[
+\begin{tikzcd}[column sep=large]
+0\arrow[r]&A'\arrow[r,"i'"]\arrow[d,"f_A"]&
+B'\arrow[r,"q'"]\arrow[d,"f_B"]&
+C'\arrow[r]\arrow[d,"f_C"]&0\\
+0\arrow[r]&A\arrow[r,"i"]&
+B\arrow[r,"q"]&
+C\arrow[r]&0,
+\end{tikzcd}
+\]
+there is an exact sequence
+\[
+\begin{gathered}
+0\longrightarrow\ker f_A\longrightarrow\ker f_B
+\longrightarrow\ker f_C\xrightarrow{\delta}\operatorname{coker}f_A\\
+\longrightarrow\operatorname{coker}f_B\longrightarrow
+\operatorname{coker}f_C\longrightarrow0.
+\end{gathered}
+\]
+\end{theorem}
+\begin{proof}
+For \(c'\in\ker f_C\), choose \(b'\in B'\) with \(q'(b')=c'\).  Then
+\[
+q(f_B(b'))=f_C(q'(b'))=0,
+\]
+so \(f_B(b')=i(a)\) for a unique \(a\in A\).  Define
+\[
+\delta(c')=a+\operatorname{im}f_A.
+\]
+If \(b'\) is replaced by \(b'+i'(a')\), then \(a\) is replaced by
+\(a+f_A(a')\); hence \(\delta\) is well-defined.  Choosing lifts of two
+elements and adding them also proves that \(\delta\) is linear.
+
+The maps before and after \(\delta\) are the maps induced by the vertical
+arrows.  The first one is injective because \(i'\) is injective.  Exactness
+at the first two kernels follows immediately by chasing the two squares and
+using injectivity of \(i\).  If \(c'=q'(b')\) comes from
+\(\ker f_B\), then \(f_B(b')=0\), so \(\delta(c')=0\).  Conversely,
+\(\delta(c')=0\) means that \(a=f_A(a')\); then
+\(b'-i'(a')\) lies in \(\ker f_B\) and still maps to \(c'\).  This proves
+exactness at \(\ker f_C\).
+
+If \(a+\operatorname{im}f_A\) maps to zero in \(\operatorname{coker}f_B\),
+then \(i(a)=f_B(b')\) for some \(b'\).  Hence
+\(f_C(q'(b'))=0\), and the construction gives
+\(\delta(q'(b'))=a+\operatorname{im}f_A\).  This is exactness at
+\(\operatorname{coker}f_A\).  Finally, exactness at
+\(\operatorname{coker}f_B\) and \(\operatorname{coker}f_C\) follows by the
+same two-square chase: a class \(b+\operatorname{im}f_B\) maps to zero
+precisely when \(q(b)=f_C(c')\), and a lift of \(c'\) corrects \(b\) to an
+element of \(i(A)\).  The last induced map is surjective because \(q\) is
+surjective.  This also proves the asserted endpoint exactness.
+\end{proof}
+
+The construction of \(\delta\) is the model diagram chase: choose a lift,
+measure the obstruction in the next kernel, and record it modulo the
+ambiguity forced by the first vertical map.  It is natural with respect to
+maps of such diagrams, a fact used later in homological algebra.
+
+\section{Free Modules and Module Bases}
+Coordinates are useful only when expansions are unique. Free modules record
+that condition over a general ring; vector spaces are the especially well
+behaved free modules over fields.
+
+\begin{definition}
+A subset \(S\subseteq M\) \emph{spans} \(M\) if every element is a finite
+linear combination of members of \(S\). It is \emph{linearly independent}
+if every relation
+\[
+\sum_i r_is_i=0,
+\]
+with distinct \(s_i\in S\), has all
+coefficients zero. A \emph{basis} is an independent spanning set, and a
+module with a basis is \emph{free}. The free module on a set \(X\) is the
+module \(R^{(X)}\) of finitely supported functions \(X\to R\), with basis
+\(\{e_x:x\in X\}\).
+\end{definition}
+
+\begin{theorem}[Universal property of a free module]
+For every function \(u:X\to M\), there is a unique linear map
+\(R^{(X)}\to M\) taking \(e_x\) to \(u(x)\).
+\end{theorem}
+\begin{proof}
+Every element of \(R^{(X)}\) has a unique finite expression
+\[
+\sum_{x\in X}r_xe_x.
+\]
+Send it to
+\[
+\sum_{x\in X}r_xu(x).
+\]
+This is linear, and any
+linear map with the required values has this formula.
+\end{proof}
+
+Not every module is free: \(\mathbb Z/n\mathbb Z\) has no \(\mathbb Z\)-basis
+for \(n>1\). Indeed, if \(\bar a\) belonged to a \(\mathbb Z\)-basis, then
+\(n\bar a=0\) would be a nontrivial relation. This is the first warning that
+the familiar basis theory of vector spaces cannot simply be imported into
+module theory. In particular, a submodule of a free module need not be free
+over an arbitrary ring, and the apparent number of generators of \(R^n\)
+requires justification before it is called a rank.
+
+\section{Projective and Injective Modules}
+Free modules make lifting possible because a map out of a free module is
+controlled by its values on a basis.  Projective modules are precisely the
+modules that retain this lifting property, even when they need not themselves
+have a basis.
+
+\begin{definition}
+A module \(P\) is \emph{projective} if, for every surjection
+\(\pi:M\twoheadrightarrow N\) and every map \(f:P\to N\), there is a map
+\(\widetilde f:P\to M\) such that \(\pi\widetilde f=f\).  A module \(E\) is
+\emph{injective} if, for every injection \(j:A\hookrightarrow B\) and every
+map \(f:A\to E\), there is a map \(\widetilde f:B\to E\) such that
+\(\widetilde f j=f\).
+\end{definition}
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+&P\arrow[dl,dashed,"\widetilde f"']\arrow[d,"f"]\\
+M\arrow[r,two heads,"\pi"']&N\arrow[r]&0
+\end{tikzcd}
+\qquad
+\begin{tikzcd}[column sep=large,row sep=large]
+&E\\
+0\arrow[r]&A\arrow[u,"f"]\arrow[r,hook,"j"']&B\arrow[ul,dashed,"\widetilde f"']
+\end{tikzcd}
+\]
+These matching triangles display the dual geometry of the two definitions:
+projectivity is a lifting problem, while injectivity is an extension problem.
+
+\begin{definition}
+For left \(R\)-modules \(M,N\), write
+\[
+\operatorname{Hom}_R(M,N)
+\]
+for the set of \(R\)-linear maps \(M\to N\).  It is an abelian group under
+pointwise addition:
+\[
+(f+g)(m)=f(m)+g(m).
+\]
+If \(R\) is commutative, it is also an \(R\)-module by
+\[
+(rf)(m)=r f(m).
+\]
+\end{definition}
+For a noncommutative ring the displayed scalar formula need not define a
+left-module map, since \(r f(sm)\) need not equal \(s r f(m)\).  Accordingly,
+the exact sequences below are always sequences of abelian groups, and only
+under commutativity are they automatically sequences of \(R\)-modules.
+
+\begin{proposition}[Hom detects exactness]\label{prop:hom-exactness}
+Suppose
+\[
+0\longrightarrow A\xrightarrow{i}B\xrightarrow{q}C\longrightarrow0
+\]
+satisfies \(qi=0\), without yet assuming exactness.  Define
+\[
+\begin{aligned}
+i_*:\operatorname{Hom}_R(M,A)&\longrightarrow\operatorname{Hom}_R(M,B),
+&f&\longmapsto i\circ f,\\
+q_*:\operatorname{Hom}_R(M,B)&\longrightarrow\operatorname{Hom}_R(M,C),
+&g&\longmapsto q\circ g,
+\end{aligned}
+\]
+\[
+\begin{aligned}
+q^*:\operatorname{Hom}_R(C,N)&\longrightarrow\operatorname{Hom}_R(B,N),
+&h&\longmapsto h\circ q,\\
+i^*:\operatorname{Hom}_R(B,N)&\longrightarrow\operatorname{Hom}_R(A,N),
+&k&\longmapsto k\circ i.
+\end{aligned}
+\]
+Then
+\[
+0\longrightarrow\operatorname{Hom}_R(M,A)\xrightarrow{i_*}
+\operatorname{Hom}_R(M,B)\xrightarrow{q_*}\operatorname{Hom}_R(M,C)
+\]
+is exact for every \(R\)-module \(M\) if and only if
+\[
+0\longrightarrow A\xrightarrow{i}B\xrightarrow{q}C
+\]
+is exact.  Dually,
+\[
+0\longrightarrow\operatorname{Hom}_R(C,N)\xrightarrow{q^*}
+\operatorname{Hom}_R(B,N)\xrightarrow{i^*}\operatorname{Hom}_R(A,N)
+\]
+is exact for every \(R\)-module \(N\) if and only if
+\[
+A\xrightarrow{i}B\xrightarrow{q}C\longrightarrow0
+\]
+is exact.  Thus the original sequence is short exact precisely when both
+displayed Hom tests are exact for all \(M\) and \(N\).
+\end{proposition}
+\begin{proof}
+Assume first that \(0\to A\to B\to C\) is exact.  A map \(M\to B\) has
+zero composite with \(q\) exactly when its image lies in
+\(\ker q=\operatorname{im}i\), and it then factors uniquely through \(A\);
+this proves exactness of the first Hom sequence.  Conversely, suppose this
+Hom sequence is exact for every \(M\).  With \(K=\ker i\), the inclusion
+\(K\to A\) has zero image under \(i_*\), hence is zero; so \(i\) is
+injective.  With \(K=\ker q\), the inclusion \(K\to B\) has zero image
+under \(q_*\), hence factors through \(i\).  Thus
+\(\ker q\subseteq\operatorname{im}i\), and the reverse inclusion follows
+from \(qi=0\).
+
+Now assume that \(A\to B\to C\to0\) is exact.  A map \(B\to N\) vanishes on
+\(\operatorname{im}i=\ker q\) exactly when it factors uniquely through
+\(C\), proving exactness of the second Hom sequence.  Conversely, suppose
+that sequence is exact for every \(N\).  Taking
+\[
+N=C/\operatorname{im}q
+\]
+and the quotient map \(C\to N\), injectivity of \(q^*\) forces that quotient
+map to be zero; hence \(q\) is surjective.  Taking
+\[
+N=B/\operatorname{im}i
+\]
+and the quotient map \(B\to N\), exactness gives a factorization through
+\(q\).  It vanishes on \(\ker q\), so
+\(\ker q\subseteq\operatorname{im}i\); the opposite inclusion again follows
+from \(qi=0\).
+\end{proof}
+
+For a short exact sequence, both Hom sequences are exact at their initial
+terms.  This familiar property is often called left exactness of Hom.
+Exactness through the final Hom term is strictly stronger: with \(M=P\) it
+is the lifting property defining projectivity, and with \(N=E\) it is the
+extension property defining injectivity.
+
+\begin{theorem}[Projective-module characterizations]\label{thm:projective-characterizations}
+For an \(R\)-module \(P\), the following are equivalent:
+\begin{enumerate}
+\item \(P\) is projective;
+\item every short exact sequence ending in \(P\) splits;
+\item \(P\) is isomorphic to a direct summand of a free module;
+\item for every short exact sequence, the first sequence in
+Proposition~\ref{prop:hom-exactness}, with \(M=P\), is exact at its final
+term.
+\end{enumerate}
+In particular, every free module is projective.
+\end{theorem}
+\begin{proof}
+If \(P\) is projective and
+\[
+0\longrightarrow A\longrightarrow B\xrightarrow{q}P\longrightarrow0
+\]
+is exact, apply the lifting property to \(1_P:P\to P\).  The resulting
+section of \(q\) splits the sequence by the Splitting Lemma.
+
+Suppose every such sequence splits.  Choose a generating set \(X\) of \(P\).
+The universal property of \(R^{(X)}\) gives a surjection
+\(R^{(X)}\twoheadrightarrow P\).  Its kernel produces a short exact
+sequence ending in \(P\), so it splits.  Thus
+\[
+R^{(X)}\cong\ker(R^{(X)}\to P)\oplus P,
+\]
+and \(P\) is a direct summand of a free module.
+
+Finally, let \(P\) be a direct summand of a free module \(F\), with
+inclusion \(u:P\to F\) and retraction \(r:F\to P\).  Given
+\(\pi:M\twoheadrightarrow N\) and \(f:P\to N\), choose a basis of \(F\).
+For each basis vector \(e_x\), choose a lift in \(M\) of
+\(f(r(e_x))\).  The universal property of \(F\) gives
+\(g:F\to M\) with \(\pi g=fr\).  Then \(\widetilde f=gu\) satisfies
+\(\pi\widetilde f=f\).  Thus \(P\) is projective.  Taking \(P=F\) proves
+the final assertion.  Finally, Proposition~\ref{prop:hom-exactness} says
+exactly that the final Hom map is surjective precisely when every map
+\(P\to C\) lifts through \(B\).  This proves the equivalence of (1) and
+(4), and distinguishes full exactness here from the left exactness enjoyed
+by every test module.
+\end{proof}
+
+\noindent\textbf{Example.} For \(n>1\), the \(\mathbb Z\)-module
+\(\mathbb Z/n\mathbb Z\) is not projective.  If
+\[
+0\longrightarrow\mathbb Z\xrightarrow{\times n}\mathbb Z
+\longrightarrow\mathbb Z/n\mathbb Z\longrightarrow0
+\]
+split, then \(\mathbb Z\) would contain a subgroup isomorphic to
+\(\mathbb Z/n\mathbb Z\).  This is impossible because \(\mathbb Z\) has no
+nonzero torsion.
+
+\begin{theorem}[Injective-module characterization]\label{thm:injective-characterization}
+An \(R\)-module \(E\) is injective if and only if every short exact sequence
+\[
+0\longrightarrow E\longrightarrow B\longrightarrow C\longrightarrow0
+\]
+splits.
+\; Equivalently, for every short exact sequence, the second sequence in
+Proposition~\ref{prop:hom-exactness}, with \(N=E\), is exact at its final
+term.
+\end{theorem}
+\begin{proof}
+If \(E\) is injective, apply its extension property to the identity map of
+\(E\) and the first injection in the sequence.  The resulting retraction
+splits the sequence.  Conversely, let \(j:A\hookrightarrow B\) and
+\(f:A\to E\) be given.  Form
+\[
+S=\{(f(a),-j(a)):a\in A\}\subseteq E\oplus B,
+\qquad
+Q=(E\oplus B)/S.
+\]
+The set \(S\) is a submodule: it is the image of the linear map
+\(A\to E\oplus B\), \(a\mapsto(f(a),-j(a))\).  The map
+\(E\to Q\), \(e\mapsto(e,0)+S\), is injective: if
+\[
+(e,0)=(f(a),-j(a))\in S,
+\]
+then \(j(a)=0\), so \(a=0\) and \(e=0\).  The map
+\[
+Q\longrightarrow B/j(A),
+\qquad
+(e,b)+S\longmapsto b+j(A)
+\]
+is well-defined, since adding \((f(a),-j(a))\) changes \(b\) by an element
+of \(j(A)\).  Its kernel is the image of \(E\): if \(b=j(a)\), then
+\[
+(e,b)+S=(e+f(a),0)+S,
+\]
+and the reverse inclusion is immediate.  It is onto, so the First
+Isomorphism Theorem identifies the quotient of \(Q\) by the image of \(E\)
+with \(B/j(A)\).  By hypothesis the resulting short exact sequence splits,
+giving a retraction \(Q\to E\).  Composing
+\(B\to Q\), \(b\mapsto(0,b)+S\), with that retraction gives an extension of
+\(f\).  Hence \(E\) is injective.  The final Hom characterization follows
+from Proposition~\ref{prop:hom-exactness}: surjectivity of its final map is
+exactly the assertion that maps \(A\to E\) extend to \(B\).
+\end{proof}
+
+\begin{proposition}[Enough projectives]\label{prop:enough-projectives}
+Every \(R\)-module is a quotient of a free, hence projective, \(R\)-module.
+\end{proposition}
+\begin{proof}
+Let \(X\) be the underlying set of \(M\).  The free module
+\[
+R^{(X)}
+\]
+has basis \(\{e_x:x\in X\}\).  The rule \(e_x\mapsto x\) extends uniquely to
+a surjective map \(R^{(X)}\to M\).  The final assertion follows from
+Theorem~\ref{thm:projective-characterizations}.
+\end{proof}
+
+\begin{theorem}[Baer's criterion]\label{thm:baer-criterion}
+An \(R\)-module \(E\) is injective if and only if every \(R\)-linear map
+\[
+f:J\longrightarrow E
+\]
+from a left ideal \(J\) of \(R\) extends to a map \(R\to E\).
+\end{theorem}
+\begin{proof}
+The forward implication applies injectivity to \(J\hookrightarrow R\).
+Conversely, given \(A\subseteq B\) and \(f:A\to E\), order extensions
+\[
+(C,g),\qquad A\subseteq C\subseteq B,\qquad g|_A=f,
+\]
+by extension.  Unions of chains give extensions, so Zorn's Lemma gives a
+maximal pair \((C,g)\).  If \(b\notin C\), then
+\[
+J=\{r\in R:rb\in C\}
+\]
+is a left ideal.  The map \(r\mapsto g(rb)\) extends to \(r\mapsto re\) on
+\(R\).  Hence
+\[
+g'(c+rb)=g(c)+re
+\]
+is well-defined: if \(c+rb=c'+r'b\), then
+\[
+(r-r')b=c'-c\in C,
+\]
+so \(r-r'\in J\).  The chosen extension agrees with
+\(s\mapsto g(sb)\) on \(J\), hence
+\[
+(r-r')e=g((r-r')b)=g(c'-c).
+\]
+Rearranging gives \(g(c)+re=g(c')+r'e\).  Thus \(g'\) extends \(g\) to
+\(C+Rb\), contradicting maximality.  Therefore \(C=B\).
+\end{proof}
+
+\begin{remark}
+The standard converse proof of Baer's criterion uses Zorn's Lemma; its
+forward implication does not.  Over Noetherian rings, left ideals are
+finitely generated, so many applications reduce ideal-level arguments to
+finite-generation arguments.  The precise foundational strength of the full
+theorem is not pursued here.  Looking ahead, every module embeds in an
+injective module; standard proofs use additional constructions, often
+injective abelian groups such as \(\mathbb Q/\mathbb Z\) and suitable Hom
+modules.
+\end{remark}
+
+\begin{proposition}[Injective abelian groups]\label{prop:injective-divisible}
+An abelian group is injective as a \(\mathbb Z\)-module if and only if it is
+\emph{divisible}: multiplication by every nonzero integer is surjective.
+\end{proposition}
+\begin{proof}
+If \(E\) is injective, extend
+\[
+n\mathbb Z\longrightarrow E,\qquad nk\longmapsto ka
+\]
+along \(n\mathbb Z\hookrightarrow\mathbb Z\); the image of \(1\) is an
+\(n\)-th root of \(a\).  Conversely, every ideal of \(\mathbb Z\) is
+\(n\mathbb Z\), and divisibility extends any map from it by sending \(1\) to
+an \(n\)-th root of the image of \(n\).  Apply Baer's criterion.
+\end{proof}
+
+\begin{example}
+\(\mathbb Q\), \(\mathbb Q/\mathbb Z\), and
+\[
+\mathbb Q^r
+\]
+are divisible, hence injective \(\mathbb Z\)-modules; \(\mathbb Z\) is not.
+\end{example}
+
+\begin{proposition}[Enough injectives over \(\mathbb Z\)]
+Every abelian group embeds in a divisible abelian group.  Equivalently, every
+\(\mathbb Z\)-module embeds in an injective \(\mathbb Z\)-module.
+\end{proposition}
+\begin{proof}
+The group \(\mathbb Q/\mathbb Z\) is divisible, hence injective by
+Proposition~\ref{prop:injective-divisible}.  For every nonzero \(a\in A\),
+there is a homomorphism
+\[
+\chi_a:A\longrightarrow\mathbb Q/\mathbb Z
+\]
+with \(\chi_a(a)\ne0\).  Indeed, first define such a map on the cyclic
+subgroup generated by \(a\): send a generator of a finite cyclic group of
+order \(n\) to \(1/n+\mathbb Z\), and send an infinite cyclic generator to
+\(1/2+\mathbb Z\).  Injectivity of \(\mathbb Q/\mathbb Z\) extends this map
+to \(A\).
+
+Now form the evaluation map
+\[
+A\longrightarrow
+\prod_{\chi\in\operatorname{Hom}_{\mathbb Z}(A,\mathbb Q/\mathbb Z)}
+\mathbb Q/\mathbb Z,
+\qquad
+a\longmapsto\bigl(\chi(a)\bigr)_\chi.
+\]
+It is injective because the coordinate \(\chi_a\) detects every nonzero
+\(a\).  The product is divisible coordinatewise: an \(n\)-th root is chosen
+in each coordinate.  Proposition~\ref{prop:injective-divisible} then makes
+it injective as a \(\mathbb Z\)-module.
+\end{proof}
+
+\begin{remark}
+The implication injective \(\Rightarrow\) divisible is elementary.  The
+converse, and hence the equivalence used above, is established here through
+Baer's criterion and its Zorn-lemma argument.  Thus the presentation relies
+on the usual choice principles.
+\end{remark}
+
+\section{Vector Spaces, Span, and Finite Bases}
+We now specialize to the case in which the scalar ring is a field \(F\).
+Division by every nonzero scalar is exactly what permits the replacement
+arguments behind ordinary linear algebra. The results in this section are
+therefore theorems about vector spaces, not assertions about arbitrary
+modules.
+
+\begin{definition}
+An \emph{\(F\)-vector space} is an \(F\)-module. A \emph{subspace} of a
+vector space is an \(F\)-submodule. A finite expression
+\(a_1v_1+\cdots+a_rv_r\), with \(a_i\in F\), is a \emph{linear
+combination}. For a subset \(S\subseteq V\), its \emph{span}
+\[\operatorname{span}(S)=\left\{\sum_{i=1}^r a_is_i:r\geq0,\ a_i\in F,\ s_i\in S\right\}
+\]
+is the smallest subspace containing \(S\). The set \(S\) \emph{spans}
+\(V\) when \(\operatorname{span}(S)=V\). It is \emph{linearly
+independent} when every finite relation among distinct members of \(S\) has
+all coefficients zero. A \emph{basis} is an independent spanning set.
+An \emph{ordered basis} is a basis displayed as an ordered finite list.
+Finally, \(V\) is \emph{finite-dimensional} if it has a finite spanning set.
+\end{definition}
+
+The definition of span makes clear both why it is a subspace and why it is
+the smallest one: sums and scalar multiples of finite linear combinations
+are again finite linear combinations, while any subspace containing \(S\)
+contains every such combination. The module notions of generation and basis
+agree with these definitions, but fields allow the stronger conclusions below.
+
+\begin{lemma}[Exchange lemma]
+Let \(v_1,\ldots,v_r\) be linearly independent vectors in \(V\), and let
+\(w_1,\ldots,w_s\) span \(V\). Then \(r\leq s\). Moreover, one can replace
+\(r\) of the \(w_j\)'s by the \(v_i\)'s and still obtain a spanning list.
+\end{lemma}
+\begin{proof}
+Write
+\[
+v_1=\sum_j a_jw_j.
+\]
+Some \(a_j\ne0\), so field division permits us
+to solve for that \(w_j\). Replacing this \(w_j\) by \(v_1\) still leaves a
+spanning list. Inductively, suppose \(v_1,\ldots,v_{i-1}\) have replaced
+distinct \(w\)'s. Express \(v_i\) in the resulting spanning list. If every
+coefficient of an unreplaced \(w\) were zero, \(v_i\) would lie in the span
+of \(v_1,\ldots,v_{i-1}\), contradicting independence. Hence an unreplaced
+coefficient is nonzero and may be solved for. After \(r\) steps there must
+have been at least \(r\) original \(w\)'s.
+\end{proof}
+
+\begin{theorem}[Finite-dimensional basis theorem]
+If \(V\) has a finite spanning set, then every independent finite list can
+be extended to a basis, every finite spanning list contains a basis, and any
+two bases have the same finite cardinality.
+\end{theorem}
+\begin{proof}
+Starting with an independent list, adjoin vectors from a fixed finite
+spanning list whenever they are not already in its span. The resulting list
+remains independent and eventually spans, hence is a basis. Starting with a
+finite spanning list, discard a vector whenever it lies in the span of the
+others; the finite process ends at an independent spanning list. Applying the
+exchange lemma in both directions to two bases proves equality of their
+cardinalities.
+\end{proof}
+
+\begin{proposition}[Subspaces of finite-dimensional spaces]
+If \(V\) is finite-dimensional and \(W\leq V\), then \(W\) has a finite
+basis and \(\dim_F W\leq\dim_FV\).
+\end{proposition}
+\begin{proof}
+Begin with the empty independent list in \(W\), and adjoin an element of
+\(W\) not in its span whenever one exists. The exchange lemma, applied to
+the resulting independent list and a fixed basis of \(V\), shows that at
+most \(\dim_FV\) choices can be made. When the process stops its list spans
+\(W\), so it is a basis. The same exchange lemma gives the inequality.
+\end{proof}
+
+The common cardinality of a finite basis is now well-defined and is called
+the \emph{dimension} \(\dim_FV\). In particular, a basis expansion exists
+because the basis spans and is unique because the basis is independent.
+
+\section{Invariant Basis Number and Finite Free Rank}
+For vector spaces, the preceding theorem proves that the size of a finite
+basis is intrinsic. A finite free module over a general ring needs a separate
+argument. This distinction is essential in Chapter~7, where the free part of
+a module over a PID must have a uniquely determined rank.
+
+\begin{definition}
+A ring \(R\) has \emph{invariant basis number} (IBN) if
+\(R^m\cong R^n\) for finite \(m,n\) implies \(m=n\). When \(R\) has IBN,
+the \emph{rank} of a finite free \(R\)-module is the integer \(n\) for which
+it is isomorphic to \(R^n\).
+\end{definition}
+
+\begin{theorem}[Commutative rings have IBN]
+Every nonzero commutative ring with identity has invariant basis number.
+\end{theorem}
+\begin{proof}
+Suppose \(R^m\cong R^n\). Since \(R\) is nonzero, \((0)\) is proper; by the
+\hyperref[thm:maximal-ideal-existence]{maximal-ideal theorem}, choose a
+maximal ideal \(\mathfrak m\) of \(R\). An isomorphism \(f:R^m\to R^n\) carries
+\(\mathfrak mR^m\) onto \(\mathfrak mR^n\), since
+\(f(rx)=rf(x)\), and the same assertion for \(f^{-1}\) proves equality.
+It consequently induces an isomorphism
+\[
+R^m/\mathfrak mR^m\ \cong\ R^n/\mathfrak mR^n.
+\]
+Coordinatewise reduction identifies these quotient modules with
+\((R/\mathfrak m)^m\) and \((R/\mathfrak m)^n\). The quotient is a field
+because \(\mathfrak m\) is maximal, so the finite-dimensional basis theorem
+just proved gives \(m=n\).
+\end{proof}
+
+The nonzero hypothesis is essential: for the zero ring,
+\[
+R^m=R^n=0
+\]
+for all finite \(m,n\), so invariant basis number fails.  Arbitrary
+noncommutative rings need not have IBN, so no unqualified rank is attached to
+their finite free modules.
+
+\section{Linear Transformations and Dimension}
+The module homomorphisms of vector spaces are the familiar linear
+transformations. Finite dimension turns the abstract kernel--image picture
+into a numerical conservation law.
+
+\begin{definition}
+A \emph{linear transformation} \(T:V\to W\) is an \(F\)-module
+homomorphism: \(T(av+bw)=aT(v)+bT(w)\). Its kernel and image are the
+submodules already defined in \S6.1, now called respectively its
+\emph{kernel} and \emph{range}. It is injective, surjective, bijective, or
+an isomorphism in the same sense as a module map. An endomorphism is a map
+\(V\to V\), and an automorphism is an invertible endomorphism. The
+endomorphisms form the ring \(\mathcal{L}_F(V)\); when the field is clear,
+we write \(\mathcal{L}(V)\). Once
+\(V\) is finite-dimensional, its \emph{nullity} and \emph{rank} are
+\(\dim\ker T\) and \(\dim\operatorname{im}T\).
+\end{definition}
+
+The kernel and image are subspaces by Proposition~6.1, and the preceding
+subspace theorem supplies their finite bases. Thus the numerical words in the
+definition are legitimate before rank--nullity is invoked.
+
+\begin{theorem}[Rank--nullity]
+If \(T:V\to W\) is linear and \(V\) is finite-dimensional, then
+\[\dim V=\dim\ker T+\dim\operatorname{im}T.\]
+\end{theorem}
+\begin{proof}
+Choose a basis \(k_1,\ldots,k_a\) of \(\ker T\). Extend it to the basis
+\[
+k_1,\ldots,k_a,v_1,\ldots,v_b
+\]
+of \(V\). The vectors \(Tv_1,\ldots,Tv_b\)
+span the image: applying \(T\) removes the \(k_i\)-part of any coordinate
+expression. If
+\[
+\sum_i c_iTv_i=0,
+\]
+then
+\[
+\sum_i c_iv_i\in\ker T,
+\]
+and
+uniqueness of the displayed basis expansion gives every \(c_i=0\). Hence
+they form a basis of the image, so \(\dim V=a+b\).
+\end{proof}
+
+Thus a linear map between equal finite dimensions is injective exactly when
+it is surjective, and hence exactly when it is an isomorphism: rank--nullity
+shows that one of kernel and image has the necessary dimension precisely when
+the other does.
+
+\section{Matrices and Change of Basis}
+Once ordered bases are chosen, a linear transformation becomes a table of
+coordinates. The matrix is a useful representative, but it is not the
+transformation itself: changing coordinates changes its matrix.
+
+Let \(\beta=(v_1,\ldots,v_n)\) be an ordered basis. Every \(v\in V\) has
+one and only one expansion \(v=x_1v_1+\cdots+x_nv_n\); define its
+\emph{coordinate column} by
+\[
+[v]_\beta=\begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}.
+\]
+The order matters: exchanging two basis vectors generally exchanges two
+coordinates.
+
+For \(A=(a_{ij})\in M_{m\times n}(F)\) and a column
+\(x=(x_1,\ldots,x_n)^t\), define matrix--vector multiplication by
+\[
+(Ax)_i=\sum_{j=1}^n a_{ij}x_j.
+\]
+\[
+\begin{pmatrix}a_{11}&\cdots&a_{1n}\\a_{21}&\cdots&a_{2n}\\\vdots&&\vdots\\a_{m1}&\cdots&a_{mn}\end{pmatrix}
+\begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}
+=\begin{pmatrix}a_{11}x_1+\cdots+a_{1n}x_n\\a_{21}x_1+\cdots+a_{2n}x_n\\\vdots\\a_{m1}x_1+\cdots+a_{mn}x_n\end{pmatrix}.
+\]
+For instance,
+\[
+\begin{pmatrix}2&-1\\3&4\end{pmatrix}
+\begin{pmatrix}5\\2\end{pmatrix}
+=\begin{pmatrix}8\\23\end{pmatrix}.
+\]
+The same row-by-column rule represents composition:
+\[
+\begin{pmatrix}2&-1\\3&4\end{pmatrix}
+\begin{pmatrix}1&0\\2&1\end{pmatrix}
+=\begin{pmatrix}0&-1\\11&4\end{pmatrix}.
+\]
+Thus the \((i,j)\)-entry is the dot product of row \(i\) of the left factor
+with column \(j\) of the right factor, exactly as required by composition.
+If \(T:V\to W\), \(\beta=(v_1,\ldots,v_n)\), and
+\(\gamma=(w_1,\ldots,w_m)\) is an ordered basis of \(W\), write
+\[
+T(v_j)=a_{1j}w_1+\cdots+a_{mj}w_m
+\quad(1\leq j\leq n).
+\]
+The \emph{matrix of \(T\) from \(\beta\) to \(\gamma\)} is
+\[
+[T]^\gamma_\beta=(a_{ij})\in M_{m\times n}(F).
+\]
+Thus its \(j\)-th column is \([T(v_j)]_\gamma\); its entries depend on both
+chosen ordered bases, though \(T\) itself does not. If
+\[
+v=\sum_jx_jv_j,
+\]
+linearity gives
+\[
+T(v)=\sum_jx_jT(v_j)=\sum_i\left(\sum_j a_{ij}x_j\right)w_i,
+\]
+so, exactly by the displayed definition of matrix--vector multiplication,
+\[
+[T(v)]_\gamma=[T]^\gamma_\beta[v]_\beta. \tag{6.1}
+\]
+
+For \(A=(a_{ij})\in M_{m\times n}(F)\) and
+\(B=(b_{jk})\in M_{n\times r}(F)\), define
+\[
+AB=(c_{ik})\in M_{m\times r}(F),\qquad c_{ik}=\sum_{j=1}^n a_{ij}b_{jk}.
+\]
+This is row-by-column multiplication; equivalently, the \(k\)-th column of
+\(AB\) is \(A\) times the \(k\)-th column of \(B\). The dimension rule is
+\((m\times n)(n\times r)\to(m\times r)\). A direct finite-sum calculation
+shows associativity: the \((i,\ell)\)-entries of \((AB)C\) and \(A(BC)\)
+are respectively
+\[
+\sum_{j,k}a_{ij}b_{jk}c_{k\ell}
+\]
+with the two possible parentheses,
+which agree in the field \(F\). Applying (6.1) twice therefore proves
+\[
+[S\circ T]^\delta_\beta=[S]^\delta_\gamma[T]^\gamma_\beta.
+\]
+
+The \emph{identity matrix} \(I_n=(\delta_{ij})\) has entries \(1\) on the
+diagonal and \(0\) elsewhere. The defining sums immediately give
+\(AI_n=A\) and \(I_mA=A\) for compatible matrices. A square matrix \(A\)
+is \emph{invertible} if a square matrix \(B\) satisfies \(AB=BA=I\); such a
+\(B\), if it exists, is unique, since
+\(B=B(AC)=(BA)C=C\), and is denoted \(A^{-1}\). Associativity also gives
+\((AB)^{-1}=B^{-1}A^{-1}\). Formula (6.1) and the composition formula show
+that a square matrix is invertible exactly when its associated linear map is
+an automorphism.
+
+If \(\beta'\) is another ordered basis of \(V\), define the
+change-of-coordinate matrix, with its direction displayed, by
+\(P=[I_V]^\beta_{\beta'}\). Formula (6.1) for the identity says
+\([v]_\beta=P[v]_{\beta'}\). The reverse change-of-coordinate matrix
+\(Q=[I_V]^{\beta'}_\beta\) satisfies \(PQ=QP=I\), so \(P^{-1}=Q\).
+For an endomorphism \(T\), applying the composition formula to the two
+identity maps gives
+\[
+[T]^{\beta'}_{\beta'}=P^{-1}[T]^\beta_\beta P.
+\]
+Matrices related in this way are \emph{similar}; they represent one operator
+in different ordered bases.
+
+Finally, the matrices \(E_{ij}\), having a single \(1\) in position
+\((i,j)\), form a basis of \(M_{m\times n}(F)\). Hence this matrix space has
+dimension \(mn\). For fixed ordered bases, \(T\mapsto[T]^\gamma_\beta\) is
+a linear bijection by the column construction above. In particular,
+\(\dim_F\mathcal{L}_F(V)=(\dim_FV)^2\).
+
+\begin{example}[A change of basis]
+Let \(T:\mathbb R^2\to\mathbb R^2\) be given by
+\(T(x,y)=(3x+y,y)\). In the standard basis its matrix is
+\(A=\begin{pmatrix}3&1\\0&1\end{pmatrix}\). Put
+\(v_1=(1,0)\), \(v_2=(1,-2)\), and let \(\beta=(v_1,v_2)\). The
+change-of-coordinate matrix has these vectors as columns,
+\[P=\begin{pmatrix}1&1\\0&-2\end{pmatrix},\qquad
+P^{-1}=\begin{pmatrix}1&\tfrac12\\0&-\tfrac12\end{pmatrix}.
+\]
+Therefore
+\[ [T]_\beta=P^{-1}AP=\begin{pmatrix}3&0\\0&1\end{pmatrix}. \]
+The diagonal entries were not produced by a new operator: the chosen basis
+consists of eigenvectors. This computation is the concrete meaning of
+similarity and anticipates diagonalization.
+\end{example}
+
+\section{Determinants}\label{sec:determinants}
+An endomorphism of an \(n\)-dimensional space either preserves oriented
+\(n\)-dimensional volume up to a scalar or collapses some direction. The
+determinant is that scalar. Its most useful definition is therefore
+structural, not computational. Permutations and their signs, used below, were
+proved in \hyperref[chap:groups-foundations]{Chapter~2}.
+
+\begin{definition}
+Let \(V\) be an \(n\)-dimensional vector space over \(F\), with ordered basis
+\(\beta=(v_1,\ldots,v_n)\). A map \(\omega:V^n\to F\) is
+\emph{\(n\)-multilinear} if it is linear in each argument separately, and
+\emph{alternating} if it vanishes whenever two arguments agree. The
+\emph{determinant form associated with \(\beta\)} is an alternating
+\(n\)-multilinear map \(\omega_\beta\) satisfying
+\[
+\omega_\beta(v_1,\ldots,v_n)=1.
+\]
+\end{definition}
+
+Multilinearity models how volume changes when one edge is changed; alternation
+models the collapse caused by two equal directions; normalization fixes the
+unit oriented parallelepiped determined by the chosen basis.
+
+\begin{lemma}[Alternating sign-change lemma]\label{lem:alternating-sign-change}
+Let \(\omega:V^n\to F\) be alternating and multilinear. Interchanging any
+two arguments changes its value by a sign. More precisely, if every argument
+other than those in two fixed positions is held fixed, then
+\[
+\omega(\ldots,x,\ldots,y,\ldots)
+=-\omega(\ldots,y,\ldots,x,\ldots).
+\]
+\end{lemma}
+\begin{proof}
+Alternation gives
+\[
+0=\omega(\ldots,x+y,\ldots,x+y,\ldots).
+\]
+Expanding the two displayed positions by multilinearity gives four terms.
+The terms with two copies of \(x\) or two copies of \(y\) vanish by
+alternation. Thus
+\[
+0=\omega(\ldots,x,\ldots,y,\ldots)
+ +\omega(\ldots,y,\ldots,x,\ldots),
+\]
+which is the asserted identity.
+\end{proof}
+
+Consequently, each transposition of arguments contributes a factor of
+\(-1\). Chapter~2 proves that the parity of a permutation is well-defined,
+so a permutation \(\sigma\in S_n\) changes the value of \(\omega\) by the
+factor \(\operatorname{sgn}(\sigma)\). The lemma supplies the effect on an
+alternating multilinear map; the earlier permutation theory supplies the
+rule by which the signs of successive transpositions combine.
+
+\begin{theorem}[Existence and uniqueness of the determinant form]\label{thm:det-form}
+There is exactly one determinant form \(\omega_\beta\).
+\end{theorem}
+\begin{proof}
+We first prove uniqueness. Write
+\[
+x_j=\sum_{i=1}^n a_{ij}v_i\qquad(1\leq j\leq n).
+\]
+Repeated multilinearity forces
+\[
+\omega(x_1,\ldots,x_n)
+=\sum_{i_1,\ldots,i_n}
+a_{i_1,1}\cdots a_{i_n,n}\,
+\omega(v_{i_1},\ldots,v_{i_n}).
+\]
+Alternation kills every term with repeated indices. The surviving tuples are
+exactly
+\[
+(i_1,\ldots,i_n)=(\sigma(1),\ldots,\sigma(n)),
+\qquad \sigma\in S_n.
+\]
+By Lemma~\ref{lem:alternating-sign-change}, each adjacent transposition of
+arguments contributes a factor of \(-1\). The Chapter~2 parity theory then
+shows that the term indexed by \(\sigma\) has the factor
+\(\operatorname{sgn}(\sigma)\), and normalization gives
+\[
+\omega_\beta(x_1,\ldots,x_n)
+=\sum_{\sigma\in S_n}\operatorname{sgn}(\sigma)
+a_{\sigma(1),1}\cdots a_{\sigma(n),n}. \tag{6.2}\label{eq:leibniz-form}
+\]
+Thus there can be at most one such map.
+
+Conversely, define the right side of \eqref{eq:leibniz-form} to be
+\(\omega_\beta(x_1,\ldots,x_n)\). Each coefficient in one column occurs
+linearly, so the expression is multilinear in the corresponding argument.
+If \(x_r=x_s\), pair a summand indexed by \(\sigma\) with the summand obtained
+by exchanging \(\sigma(r)\) and \(\sigma(s)\). The products agree because
+columns \(r\) and \(s\) agree, while the signs are opposite; every summand
+therefore cancels. Finally, for \((x_1,\ldots,x_n)=(v_1,\ldots,v_n)\), only
+the identity permutation contributes, and the value is \(1\). Hence the
+candidate is a determinant form.
+\end{proof}
+
+Formula \eqref{eq:leibniz-form}, the \emph{Leibniz formula}, is consequently
+not a separate definition: it is the forced coordinate expression for the
+unique normalized alternating multilinear form.
+
+\begin{definition}
+For \(A\in M_n(F)\), with columns \(A_1,\ldots,A_n\), define
+\[
+\det(A)=\omega_e(A_1,\ldots,A_n),
+\]
+where \(e\) is the standard ordered basis of \(F^n\). Thus
+\[
+\det(A)=
+\sum_{\sigma\in S_n}\operatorname{sgn}(\sigma)
+a_{\sigma(1),1}\cdots a_{\sigma(n),n}.
+\]
+This is a column convention. The row convention follows below from transpose
+invariance.
+\end{definition}
+
+\begin{definition}
+For \(T\in\mathcal{L}_F(V)\), define \(\det(T)\) by
+\[
+\omega_\beta(Tx_1,\ldots,Tx_n)
+=\det(T)\,\omega_\beta(x_1,\ldots,x_n)
+\qquad(x_1,\ldots,x_n\in V).
+\]
+\end{definition}
+
+The left side is alternating and multilinear in the \(x_i\). The expansion
+used in the proof of Theorem~\ref{thm:det-form} shows that every such form is
+its value on \(\beta\) times \(\omega_\beta\), so the displayed scalar exists
+and is unique; evaluating at \(\beta\) shows that it equals
+\(\omega_\beta(Tv_1,\ldots,Tv_n)\). The identity itself holds for every
+tuple, so evaluating in another ordered basis proves that \(\det(T)\) is
+independent of \(\beta\). Expanding the columns \(Tv_j\) in \(\beta\) gives
+\[
+\det(T)=\det([T]^\beta_\beta). \tag{6.3}\label{eq:operator-matrix-det}
+\]
+This separates the intrinsic operator from its coordinate matrix.
+
+\begin{theorem}[Basic determinant identities]\label{thm:det-identities}
+For endomorphisms \(S,T\) of a finite-dimensional vector space over a field,
+\[
+\det(I)=1,\qquad
+\det(S\circ T)=\det(S)\det(T).
+\]
+For square matrices over \(F\),
+\[
+\det(AB)=\det(A)\det(B),
+\qquad
+\det(A^t)=\det(A).
+\]
+\end{theorem}
+\begin{proof}
+The defining identity for determinants gives
+\[
+\omega_\beta(STx_1,\ldots,STx_n)
+=\det(S)\det(T)\omega_\beta(x_1,\ldots,x_n),
+\]
+which proves multiplicativity and \(\det(I)=1\). Matrix multiplicativity
+follows from \eqref{eq:operator-matrix-det} and the composition formula
+proved in \S6.11. Replacing \(\sigma\) by \(\sigma^{-1}\) in
+\eqref{eq:leibniz-form} gives \(\det(A^t)=\det(A)\).
+\end{proof}
+
+Thus adding a multiple of one column to another leaves the determinant
+unchanged, scaling a column scales the determinant by the same scalar, and
+interchanging two columns changes its sign; these are immediate consequences
+of multilinearity and alternation. Transpose invariance supplies the
+corresponding row operations.
+
+\begin{definition}
+For \(A=(a_{ij})\in M_n(F)\), let \(A_{ij}\) be the matrix obtained by
+deleting row \(i\) and column \(j\). Its \emph{cofactor} is
+\[
+C_{ij}=(-1)^{i+j}\det(A_{ij}).
+\]
+\end{definition}
+
+\begin{theorem}[Laplace expansion and adjugate]\label{thm:adjugate}
+For every row \(i\) and column \(j\),
+\[
+\det A=\sum_{k=1}^n a_{ik}C_{ik},
+\qquad
+\det A=\sum_{k=1}^n a_{kj}C_{kj}.
+\]
+If \(\operatorname{adj}(A)=(C_{ji})\), then
+\[
+A\operatorname{adj}(A)=\operatorname{adj}(A)A=(\det A)I_n. \tag{6.4}\label{eq:adjugate}
+\]
+\end{theorem}
+\begin{proof}
+Group the terms of the Leibniz formula according to the column selected in
+row \(i\). Moving that selected entry to the first position requires
+\(i+j\) parity changes, giving the first expansion; transpose invariance
+gives the column version. The \((i,j)\)-entry of
+\(A\operatorname{adj}(A)\) is the row-\(i\) cofactor expansion if \(i=j\).
+If \(i\ne j\), it is the same expansion after replacing row \(j\) by row
+\(i\), which is zero by alternation. The column calculation proves the
+identity on the other side.
+\end{proof}
+
+\begin{corollary}[Invertibility criterion over a field]\label{cor:field-det-invertibility}
+For \(A\in M_n(F)\), equivalently for an endomorphism of \(V\),
+\[
+A\text{ is invertible}\quad\Longleftrightarrow\quad\det(A)\ne0.
+\]
+\end{corollary}
+\begin{proof}
+If \(A\) is invertible, determinant multiplicativity gives
+\[
+1=\det(A)\det(A^{-1}).
+\]
+Conversely, if \(\det(A)\ne0\), then
+\(\det(A)^{-1}\operatorname{adj}(A)\) is an inverse by
+\eqref{eq:adjugate}.
+\end{proof}
+
+\begin{example}
+For a \(2\times2\) matrix,
+\[
+\det\begin{pmatrix}a&b\\c&d\end{pmatrix}=ad-bc.
+\]
+Thus \(\det\begin{pmatrix}2&1\\4&2\end{pmatrix}=0\), while
+\[
+\det\begin{pmatrix}2&1\\1&1\end{pmatrix}=1,
+\qquad
+\begin{pmatrix}2&1\\1&1\end{pmatrix}^{-1}
+=\begin{pmatrix}1&-1\\-1&2\end{pmatrix}.
+\]
+Laplace expansion and the adjugate are computational consequences of the
+same structural determinant form, not competing definitions.
+\end{example}
+
+\subsection{Determinants over commutative rings}
+The Leibniz expression uses only addition, multiplication, commutativity,
+and the elements \(1\) and \(-1\). It therefore has a useful scope beyond
+fields.
+
+\begin{theorem}[Determinants over commutative rings]\label{thm:ring-determinants}
+Let \(R\) be a commutative ring with identity. For \(A\in M_n(R)\), define
+\[
+\det(A)=
+\sum_{\sigma\in S_n}\operatorname{sgn}(\sigma)
+a_{\sigma(1),1}\cdots a_{\sigma(n),n}.
+\]
+On \(R^n\), this is the unique normalized alternating \(n\)-multilinear
+form with respect to the standard ordered basis. The identities
+\[
+\det(I)=1,\qquad
+\det(AB)=\det(A)\det(B),\qquad
+\det(A^t)=\det(A)
+\]
+and the Laplace and adjugate identities \eqref{eq:adjugate} remain valid.
+\end{theorem}
+\begin{proof}
+The uniqueness, cancellation, and multilinearity arguments in
+Theorem~\ref{thm:det-form} use no division, only commutativity and the sign
+of a permutation. The structural proof of multiplicativity and the cofactor
+proof use the same operations, and hence carry over word for word.
+\end{proof}
+
+If \(P\) is an invertible change-of-basis matrix of a finite free
+\(R\)-module \(F\), then
+\[
+\det(P)\det(P^{-1})=1.
+\]
+Consequently, for an endomorphism \(T:F\to F\), the value
+\[
+\det(T)=\det([T]^\beta_\beta)
+\]
+is independent of the ordered basis \(\beta\): two matrices are related by
+\(P^{-1}[T]^\beta_\beta P\), and determinant multiplicativity cancels the
+two unit determinants. Thus the preceding field construction extends exactly
+to finite free modules, not to arbitrary finitely generated modules.
+
+\begin{corollary}[Invertibility over a commutative ring]
+For \(A\in M_n(R)\),
+\[
+A\text{ is invertible}\quad\Longleftrightarrow\quad\det(A)\in R^\times.
+\]
+\end{corollary}
+\begin{proof}
+An inverse of \(A\) makes \(\det(A)\det(A^{-1})=1\). Conversely, if
+\(\det(A)\) is a unit, \((\det A)^{-1}\operatorname{adj}(A)\) is an inverse
+by \eqref{eq:adjugate}.
+\end{proof}
+
+Over a field, nonzero and unit are equivalent. Over \(\mathbb Z\), they are
+not: the \(1\times1\) matrix \((2)\) has nonzero determinant but is not
+invertible. In particular, the field criterion involving linear dependence
+must not be transferred unqualified to general commutative rings. For
+\(A\in M_n(R)\), the polynomial
+\(\chi_A(t)=\det(tI-A)\in R[t]\) is nevertheless defined, and the adjugate
+identity over \(R[t]\) gives \(\chi_A(A)=0\). Chapter~7 uses this argument in
+its operator-theoretic field setting.
+
+\section{Eigenvalues, Eigenvectors, and Invariant Subspaces}
+An eigenvector is a direction whose direction is not changed by an operator:
+the operator merely scales it. Such directions are the first indication that
+a complicated transformation might have a simple coordinate system.
+
+\begin{definition}
+For \(T:V\to V\), a nonzero \(v\) is an \emph{eigenvector} with
+\emph{eigenvalue} \(\lambda\in F\) if \(Tv=\lambda v\). The
+\emph{eigenspace} is \(E_\lambda=\ker(T-\lambda I)\). A subspace
+\(W\leq V\) is \emph{\(T\)-invariant} if \(T(W)\subseteq W\).
+\end{definition}
+
+Because eigenspaces are kernels, they are subspaces before any dimension is
+attached to them. Now let \(\beta\) be an ordered basis and
+\(A=[T]^\beta_\beta\). Define the \emph{characteristic polynomial} by
+\[\chi_T(x)=\det(xI-A)\in F[x].\]
+This definition is independent of \(\beta\). Indeed, if
+\(A'=P^{-1}AP\), then, in the polynomial ring \(F[x]\),
+\[
+xI-A'=P^{-1}(xI-A)P.
+\]
+Determinant multiplicativity, already proved above, gives
+\(\det(xI-A')=\det(P^{-1})\det(xI-A)\det(P)=\det(xI-A)\).
+
+\begin{proposition}
+For \(\lambda\in F\), \(\lambda\) is an eigenvalue of \(T\) if and only if
+\(\chi_T(\lambda)=0\).
+\end{proposition}
+\begin{proof}
+The equation \(Tv=\lambda v\) for a nonzero \(v\) says that
+\(T-\lambda I\) is not injective. In finite dimension it is therefore not
+invertible. Its matrix is \(A-\lambda I\), so the determinant criterion
+above says precisely that \(\det(A-\lambda I)=0\), equivalently
+\(\det(\lambda I-A)=0\). This is \(\chi_T(\lambda)=0\). The reverse chain
+of equivalences proves the converse.
+\end{proof}
+
+The eigenspace is a subspace because it is a kernel. It can have dimension
+larger than one: for the identity operator, the unique eigenspace is all of
+\(V\). By contrast, a rotation of the real plane through a nonzero angle less
+than \(\pi\) has no real eigenvector at all. The field therefore matters:
+the same rotation has complex eigenvalues, a point returned to in Chapter~7.
+
+\section{Diagonalization}
+The best possible matrix of an operator is diagonal: each coordinate evolves
+independently. The question is therefore not whether a matrix happens to
+look diagonal, but whether the underlying operator has a basis made of
+eigenvectors.
+
+\begin{theorem}[Diagonalization criterion]
+For an endomorphism \(T:V\to V\), the following are equivalent:
+\begin{enumerate}
+\item \(T\) is represented by a diagonal matrix in some basis;
+\item \(V\) has a basis of eigenvectors of \(T\);
+\item
+\[
+V=\bigoplus_\lambda E_\lambda,
+\]
+where the sum ranges over the
+eigenvalues that occur.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The columns of a diagonal matrix say exactly that its basis vectors are
+eigenvectors, proving (1) iff (2). Eigenvectors belonging to distinct
+eigenvalues are independent. For if a shortest nontrivial relation
+\[
+\sum_{i=1}^rc_iv_i=0
+\]
+involved distinct eigenvalues \(\lambda_i\), then
+applying \(T-\lambda_rI\) gives a shorter relation
+\[
+\sum_{i<r}c_i(\lambda_i-\lambda_r)v_i=0;
+\]
+its coefficients are nonzero
+whenever the original ones are, a contradiction. Thus the sum of the
+eigenspaces is direct. A basis of eigenvectors spans precisely this direct
+sum, proving (2) iff (3).
+\end{proof}
+
+In particular, if \(\dim V=n\) and \(T\) has \(n\) distinct eigenvalues,
+then it is diagonalizable. Diagonalization is powerful but not universal. The
+next chapter explains the additional structure that remains when no eigenbasis
+exists.
+
+\begin{example}[Three first tests for diagonalization]
+On \(\mathbb R^2\), the operator with matrix
+\(\begin{pmatrix}3&1\\0&1\end{pmatrix}\) has distinct eigenvalues \(3\) and
+\(1\), so the preceding worked calculation diagonalizes it. The identity
+operator has the repeated eigenvalue \(1\), yet is diagonalizable because
+every nonzero vector is an eigenvector. In contrast,
+\[J=\begin{pmatrix}1&1\\0&1\end{pmatrix}\]
+has characteristic polynomial \((x-1)^2\), but
+\(\ker(J-I)\) is one-dimensional. It has only one independent eigenvector
+and therefore is not diagonalizable. Thus a split characteristic polynomial
+does not by itself supply an eigenbasis; the missing information is precisely
+what the module structure in Chapter~7 records.
+\end{example}
+
+\input{chapters/duality-forms}
+
+\section*{Exercises}
+\begin{exercise}[Basic] Verify directly that abelian groups are precisely
+\(\mathbb Z\)-modules, and determine the submodules of
+\(\mathbb Z/12\mathbb Z\).\end{exercise}
+\begin{exercise}[Core] Prove the universal property of the direct sum for an
+arbitrary family of modules.\end{exercise}
+\begin{exercise}[Core] Let \(T:F^4\to F^3\) have rank \(2\). Find its
+nullity and decide whether it can be injective or surjective.\end{exercise}
+\begin{exercise}[Core] Compute the matrix of differentiation on polynomials
+of degree at most \(3\), using the basis \(1,x,x^2,x^3\).\end{exercise}
+\begin{exercise}[Core] Show that similar matrices have the same characteristic
+polynomial and determinant.\end{exercise}
+\begin{exercise}[Further] Decide which of the matrices
+\(\begin{pmatrix}1&1\\0&1\end{pmatrix}\) and
+\(\begin{pmatrix}1&0\\0&1\end{pmatrix}\) are diagonalizable.\end{exercise}
+\begin{exercise}[Further, Challenging] Prove that an operator is
+diagonalizable exactly when the sum of the dimensions of its eigenspaces is
+\(\dim V\).\end{exercise}
+\begin{exercise}[Core] For the standard basis of \(F^3\), compute its dual
+basis and the matrix of the dual of a specified \(3\times3\) matrix.  Then
+verify the congruence formula for the bilinear form whose matrix is
+\[
+\begin{pmatrix}2&1\\1&0\end{pmatrix}
+\]
+after the basis change \((e_1,e_2)\mapsto(e_1+e_2,e_2)\).
+\end{exercise}

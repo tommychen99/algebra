@@ -1,0 +1,948 @@
+\chapter{Groups, Quotients, and Homomorphisms}\label{chap:groups-foundations}
+
+\section{Groups, Subgroups, and Generated Subgroups}
+
+Groups record a collection of reversible symmetries or operations.  The
+axioms are deliberately sparse: associativity makes an unparenthesized product
+meaningful, the identity records ``doing nothing,'' and inverses record the
+possibility of undoing an operation.  The familiar examples \(\mathbb Z\),
+\(\mathbb Z/n\mathbb Z\), the symmetric groups \(S_n\), and the dihedral groups
+\(D_n\) will recur throughout Part~I.
+
+\begin{definition}
+A \emph{group} is a set \(G\) equipped with a binary operation
+\(G\times G\to G\), \((x,y)\mapsto xy\), satisfying the following axioms.
+\begin{enumerate}
+\setlength{\itemsep}{7pt}
+\item \textbf{Associativity:} for all \(x,y,z\in G\),
+      \[(xy)z=x(yz).\]
+\item \textbf{Identity:} there is an element \(1\in G\) such that, for every
+      \(x\in G\),
+      \[1x=x=x1.\]
+\item \textbf{Inverses:} for every \(x\in G\), there is an element
+      \(x^{-1}\in G\) such that
+      \[xx^{-1}=1=x^{-1}x.\]
+\end{enumerate}
+A nonempty subset \(H\subseteq G\) is a \emph{subgroup} when the same
+operation makes \(H\) into a group; equivalently, it is closed under products
+and inverses.
+\end{definition}
+
+Associativity permits \(g_1g_2\cdots g_n\) without specifying parentheses.
+
+\begin{example}[Additive Number Systems]
+The integers \((\mathbb Z,+)\) form a group: associativity is inherited from
+ordinary addition, the identity is \(0\), and the inverse of \(m\) is \(-m\).
+The same verification gives additive groups \((\mathbb Q,+)\) and
+\((\mathbb R,+)\).  These examples explain the word ``inverse'' in an additive
+setting: it is an additive inverse, not a reciprocal.  The natural numbers
+\((\mathbb N,+)\) are not a group, because a positive integer has no additive
+inverse in \(\mathbb N\).
+\end{example}
+
+\begin{example}[Multiplicative Number Systems]
+The nonzero rational numbers \(\mathbb Q^\times=\mathbb Q\setminus\{0\}\)
+form a group under multiplication.  The identity is \(1\), and the inverse of
+\(a/b\) is \(b/a\).  Likewise \(\mathbb R^\times\) is a group.  The zero
+rational or real number must be removed: it has no multiplicative inverse.
+This small change illustrates a common algebraic move---restrict to the
+elements for which an operation is reversible.
+\end{example}
+
+\begin{example}[Matrices]
+For the familiar number systems \(F=\mathbb Q\) or \(\mathbb R\), the
+invertible \(n\times n\) matrices form the group \(\operatorname{GL}_n(F)\).
+Matrix multiplication is associative, the identity is \(I_n\), and membership
+means precisely that a matrix inverse exists.  (The general notion of a field
+will be developed later.)  For \(n\geq2\) this group is generally nonabelian:
+two reversible linear transformations need not commute.  This is the first
+indication that groups capture more than arithmetic.
+\end{example}
+
+\begin{proposition}[Elementary Group Identities]
+The identity and inverses are unique.  Cancellation holds, and
+\((xy)^{-1}=y^{-1}x^{-1}\).
+\end{proposition}
+\begin{proof}
+If \(e,e'\) are identities, use first the right-identity property of \(e'\)
+and then the left-identity property of \(e\): \(e=ee'=e'\).  If \(y,z\) both
+invert \(x\), then associativity lets us insert parentheses as follows:
+\[y=y1=y(xz)=(yx)z=1z=z.\]
+For cancellation, if \(ax=ay\), multiply the equality on the left by
+\(a^{-1}\):
+\[x=1x=(a^{-1}a)x=a^{-1}(ax)=a^{-1}(ay)=(a^{-1}a)y=1y=y.\]
+Right cancellation is similar.  Finally,
+\[(xy)(y^{-1}x^{-1})=x(yy^{-1})x^{-1}=x1x^{-1}=1,\]
+and the same calculation in the opposite order shows that \(y^{-1}x^{-1}\)
+is the inverse of \(xy\).
+\end{proof}
+
+Thus a subgroup is not merely a subset: it is a collection of operations that
+is itself closed under composition and reversal.  For example,
+\(n\mathbb Z\leq\mathbb Z\), while the transpositions in \(S_3\) do not form a
+subgroup because their product need not be a transposition.
+
+We will use one kind of map before studying maps systematically.  A function
+\(f:G\to H\) between groups is a \emph{homomorphism} if
+\(f(xy)=f(x)f(y)\) for all \(x,y\in G\).  Its \emph{kernel} is the set of
+elements sent to the identity of \(H\).  The structural consequences of these
+definitions---images, normality, and quotient groups---are developed later in
+this chapter.
+
+\begin{proposition}[Subgroup Test]
+A nonempty subset \(H\) of \(G\) is a subgroup if and only if
+\(xy^{-1}\in H\) for all \(x,y\in H\).
+\end{proposition}
+\begin{proof}
+If \(H\) is already a subgroup, then \(y^{-1}\in H\) and closure under
+products gives \(xy^{-1}\in H\).  Conversely, assume the displayed condition.
+Choose \(h\in H\), possible because \(H\) is nonempty.  Taking \(x=y=h\)
+gives \(hh^{-1}=1\in H\).  Now take \(x=1\) and any \(y\in H\); the condition
+gives \(y^{-1}\in H\).  Finally, if \(x,y\in H\), then \(y^{-1}\in H\), so
+the condition applied to \(x\) and \(y^{-1}\) gives
+\(x(y^{-1})^{-1}=xy\in H\).  Thus \(H\) contains the identity and is closed
+under products and inverses.
+\end{proof}
+
+The subgroup test is useful because it replaces three separate closure checks
+by a single expression.  It also anticipates a recurring algebraic pattern:
+subobjects are often recognized by closure under a difference-like operation.
+
+\begin{definition}
+For a subset \(S\subseteq G\), the \emph{subgroup generated by \(S\)} is
+\[
+\langle S\rangle=\bigcap_{\substack{H\leq G\\S\subseteq H}}H.
+\]
+It is the smallest subgroup of \(G\) containing \(S\).  A group is
+\emph{finitely generated} if \(G=\langle S\rangle\) for some finite \(S\).
+\end{definition}
+
+The intersection is a subgroup, and it is contained in every subgroup that
+contains \(S\), which proves the asserted minimality.  Equivalently,
+\(\langle S\rangle\) consists exactly of finite products of elements of \(S\)
+and their inverses (including the empty product \(1\)).  This formulation is
+often the practical one; the intersection formulation is the structural one.
+The same ``smallest subobject containing a set'' construction will reappear for
+ideals, modules, algebras, and field extensions.
+
+\begin{example}
+In the additive group \(\mathbb Z\), \(\langle6,10\rangle=2\mathbb Z\), since
+\(2=2\cdot6-10\).  In \(S_3\), \((12)\) and \((23)\) generate \(S_3\).
+\end{example}
+
+\begin{proposition}[Finite Products from a Generating Set]
+For \(S\subseteq G\), the subgroup \(\langle S\rangle\) consists exactly of
+the finite products \(s_1^{\varepsilon_1}\cdots s_k^{\varepsilon_k}\), where
+\(s_i\in S\) and \(\varepsilon_i\in\{1,-1\}\), together with the empty
+product \(1\).
+\end{proposition}
+\begin{proof}
+Let \(W\) be the set of these finite products in the already given group
+\(G\).  Concatenation gives closure under products, and reversal with inverse
+exponents gives closure under inverses.
+Thus \(W\) is a subgroup containing \(S\), so minimality gives
+\(\langle S\rangle\subseteq W\).  Every subgroup containing \(S\) contains
+all these finite products, so its intersection contains \(W\).
+\end{proof}
+
+This two-containment argument will recur whenever we describe an object
+generated by a specified set of elements.
+
+\section{Cyclic Groups}
+
+For \(g\in G\), \(\langle g\rangle=\{g^n:n\in\mathbb Z\}\) is the special
+case \(S=\{g\}\), the \emph{cyclic subgroup generated by \(g\)}.  The order
+\(|g|\) is the least positive \(n\) with \(g^n=1\), if it exists.
+
+The cyclic group \(\langle g\rangle\) is the portion of \(G\) generated by one
+operation.  Additively, \(\langle 1\rangle=\mathbb Z\); multiplicatively, the
+rotations of a regular \(n\)-gon form \(C_n\).  The order of \(g\) measures the
+first time repeated application returns to the identity.
+
+\begin{proposition}
+Every subgroup of a cyclic group is cyclic.  If \(G=\langle g\rangle\) has
+order \(n\), then for each divisor \(d\mid n\), \(G\) has a unique subgroup of
+order \(d\), namely \(\langle g^{n/d}\rangle\).
+\end{proposition}
+\begin{proof}
+For a nontrivial subgroup \(H\), let \(r\) be the least positive integer with
+\(g^r\in H\).  Given \(g^k\in H\), divide \(k\) by \(r\): write
+\(k=qr+s\), \(0\leq s<r\).  Then \(g^s=g^k(g^r)^{-q}\in H\).  Minimality of
+\(r\) forces \(s=0\), so every element of \(H\) is a power of \(g^r\), and
+\(H=\langle g^r\rangle\).  In a finite cyclic group, \(g^a\) has order
+\(n/\gcd(n,a)\).  Thus \(g^{n/d}\) has order \(d\).  If a subgroup has order
+\(d\), write it as \(H=\langle g^r\rangle\).  Then
+\(\gcd(n,r)=n/d\), so \(r=(n/d)u\) with \(\gcd(u,d)=1\).  Since
+\(g^{n/d}\) has order \(d\), there are integers \(v,w\) with
+\(uv+dw=1\).  Consequently
+\[
+ g^{n/d}=(g^r)^v(g^{n/d})^{dw}=(g^r)^v,
+\]
+because \((g^{n/d})^d=1\).  Hence
+\(\langle g^{n/d}\rangle\leq\langle g^r\rangle\); the reverse inclusion is
+immediate from \(g^r=(g^{n/d})^u\).  Thus
+\(H=\langle g^{n/d}\rangle\), which proves uniqueness precisely.
+\end{proof}
+
+\begin{example}[The Lattice of \(C_{12}\)]
+\leavevmode\\
+If \(C_{12}=\langle g\rangle\), its subgroups are
+\(\langle g\rangle,\langle g^2\rangle,\langle g^3\rangle,
+\langle g^4\rangle,\langle g^6\rangle\), and \(\{1\}\), of orders
+\(12,6,4,3,2,1\), respectively.  The divisors of \(12\) predict exactly this
+subgroup lattice.  In contrast, the analogous subgroup problem for a general
+finite group is substantially harder, which is why cyclic groups are a useful
+first laboratory.
+\end{example}
+
+\begin{proposition}
+The homomorphism \(\varphi_g:\mathbb Z\to G\), \(n\mapsto g^n\), has image
+\(\langle g\rangle\), and
+\[
+ \ker\varphi_g=
+ \begin{cases}
+ \{0\},&\text{if \(g\) has infinite order},\\[2pt]
+ n\mathbb Z,&\text{if \(|g|=n\)}.
+ \end{cases}
+\]
+Thus an infinite cyclic group is isomorphic to \(\mathbb Z\), whereas a
+cyclic group of order \(n\) is isomorphic to \(\mathbb Z/n\mathbb Z\).
+\end{proposition}
+\begin{proof}
+For integers \(a,b\),
+\(\varphi_g(a+b)=g^{a+b}=g^ag^b=\varphi_g(a)\varphi_g(b)\), so
+\(\varphi_g\) is indeed a homomorphism.  Its image is precisely the set of
+all integer powers of \(g\), namely \(\langle g\rangle\).
+The kernel consists of precisely those integers \(a\)
+for which \(g^a=1\).  If \(g\) has infinite order, this happens only for
+\(a=0\).  If \(|g|=n\), division with remainder shows that \(g^a=1\) if and
+only if \(n\mid a\), so the kernel is \(n\mathbb Z\).  In the infinite-order
+case, \(\varphi_g\) is one-to-one: \(g^a=g^b\) implies
+\(g^{a-b}=1\), hence \(a=b\).  It is onto \(\langle g\rangle\) by its
+definition, and thus gives \(\mathbb Z\cong\langle g\rangle\).
+If \(|g|=n\), the map
+\[a+n\mathbb Z\longmapsto g^a\]
+is well-defined because \(g^n=1\); it is a bijective homomorphism onto
+\(\langle g\rangle\).  The First Isomorphism Theorem will later combine these
+two direct arguments into the single statement
+\(\langle g\rangle\cong\mathbb Z/\ker\varphi_g\).
+\end{proof}
+
+\begin{proposition}
+If \(G=\langle g\rangle\) has order \(n\), then \(g^k\) is a generator if and
+only if \(\gcd(k,n)=1\).
+\end{proposition}
+\begin{proof}
+The order of \(g^k\) is \(n/\gcd(n,k)\).  Thus \(C_{12}\) has generators
+\(g,g^5,g^7,g^{11}\).
+\end{proof}
+
+\section{Dihedral Groups}
+
+\begin{definition}
+The \emph{dihedral group} \(D_n\) is the full symmetry group of a regular
+\(n\)-gon.  If \(r\) is rotation through one vertex and \(s\) a reflection,
+then
+\[D_n=\langle r,s\mid r^n=s^2=1,\ srs^{-1}=r^{-1}\rangle.\]
+Many authors call this order-\(2n\) group \(D_{2n}\); these notes use \(D_n\).
+\end{definition}
+
+The relation \(sr=r^{-1}s\) lets us move every occurrence of \(s\) to the
+left in a product.  Since \(s^2=1\) and \(r^n=1\), every product of rotations
+and reflections therefore has the form \(r^i\) or \(sr^i\), with
+\(0\leq i<n\).  These \(2n\) symmetries are distinct geometrically: the first
+family preserves orientation and the second reverses it.  Hence
+\(|D_n|=2n\) and \(\langle r\rangle\cong C_n\).  Notice that multiplying
+\(srs^{-1}=r^{-1}\) on the right by \(s\) gives the useful rewriting rule
+\(sr=r^{-1}s\): reflecting after rotating has the same effect as rotating in
+the opposite direction after reflecting.
+
+For the square, choose \(r\) to be the quarter-turn and \(s\) a reflection
+in an axis through opposite vertices.  The complete list is
+\[
+ D_4=\{1,r,r^2,r^3,s,sr,sr^2,sr^3\}.
+\]
+The first four are rotations, and the last four are reflections.  In
+particular, \(sr=r^{-1}s=r^3s\), whereas \(rs\) is a different reflection:
+\(sr\ne rs\).  This is a concrete calculation of noncommutativity, not just
+an abstract consequence of the presentation.
+
+\begin{example}[Dihedral Groups as Permutation Groups]
+Label the vertices of a regular \(n\)-gon by \(1,\ldots,n\).  Every symmetry
+permutes these vertices, so it determines an element of \(S_n\).  The action
+is injective: a geometric symmetry that fixes every vertex is the identity.
+Thus \(D_n\) is concretely a subgroup of \(S_n\).  The later Cayley theorem
+will generalize this phenomenon from dihedral groups to every finite group.
+\end{example}
+
+\section{Symmetric and Alternating Groups}
+
+\begin{definition}
+The \emph{symmetric group} \(S_n\) is the group of all bijections of the set
+\(\{1,2,\ldots,n\}\), with composition as the operation.  A \(k\)-\emph{cycle}
+\((a_1\ a_2\ \cdots\ a_k)\) sends \(a_i\) to \(a_{i+1}\) for
+\(1\leq i<k\), sends \(a_k\) to \(a_1\), and fixes every other letter.
+\end{definition}
+
+Throughout this section, products of permutations are evaluated from right to
+left: \(\sigma\tau\) means ``first apply \(\tau\), then apply \(\sigma\).''
+Cycle notation records only the letters that move.  For example,
+\((1\ 3\ 2)\in S_4\) sends \(1\mapsto3\), \(3\mapsto2\),
+\(2\mapsto1\), and fixes \(4\).  A cycle may be cyclically rewritten without
+changing the permutation: \((1\ 3\ 2)=(3\ 2\ 1)\).  Cycles with disjoint
+supports commute because they act independently on every letter.  For a
+worked noncommuting product,
+\[
+ (1\ 2\ 3)(1\ 2)=(1\ 3).
+\]
+Indeed, \(1\mapsto2\mapsto3\), \(3\mapsto3\mapsto1\), and \(2\) is fixed
+by the composite.  Reading this calculation from the right is essential.
+
+\begin{proposition}[Cycle Decomposition]
+Every permutation in \(S_n\) is a product of disjoint cycles.  This
+decomposition is unique up to reordering the cycles and cyclically rewriting
+each individual cycle.  The order of a permutation is the least common
+multiple of its disjoint cycle lengths.
+\end{proposition}
+\begin{proof}
+Begin with a letter \(a\) and follow its successive images under \(\sigma\):
+\[a,\ \sigma(a),\ \sigma^2(a),\ \ldots.\]
+Because the set is finite and \(\sigma\)
+is injective, the first repetition must be \(a\), giving one cycle.  Repeat
+with a letter not yet used.  The resulting cycles have disjoint supports and
+their product agrees with \(\sigma\) on every letter.  The orbit of each letter
+under repeated application of \(\sigma\) determines its cycle, proving
+uniqueness.  A power fixes every cycle exactly when its exponent is divisible
+by that cycle length, so the least positive such exponent is the stated lcm.
+\end{proof}
+
+\begin{definition}
+A \emph{transposition} is a two-cycle \((a\ b)\).  An \emph{adjacent
+transposition} is one of the form \((i\ i+1)\).
+\end{definition}
+
+\begin{proposition}[Transpositions Generate \(S_n\)]
+Every cycle is a product of transpositions, every permutation is a product of
+transpositions, and every transposition is a product of adjacent transpositions.
+\end{proposition}
+\begin{proof}
+Directly checking the images of the letters gives
+\[(a_1\ a_2\ \cdots\ a_k)=(a_1\ a_k)(a_1\ a_{k-1})\cdots(a_1\ a_2).\]
+The cycle-decomposition theorem therefore gives a transposition expression for
+every permutation.  If \(i<j\), then
+\[(i\ j)=(i\ i+1)\cdots(j-2\ j-1)(j-1\ j)(j-2\ j-1)\cdots(i\ i+1),\]
+as is verified by following the images of \(i\), \(j\), and every other
+letter.  Thus adjacent transpositions also generate \(S_n\).
+\end{proof}
+
+The preliminary definition of homomorphism introduced above is all that is
+needed for the next result; its kernel and quotient theory are still deferred
+to the later systematic treatment.
+
+\begin{theorem}[Parity and the Sign Homomorphism]
+Every expression of a fixed permutation as a product of transpositions has the
+same parity of length.  Consequently
+\[\operatorname{sgn}:S_n\longrightarrow\{1,-1\},\qquad
+\operatorname{sgn}(\sigma)=(-1)^r\]
+when \(\sigma\) is written as a product of \(r\) transpositions, is a
+well-defined surjective homomorphism.
+\end{theorem}
+\begin{proof}
+For \(\sigma\in S_n\), define its inversion number to be the number of pairs
+\((i,j)\) with \(i<j\) and \(\sigma(i)>\sigma(j)\).  Multiplying by an
+adjacent transposition on the right swaps two adjacent entries in the list
+\(\sigma(1),\ldots,\sigma(n)\).  All inversions involving another entry are
+unchanged in pairs, while the inversion between these two entries is reversed;
+therefore the inversion number changes by exactly one.  The displayed
+adjacent-transposition expression for \((i\ j)\) has
+\(2(j-i)-1\) factors.  Thus every transposition changes inversion parity,
+and a product of \(r\) transpositions has inversion number congruent to \(r\)
+modulo two.  Two transposition expressions for the same permutation therefore
+have the same parity.  The definition of \(\operatorname{sgn}\) is
+well-defined.  Concatenating a transposition expression for \(\sigma\) with
+one for \(\tau\) gives an expression for \(\sigma\tau\), so
+\(\operatorname{sgn}(\sigma\tau)=\operatorname{sgn}(\sigma)
+\operatorname{sgn}(\tau)\).  A transposition has sign \(-1\), so the map is
+onto.
+\end{proof}
+
+\begin{definition}
+The \emph{alternating group} \(A_n\) is the set of even permutations, namely
+\(\{\sigma\in S_n:\operatorname{sgn}(\sigma)=1\}\).
+\end{definition}
+
+The sign rule shows directly that the product and inverse of even permutations
+are even, so \(A_n\) is a subgroup.  The displayed sign rule says that
+\(\operatorname{sgn}\) is a homomorphism.  The general theory of such maps
+follows after cosets.  There we will prove that \(A_n\), as the kernel of the
+sign map, is normal of index two.
+For \(S_3\), \(A_3=\langle(123)\rangle\), and the three transpositions are
+the odd permutations.  Later quotient theory will identify the two parity
+classes with a copy of \(C_2\).
+
+\section{Cosets, Index, and Lagrange's Theorem}
+
+Every subgroup divides a group into pieces of equal size, whether or not its
+left and right translates agree.  A coset is a translate of the subgroup: it remembers
+how far an element is from belonging to \(H\), while forgetting the particular
+element of \(H\) used to describe that displacement.
+
+For \(H\leq G\), a \emph{left coset} is \(gH=\{gh:h\in H\}\); its number is
+\([G:H]\), the \emph{index} of \(H\), when finite.
+
+There are also right cosets \(Hg\).  They need not equal left cosets in a
+nonabelian group.  A later condition, called normality, will make the two
+notions coincide and permit a consistent multiplication of cosets.
+
+\begin{lemma}
+The left cosets of \(H\) partition \(G\), and each has the cardinality of
+\(H\).
+\end{lemma}
+\begin{proof}
+If \(g_1h_1=g_2h_2\), then \(g_2^{-1}g_1=h_2h_1^{-1}\in H\), which implies
+\(g_1H=g_2H\).  Thus intersecting cosets are equal.  Every element lies in a
+coset, and \(h\mapsto gh\) is a bijection \(H\to gH\).
+\end{proof}
+
+\begin{proposition}[Coset Equality Criterion]
+For \(g,h\in G\), \(gH=hH\) if and only if \(h^{-1}g\in H\).
+\end{proposition}
+\begin{proof}
+If \(gH=hH\), then \(g=ha\) for some \(a\in H\), so \(h^{-1}g\in H\).
+Conversely, \(h^{-1}g=a\in H\) gives \(gH=haH=hH\).
+\end{proof}
+
+\begin{example}
+The cosets of \(n\mathbb Z\) in \(\mathbb Z\) are the residue classes
+\(r+n\mathbb Z\).  In \(S_3\), the left cosets of \(\langle(12)\rangle\) each
+have two elements, so there are three of them.  This latter partition exists,
+but its left and right cosets differ; later we will identify the precise
+condition that permits their consistent multiplication.
+\end{example}
+
+\begin{example}
+In \(D_4\), \(r\langle s\rangle=\{r,rs\}\), whereas
+\(\langle s\rangle r=\{r,sr\}=\{r,r^{-1}s\}\).  The two sets differ, just as
+a reflection and a rotation of a square do not commute.
+\end{example}
+
+\begin{theorem}[Lagrange]
+If \(G\) is finite and \(H\leq G\), then \(|G|=[G:H]|H|\).  Consequently,
+\(|g|\) divides \(|G|\) for every \(g\in G\).
+\end{theorem}
+\begin{proofidea}
+The preceding lemma has already done the conceptual work.  Once \(G\) is a
+disjoint union of translates of \(H\), counting the pieces gives the formula.
+\end{proofidea}
+\begin{proof}
+Choose one representative from each left coset.  The preceding lemma says that
+these cosets are pairwise disjoint, cover \(G\), and each has exactly \(|H|\)
+elements.  If there are \([G:H]\) of them, counting the elements in this
+disjoint union gives \(|G|=[G:H]|H|\).  Taking \(H=\langle g\rangle\) says
+that the order of \(g\) divides \(|G|\).
+\end{proof}
+
+\begin{corollary}
+If \(G\) is finite, then \(g^{|G|}=1\) for every \(g\in G\).
+\end{corollary}
+\begin{proof}
+The order of \(g\) divides \(|G|\).
+\end{proof}
+
+\begin{corollary}
+A finite group of prime order is cyclic.
+\end{corollary}
+\begin{proof}
+Any element other than the identity has order dividing the prime group order,
+so its order is the whole prime and it generates the group.
+\end{proof}
+
+The converse to Lagrange's theorem is false: divisibility of \(|H|\) by
+\(|G|\) does not guarantee a subgroup of order \(|H|\).  For example, \(A_4\)
+has no subgroup of order six, although six divides twelve.  This limitation is
+one reason later existence theorems such as Cauchy's and Sylow's are valuable.
+
+\section{Homomorphisms, Kernels, and Images}\label{sec:homomorphisms}
+
+A homomorphism is the appropriate map between groups because it preserves the
+operation.  Its kernel measures exactly what information the map discards,
+and its image records exactly what it reaches.  These two subgroups are the
+bridge between maps and quotient constructions.
+
+\begin{definition}
+\leavevmode\\
+A \emph{homomorphism} \(\varphi:G\to K\) satisfies
+\(\varphi(gh)=\varphi(g)\varphi(h)\).
+
+Its \emph{kernel} is
+\(\ker\varphi=\{g:\varphi(g)=1\}\), and its \emph{image} is
+\(\operatorname{im}\varphi=\{\varphi(g):g\in G\}\).
+\end{definition}
+
+A homomorphism preserves the basic group operations automatically:
+\(\varphi(1)=1\), \(\varphi(g^{-1})=\varphi(g)^{-1}\), and
+\(\varphi(g^n)=\varphi(g)^n\).  Its kernel records exactly which elements the
+map identifies, since \(\varphi(x)=\varphi(y)\) if and only if
+\(x^{-1}y\in\ker\varphi\).  Images, by contrast, are subgroups but need not
+be normal: \(\langle(12)\rangle\) is the image of \(C_2\to S_3\) but is not
+invariant under conjugation.
+
+For example, reduction modulo \(n\), \(\mathbb Z\to\mathbb Z/n\mathbb Z\),
+has kernel \(n\mathbb Z\) and is onto.  The sign map
+\(S_n\to\{\pm1\}\) has kernel \(A_n\).  The latter example is a useful source
+of normal subgroups that is not obtained by inspection.  Likewise, the map
+\(D_n\to\{\pm1\}\) that sends rotations to \(1\) and reflections to \(-1\)
+has kernel \(\langle r\rangle\).
+
+\begin{proposition}
+The kernel and image of a homomorphism are subgroups; moreover,
+\(\varphi\) is injective if and only if \(\ker\varphi=\{1\}\).
+\end{proposition}
+\begin{proof}
+The subgroup test gives both subgroup assertions.  Also,
+\(\varphi(x)=\varphi(y)\) exactly when
+\(\varphi(xy^{-1})=1\), equivalently when \(xy^{-1}\in\ker\varphi\).
+\end{proof}
+
+\begin{definition}
+A subgroup \(N\leq G\) is \emph{normal}, written \(N\trianglelefteq G\), if
+\(gNg^{-1}=N\) for every \(g\in G\).
+\end{definition}
+
+\begin{proposition}[Equivalent Forms of Normality]
+For \(N\leq G\), the conditions \(gNg^{-1}=N\) and \(gN=Ng\) for every
+\(g\in G\) are equivalent.  Thus the left and right cosets of \(N\) coincide
+exactly when \(N\) is normal.
+\end{proposition}
+\begin{proof}
+Multiplying \(gNg^{-1}=N\) on the right by \(g\) gives \(gN=Ng\), and the
+reverse implication follows by multiplying on the right by \(g^{-1}\).  The
+coset statement is merely this equality written for each element \(g\).
+\end{proof}
+
+Normality says that left and right translates of \(N\) agree:
+\(gN=Ng\) for every \(g\in G\).  Equivalently, membership in \(N\) is
+unaffected by conjugation.  This condition is natural rather than cosmetic:
+it is exactly what allows the product of two cosets to be independent of the
+chosen representatives.
+
+\begin{proposition}
+\(\ker\varphi\trianglelefteq G\) for every homomorphism \(\varphi:G\to K\).
+\end{proposition}
+\begin{proof}
+For \(n\in\ker\varphi\), \(\varphi(gng^{-1})=\varphi(g)1\varphi(g)^{-1}=1\).
+The reverse inclusion follows on replacing \(g\) by \(g^{-1}\).
+\end{proof}
+
+\begin{corollary}
+The alternating group \(A_n\) is a normal subgroup of \(S_n\) of index two.
+\end{corollary}
+\begin{proof}
+The sign homomorphism has kernel \(A_n\), so the preceding proposition gives
+normality.  It is surjective because a transposition has sign \(-1\).  Its
+two fibers are the even and odd permutations; multiplication by a fixed
+transposition pairs these two sets bijectively.  Thus each has \(n!/2\)
+elements, and \([S_n:A_n]=2\).
+\end{proof}
+
+\section{Quotient Groups and Isomorphism Theorems}
+
+The progression \(N\trianglelefteq G\Rightarrow G/N\) is fundamental.  We
+identify two elements when they differ by an element of \(N\), then ask whether
+the group operation descends to the resulting equivalence classes.  The
+quotient criterion answers this question precisely.
+
+\begin{theorem}[Quotient Criterion]
+For \(N\leq G\), the rule \((gN)(hN)=(gh)N\) defines a group operation on
+the left cosets if and only if \(N\trianglelefteq G\).  The group is \(G/N\).
+\end{theorem}
+\begin{proofidea}
+Changing a representative of \(gN\) multiplies it by an element of \(N\).
+Normality is exactly what lets that extra factor move past the representative
+of the other coset and be absorbed back into \(N\).
+\end{proofidea}
+\begin{proof}
+If \(N\) is normal, \(g'=gn_1\) and \(h'=hn_2\) imply
+\[
+g'h'=gh(h^{-1}n_1h)n_2\in ghN,
+\]
+so the rule is well-defined; associativity, identity \(N\), and inverse
+\(g^{-1}N\) follow from \(G\).  Conversely, well-definedness of
+\((gN)(nN)=(gN)N\) shows \(gng^{-1}\in N\) for every \(n\in N\), which is
+normality.
+\end{proof}
+
+\begin{example}
+The quotient \(\mathbb Z/n\mathbb Z\) identifies integers whose difference is
+a multiple of \(n\).  The sign homomorphism has kernel \(A_n\), so
+\(S_n/A_n\cong C_2\).  For the dihedral group
+\(D_n=\langle r,s\mid r^n=s^2=1,\ srs^{-1}=r^{-1}\rangle\), the rotation
+subgroup \(\langle r\rangle\) is normal and the quotient has two elements:
+it records whether a symmetry preserves or reverses orientation.
+\end{example}
+
+\begin{example}[Why Normality Is Necessary]
+In \(S_3\), let \(H=\langle(12)\rangle\).  It is not normal because
+\((123)(12)(123)^{-1}=(23)\notin H\).  Indeed, the proposed coset product is
+ambiguous: \(H=(12)H\), but
+\[
+H(13)H=(13)H\qquad\text{whereas}\qquad(12)H(13)H=(132)H,
+\]
+and these are different cosets.  The coset set exists, but it is not a
+quotient group.
+\end{example}
+
+\begin{theorem}[Universal Property of a Quotient]
+Let \(N\trianglelefteq G\), let \(\pi:G\to G/N\) be the quotient map, and
+let \(f:G\to H\) be a homomorphism with \(N\subseteq\ker f\).  There is a
+unique homomorphism \(\overline f:G/N\to H\) satisfying
+\(f=\overline f\circ\pi\).
+\end{theorem}
+The following diagram gives a compact visual record of this factorization:
+\[
+\begin{tikzcd}[column sep=large, row sep=large]
+G \arrow[r, "\pi"] \arrow[dr, "f"'] & G/N \arrow[d, "\overline f"] \\
+& H
+\end{tikzcd}
+\]
+A diagram \emph{commutes} when any two directed paths with the same source and
+target define the same map.  Here commutativity says exactly
+\(f=\overline f\circ\pi\).  This elementary language will be used whenever a
+canonical map and a factorization clarify a later construction.
+\begin{proofidea}
+The quotient identifies \(g\) and \(gn\).  The condition \(f(n)=1\) says
+that \(f\) also identifies them, so its value should depend only on the coset.
+\end{proofidea}
+\begin{proof}
+Define \(\overline f(gN)=f(g)\).  If \(gN=g'N\), then \(g'=gn\) for some
+\(n\in N\), and \(f(g')=f(g)f(n)=f(g)\); thus the definition is
+well-defined.  It is a homomorphism because
+\(\overline f((gN)(hN))=f(gh)=f(g)f(h)\).  The equation
+\(f=\overline f\circ\pi\) holds by construction.  Finally every coset is
+\(\pi(g)\), so this equation determines \(\overline f\) on every element of
+\(G/N\), proving uniqueness.
+\end{proof}
+
+\begin{example}[A Factorization Computed in Full]
+Let \(f:\mathbb Z\to C_6\) send \(1\) to a chosen generator \(u\).  Since
+\(f(6k)=u^{6k}=1\), the subgroup \(6\mathbb Z\) is contained in \(\ker f\).
+The universal property produces a unique map
+\[\overline f:\mathbb Z/6\mathbb Z\longrightarrow C_6,
+\qquad \overline f(\overline k)=u^k.\]
+Why is this formula safe?  If \(\overline k=\overline\ell\), then
+\(k-\ell=6q\), and \(u^k=u^{\ell+6q}=u^\ell(u^6)^q=u^\ell\).  The quotient
+is not merely a convenient notation for residues: it is the unique group
+through which every map that kills multiples of six must pass.
+\end{example}
+
+\begin{remark}[A Reusable Descent Test]
+Whenever a proposed formula is defined on cosets, the first question is not
+whether it is a homomorphism but whether it is well-defined.  The standard
+test is: replace a representative by an equivalent one and show that the
+output does not change.  In quotient groups this is usually equivalent to
+showing that the subgroup being collapsed lies in a kernel.  The same sequence
+of checks will be used for quotient rings and quotient modules.
+\end{remark}
+
+\begin{example}[Revisiting Cyclic Groups]
+For \(\varphi_g:\mathbb Z\to G\), the image is \(\langle g\rangle\).  The
+kernel calculation in the cyclic-group section therefore becomes the uniform
+formula \(\langle g\rangle\cong\mathbb Z/\ker\varphi_g\).  When \(g\) has
+infinite order this is \(\mathbb Z/\{0\}\cong\mathbb Z\), and when
+\(|g|=n\) it is \(\mathbb Z/n\mathbb Z\).  This is precisely the later
+theorem promised in the earlier direct proof.
+\end{example}
+
+\begin{theorem}[First Isomorphism Theorem]
+For a homomorphism \(\varphi:G\to K\),
+\[
+G/\ker\varphi\cong\operatorname{im}\varphi.
+\]
+\end{theorem}
+\begin{proofidea}
+Two elements have the same image under \(\varphi\) precisely when their
+quotient lies in \(\ker\varphi\).  Thus the fibers of \(\varphi\) are the
+cosets of its kernel, so collapsing those cosets should leave exactly the
+image.
+\end{proofidea}
+\begin{proof}
+The map \(g\ker\varphi\mapsto\varphi(g)\) is well-defined because equal cosets
+differ by an element of the kernel.  It is a surjective homomorphism with
+trivial kernel, hence an isomorphism.
+\end{proof}
+
+\begin{remark}[How to Use the First Isomorphism Theorem]
+The theorem is not a formula to apply after the fact.  It gives a workflow:
+construct a homomorphism that records the feature of interest, calculate what
+the homomorphism forgets, and then identify its image.  For the sign map the
+feature is parity, the forgotten permutations are the even ones, and the image
+is the two-element group.  For reduction modulo \(n\), the feature is a
+residue class, the forgotten integers are the multiples of \(n\), and the
+image is \(\mathbb Z/n\mathbb Z\).
+\end{remark}
+
+\begin{example}
+The sign map \(\operatorname{sgn}:S_n\to\{\pm1\}\) is surjective and has
+kernel \(A_n\).  The First Isomorphism Theorem therefore gives
+\(S_n/A_n\cong\{\pm1\}\cong C_2\).  This is a typical use: calculate a
+kernel, then recognize a quotient without multiplying cosets by hand.
+\end{example}
+
+\begin{theorem}[Second Isomorphism Theorem]
+Let \(N\trianglelefteq G\) and \(H\leq G\).  Then \(HN\leq G\),
+\(H\cap N\trianglelefteq H\), and
+\[HN/N\cong H/(H\cap N).\]
+\end{theorem}
+\begin{proof}
+The product \(HN\) is a subgroup because normality of \(N\) gives
+\[
+  (h_1n_1)(h_2n_2)=h_1h_2(h_2^{-1}n_1h_2)n_2\in HN.
+\]
+The subgroup test gives the remaining closure.  Conjugating an element
+of \(H\cap N\) by an element of \(H\) keeps it in both \(H\) and \(N\), so it
+is normal in \(H\).  Restrict the quotient map \(G\to G/N\) to \(H\).  Its
+kernel is \(H\cap N\), and its image is \(HN/N\).  The First Isomorphism
+Theorem gives the claimed isomorphism.
+\end{proof}
+
+The theorem says that when \(H\) enters the quotient by \(N\), precisely the
+elements already in \(N\), namely \(H\cap N\), are killed.
+
+\begin{theorem}[Third Isomorphism Theorem]
+If \(N\trianglelefteq G\) and \(N\leq H\trianglelefteq G\), then
+\(H/N\trianglelefteq G/N\) and \((G/N)/(H/N)\cong G/H\).
+\end{theorem}
+\begin{proof}
+Define \(\psi:G/N\to G/H\) by \(\psi(gN)=gH\).  If \(gN=g'N\), then
+\(g^{-1}g'\in N\subseteq H\), so \(gH=g'H\); hence \(\psi\) is well-defined.
+It is a surjective homomorphism, and its kernel consists of the cosets \(gN\)
+with \(g\in H\), which is \(H/N\).  The First Isomorphism Theorem proves the
+claim, including normality of the kernel.
+\end{proof}
+
+\begin{example}[Quotienting in Stages]
+The chain \(12\mathbb Z\subseteq4\mathbb Z\subseteq\mathbb Z\) yields
+\[(\mathbb Z/12\mathbb Z)/(4\mathbb Z/12\mathbb Z)
+\cong\mathbb Z/4\mathbb Z.\]
+The left side first remembers residues modulo twelve and then identifies
+residues differing by four; the right side simply remembers residues modulo
+four.  This is precisely the content of quotienting in stages.
+\end{example}
+
+This is the slogan \highlight{quotienting in stages is the same as quotienting
+once}.  It is a basic organizational principle in all later quotient theories.
+
+\begin{theorem}[Correspondence Theorem]
+Let \(N\trianglelefteq G\), and let \(\pi:G\to G/N\) be the quotient map.
+Then \(H\mapsto H/N\) is an inclusion-preserving bijection between subgroups
+of \(G\) containing \(N\) and subgroups of \(G/N\).  Its inverse is
+\(K\mapsto\pi^{-1}(K)\).  Under this bijection, normal subgroups correspond,
+and \(H\trianglelefteq G\) implies \((G/N)/(H/N)\cong G/H\).
+\end{theorem}
+\begin{proof}
+If \(N\leq H\), then \(H/N\leq G/N\).  If \(K\leq G/N\), then
+\(\pi^{-1}(K)\leq G\) and contains \(N\).  The two operations are inverse
+because \(\pi\) is surjective: \(\pi^{-1}(H/N)=H\) and
+\(\pi(\pi^{-1}(K))=K\).  Conjugation commutes with \(\pi\), proving the
+normality assertion.  The final statement is the Third Isomorphism Theorem.
+\end{proof}
+
+For instance, subgroups of \(\mathbb Z/n\mathbb Z\) correspond to subgroups
+of \(\mathbb Z\) that contain \(n\mathbb Z\).  The containment condition is
+necessary: only such subgroups are unions of cosets of \(n\mathbb Z\), so only
+they have a meaningful image as a subgroup of the quotient.
+
+\subsection*{Worked Quotient Examples}
+
+The following two examples gather the ideas of normality, quotient groups,
+universal properties, and isomorphism theorems in concrete settings.
+
+\begin{example}[Reduction Modulo \(12\)]
+Consider \(\pi:\mathbb Z\to\mathbb Z/12\mathbb Z\).  Two integers have the
+same image exactly when their difference is a multiple of twelve:
+\[
+\pi(a)=\pi(b)\quad\Longleftrightarrow\quad a-b\in12\mathbb Z.
+\]
+Thus the quotient identifies exactly the elements that the map cannot
+distinguish.  The subgroup correspondence says that subgroups of
+\(\mathbb Z/12\mathbb Z\) correspond to the subgroups of \(\mathbb Z\)
+containing \(12\mathbb Z\).  For instance, the subgroup generated by
+\(\overline3\) has four elements and corresponds to \(3\mathbb Z\), while the
+subgroup generated by \(\overline4\) has three elements and corresponds to
+\(4\mathbb Z\).  Inclusion reverses neither upstairs nor downstairs: the
+containment \(12\mathbb Z\subseteq4\mathbb Z\subseteq\mathbb Z\) becomes
+\(\{\overline0\}\subseteq\langle\overline4\rangle\subseteq
+\mathbb Z/12\mathbb Z\).
+\end{example}
+
+\begin{example}[The Sign Quotient of \(S_3\)]
+The sign map separates the six permutations of \(S_3\) into the three even
+permutations \(A_3=\{1,(123),(132)\}\) and the three odd permutations.  The
+two cosets of \(A_3\) are therefore \(A_3\) itself and \((12)A_3\).  In the
+quotient, every even permutation becomes the identity coset and every odd
+permutation becomes the same nontrivial coset.  Its square is the identity,
+because the product of two odd permutations is even.  Hence the quotient is
+the two-element group.  This makes the abstract statement
+\(S_3/A_3\cong C_2\) concrete: the quotient retains parity and forgets every
+other feature of a permutation.
+\end{example}
+
+\begin{proposition}[A Direct Product of Cyclic Groups]
+For positive integers \(m,n\), the group \(C_m\times C_n\) is cyclic if and
+only if \(\gcd(m,n)=1\).  In that case \((g,h)\), where \(g\) and \(h\) are
+generators of the two factors, generates the product.
+\end{proposition}
+\begin{proof}
+The order of \((g,h)\) is the least positive integer \(k\) for which both
+\(g^k=1\) and \(h^k=1\).  Thus its order is \(\operatorname{lcm}(m,n)\).
+If \(m\) and \(n\) are coprime, this least common multiple is \(mn\), the
+order of the product, so \((g,h)\) is a generator.  Conversely, suppose a
+single element generated \(C_m\times C_n\).  Its order would be \(mn\), but
+the order of every element divides \(\operatorname{lcm}(m,n)\).  Therefore
+\(mn\mid\operatorname{lcm}(m,n)\), which forces \(\gcd(m,n)=1\).
+\end{proof}
+
+This example contrasts direct products with quotients.  A quotient imposes
+identifications and thereby discards distinctions; a direct product places two
+independent systems side by side.  Their universal properties will recur
+throughout algebra, but their concrete group-theoretic forms already show two
+basic operations of algebraic construction.
+
+\subsection*{A Guided Tour of the Quotient Construction}
+
+It is useful to see the quotient construction operate several times before
+leaving Chapter~2.  The same four questions organize each instance:
+
+\begin{enumerate}
+\item What elements should be regarded as indistinguishable?
+\item Do these equivalence classes form cosets of a normal subgroup?
+\item Does the proposed operation depend only on the classes, rather than on
+      chosen representatives?
+\item What information is retained by the resulting quotient?
+\end{enumerate}
+
+For \(\mathbb Z/n\mathbb Z\), the answer to the first question is that two
+integers are indistinguishable when their difference is a multiple of \(n\).
+The retained information is a remainder.  For \(S_3/A_3\), two permutations are
+indistinguishable when they have the same parity; the retained information is
+whether the permutation is even or odd.  For \(D_n/\langle r\rangle\), two
+symmetries are indistinguishable when they differ by a rotation; the quotient
+retains whether the symmetry preserves or reverses orientation.
+
+\begin{example}[The Dihedral Quotient in Detail]
+Let \(N=\langle r\rangle\leq D_n\).  The relation \(srs^{-1}=r^{-1}\)
+implies \(sr^is^{-1}=r^{-i}\in N\), so conjugation by the reflection keeps
+the rotation subgroup inside itself.  Conjugation by a rotation plainly does
+the same; therefore \(N\) is normal.  Its two cosets are
+\[N=\{1,r,\ldots,r^{n-1}\}\quad\text{and}\quad sN=
+\{s,sr,\ldots,sr^{n-1}\}.\]
+The product of two elements of the second coset lies in \(N\), because
+\[(sr^i)(sr^j)=s(r^is)r^j=r^{j-i}.\]
+Thus the nontrivial coset has order two
+in the quotient.  This gives a direct, representative-level verification that
+\(D_n/N\cong C_2\).
+\end{example}
+
+\begin{example}[A Nonnormal Subgroup Revisited]
+Let \(H=\langle(12)\rangle\leq S_3\).  It has three left cosets, each with two
+elements.  The set of cosets is therefore perfectly meaningful, but the
+attempted product of cosets depends on representatives.  Indeed, \(H=(12)H\),
+yet multiplying each representative by the coset \((13)H\) produces different
+cosets.  The obstruction is not a flaw in the formula; it is the fact that
+conjugating \((12)\) by \((13)\) produces a transposition outside \(H\).
+The normality condition is exactly what removes this obstruction in the
+quotient criterion.
+\end{example}
+
+\begin{remark}[Proof Technique: Pass to the Right Quotient]
+When a problem contains a homomorphism, a normal subgroup, or a statement that
+is unchanged after ``forgetting'' some information, try forming a quotient.
+The quotient may turn a complicated relation into the identity relation.  The
+First Isomorphism Theorem then identifies the simplified object with an image,
+and the Correspondence Theorem translates subgroup questions upstairs and
+downstairs.  This is one of the central reusable moves of graduate algebra.
+\end{remark}
+
+\subsection*{Why These Constructions Matter Later}
+
+The material of this chapter forms a prototype for several later branches of
+algebra.  A quotient group is the first example of imposing an equivalence
+relation compatible with an operation.  In ring theory, ideals play the role
+of normal subgroups, and the same well-definedness question produces quotient
+rings.  In module theory, submodules replace normal subgroups; the isomorphism
+theorems and correspondence theorem reappear with almost identical proofs.
+
+Group actions supply a second durable pattern.  When a group acts on a set of
+geometric objects, on roots of a polynomial, or on a vector space, the orbit
+records what can be moved into what, and the stabilizer records the residual
+symmetry at a chosen point.  This is why the elementary formula
+\(|G|=|Gx|\,|G_x|\) later becomes a tool in Galois theory, representation
+theory, algebraic geometry, and number theory.
+
+Finally, the examples \(S_3\) and \(D_4\) should be regarded as small models
+of two different sources of noncommutativity.  In \(S_3\), noncommutativity
+comes from rearranging different objects; in \(D_4\), it comes from composing
+rotations with reflections.  Both groups have meaningful quotients and
+semidirect-product decompositions.  Revisiting them when later constructions
+become abstract is an efficient way to keep the structural ideas grounded.
+
+\section{Direct Products and Extensions}
+
+The external direct product \(G\times H\) combines independent symmetries:
+one may act in the first coordinate without affecting the second.  For example,
+the symmetries of a rectangle with unequal side lengths form \(C_2\times C_2\).
+The internal criterion below recognizes this construction inside a larger group.
+
+\begin{proposition}
+Suppose \(N,H\trianglelefteq G\), \(G=NH\), and \(N\cap H=\{1\}\).  Then
+\(G\cong N\times H\).
+\end{proposition}
+\begin{proof}
+Every element is \(nh\).  Such an expression is unique because
+\(n_1h_1=n_2h_2\) implies \(n_2^{-1}n_1=h_2h_1^{-1}\in N\cap H\).
+Normality makes the commutator of an element of \(N\) with one of \(H\) lie in
+both subgroups, hence be trivial.  Therefore \((n,h)\mapsto nh\) is a
+bijective homomorphism.
+\end{proof}
+
+\begin{remark}[Looking Ahead]
+The quotient map \(G\to G/N\) is the prototype for quotient rings and quotient
+modules.  Kernels, images, and quotients will later be packaged into exact
+sequences.
+\end{remark}
+
+\section*{Exercises}
+\begin{exercise}[Basic]
+In the multiplicative group \(\mathbb Q^\times\), prove that
+\[\langle-1,2\rangle=\{\pm2^k:k\in\mathbb Z\}.\]
+Decide whether this subgroup is cyclic.
+\end{exercise}
+\begin{exercise}[Core]
+Prove that a subgroup of index two is normal.
+\end{exercise}
+\begin{exercise}[Core]
+Let \(C_{12}=\langle g\rangle\).  Determine
+\(\langle g^3\rangle\cap\langle g^4\rangle\) and the subgroup generated by
+\(\langle g^3\rangle\cup\langle g^4\rangle\).  State the corresponding
+gcd/lcm pattern for two subgroups of a finite cyclic group.
+\end{exercise}
+\begin{exercise}[Core]
+Let \(H\leq G\) be the unique subgroup of \(G\) having its order.  Prove
+that \(H\trianglelefteq G\).  Apply this criterion to the subgroup of order
+three in a cyclic group of order twelve.
+\end{exercise}
+\begin{exercise}[Core]
+Let \(N\trianglelefteq G\), and let \(gN\in G/N\).  Prove that the order of
+\(gN\) is the least positive integer \(r\) for which \(g^r\in N\), when
+such an integer exists.  Apply this to compute the order of \(r\langle r^d\rangle\)
+in \(D_n/\langle r^d\rangle\) for \(d\mid n\).
+\end{exercise}
+\begin{exercise}[Further]
+If \(G\) is cyclic of order \(n\), prove
+\(\operatorname{Aut}(G)\cong(\mathbb Z/n\mathbb Z)^\times\).
+\end{exercise}
+\begin{exercise}[Looking Ahead]
+Let \(N\trianglelefteq G\).  Use the Correspondence Theorem to show that
+maximal subgroups of \(G/N\) correspond to maximal subgroups of \(G\) that
+contain \(N\).
+\end{exercise}

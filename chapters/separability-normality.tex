@@ -1,0 +1,822 @@
+\chapter[Separability, Normality, and Finite Fields]{Separability, Normality, and Finite Fields}
+\chaptermark{Separability and Finite Fields}
+
+Embeddings count genuinely different conjugate roots.  Separability measures
+that distinction; normality says that no conjugate root escapes the field.
+Only after both ideas are clear will we define a Galois extension.
+
+\section{Separable Polynomials and Extensions}
+\begin{definition}
+A nonconstant polynomial \(f\in F[x]\) is \emph{separable} if its roots in a
+splitting field are distinct.  An algebraic element is \emph{separable} over
+\(F\) when its minimal polynomial is separable; an algebraic extension is
+separable when each of its elements is separable.
+\end{definition}
+
+The definition applies to arbitrary polynomials.  For an irreducible
+polynomial it asks whether the possible conjugates of one root occur only
+once.  This is the distinction needed for counting embeddings.
+
+\begin{proposition}[Derivative criterion]\label{prop:separable-criterion}
+For nonconstant \(f\in F[x]\),
+\[
+f\text{ has a repeated root in }\overline F
+\quad\Longleftrightarrow\quad
+\gcd(f,f')\ne1.
+\]
+For irreducible \(f\), this is equivalent to \(f'=0\).
+\end{proposition}
+\begin{proof}
+Write \(f=(x-a)^rg\) in a splitting field, with \(g(a)\ne0\).  The product
+rule gives
+\[
+f'=(x-a)^{r-1}\bigl(rg+(x-a)g'\bigr).
+\]
+Thus \(a\) is repeated exactly when \(r\ge2\), equivalently when
+\(f(a)=f'(a)=0\).  A common divisor of \(f\) and \(f'\) is therefore
+equivalent, after splitting, to a common linear factor, hence to a repeated
+root.  For irreducible \(f\), the gcd is either \(1\) or an associate of
+\(f\); the latter can occur only if \(f'=0\).
+\end{proof}
+
+\begin{remark}
+In characteristic \(p>0\), \(f'=0\) exactly when every exponent appearing
+in \(f\) is divisible by \(p\), so
+\[
+f(x)=g(x^p).
+\]
+This is the source of inseparability.  For example,
+\[
+x^p-t\in\mathbb F_p(t)[x]
+\]
+has derivative zero and is irreducible because a rational function whose
+\(p\)-th power is \(t\) would have every zero and pole order divisible by
+\(p\), whereas \(t\) has a simple zero.  In an algebraic closure it is
+\[
+x^p-t=(x-t^{1/p})^p;
+\]
+it has one distinct root, with multiplicity \(p\).
+\end{remark}
+
+\begin{example}[A separable polynomial with repeated-looking coefficients]\label{ex:sep-cubic}
+Over \(\mathbb F_2\), the polynomial
+\[
+x^3+x+1
+\]
+has derivative \(x^2+1\).  It has no root in \(\mathbb F_2\), hence is
+irreducible, and it cannot share a root with its derivative.  It is therefore
+separable.  The contrast with \(x^2-t\) over \(\mathbb F_2(t)\), whose
+derivative is zero, shows that characteristic alone is not the issue:
+inseparability comes from the special \(p\)-th-power shape.
+\end{example}
+
+\section{Embeddings, Perfect Fields, and Primitive Elements}
+
+The next three ideas answer complementary questions about a finite extension.
+Separability asks whether the degree is fully visible through distinct
+conjugates; normality, introduced later, asks whether those conjugates remain
+inside the field; and the primitive element theorem says that a finite
+separable extension can often be described by one well-chosen generator.
+The comparison is useful to keep in view:
+\[
+\begin{array}{c|c}
+\text{property} & \text{what it controls}\\ \hline
+\text{separable} & \text{distinct embeddings and conjugate roots}\\
+\text{normal} & \text{whether all conjugates stay in the extension}\\
+\text{Galois} & \text{both conditions, hence internal symmetries}
+\end{array}
+\]
+
+\begin{definition}
+A field \(F\) is \emph{perfect} if every algebraic extension of \(F\) is
+separable, equivalently if every irreducible polynomial in \(F[x]\) is
+separable.
+\end{definition}
+\begin{proposition}
+Every characteristic-zero field is perfect.  A field \(F\) of characteristic
+\(p>0\) is perfect if and only if Frobenius
+\[
+F\longrightarrow F,\qquad a\longmapsto a^p
+\]
+is surjective.  In particular every finite field is perfect.
+\end{proposition}
+\begin{proof}
+In characteristic zero a nonzero irreducible polynomial cannot have zero
+derivative, so the criterion proves separability.  In characteristic \(p\),
+an inseparable irreducible polynomial has derivative zero and is of the form
+\(g(x^p)\).  Surjectivity of Frobenius makes each coefficient a \(p\)-th
+power, so this is a \(p\)-th power polynomial, impossible for a nonconstant
+irreducible polynomial.  Conversely, if \(a\) has no \(p\)-th root, then
+\(x^p-a\) has derivative zero and an irreducible factor which is inseparable.
+Frobenius is injective on every field and hence bijective on a finite field.
+\end{proof}
+
+Before turning this count into a definition, notice the strategy: build the
+field one algebraic generator at a time.  At each step an embedding has only
+as many possible extensions as the minimal polynomial has roots.  The Tower
+Law then turns this local bound into a global one.
+
+\begin{theorem}[Embedding-count inequality]\label{thm:embedding-count}
+For finite \(E/F\),
+\[
+\#\operatorname{Hom}_F(E,\overline F)\le [E:F],
+\]
+\end{theorem}
+\begin{proof}
+Choose generators
+\[
+F=F_0\subseteq F_1\subseteq\cdots\subseteq F_r=E,
+\qquad
+F_i=F_{i-1}(\alpha_i).
+\]
+An embedding \(F_{i-1}\to\overline F\) extends across \(\alpha_i\) only by
+sending it to a root of the transported minimal polynomial.  By the
+root-extension lemma, there are at most
+\([F_i:F_{i-1}]\) choices.  Successively extending embeddings therefore
+gives
+\[
+\#\operatorname{Hom}_F(E,\overline F)
+\leq\prod_i[F_i:F_{i-1}]=[E:F].
+\]
+Equality at every step holds exactly when each transported minimal polynomial
+has its full number of distinct roots.  We analyze that equality after
+introducing separable degree.
+\end{proof}
+
+\begin{definition}
+For a finite extension, the number
+\[
+[E:F]_s=\#\operatorname{Hom}_F(E,\overline F)
+\]
+is its \emph{separable degree}.  Thus
+\[
+[E:F]_s\leq[E:F],
+\]
+by Theorem~\ref{thm:embedding-count}.
+\end{definition}
+
+The ordinary degree is multiplicative in a tower by the Tower Law.  The
+following result says that the count of genuinely distinct embeddings has the
+same multiplicative behavior.  Its proof is a refined version of the
+preceding counting argument: first choose an embedding of the middle field,
+then count its possible continuations.
+
+\begin{proposition}[Multiplicativity of separable degree]\label{prop:separable-degree}
+If
+\[
+F\subseteq K\subseteq E
+\]
+is a tower of finite extensions, then
+\[
+[E:F]_s=[E:K]_s[K:F]_s.
+\]
+\end{proposition}
+\begin{proof}
+Choose a tower of simple extensions
+\[
+K=K_0\subseteq K_1\subseteq\cdots\subseteq K_r=E,
+\qquad K_i=K_{i-1}(\alpha_i),
+\]
+and let \(d_i\) be the number of distinct roots of the minimal polynomial
+of \(\alpha_i\) over \(K_{i-1}\).  The root-extension lemma shows that an
+embedding of \(K_{i-1}\) has exactly \(d_i\) extensions to \(K_i\).
+Indeed, the transported minimal polynomial is obtained by applying the
+embedding to its coefficients.  It has the same degree and its derivative
+is the transported derivative, so its gcd with its derivative has the same
+degree; hence it has exactly the same number \(d_i\) of distinct roots.
+
+It follows that every \(F\)-embedding \(\sigma:K\to\overline F\) has
+\[
+\prod_{i=1}^r d_i=[E:K]_s
+\]
+extensions to \(E\).  The equality with \([E:K]_s\) is obtained by applying
+the same step-by-step count beginning with the identity embedding of \(K\).
+Counting first the possible restrictions to \(K\), then their extensions,
+proves the formula.
+\end{proof}
+
+\begin{theorem}[Separable degree criterion]\label{thm:separable-degree}
+For a finite extension \(E/F\),
+\[
+[E:F]_s=[E:F]
+\]
+if and only if \(E/F\) is separable.
+\end{theorem}
+\begin{proof}
+Choose a simple generating tower as in the proof of
+Proposition~\ref{prop:separable-degree}.  The embedding count there gives
+\[
+[E:F]_s=\prod_i d_i,
+\qquad
+[E:F]=\prod_i[K_i:K_{i-1}].
+\]
+If \(E/F\) is separable, the minimal polynomial of \(\alpha_i\) over
+\(K_{i-1}\) divides its separable minimal polynomial over \(F\), so it is
+separable.  Thus \(d_i=[K_i:K_{i-1}]\) for every \(i\), proving equality.
+
+Conversely, equality of the two products forces equality in every factor,
+so each \(\alpha_i\) is separable over \(K_{i-1}\).  To see that every
+\(\gamma\in E\) is separable over \(F\), set \(L=F(\gamma)\).  By
+Proposition~\ref{prop:separable-degree},
+\[
+[E:F]_s=[E:L]_s[L:F]_s.
+\]
+Both factors are bounded above by their ordinary degrees, while their
+product is \([E:F]=[E:L][L:F]\).  Hence
+\[
+[L:F]_s=[L:F].
+\]
+For the simple extension \(L=F(\gamma)\), this says precisely that the
+minimal polynomial of \(\gamma\) has its full number of distinct roots.
+Thus \(\gamma\) is separable.
+\end{proof}
+
+\begin{proposition}[Separability in towers]\label{prop:separable-towers}
+For a finite tower
+\[
+F\subseteq K\subseteq E,
+\]
+\(E/F\) is separable if and only if both \(E/K\) and \(K/F\) are separable.
+The same statement holds for arbitrary algebraic towers.
+\end{proposition}
+\begin{proof}
+If \(E/F\) is separable, elements of \(K\) are already separable over
+\(F\), and a minimal polynomial over \(K\) divides the corresponding
+separable minimal polynomial over \(F\); hence both subextensions are
+separable.  Conversely, if both are separable, the multiplicativity formula
+and Theorem~\ref{thm:separable-degree} give
+\[
+[E:F]_s=[E:K][K:F]=[E:F].
+\]
+Thus \(E/F\) is separable.  For arbitrary algebraic towers, apply the finite
+statement as follows.  The forward direction is immediate for \(K/F\), since
+\(K\subseteq E\); and, for \(\alpha\in E\), the minimal polynomial over
+\(K\) divides the separable minimal polynomial over \(F\), proving that
+\(E/K\) is separable.
+
+Conversely, suppose \(K/F\) and \(E/K\) are separable, and choose
+\(\alpha\in E\).  The minimal polynomial
+\[
+m_{\alpha,K}(x)
+\]
+has only finitely many coefficients.  Let \(K_0\) be the subfield of \(K\)
+generated over \(F\) by those coefficients.  Then \(K_0/F\) is finite; it is
+separable because every element of the subfield \(K_0\subseteq K\) is already
+separable over \(F\).  The polynomial \(m_{\alpha,K}\) lies in \(K_0[x]\) and is
+separable because \(E/K\) is separable.  Hence the minimal polynomial of
+\(\alpha\) over \(K_0\), which divides \(m_{\alpha,K}\), is separable.
+Thus \(K_0(\alpha)/K_0\) is finite separable.  The finite tower statement,
+applied to
+\[
+F\subseteq K_0\subseteq K_0(\alpha),
+\]
+shows that \(\alpha\) is separable over \(F\).  Since \(\alpha\) was
+arbitrary, \(E/F\) is separable.
+\end{proof}
+
+\begin{lemma}[Cyclicity lemma]\label{lem:finite-mult-cyclic}
+Every finite subgroup of the multiplicative group of a field is cyclic.
+\end{lemma}
+\begin{proof}
+Let \(G\) be such a subgroup and let \(m\) be its exponent.  Every element
+of \(G\) is a root of \(x^m-1\), so \(|G|\leq m\).  Conversely, by the
+structure theorem for finite abelian groups, \(G\) has an element of order
+equal to its exponent \(m\), hence \(m\leq|G|\).  Therefore \(m=|G|\), and
+an element of order \(m\) generates \(G\).
+\end{proof}
+
+The primitive element theorem is not merely a convenient notation theorem.
+It reduces a finite separable extension to a single minimal polynomial, so
+that its embeddings and conjugates can be studied through one element.  Over
+an infinite field, the proof chooses a linear combination
+\(\alpha+c\beta\) avoiding the finitely many values of \(c\) that would make
+two embeddings coincide; over a finite field, cyclicity of the multiplicative
+group supplies a generator instead.
+
+\begin{theorem}[Primitive element theorem]
+Every finite separable extension is simple.
+\end{theorem}
+\begin{proof}
+First suppose \(F\) is infinite and \(E=F(\alpha,\beta)\).  List the
+\([E:F]\) \(F\)-embeddings of \(E\) into an algebraic closure as
+\(\sigma_i\), which exist by Theorem~\ref{thm:separable-degree}.  For
+each pair of distinct images, the equality
+\[
+\sigma_i(\alpha)+c\sigma_i(\beta)
+=\sigma_j(\alpha)+c\sigma_j(\beta)
+\]
+excludes at most one value of \(c\in F\).  Choose \(c\) outside this finite
+set and put \(\gamma=\alpha+c\beta\).  The conjugates of \(\gamma\) are then
+\([E:F]\) distinct values.  They are values of distinct restrictions of the
+\(\sigma_i\) to \(F(\gamma)\): if two restrictions agreed, they would give
+the same displayed value.  Hence
+\[
+\#\operatorname{Hom}_F(F(\gamma),\overline F)\ge [E:F].
+\]
+The embedding-count theorem gives the reverse bound by
+\([F(\gamma):F]\), while the Tower Law gives
+\([F(\gamma):F]\le [E:F]\).  Thus equality holds throughout.
+Since \(F(\gamma)\subseteq E\), the Tower Law gives \(E=F(\gamma)\).
+Induction reduces finitely many generators to this case.
+
+If \(F\) is finite, then \(E^\times\) is a finite subgroup of a field and
+is cyclic by Lemma~\ref{lem:finite-mult-cyclic}.  A generator \(\gamma\) of
+\(E^\times\) has \(E=F(\gamma)\).
+\end{proof}
+
+\begin{example}[A primitive element]
+The extension
+\[
+\mathbb Q(\sqrt2,\sqrt3)/\mathbb Q
+\]
+is finite and separable.  The proof above predicts a primitive element; here
+one may take \(\gamma=\sqrt2+\sqrt3\).  Since
+\[
+\gamma^2=5+2\sqrt6,
+\]
+we recover \(\sqrt6\), and then
+\[
+\sqrt2=\frac{\gamma^2-1}{2\gamma},
+\qquad
+\sqrt3=\gamma-\sqrt2.
+\]
+Thus \(\mathbb Q(\sqrt2,\sqrt3)=\mathbb Q(\sqrt2+\sqrt3)\).
+\end{example}
+
+\section{Normal Extensions and Galois Extensions}
+\begin{definition}
+An algebraic extension \(E/F\) is \emph{normal} if every irreducible
+polynomial in \(F[x]\) having one root in \(E\) splits over \(E\).  It is
+\emph{Galois} if it is algebraic, normal, and separable.
+\end{definition}
+
+The guiding slogan is:
+\[
+\text{normal means that no conjugate root escapes.}
+\]
+Thus normality is a condition on the \emph{whole} field, whereas separability
+is a condition on the distinctness of roots.  The normality criteria below
+translate this root-theoretic statement into the embedding language developed
+above.
+
+\begin{theorem}[Normality criteria]\label{thm:normality-criteria}
+For finite \(E/F\), the following are equivalent:
+\begin{enumerate}
+\item \(E/F\) is normal;
+\item every \(F\)-embedding \(E\to\overline F\) has image \(E\);
+\item \(E\) is a splitting field over \(F\) of a collection of polynomials.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Assume first that \(E/F\) is normal.  If \(\sigma:E\to\overline F\) is an
+\(F\)-embedding and \(\alpha\in E\), then \(\sigma(\alpha)\) is a conjugate
+root of \(m_{\alpha,F}\).  Normality makes this root belong to \(E\); hence
+\(\sigma(E)\subseteq E\).  Both fields have degree \([E:F]\) over \(F\), so
+\(\sigma(E)=E\).
+
+Conversely, suppose every embedding has image \(E\).  If an irreducible
+\(f\in F[x]\) has a root \(\alpha\in E\), every root \(\beta\) of \(f\) gives
+an embedding \(F(\alpha)\to\overline F\) by Chapter~10.  Extend it to \(E\)
+by Theorem~\ref{thm:embedding-extension}.  Its image is \(E\), so
+\(\beta\in E\).  Thus \(f\) splits in \(E\), and \(E/F\) is normal.
+
+Finally, suppose \(E\) is a splitting field over \(F\).  Every
+\(F\)-embedding of \(E\) fixes the defining coefficients and permutes the
+corresponding roots.  Its image is consequently contained in \(E\); equality
+follows from degrees, and the already proved implication shows that \(E/F\)
+is normal.  If \(E/F\) is
+finite normal, choose generators \(\alpha_1,\ldots,\alpha_r\).  The splitting
+field in \(E\) of the finitely many minimal polynomials
+\(m_{\alpha_i,F}\) contains every generator and is therefore \(E\).
+\end{proof}
+
+\begin{example}[Normality and separability are independent]
+\(\mathbb Q(\sqrt[3]2)/\mathbb Q\) is separable because characteristic-zero
+fields are perfect, but it is not normal: the two nonreal roots
+\[
+\omega\sqrt[3]2,\qquad\omega^2\sqrt[3]2
+\]
+of \(x^3-2\) are absent.  Its normal closure is obtained by adjoining a
+primitive cube root of unity \(\omega\).  On the other hand, put
+\[
+E=\mathbb F_p(t^{1/p}),
+\qquad
+F=\mathbb F_p(t).
+\]
+For every \(\alpha\in E\), the Frobenius identity gives
+\[
+\alpha^p\in F.
+\]
+Thus the minimal polynomial of \(\alpha\) divides
+\[
+x^p-\alpha^p=(x-\alpha)^p
+\]
+in an algebraic closure and has only one distinct root.  Every irreducible
+polynomial over \(F\) having a root in \(E\) consequently splits in \(E\) as
+a power of a linear factor, so \(E/F\) is normal.  It is not separable,
+because the generator \(t^{1/p}\) has derivative-zero minimal polynomial
+\(x^p-t\).
+\end{example}
+
+The following three familiar extensions summarize the distinctions.  The
+middle example has all of its distinct conjugates but not all of them inside
+the displayed field; the last loses embeddings because its minimal polynomial
+has a repeated root.
+\[
+\begin{array}{c|c|c|c|c|c}
+\text{extension} & \text{degree} & \text{\(F\)-embeddings}
+& \text{separable} & \text{normal} & \text{Galois}\\ \hline
+\mathbb Q(\sqrt2)/\mathbb Q & 2 & 2 & \text{yes} & \text{yes} & \text{yes}\\
+\mathbb Q(\sqrt[3]2)/\mathbb Q & 3 & 3 & \text{yes} & \text{no} & \text{no}\\
+\mathbb F_p(t^{1/p})/\mathbb F_p(t) & p & 1 & \text{no} & \text{yes} & \text{no}
+\end{array}
+\]
+
+\begin{proposition}[Finite Galois criteria]\label{prop:finite-galois-criteria}
+A finite extension is Galois precisely when it is the splitting field of a
+separable polynomial, equivalently when
+\[
+|\operatorname{Aut}_F(E)|=[E:F].
+\]
+\end{proposition}
+\begin{proof}
+A splitting field is normal by Theorem~\ref{thm:normality-criteria}.
+When its defining polynomial is separable, the tower criterion gives
+separability.
+Conversely, if \(E/F\) is Galois, choose generators
+\[
+E=F(\alpha_1,\ldots,\alpha_r).
+\]
+Normality makes every \(m_{\alpha_i,F}\) split in \(E\), and separability
+makes each of these polynomials separable.  The product of the distinct
+polynomials among them is separable, and its splitting field contains every
+generator and is contained in \(E\); hence it is \(E\).
+
+If \(E/F\) is normal and separable, Theorem~\ref{thm:separable-degree} gives
+\[
+\#\operatorname{Hom}_F(E,\overline F)=[E:F].
+\]
+Theorem~\ref{thm:normality-criteria} says every such embedding has image
+\(E\), so all of them are automorphisms and
+\[
+|\operatorname{Aut}_F(E)|=[E:F].
+\]
+Conversely, if this automorphism count holds, then
+\[
+[E:F]
+=|\operatorname{Aut}_F(E)|
+\leq\#\operatorname{Hom}_F(E,\overline F)
+\leq[E:F].
+\]
+Equality holds throughout.  Theorem~\ref{thm:separable-degree} gives
+separability, and every \(F\)-embedding is already one of the automorphisms.
+Its image is therefore \(E\), so Theorem~\ref{thm:normality-criteria} gives
+normality.  Thus \(E/F\) is Galois.
+\end{proof}
+
+\phantomsection\label{thm:finite-galois-closure}
+\begin{applicationtheorem}[Finite Galois closures]
+If \(E/F\) is finite separable, then there is a finite Galois extension
+\(L/F\) containing \(E\).
+\end{applicationtheorem}
+\begin{proof}
+Choose generators
+\[
+E=F(\alpha_1,\ldots,\alpha_r),
+\]
+and let \(f_i\) be the minimal polynomial of \(\alpha_i\) over \(F\).  Each
+\(f_i\) is separable because \(E/F\) is separable.  Let \(L\) be the
+splitting field over \(F\) of the product of the distinct \(f_i\)'s.  A
+splitting field of finitely many polynomials is finite, and \(L/F\) is
+normal.  The product is separable, so its splitting field is separable.
+Thus \(L/F\) is finite Galois, and it contains every \(\alpha_i\), hence
+contains \(E\).
+\end{proof}
+
+Such an \(L\) is called a finite Galois closure (or normal Galois closure)
+of \(E/F\).  Uniqueness is not needed here.
+
+\section{Finite Fields}
+\begin{theorem}[Finite fields]\label{thm:finite-fields}
+For each prime power \(q=p^r\), there is, up to isomorphism, one field
+\(\mathbb F_q\).  It is the splitting field of
+\[
+x^q-x
+\]
+over \(\mathbb F_p\), and \(\mathbb F_q^\times\) is cyclic of order \(q-1\).
+Its subfields are exactly \(\mathbb F_{p^d}\) for \(d\mid r\).
+\end{theorem}
+\begin{proof}
+Let \(q=p^r\).  In an algebraic closure of \(\mathbb F_p\), the roots of
+\[
+x^q-x
+\]
+form a field: in characteristic \(p\),
+\[
+(a+b)^q=a^q+b^q,\qquad(ab)^q=a^qb^q,
+\]
+and nonzero roots remain roots on inversion.  The derivative is \(-1\), so
+there are \(q\) distinct roots.  This gives a field with \(q\) elements.
+
+Conversely, if \(K\) has \(q\) elements, then \(K^\times\) has order \(q-1\),
+so \(a^{q-1}=1\) for every nonzero \(a\), and \(a^q=a\) for all \(a\in K\).
+Thus \(K\) is exactly the root set of \(x^q-x\), proving uniqueness up to
+isomorphism and showing that it is a splitting field.  Cyclicity of
+\(\mathbb F_q^\times\) is Lemma~\ref{lem:finite-mult-cyclic}.
+
+For subfields, start with an arbitrary field
+\[
+\mathbb F_p\subseteq K\subseteq\mathbb F_{p^r}
+\]
+and put \(d=[K:\mathbb F_p]\).  Then \(|K|=p^d\), so every element of \(K\)
+satisfies \(x^{p^d}-x=0\).  Thus \(K\) is the unique field with \(p^d\)
+elements in the chosen algebraic closure, namely \(\mathbb F_{p^d}\), and
+the Tower Law gives \(d\mid r\).  Conversely, if \(d\mid r\), every root of
+\[
+x^{p^d}-x
+\]
+lies in \(\mathbb F_{p^r}\), because
+\[
+x^{p^d}-x\mid x^{p^r}-x
+\]
+when \(d\mid r\).  To justify the divisibility, write \(r=dk\).  If
+\(a^{p^d}=a\), iterating this equality \(k\) times gives
+\[
+a^{p^r}=a.
+\]
+Thus every root of \(x^{p^d}-x\) is a root of \(x^{p^r}-x\).  The former
+polynomial has derivative \(-1\), hence has no repeated roots, and this
+root containment proves the divisibility.  Its \(p^d\) roots form the
+required subfield.  This proves both the existence of each listed subfield
+and the exhaustion of all subfields.
+\end{proof}
+
+\begin{example}[The field with four elements]
+The polynomial
+\[
+x^2+x+1
+\]
+has no root in \(\mathbb F_2\), so
+\[
+\mathbb F_4\cong\mathbb F_2[\alpha]/(\alpha^2+\alpha+1).
+\]
+Its elements are
+\[
+0,\quad1,\quad\alpha,\quad\alpha+1,
+\]
+and the relation \(\alpha^2=\alpha+1\) makes multiplication concrete:
+\[
+(\alpha+1)^2=\alpha^2+1=\alpha.
+\]
+The Frobenius automorphism fixes \(0,1\) and exchanges the two nontrivial
+elements:
+\[
+\alpha^2=\alpha+1,\qquad(\alpha+1)^2=\alpha.
+\]
+\end{example}
+
+\begin{example}[The field with eight elements]
+By Example~\ref{ex:sep-cubic}, the polynomial \(x^3+x+1\) has no root in
+\(\mathbb F_2\) and is irreducible.  Thus
+\[
+\mathbb F_8\cong\mathbb F_2[\beta]/(\beta^3+\beta+1).
+\]
+Every element has a unique form
+\[
+a+b\beta+c\beta^2,
+\qquad a,b,c\in\mathbb F_2,
+\]
+and multiplication is reduced using \(\beta^3=\beta+1\).  For instance,
+\[
+\beta(\beta^2+1)=\beta^3+\beta=1.
+\]
+Since \(\beta\ne0,1\) and \(\mathbb F_8^\times\) has prime order \(7\),
+Lagrange's theorem implies that \(\beta\) has multiplicative order \(7\).
+\end{example}
+
+\begin{proposition}[Frobenius has exact order]\label{prop:frobenius-order}
+For \(q=p^r\),
+\[
+\operatorname{Gal}(\mathbb F_{q^n}/\mathbb F_q)\cong C_n,
+\]
+generated by Frobenius \(x\mapsto x^q\), whose order is exactly \(n\).
+\end{proposition}
+\begin{proof}
+Frobenius fixes \(\mathbb F_q\), and its \(n\)-th power is the identity on
+\(\mathbb F_{q^n}\).  If its \(d\)-th power were the identity for
+\(0<d<n\), every element would satisfy \(x^{q^d}=x\), placing the field
+among the \(q^d\) roots of \(x^{q^d}-x\), an impossibility since
+\(q^n>q^d\).  Thus its \(n\) powers are distinct.  They are all
+\(\mathbb F_q\)-automorphisms, and the embedding count bounds the whole
+automorphism group by \(n\).
+\end{proof}
+
+These cyclic finite Galois groups will become a running example in
+Chapter~12.  There the compatible restrictions among the groups
+\(\operatorname{Gal}(\mathbb F_{q^n}/\mathbb F_q)\) assemble into the
+absolute Galois group of \(\mathbb F_q\).
+
+\begin{example}[Subfields of \(\mathbb F_{p^{12}}\)]
+The divisors of \(12\) give all subfields:
+\[
+\mathbb F_p,\quad
+\mathbb F_{p^2},\quad
+\mathbb F_{p^3},\quad
+\mathbb F_{p^4},\quad
+\mathbb F_{p^6},\quad
+\mathbb F_{p^{12}}.
+\]
+For example,
+\[
+\mathbb F_{p^3}\cap\mathbb F_{p^4}=\mathbb F_p,
+\]
+since an element in the intersection lies in the unique subfield whose
+degree divides both \(3\) and \(4\).
+\end{example}
+
+\section{Cyclotomic Extensions}
+
+Cyclotomic fields are the natural meeting point of roots of unity, splitting
+fields, and explicit Galois groups.  The multiplicative order of a root of
+unity supplies its arithmetic label, while the way automorphisms change that
+root will later be read directly from the unit group
+\((\mathbb Z/n\mathbb Z)^\times\).
+
+\begin{definition}
+A \emph{primitive \(n\)-th root of unity} is an element of multiplicative
+order \(n\).  The \(n\)-th cyclotomic polynomial \(\Phi_n(x)\) is the monic
+polynomial whose roots are the primitive \(n\)-th roots of unity.
+\end{definition}
+The finite cyclicity lemma shows that the roots of \(x^n-1\), in
+characteristic not dividing \(n\), form a cyclic group.  Partitioning them
+by their order gives
+\[
+x^n-1=\prod_{d\mid n}\Phi_d(x).
+\]
+Induction in this formula, together with Gauss's Lemma, gives
+\(\Phi_n\in\mathbb Z[x]\): after the factors for proper divisors have been
+constructed as monic integral polynomials, their product divides the monic
+polynomial \(x^n-1\) in \(\mathbb Q[x]\), and polynomial division followed by
+Gauss's Lemma makes the monic quotient integral.  The number of primitive
+roots gives
+\[
+\deg\Phi_n=\varphi(n).
+\]
+For example,
+\[
+\begin{aligned}
+\Phi_1&=x-1, & \Phi_2&=x+1, & \Phi_3&=x^2+x+1,\\
+\Phi_4&=x^2+1, & \Phi_5&=x^4+x^3+x^2+x+1,\\
+\Phi_6&=x^2-x+1, & \Phi_8&=x^4+1.
+\end{aligned}
+\]
+
+\begin{theorem}[Cyclotomic irreducibility]
+\(\Phi_n(x)\) is irreducible over \(\mathbb Q\).
+\end{theorem}
+\begin{proof}
+Let \(\zeta\) be primitive and let \(g\in\mathbb Z[x]\) be its monic
+irreducible polynomial.  Write
+\[
+\Phi_n=gh
+\]
+in \(\mathbb Z[x]\).  Let \(p\nmid n\) be prime.  Suppose that \(\zeta^p\)
+is not a root of \(g\).  It is a primitive root and hence a root of \(h\),
+so \(h(\zeta^p)=0\).  Therefore \(\zeta\) is a root of \(h(x^p)\), and
+minimality of \(g\) gives
+\[
+g(x)\mid h(x^p)
+\]
+in \(\mathbb Q[x]\), hence in \(\mathbb Z[x]\) by Gauss's Lemma.  Reducing
+modulo \(p\), Frobenius gives
+\[
+\overline{h(x^p)}=\overline{h(x)}^{\,p}.
+\]
+Thus an irreducible factor of \(\bar g\) also divides \(\bar h\), so
+\(\overline{\Phi_n}=\bar g\bar h\) has a repeated irreducible factor.
+But \(\Phi_n\) divides \(x^n-1\), whereas
+\[
+(x^n-1)'=nx^{n-1}
+\]
+is relatively prime to \(x^n-1\) modulo \(p\).  This contradicts the
+derivative criterion.  Hence \(\zeta^p\) is a root of \(g\) for every prime
+\(p\nmid n\).  Let \(a>0\) with \((a,n)=1\), and factor
+\[
+a=p_1\cdots p_s.
+\]
+No \(p_i\) divides \(n\).  Repeatedly applying the preceding conclusion
+shows that \(\zeta^a\) is a root of \(g\).  Thus every primitive root is a
+root of \(g\), and consequently \(g=\Phi_n\).
+\end{proof}
+
+If \(\zeta_n\) is primitive, irreducibility gives
+\[
+[\mathbb Q(\zeta_n):\mathbb Q]=\varphi(n).
+\]
+It is the splitting field of \(x^n-1\), hence is finite Galois.  The map
+\[
+(\mathbb Z/n\mathbb Z)^\times\longrightarrow
+\operatorname{Gal}(\mathbb Q(\zeta_n)/\mathbb Q),
+\qquad a\longmapsto(\zeta_n\mapsto\zeta_n^a)
+\]
+is an isomorphism.  Indeed, \(\zeta_n^a\) is primitive exactly when
+\((a,n)=1\), and then it is a root of the minimal polynomial \(\Phi_n\).
+The root-extension lemma therefore gives a unique \(\mathbb Q\)-embedding
+sending \(\zeta_n\) to \(\zeta_n^a\); finite dimensionality makes it an
+automorphism.  Composition corresponds to multiplication of exponents, and
+the map is injective because an automorphism is determined by \(\zeta_n\).
+Conversely every automorphism sends \(\zeta_n\) to a primitive root, so it
+has this form.  Roots of unity will reappear in the later discussion of
+radicals.
+
+\begin{example}[Small cyclotomic Galois groups]
+For \(n=3\) and \(n=4\),
+\[
+(\mathbb Z/n\mathbb Z)^\times\cong C_2,
+\]
+so both \(\mathbb Q(\zeta_3)\) and
+\(\mathbb Q(\zeta_4)=\mathbb Q(i)\) are quadratic Galois extensions.  For
+\(n=5\),
+\[
+(\mathbb Z/5\mathbb Z)^\times\cong C_4,
+\]
+whereas
+\[
+(\mathbb Z/8\mathbb Z)^\times\cong C_2\oplus C_2.
+\]
+Thus the degree-four fields \(\mathbb Q(\zeta_5)\) and
+\(\mathbb Q(\zeta_8)\) have nonisomorphic Galois groups.
+\end{example}
+
+\section*{Exercises}
+\subsection*{Basic}
+\begin{exercise}[Basic] Determine whether \(x^4-2x^2+1\) is separable over
+\(\mathbb Q\), and explain the answer using the derivative criterion.
+\end{exercise}
+\begin{exercise}[Basic] Use the derivative criterion to decide whether
+\[
+x^p-x\in\mathbb F_p[x]
+\]
+is separable.
+\end{exercise}
+\begin{exercise}[Basic] Show that a finite field is perfect directly from
+the fact that its Frobenius map is bijective.
+\end{exercise}
+
+\subsection*{Core}
+\begin{exercise}[Core] Test normality and separability of
+\(\mathbb Q(\sqrt[3]2)/\mathbb Q\).
+\end{exercise}
+\begin{exercise}[Core] Let \(E/F\) be finite.  Explain why
+\[
+[E:F]_s=[E:F]
+\]
+when \(E/F\) is generated by a tower of separable simple extensions.
+\end{exercise}
+\begin{exercise}[Core] Find a primitive element for
+\[
+\mathbb Q(\sqrt2,\sqrt5)/\mathbb Q.
+\]
+\end{exercise}
+\begin{exercise}[Core] Verify that \(x^3+x+1\) is irreducible over
+\(\mathbb F_2\), and use it to list the elements of \(\mathbb F_8\).
+\end{exercise}
+\begin{exercise}[Core] Determine the subfields of \(\mathbb F_{p^{12}}\).
+\end{exercise}
+\begin{exercise}[Core] Prove that every finite extension of a finite field
+is Galois.
+\end{exercise}
+\begin{exercise}[Core] Compute the Frobenius orbit of a nonzero element of
+\(\mathbb F_8\) not in \(\mathbb F_2\).
+\end{exercise}
+
+\subsection*{Further}
+\begin{exercise}[Further] Show that
+\[
+\Phi_{10}(x)=x^4-x^3+x^2-x+1.
+\]
+\end{exercise}
+\begin{exercise}[Further] Show that \(\mathbb Q(\zeta_5)\) has Galois group
+isomorphic to \(C_4\).
+\end{exercise}
+\begin{exercise}[Further] Determine
+\(\operatorname{Gal}(\mathbb Q(\zeta_8)/\mathbb Q)\).
+\end{exercise}
+\begin{exercise}[Further] Prove that the splitting field of
+\[
+x^4-2
+\]
+over \(\mathbb Q\) is normal and separable, and determine its degree.
+\end{exercise}
+
+\subsection*{Looking Ahead}
+\begin{exercise}[Challenging] Let \(E/F\) be finite and separable.  Use the
+embedding-count theorem to show that \(E/F\) is normal exactly when every
+\(F\)-embedding \(E\to\overline F\) is an automorphism of \(E\).
+\end{exercise}
+\begin{exercise}[Looking Ahead] If \(E/F\) is finite Galois, show that
+\[
+F\subseteq E^{\operatorname{Aut}_F(E)}.
+\]
+The reverse inclusion is the starting point of the Galois correspondence.
+\end{exercise}

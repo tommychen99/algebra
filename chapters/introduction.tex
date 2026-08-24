@@ -1,0 +1,158 @@
+\chapter{Introduction and Guide to the Notes}
+
+\section{Purpose and point of view}
+
+Graduate algebra is not chiefly a collection of classifications.  It is a
+language for recognizing when apparently different problems have the same
+form.  A quotient group, a quotient ring, and a quotient module all arise by
+forcing certain elements to become zero; an action describes symmetry; a
+polynomial in an operator turns linear algebra into module theory; and a
+Galois group records the symmetries of a field extension.  These notes develop
+that common language with an eye toward the places it will be used next.
+
+The intended reader has strong high-school or early undergraduate mathematical
+maturity: comfort with sets, functions, elementary proof, and familiar number
+systems such as \(\mathbb Z\), \(\mathbb Q\), and \(\mathbb R\).  No prior
+course in abstract algebra is assumed.  Definitions begin from that elementary
+entry point, examples arrive before abstraction, and proofs introduce each new
+move before relying on it.  The destination is nevertheless graduate algebra:
+the resulting core is designed for later commutative algebra, homological
+algebra, representation theory, algebraic geometry, and algebraic number
+theory.  The last chapters give a complete first treatment of classical Galois
+theory.
+
+This cumulative policy is deliberate.  Early chapters do not appeal to an
+unseen ``standard fact from algebra''; later chapters may use a result only
+after it has been established here.  Readers who have already studied a first
+course can move more quickly through the examples, but they are not the
+prerequisite for understanding the logical development.
+
+Readers who would like additional preparation in mathematical language,
+proof-writing, foundational constructions, and the number systems may consult
+Chapter~2 of \emph{Lecture Notes on Mathematical Analysis} \cite{MA}.
+Its discussions of sets, functions, proof conventions, induction, and the
+construction and basic properties of \(\mathbb N,\mathbb Z,\mathbb Q,\mathbb R\)
+can help bridge to the proof-based style used here.  This is useful
+preparation, not a prerequisite: all algebraic material required in these
+notes is developed within the manuscript.
+
+Two habits are central.  First, definitions are treated as constructions with
+universal features, rather than as names for collections of examples.  Second,
+proofs are organized around reusable moves: pass to a quotient, use a universal
+property, compare kernels and images, act on a set, reduce a statement to a
+cyclic object, or use induction on a degree or a composition length.  The same
+moves will recur throughout the book.
+
+\section{The mathematical route}
+
+Part~I establishes the group-theoretic language of normal subgroups, quotients,
+actions, and composition factors.  Sylow theory is included for its structural
+consequences, while lengthy classifications of groups of individual small
+orders are not.  Part~II develops ideals and polynomial rings, then the chain
+of implications
+\[
+  \text{Euclidean domain}\quad\Longrightarrow\quad\text{PID}
+  \quad\Longrightarrow\quad\text{UFD}.
+\]
+It also introduces localization, since it is the first algebraic operation
+that makes a global ring look local.
+
+Part~III develops four connected chapters. Chapter~6 introduces modules
+together with the finite-dimensional linear algebra needed later: bases,
+dimension, matrices, determinants, eigenvalues, diagonalization, duality,
+and a modest introduction to bilinear and quadratic forms.
+Chapter~7 proves the structure theorem over PIDs and then regards an operator
+as an \(F[x]\)-module, leading to minimal polynomials and rational and Jordan
+canonical forms. Chapter~8 adds inner-product geometry, adjoints, spectral
+theory, and singular value decomposition. Chapter~9 introduces tensor
+products, exterior powers, and exterior algebra: the module constructions
+that linearize bilinear and alternating multilinear maps and prepare the way
+for later commutative and homological algebra. Thus vector spaces are
+modules over fields, abelian groups are modules over \(\mathbb Z\), and a
+linear operator on an \(F\)-vector space makes that space into an
+\(F[x]\)-module. The structure theorem for finitely generated modules over a
+PID therefore simultaneously explains finitely generated abelian groups and
+the rational canonical form of a linear map. Jordan form appears as the
+split-polynomial refinement of the same idea.
+
+Part~IV studies field extensions, their embeddings, separability, normality,
+and the correspondence between intermediate fields and subgroups of a Galois
+group.  Finite fields and cyclotomic fields supply recurring examples, while
+direct and inverse limits explain how finite Galois symmetries assemble into
+profinite and absolute Galois groups.  Chapter~12 includes a brief local
+bridge through point-set topology and topological groups, solely to make the
+profinite and infinite-Galois language self-contained; Tychonoff's theorem is
+used there as an external input.  It closes with a non-prerequisite survey of
+the later directions opened by all four parts. The later discussion of
+radicals illustrates how questions about polynomial formulas are controlled by
+group-theoretic properties.
+
+\section{How to read a proof}
+
+Every result used later is stated with its hypotheses and proved before its
+first essential use.  A proof normally begins by identifying its idea: for
+example, the first isomorphism theorem compares an object with the quotient by
+the kernel of a map, whereas the orbit--stabilizer theorem compares a group
+action with a quotient by a stabilizer.  Readers should pause at these ideas,
+not merely at the final calculation.
+
+Some results are deliberately stated in a general form.  This is done only
+when the extra generality clarifies later work.  For instance, the module
+isomorphism theorems subsume their group and ring analogues, but the earlier
+versions are still proved because quotient constructions must be understood in
+their native settings.  Conversely, the classification of finitely generated
+abelian groups is presented as a corollary of the PID module theorem rather
+than as an unrelated classification.
+
+\section{Exercises and completeness}
+
+Exercises have two roles: they give essential practice, and they sometimes
+contain theorems that deserve a place in the main narrative.  We do not follow
+the source's typography as a measure of importance.  When an exercise supplies
+a standard lemma, a useful converse, a structural construction, or a result
+needed later, the result is promoted and proved in the text.  The companion
+coverage audit records the exact source exercise, its location here, and the
+reason for promotion.
+
+At the end of each chapter, exercises are grouped as \emph{Basic},
+\emph{Core}, \emph{Further}, and \emph{Looking Ahead}.  The first group tests
+definitions; the second develops results expected of every reader; the third
+extends the chapter; and the last points toward later subjects without being a
+logical prerequisite.  A routine exercise remains an exercise even when its
+solution is long.
+
+\section{Conventions and notation}
+
+Rings in these notes are associative and have a multiplicative identity; the
+zero ring is allowed.  Ring homomorphisms preserve identity unless explicitly
+stated otherwise, and a subring contains the same identity as its ambient
+ring.  Terminology concerning rings is not completely uniform: some authors
+allow rings without a multiplicative identity, and some do not require a
+subring to contain the ambient identity.  The conventions used here will
+always be stated explicitly when a nonunital object is needed.  Unless
+explicitly qualified otherwise, an ideal means a two-sided ideal.  When
+one-sided ideals are relevant, we explicitly say left ideal or right ideal;
+in a commutative ring these notions coincide.
+Modules are unital left modules unless the contrary is specified.  For a group
+\(G\), the identity is \(1\), and for an additive group it is \(0\).  The
+notation \(H\leq G\) permits equality, while \(H\trianglelefteq G\) denotes a
+normal subgroup.  If \(R\) is a ring and \(M\) an \(R\)-module, then
+\(\operatorname{Ann}_R(M)\) is its annihilator.
+
+For a regular \(n\)-gon, \(D_n\) denotes its full dihedral symmetry group, so
+\(|D_n|=2n\).  Many authors write \(D_{2n}\) for this same group; the notation
+in these notes records the number of polygon vertices rather than the group
+order.  Thus \(D_4\) is the symmetry group of a square.
+
+\begin{remark}[Looking Ahead]
+The repeated pattern ``kernel, image, quotient'' is the beginning of the
+language of exact sequences.  We will use exact sequences of modules in an
+elementary form, but derived functors and category theory are not prerequisites
+for these notes.
+\end{remark}
+
+\section{Sources}
+
+The primary mathematical reference is \cite{DF}.  The separate coverage audit
+records editorial provenance and verified exercise references; it is not part
+of the reader-facing source apparatus.

@@ -1,0 +1,375 @@
+\chapter[Inner Product Spaces]{Inner Product Spaces and Spectral Theory}\label{chap:inner-products-spectral-theory}
+
+Chapter~6 asks when an operator has an eigenbasis, and Chapter~7 classifies
+arbitrary operators algebraically. An inner product supplies extra geometry:
+length, angle, and orthogonality. The new question is therefore stronger:
+when can an eigenbasis be chosen orthonormally? In finite dimensions the
+answer leads to the spectral theorem and to singular value decomposition,
+which describes even maps that are neither normal nor endomorphisms.
+
+Throughout this chapter \(V,W\) are finite-dimensional real or complex vector
+spaces. We use the convention that a complex inner product is linear in its
+first variable and conjugate-linear in its second.
+
+\section{Inner Products and Norms}
+Length and angle in \(\mathbb R^n\) come from the dot product. The following
+axioms preserve exactly the algebraic features of that example, including the
+complex conjugation needed to make \(\langle v,v\rangle\) nonnegative.
+
+\begin{definition}
+An \emph{inner product} on \(V\) is a map \(\langle\ ,\ \rangle:V\times V
+\to F\), where \(F=\mathbb R\) or \(\mathbb C\), such that for all
+\(u,v,w\in V\) and \(a,b\in F\),
+\[
+\langle au+bv,w\rangle=a\langle u,w\rangle+b\langle v,w\rangle,
+\qquad \langle v,u\rangle=\overline{\langle u,v\rangle},
+\]
+and \(\langle v,v\rangle\geq0\), with equality only for \(v=0\).
+The induced \emph{norm} is \(\|v\|=\sqrt{\langle v,v\rangle}\).
+\end{definition}
+
+On \(F^n\), the standard inner product is
+\[
+\langle u,v\rangle=\sum_i u_i\overline{v_i}.
+\]
+On matrix space \(M_{m,n}(F)\), the formula
+\(\langle A,B\rangle=\operatorname{tr}(AB^*)\) is another useful example,
+where \(B^*=\overline{B}^{\,t}\) and \(\operatorname{tr}\) is the sum of the
+diagonal entries.
+
+Conjugate symmetry converts first-variable linearity into
+\(\langle u,av+bw\rangle=\overline a\langle u,v\rangle+
+\overline b\langle u,w\rangle\). In particular,
+\(\|av\|=|a|\|v\|\). These elementary consequences explain both the
+placement of conjugates in the complex formulas and the use of an ordinary
+positive square root in the norm.
+
+\begin{example}[Why conjugation is necessary]
+The apparently simpler formula
+\[
+\sum_i u_iv_i
+\]
+is not an inner product on \(\mathbb C^n\): for \(u=(1,i)\), it gives
+\(1+i^2=0\), although
+\(u\ne0\). By contrast, the standard formula gives
+\(\langle u,u\rangle=|1|^2+|i|^2=2\). Conjugation is exactly what turns
+the complex dot product into a genuine squared length.
+\end{example}
+
+\begin{theorem}[Cauchy--Schwarz and triangle inequality]
+For \(u,v\in V\),
+\[|\langle u,v\rangle|\leq\|u\|\,\|v\|,\qquad
+\|u+v\|\leq\|u\|+\|v\|.\]
+\end{theorem}
+\begin{proof}
+If \(v=0\), the first inequality is clear. Otherwise positivity of
+\(\|u-\langle u,v\rangle\|v\|^{-2}v\|^2\) gives
+\(0\leq\|u\|^2-|\langle u,v\rangle|^2/\|v\|^2\), proving
+Cauchy--Schwarz. Then
+\[\|u+v\|^2=\|u\|^2+2\operatorname{Re}\langle u,v\rangle+\|v\|^2
+\leq(\|u\|+\|v\|)^2,\]
+and taking nonnegative square roots proves the triangle inequality.
+\end{proof}
+
+\section{Orthogonality and Gram--Schmidt}
+Orthogonality makes coordinate calculations unusually simple: cross terms
+vanish. Gram--Schmidt converts any basis into one with this property while
+preserving the subspaces spanned at each stage.
+
+\begin{definition}
+Vectors \(u,v\) are \emph{orthogonal}, written \(u\perp v\), if
+\(\langle u,v\rangle=0\). A set is \emph{orthogonal} if distinct members are
+orthogonal, and \emph{orthonormal} if in addition every member has norm one.
+For \(S\subseteq V\), set
+\[S^\perp=\{v\in V:\langle v,s\rangle=0\text{ for every }s\in S\}.\]
+\end{definition}
+
+\begin{theorem}[Gram--Schmidt]
+If \(v_1,\ldots,v_n\) is linearly independent, there is an orthonormal list
+\(e_1,\ldots,e_n\) such that
+\[\operatorname{span}(e_1,\ldots,e_j)=\operatorname{span}(v_1,\ldots,v_j)
+\quad(1\leq j\leq n).\]
+\end{theorem}
+\begin{proof}
+Set \(u_1=v_1\), \(e_1=u_1/\|u_1\|\). Given \(e_1,\ldots,e_{j-1}\), define
+\[u_j=v_j-\sum_{i<j}\langle v_j,e_i\rangle e_i.\]
+The convention on linearity makes
+\(\langle u_j,e_k\rangle=\langle v_j,e_k\rangle-
+\langle v_j,e_k\rangle=0\). If \(u_j=0\), then \(v_j\) is in the span of
+earlier vectors, contrary to independence. Thus \(e_j=u_j/\|u_j\|\) is
+defined. The formula also shows that replacing \(v_j\) by \(u_j\) preserves
+the span at each stage.
+\end{proof}
+
+Every finite-dimensional inner-product space has a finite basis by
+Chapter~6, so Gram--Schmidt applied to that basis gives an orthonormal basis.
+For an orthonormal basis, taking the inner product of
+\[
+v=\sum_i a_ie_i
+\]
+with \(e_j\) proves \(a_j=\langle v,e_j\rangle\); hence the expansion is
+\[
+v=\sum_i\langle v,e_i\rangle e_i.
+\]
+
+\begin{example}[Gram--Schmidt in \(\mathbb R^2\)]
+Starting with \(v_1=(1,1)\), \(v_2=(1,0)\), one gets
+\[e_1=\frac1{\sqrt2}(1,1),\qquad
+u_2=(1,0)-\left\langle(1,0),e_1\right\rangle e_1
+=\left(\tfrac12,-\tfrac12\right).
+\]
+Normalizing gives \(e_2=\frac1{\sqrt2}(1,-1)\). The original vectors and
+the orthonormal vectors span the same plane, but the latter make lengths and
+orthogonal projections immediate.
+\end{example}
+
+\section{Orthogonal Projections}
+The complement of a subspace need not be geometrically meaningful, but its
+orthogonal complement is canonical. It separates a vector into its component
+inside the subspace and its perpendicular error.
+
+\begin{theorem}[Orthogonal decomposition]
+For a subspace \(W\leq V\),
+\[V=W\oplus W^\perp.\]
+If \(e_1,\ldots,e_r\) is an orthonormal basis of \(W\), then
+\[P_W(v)=\sum_{i=1}^r\langle v,e_i\rangle e_i\]
+lies in \(W\), and \(v-P_W(v)\in W^\perp\).
+\end{theorem}
+\begin{proof}
+The displayed formula lies in \(W\). Its difference from \(v\) has inner
+product zero with every \(e_i\), hence with every vector of \(W\). Thus
+\(V=W+W^\perp\). A vector in the intersection has norm squared zero, so the
+sum is direct. The stated map \(P_W\) is the \emph{orthogonal projection}.
+\end{proof}
+
+Geometrically, \(P_W(v)\) is the closest point of \(W\) to \(v\): for
+\(w\in W\), orthogonality gives
+\(\|v-w\|^2=\|v-P_Wv\|^2+\|P_Wv-w\|^2\).
+
+\begin{example}[Projection onto a line]
+For \(W=\operatorname{span}(1,1,1)\subseteq\mathbb R^3\), the unit vector
+is \(e=(1,1,1)/\sqrt3\). Hence
+\[P_W(1,2,3)=\langle(1,2,3),e\rangle e=2(1,1,1).\]
+The difference \((-1,0,1)\) has dot product zero with \((1,1,1)\), visibly
+confirming the decomposition into parallel and perpendicular components.
+\end{example}
+
+\section{Adjoints}
+In ordinary coordinates, transpose and conjugate transpose reverse a linear
+map with respect to the dot product. The adjoint is the basis-free version of
+that reversal.
+
+\begin{theorem}[Adjoint]
+For every linear map \(T:V\to W\), there is a unique linear map
+\(T^*:W\to V\) satisfying
+\[\langle Tv,w\rangle=\langle v,T^*w\rangle\qquad(v\in V,w\in W).\]
+\end{theorem}
+\begin{proof}
+Choose orthonormal bases of \(V\) and \(W\), and let \(A\) be the matrix of
+\(T\). Define \(T^*\) to have matrix \(A^*=\overline{A}^{\,t}\). For
+coordinate columns \(x,y\),
+\[\langle Ax,y\rangle=(Ax)^t\overline y
+=x^tA^t\overline y
+=x^t\overline{(\overline A^{\,t}y)}
+=\langle x,\overline A^{\,t}y\rangle.
+\]
+This gives the displayed equality. If \(S\) also has the
+property, then \(\langle v,(S-T^*)w\rangle=0\) for every \(v\); taking
+\(v=(S-T^*)w\) proves \(S=T^*\). Linearity follows directly from the
+defining identity and uniqueness.
+\end{proof}
+
+Thus, in orthonormal bases, adjoint means transpose over \(\mathbb R\) and
+conjugate transpose over \(\mathbb C\). The identities
+\((ST)^*=T^*S^*\) and \((T^*)^*=T\) follow by uniqueness.
+
+\begin{example}[A concrete adjoint]
+For \(A=\begin{pmatrix}1&i\\0&2\end{pmatrix}\) on \(\mathbb C^2\),
+\[A^*=\begin{pmatrix}1&0\\-i&2\end{pmatrix}.\]
+Thus the adjoint is not merely a transpose: conjugation changes the sign of
+\(i\). This is why Hermitian matrices are the complex analogue of real
+symmetric matrices.
+\end{example}
+
+\section{Important Classes of Operators}
+The adjoint distinguishes operators compatible with the geometry from arbitrary
+ones. These are exactly the operators for which diagonalization can often be
+made orthonormal.
+
+\begin{definition}
+An endomorphism \(T\) is \emph{self-adjoint} (Hermitian over \(\mathbb C\))
+if \(T=T^*\), \emph{skew-adjoint} if \(T^*=-T\), and \emph{normal} if
+\(TT^*=T^*T\). It is \emph{unitary} over \(\mathbb C\), or \emph{orthogonal}
+over \(\mathbb R\), if \(T^*T=I\). It is \emph{positive} if it is
+self-adjoint and \(\langle Tv,v\rangle\geq0\) for all \(v\).
+\end{definition}
+
+Self-adjoint matrices are real symmetric or complex Hermitian. Unitary and
+orthogonal maps preserve inner products and hence norms, since
+\(\langle Tu,Tv\rangle=\langle u,T^*Tv\rangle\). Every \(T^*T\) is
+self-adjoint and positive, because
+\(\langle T^*Tv,v\rangle=\langle Tv,Tv\rangle\geq0\).
+
+\begin{example}[Relations that should not be conflated]
+Every unitary operator is normal: \(T^*T=I\) makes \(T\) injective, hence
+bijective in finite dimensions, and so \(T^*=T^{-1}\) also gives \(TT^*=I\).
+A self-adjoint operator is normal as well. The converses fail: multiplication
+by \(i\) on \(\mathbb C\) is unitary and normal but not self-adjoint, while
+the positive matrix \(\begin{pmatrix}1&0\\0&0\end{pmatrix}\) is self-adjoint
+but not unitary. These distinctions explain why normality, rather than
+self-adjointness alone, is the right complex hypothesis for the full spectral
+theorem.
+\end{example}
+
+\section{Spectral Theorem}
+The spectral theorem identifies the precise additional condition under which
+ordinary diagonalization can be made geometric.
+
+\begin{unremark}[The Fundamental Theorem of Algebra]
+The Fundamental Theorem of Algebra says that every nonconstant polynomial in
+\(\mathbb C[x]\) has a root in \(\mathbb C\).  We use it here only to ensure
+that the characteristic polynomial of a complex endomorphism has a root, hence
+that the operator has an eigenvalue.  Classically this theorem is proved by
+complex analysis, for example using Liouville's theorem or the
+maximum-modulus principle; no complex analysis is developed here.  A different
+Galois-theoretic proof appears later in Chapter~12.
+\end{unremark}
+
+\begin{lemma}
+If \(T\) is normal on a complex inner-product space and \(Tv=\lambda v\),
+then \(T^*v=\overline\lambda v\). Consequently \(\langle v,w\rangle=0\)
+for eigenvectors belonging to distinct eigenvalues.
+\end{lemma}
+\begin{proof}
+The operator \(T-\lambda I\) is normal, and normality gives
+\(\|(T-\lambda I)z\|=\|(T^*-\overline\lambda I)z\|\) for every \(z\):
+the squares of these norms are equal because the operator commutes with its
+adjoint. Taking \(z=v\), the left side is zero, proving the first claim.
+If \(Tw=\mu w\), then
+\[\lambda\langle v,w\rangle=\langle Tv,w\rangle
+=\langle v,T^*w\rangle
+=\langle v,\overline\mu w\rangle=\mu\langle v,w\rangle.\]
+Thus \((\lambda-\mu)\langle v,w\rangle=0\), proving orthogonality when
+the eigenvalues are distinct.
+\end{proof}
+
+\begin{theorem}[Complex spectral theorem]
+For an endomorphism \(T\) of a finite-dimensional complex inner-product
+space, \(T\) is normal if and only if it has an orthonormal basis of
+eigenvectors. Equivalently, it is unitarily diagonalizable.
+\end{theorem}
+\begin{proof}
+If an orthonormal eigenbasis exists, the matrix of \(T\) is diagonal and
+commutes with its conjugate transpose, so \(T\) is normal. Conversely,
+the fundamental theorem of algebra supplies an eigenvalue of a normal \(T\).
+Let \(E\) be its eigenspace. If \(z\in E^\perp\) and \(e\in E\), then
+\[\langle Tz,e\rangle=\langle z,T^*e\rangle
+=\langle z,\overline\lambda e\rangle=\lambda\langle z,e\rangle=0.\]
+Thus \(E^\perp\) is \(T\)-invariant; the same calculation with \(T^*\)
+shows that it is also \(T^*\)-invariant. The restriction of \(T\) to
+\(E^\perp\) remains normal because both restricted products agree. Its
+dimension is smaller unless \(E=V\), so induction on dimension supplies an
+orthonormal eigenbasis there. Gram--Schmidt supplies an orthonormal basis of
+the finite-dimensional subspace \(E\); combining the two bases proves the
+claim.
+\end{proof}
+
+\begin{corollary}[Real spectral theorem]
+A real symmetric operator has an orthonormal basis of real eigenvectors and
+is orthogonally diagonalizable.
+\end{corollary}
+\begin{proof}
+Complexify the operator. It is Hermitian, hence unitarily diagonalizable.
+Its eigenvalues are real because \(\lambda\langle v,v\rangle
+=\langle Tv,v\rangle=\langle v,Tv\rangle=\overline\lambda\langle v,v\rangle\).
+For a real eigenvalue, the real and imaginary parts of a complex eigenvector
+are real eigenvectors. More precisely,
+\[
+E_\lambda(T_{\mathbb C})
+=\{x+iy:x,y\in E_\lambda(T)\},
+\]
+because \(T(x+iy)=\lambda(x+iy)\) implies \(Tx=\lambda x\) and
+\(Ty=\lambda y\). Since the complex eigenspaces span the complexification,
+the corresponding real eigenspaces span \(V\). Applying Gram--Schmidt within
+the mutually orthogonal real eigenspaces produces a real orthonormal
+eigenbasis.
+\end{proof}
+
+Ordinary diagonalization asks for some eigenbasis. Unitary or orthogonal
+diagonalization asks for an orthonormal eigenbasis, a strictly stronger demand.
+
+\begin{example}[Normal diagonalization]
+The matrix \(\begin{pmatrix}2&0\\0&i\end{pmatrix}\) is normal and is already
+unitarily diagonal. By contrast,
+the family \(\begin{pmatrix}1&a\\0&1\end{pmatrix}\) is diagonalizable if
+and only if \(a=0\). For \(a\ne0\), it is not normal, since it does not commute with
+its conjugate transpose. The spectral theorem therefore correctly excludes
+the Jordan-block obstruction seen in Chapter~6.
+\end{example}
+
+\section{Singular Value Decomposition}
+Eigenvalues concern endomorphisms, while applications often involve a map
+between spaces of different dimensions. SVD answers this broader problem by
+diagonalizing the positive operator \(T^*T\).
+
+\begin{theorem}[Singular value decomposition]
+Let \(T:V\to W\) be a linear map of finite-dimensional real or complex
+inner-product spaces. There are orthonormal bases of \(V\) and \(W\) for
+which the matrix of \(T\) is diagonal rectangular with nonnegative entries
+\(\sigma_1,\ldots,\sigma_r\). Thus, for matrices,
+\[A=U\Sigma V^*\]
+with \(U,V\) unitary (orthogonal in the real case). The nonzero \(\sigma_i\)
+are the square roots of the nonzero eigenvalues of \(T^*T\).
+\end{theorem}
+\begin{proof}
+The operator \(T^*T\) is self-adjoint and positive. By the spectral theorem,
+choose an orthonormal eigenbasis \(v_i\), with eigenvalues \(\sigma_i^2\geq0\).
+For each positive \(\sigma_i\), set \(u_i=Tv_i/\sigma_i\). Then
+\[
+\langle u_i,u_j\rangle
+=\frac{\langle T^*Tv_i,v_j\rangle}{\sigma_i\sigma_j}
+=\frac{\sigma_i}{\sigma_j}\delta_{ij}
+=\delta_{ij}.
+\]
+Moreover,
+\[
+\ker(T^*T)=\ker T.
+\]
+Indeed,
+\[
+\langle T^*Tv,v\rangle=\langle Tv,Tv\rangle=\lVert Tv\rVert^2.
+\]
+Thus \(T^*Tv=0\) implies \(Tv=0\), and the reverse implication is immediate.
+The remaining \(v_i\)'s, those with eigenvalue \(0\), therefore form a basis
+of \(\ker T\), and
+the \(u_i\)'s extend to an orthonormal basis of \(W\). In these bases,
+\(Tv_i=\sigma_i u_i\) for positive singular values and \(Tv_i=0\) on the
+kernel, which is exactly the displayed diagonal rectangular matrix.
+\end{proof}
+
+\begin{example}[An SVD calculation]
+For \(A=\begin{pmatrix}1&1\\0&0\end{pmatrix}\),
+\[A^*A=\begin{pmatrix}1&1\\1&1\end{pmatrix}.
+\]
+Its orthonormal eigenvectors are
+\(v_1=(1,1)/\sqrt2\), with eigenvalue \(2\), and
+\(v_2=(1,-1)/\sqrt2\), with eigenvalue \(0\). Thus the singular values are
+\(\sqrt2,0\). Taking \(u_1=Av_1/\sqrt2=(1,0)\) and completing it by
+\(u_2=(0,1)\) gives \(A=U\operatorname{diag}(\sqrt2,0)V^*\), where \(U=I\)
+and \(V\) has columns \(v_1,v_2\). Unlike eigenvalue diagonalization, this
+description works even though the original matrix is not normal.
+\end{example}
+
+\section*{Exercises}
+\begin{exercise}[Basic] Verify that the standard formula on \(\mathbb C^n\)
+is an inner product under the convention of this chapter.\end{exercise}
+\begin{exercise}[Core] Apply Gram--Schmidt to \((1,1,0),(1,0,1),(0,1,1)\)
+in \(\mathbb R^3\).\end{exercise}
+\begin{exercise}[Core] Find the orthogonal projection of \((1,2,3)\) onto
+the span of \((1,1,1)\).\end{exercise}
+\begin{exercise}[Core] Compute the adjoint of
+\(\begin{pmatrix}1&i\\0&2\end{pmatrix}\) on \(\mathbb C^2\).\end{exercise}
+\begin{exercise}[Further] Show that every unitary operator is normal and all
+of its eigenvalues have absolute value one.\end{exercise}
+\begin{exercise}[Further, Challenging] Find an SVD of
+\(\begin{pmatrix}1&1\\0&0\end{pmatrix}\).\end{exercise}

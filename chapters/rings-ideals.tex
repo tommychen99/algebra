@@ -1,0 +1,465 @@
+\chapter{Rings, Ideals, and Localization}
+
+The integers have addition and multiplication, tied together by the distributive
+laws. A ring retains exactly this structure. The familiar examples---integers,
+residue classes, polynomials, and matrices---will give the definitions their
+meaning. Ideals permit us to force selected elements to be zero; localization
+instead forces selected elements to be invertible.
+
+\section{Rings, Subrings, and Homomorphisms}
+\begin{definition}
+A \emph{ring} is a set \(R\) with an abelian-group structure under \(+\),
+an associative multiplication, and a multiplicative identity \(1\), such
+that, for all \(a,b,c\in R\),
+\[
+\begin{array}{rclcrcl}
+(a+b)+c&=&a+(b+c),&&a+b&=&b+a,\\
+a+0&=&a,&&a+(-a)&=&0,\\
+(ab)c&=&a(bc),&&1a&=&a1=a,\\
+a(b+c)&=&ab+ac,&&(a+b)c&=&ac+bc.
+\end{array}
+\]
+A ring is \emph{commutative} if \(ab=ba\) for all \(a,b\). A subring
+contains the ambient identity \(1_R\) and is closed under subtraction and
+multiplication.
+\end{definition}
+
+If \(1=0\), then \(R\) has only one element: for every \(a\in R\),
+\[
+a=1a=0a=0.
+\]
+Thus the zero ring is included in the definition.
+
+\begin{unremark}[Ring conventions]
+Terminology varies among authors.  Some allow rings without an identity,
+and some call a subset a subring when it is closed under subtraction and
+multiplication without requiring it to contain the ambient identity.  Here
+rings have identities, ring homomorphisms preserve them, and subrings contain
+the same identity as the ambient ring.  For example, \(2\mathbb Z\) is
+closed under subtraction and multiplication, so it is a subring of
+\(\mathbb Z\) under the looser convention, but it is not a subring in these
+notes because \(1\notin2\mathbb Z\).
+\end{unremark}
+
+The rings \(\mathbb Z,\mathbb Q,\mathbb R\), and a field \(F\), are
+commutative. So are \(\mathbb Z/n\mathbb Z\), \(F[x]\), and \(R\times S\),
+where operations are coordinatewise. Matrix multiplication makes \(M_n(F)\)
+a ring, usually not a commutative one. Thus commutativity must be an
+additional hypothesis, not a consequence of the axioms.
+
+\begin{proposition}[Basic identities]
+For \(a,b\in R\), one has
+\[0a=a0=0,\qquad (-a)b=a(-b)=-(ab),\qquad(-a)(-b)=ab.\]
+\end{proposition}
+\begin{proof}
+Since \(0a=(0+0)a=0a+0a\), additive cancellation gives \(0a=0\);
+the proof of \(a0=0\) is analogous. Now
+\(ab+(-a)b=(a+(-a))b=0\), giving the next identities. Applying this twice
+gives \((-a)(-b)=-\bigl(a(-b)\bigr)=ab\).
+\end{proof}
+
+\begin{definition}
+A \emph{unit} is an element \(u\) with \(uv=vu=1\) for some \(v\).
+A nonzero \(a\) is a \emph{zero divisor} if \(ab=0\) or \(ba=0\) for some
+nonzero \(b\). A \emph{domain} is a nonzero commutative ring with identity
+and no zero divisors; a \emph{field} is a nonzero commutative ring in which
+every nonzero element is a unit.
+\end{definition}
+
+Every field is a domain: if \(ab=0\) and \(a\ne0\), multiply by \(a^{-1}\).
+The converse fails, since \(\mathbb Z\) is a domain but \(2\) has no inverse.
+In \(\mathbb Z/12\mathbb Z\), \(5\) is a unit, while \(2\cdot6=0\) shows
+that \(2\) and \(6\) are zero divisors. The class of \(a\) modulo \(n\) is
+a unit exactly when \(\gcd(a,n)=1\), by B\'ezout's identity.
+
+\begin{example}[A useful warning]
+Over a domain, every unit of \(R[x]\) is constant. This is false in a ring
+with nilpotents: in \((\mathbb Z/4\mathbb Z)[x]\),
+\[(1+2x)^2=1+4x+4x^2=1.\]
+Thus \(1+2x\) is a nonconstant unit. Domain hypotheses in polynomial
+arguments are therefore essential.
+\end{example}
+
+\begin{definition}
+A ring homomorphism \(f:R\to S\) preserves addition, multiplication, and
+identity. Its kernel is \(\ker f=\{a:f(a)=0\}\), and its image is
+\(\operatorname{im}f=\{f(a):a\in R\}\).
+\end{definition}
+For example, reduction \(\mathbb Z\to\mathbb Z/n\mathbb Z\) is onto and has
+kernel \(n\mathbb Z\). As for group homomorphisms, \(f(0)=0\) and
+\(f(-a)=-f(a)\). The determinant is not a ring homomorphism on matrices,
+because it does not in general preserve addition.
+
+\section{Ideals and Quotient Rings}
+An additive subgroup is not automatically suitable for quotienting: it must
+remain stable when multiplied by arbitrary ring elements. This is precisely
+the ring analogue of the normal-subgroup condition.
+
+\begin{definition}
+A \emph{left ideal} of \(R\) is an additive subgroup \(I\) such that
+\(ra\in I\) for every \(r\in R\), \(a\in I\).  A \emph{right ideal} is
+defined by the condition \(ar\in I\).  A \emph{two-sided ideal} is both a
+left and a right ideal.  Throughout these notes, unless explicitly
+qualified, an \emph{ideal} means a two-sided ideal, and we write
+\(I\trianglelefteq R\).
+
+For \(A\subseteq R\), \((A)\) is the smallest two-sided ideal containing
+\(A\).  If \(A=\{a_1,\ldots,a_m\}\), then
+\[(a_1,\ldots,a_m)=
+\left\{\sum_{\ell=1}^N r_\ell a_{i_\ell}s_\ell:
+N\ge0,\ 1\le i_\ell\le m,\ r_\ell,s_\ell\in R\right\}.\]
+When \(R\) is commutative, left, right, and two-sided ideals coincide, and
+this simplifies to the familiar sums
+\[
+\sum_k r_ka_k.
+\]
+\end{definition}
+
+The ideals \((0)\) and \((1)=R\) are trivial. In \(\mathbb Z\),
+\((n)=n\mathbb Z\), while in \(F[x]\), \((x)\) is the set of polynomials
+with zero constant term. In \(F[x,y]\), \((x^2,xy)\) consists of sums
+\(Ax^2+Bxy\). The odd integers are not an ideal of \(\mathbb Z\), since
+\(2\cdot1\) is not odd.  In \(M_n(F)\), the matrices whose last row is zero
+form a right ideal but generally not a left ideal.  Quotient rings therefore
+require two-sided, not merely one-sided, ideals.
+
+The notation \((A)\) is deliberately parallel to the subgroup generated by
+a subset: it records the smallest ideal forced by the elements of \(A\).
+In a commutative ring, the principal ideal generated by \(a\) is simply
+\((a)=\{ra:r\in R\}\).  Principal ideals reverse divisibility:
+\[(a)\subseteq(b)\quad\Longleftrightarrow\quad b\mid a.\]
+Indeed, \(a\in(b)\) is exactly the assertion \(a=br\).  Thus, in
+\(\mathbb Z\), \((12)\subseteq(6)\subseteq(2)\).  This reversal will
+underlie the use of principal ideals, gcds, ascending chains, and
+factorization in Chapter~5.
+
+\begin{proposition}
+Every ideal of \(\mathbb Z\) is \(n\mathbb Z\) for a unique \(n\ge0\).
+\end{proposition}
+\begin{proof}
+For a nonzero ideal \(I\), choose its least positive member \(n\). For
+\(a\in I\), write \(a=qn+r\), \(0\le r<n\). Since \(r=a-qn\in I\),
+minimality gives \(r=0\); hence \(I=n\mathbb Z\). The reverse containment
+is ideal closure, and \(n\ge0\) makes the generator unique.
+\end{proof}
+
+For ideals \(I,J\), the sum, intersection, and product are
+\[
+I+J=\{i+j:i\in I,j\in J\},\quad I\cap J,\quad
+IJ=\left\{\sum i_kj_k:i_k\in I,j_k\in J\right\}.
+\]
+They are ideals. The sum is the smallest ideal containing both; the
+intersection is their largest common subideal. Always \(IJ\subseteq I\cap J\).
+For example, in \(\mathbb Z\),
+\[(6)+(10)=(2),\qquad (6)\cap(10)=(30),\qquad (6)(10)=(60).\]
+Thus intersection and product need not agree when the ideals are not
+comaximal.
+
+\begin{theorem}[Quotient Ring Criterion]
+For an additive subgroup \(I\le R\), the rule
+\[(a+I)(b+I)=ab+I\]
+is well-defined exactly when \(I\) is a two-sided ideal. In that case \(R/I\)
+is a ring and \(\pi(a)=a+I\) is a surjective homomorphism.
+\end{theorem}
+\begin{proof}
+If \(a'=a+i\), \(b'=b+j\) with \(i,j\in I\), then
+\[(a+i)(b+j)-ab=aj+ib+ij\in I,\]
+using closure under multiplication on both sides.  Thus the product is
+independent of representatives.  All ring axioms descend from \(R\).
+Conversely, \(i+I=0+I\) implies
+\((r+I)(i+I)=(r+I)(0+I)\), hence \(ri\in I\), while
+\((i+I)(r+I)=(0+I)(r+I)\) gives \(ir\in I\). Thus \(I\) is two-sided.
+\end{proof}
+
+\begin{theorem}[Universal Property of Quotients]
+If \(f:R\to T\) is a homomorphism and \(I\subseteq\ker f\), then there is a
+unique homomorphism \(\bar f:R/I\to T\) such that \(f=\bar f\circ\pi\).
+\end{theorem}
+\[
+\begin{tikzcd}[column sep=large, row sep=large]
+R \arrow[r, "\pi"] \arrow[dr, "f"'] & R/I \arrow[d, "\bar f"] \\
+& T
+\end{tikzcd}
+\]
+\begin{proof}
+Put \(\bar f(a+I)=f(a)\). If \(a+I=b+I\), then \(a-b\in I\), so
+\(f(a)=f(b)\); this proves well-definedness. The homomorphism laws follow
+from those for \(f\), and every coset is \(\pi(a)\), proving uniqueness.
+\end{proof}
+
+Thus \(R/I\) is universal among maps that force elements of \(I\) to zero,
+just as quotient groups were in Part~I.  The structural parallel is
+\[
+\text{normal subgroup }N\trianglelefteq G\ \longleftrightarrow\ G/N,
+\qquad
+\text{two-sided ideal }I\trianglelefteq R\ \longleftrightarrow\ R/I.
+\]
+In particular, taking \(I=R\) gives \(R/R\), the zero ring.
+
+\begin{theorem}[Isomorphism and correspondence]
+For \(f:R\to S\), \(\ker f\) is an ideal and
+\[R/\ker f\cong\operatorname{im}f.\]
+Ideals of \(R/I\) correspond to ideals of \(R\) containing \(I\), by
+\(J\mapsto\pi^{-1}(J)\) and \(K\mapsto K/I\); in particular,
+\((R/I)/(K/I)\cong R/K\) if \(I\subseteq K\).
+\end{theorem}
+\begin{proof}
+The kernel is additive and \(f(ra)=f(r)f(a)=0=f(ar)\) for \(a\in\ker f\).
+The map \(a+\ker f\mapsto f(a)\) is well-defined, onto the image, and has
+zero kernel. Directly checking the two displayed assignments shows they
+are inverse ideal-preserving maps. Finally,
+\((r+I)+(K/I)\mapsto r+K\) is well-defined and has zero kernel.
+\end{proof}
+
+\section{Prime Ideals, Maximal Ideals, Domains, and Fields}
+From this point through localization, rings are assumed to be commutative
+and unital; the zero ring remains allowed.  Thus the unqualified word
+\emph{ideal} continues to mean a two-sided ideal, but sidedness is automatic.
+\begin{definition}
+A proper ideal \(\mathfrak p\) is \emph{prime} if
+\(ab\in\mathfrak p\) implies \(a\in\mathfrak p\) or \(b\in\mathfrak p\).
+A proper ideal \(\mathfrak m\) is \emph{maximal} if no ideal is strictly
+between \(\mathfrak m\) and \(R\).
+\end{definition}
+\begin{theorem}
+\(\mathfrak p\) is prime iff \(R/\mathfrak p\) is a domain, and
+\(\mathfrak m\) is maximal iff \(R/\mathfrak m\) is a field. Hence every
+maximal ideal is prime.
+\end{theorem}
+\begin{proof}
+\((a+\mathfrak p)(b+\mathfrak p)=0\) iff \(ab\in\mathfrak p\), giving the
+first claim. If \(\mathfrak m\) is maximal and \(a\notin\mathfrak m\), then
+\((a)+\mathfrak m=R\), so \(ra+m=1\) for suitable \(r,m\), and
+\(r+\mathfrak m\) inverts \(a+\mathfrak m\). Conversely, a field has only
+the ideals \(0\) and itself; apply the correspondence theorem.
+\end{proof}
+In \(\mathbb Z\), \((p)\) is prime and maximal for prime \(p\), while
+\((6)\) is neither: \(2\cdot3\in(6)\), but \(2,3\notin(6)\). In
+\(\mathbb Z/12\mathbb Z\), the ideal \((2)\) is
+maximal because its quotient is \(\mathbb Z/2\mathbb Z\). Later, the
+division algorithm will show that \((f)\subset F[x]\) is maximal exactly
+when \(f\) is irreducible.
+
+\phantomsection\label{thm:maximal-ideal-existence}
+\begin{applicationtheorem}[Maximal ideals above proper ideals]
+Let \(R\) be a commutative ring with identity. Every proper ideal \(I\) of
+\(R\) is contained in a maximal ideal.
+\end{applicationtheorem}
+\begin{proof}
+Let \(\mathcal P\) be the set of proper ideals of \(R\) that contain \(I\),
+ordered by inclusion. It is nonempty because \(I\in\mathcal P\). If
+\(\mathcal C\) is a chain in \(\mathcal P\), then
+\[
+J=\bigcup_{K\in\mathcal C}K
+\]
+is an ideal containing \(I\): the chain condition puts any two elements of
+\(J\) in a common member of \(\mathcal C\), where the ideal operations may
+be performed. Moreover \(J\) is proper. Indeed, if \(1\in J\), then
+\(1\in K\) for some \(K\in\mathcal C\), contradicting the propriety of
+\(K\). Thus every chain has an upper bound in \(\mathcal P\). Zorn's Lemma
+now gives a maximal member \(\mathfrak m\) of \(\mathcal P\), which is
+maximal among all proper ideals of \(R\), hence is a maximal ideal.
+\end{proof}
+\begin{unremark}[A set-theoretic qualification]
+The preceding proof invokes Zorn's Lemma. For Noetherian rings, the
+corresponding maximality conclusion follows from the usual ascending-chain
+maximality argument, so no appeal to Zorn's Lemma is needed in the standard
+treatment. We do not pursue the precise foundational strength of the general
+maximal-ideal theorem here.
+\end{unremark}
+
+\section{The Chinese Remainder Theorem}
+\begin{lemma}
+If \(I+J=R\), then \(I\cap J=IJ\).
+\end{lemma}
+\begin{proof}
+Certainly \(IJ\subseteq I\cap J\). Choose \(u\in I,v\in J\) with
+\(u+v=1\). If \(x\in I\cap J\), then \(x=xu+xv\), and both summands lie in
+\(IJ\).
+\end{proof}
+\begin{theorem}[Chinese Remainder Theorem]
+If \(I+J=R\), then \(R/(I\cap J)\cong R/I\times R/J\).
+\end{theorem}
+\begin{proof}
+The homomorphism \(\Phi(r)=(r+I,r+J)\) has kernel \(I\cap J\). With
+\(u+v=1\), \(u\in I,v\in J\), the element \(av+bu\) maps to
+\((a+I,b+J)\); hence \(\Phi\) is onto. Apply the First Isomorphism Theorem.
+\end{proof}
+\begin{example}
+To solve \(x\equiv2\pmod3\), \(x\equiv3\pmod5\), use
+\(6+(-5)=1\), with \(6\in(3)\), \(-5\in(5)\). The proof gives
+\(x=2(-5)+3(6)=8\). All solutions are \(8\pmod {15}\).
+\end{example}
+The corresponding statement for finitely many pairwise comaximal ideals
+follows by induction.
+
+\section{Localization and Local Rings}
+The inclusion \(\mathbb Z\subseteq\mathbb Q\) permits division by every
+nonzero integer.  Often we want only selected denominators.  For instance,
+\[\mathbb Z[1/2]=\{a/2^n:a\in\mathbb Z,\ n\ge0\}\]
+allows division by powers of \(2\), without requiring arbitrary rational
+denominators.  Localization is the controlled construction that introduces
+chosen denominators: it makes selected elements units while otherwise
+changing the ring as little as the required universal property permits.
+The canonical map need not be injective when zero divisors are present.
+
+If \(s\in R\), the basic case is
+\[R[1/s]=\{1,s,s^2,\ldots\}^{-1}R.\]
+Its elements are represented by \(a/s^n\), and \(s\) becomes a unit with
+inverse \(1/s\).  Equivalently, \(R[1/s]\) is universal among rings receiving
+a homomorphism from \(R\) in which the image of \(s\) is invertible.
+\(\mathbb Z[1/2]\) is the first example.  Inverting \(6\) also makes both
+\(2\) and \(3\) invertible, so one should not expect the only new units to
+be powers of the chosen element.
+
+Fraction fields and localizations at primes are two further instances.  If
+\(R\) is a domain, then
+\[\operatorname{Frac}(R)\cong(R\setminus\{0\})^{-1}R;\]
+in particular \(\mathbb Q\cong(\mathbb Z\setminus\{0\})^{-1}\mathbb Z\).
+Thus the ordinary fraction-field construction inverts every nonzero element.
+At the other extreme, localization at a prime ideal will invert only the
+elements outside that prime.
+
+\begin{definition}
+A set \(S\subseteq R\) is \emph{multiplicatively closed} if \(1\in S\) and
+\(s,t\in S\) imply \(st\in S\). Define \((a,s)\sim(b,t)\) in \(R\times S\)
+when \(u(at-bs)=0\) for some \(u\in S\). The class of \((a,s)\) is \(a/s\),
+and \(S^{-1}R\) has operations
+\[\frac as+\frac bt=\frac{at+bs}{st},\qquad
+\frac as\frac bt=\frac{ab}{st}.\]
+\end{definition}
+The conditions in the definition are forced by fraction arithmetic: if
+\(s,t\) are allowed denominators, then
+\((a/s)(b/t)=ab/(st)\) requires \(st\) to be allowed as well; \(1\) is needed
+to represent each original element as \(a/1\).
+\begin{proposition}
+The relation is an equivalence relation, and these operations are
+well-defined.
+\end{proposition}
+\begin{proof}
+Reflexivity uses \(1(as-as)=0\), and symmetry changes the sign. If
+\(u(at-bs)=0\), \(v(bq-ct)=0\), then multiplying the first equality by
+\(vq\), the second by \(us\), and adding gives \(uv(atq-cst)=0\).
+This proves transitivity. If representatives are changed, multiplying the
+two witnessing equalities by the other numerator and denominator proves
+\(ab/(st)=a'b'/(s't')\). For sums the needed cross-difference is
+\(tt'(as'-a's)+ss'(bt'-b't)\), after multiplication by the two witnesses;
+it is zero. The remaining ring laws follow from common denominators.
+\end{proof}
+\begin{example}
+In \(R=\mathbb Z/6\mathbb Z\), take \(S=\{1,3\}\). Then
+\(0/1=2/1\), since \(3(0-2)=0\), although \(0\ne2\). The witness \(u\) is
+therefore essential in rings with zero divisors.  It also shows directly that
+the canonical map \(R\to S^{-1}R\) need not be injective.
+\end{example}
+\begin{proposition}
+The canonical map \(\iota:R\to S^{-1}R\), \(a\mapsto a/1\), has kernel
+\[\{a\in R:sa=0\text{ for some }s\in S\}.\]
+It is injective exactly when every \(s\in S\) is \emph{regular}, meaning
+\(sa=0\Rightarrow a=0\).  In the present commutative setting, this says
+precisely that \(S\) contains no zero divisors.  Moreover, \(s/1\) is a unit
+with inverse \(1/s\).
+\end{proposition}
+\begin{proof}
+\(a/1=0/1\) is exactly the displayed condition. The fraction formulas
+prove the homomorphism statement and \((s/1)(1/s)=1\).
+\end{proof}
+\begin{theorem}[Universal Property of Localization]
+If \(f:R\to T\) maps each \(s\in S\) to a unit, there is a unique
+\(\widetilde f:S^{-1}R\to T\) such that \(f=\widetilde f\circ\iota\).
+\end{theorem}
+\[
+\begin{tikzcd}[column sep=large, row sep=large]
+R \arrow[r, "\iota"] \arrow[dr, "f"'] & S^{-1}R \arrow[d, "\widetilde f"] \\
+& T
+\end{tikzcd}
+\]
+\begin{proof}
+Set \(\widetilde f(a/s)=f(a)f(s)^{-1}\). A witnessing equality
+\(u(at-bs)=0\), after applying \(f\) and cancelling the unit \(f(u)\),
+proves this is well-defined. The fraction formulas prove the homomorphism
+laws. Finally \(a/s=(a/1)(s/1)^{-1}\), which forces uniqueness.
+\end{proof}
+Quotients force elements of \(I\) to be zero; localizations force elements
+of \(S\) to be units. These are complementary universal constructions.  In
+particular, \(R/(s)\) forces \(s\) to be zero, whereas \(R[1/s]\) forces
+\(s\) to be invertible.  For example,
+\(\mathbb Z/(2)=\mathbb F_2\), while \(\mathbb Z[1/2]\) still has
+characteristic zero.
+
+\begin{definition}
+A commutative ring is \emph{local} if it has a unique maximal ideal.
+\end{definition}
+\begin{proposition}
+A commutative ring with identity is local if and only if its nonunits form an
+ideal.
+\end{proposition}
+\begin{proof}
+If \(\mathfrak m\) is the unique maximal ideal, every element outside it is a
+unit: otherwise its principal ideal is proper and, by the
+\hyperref[thm:maximal-ideal-existence]{maximal-ideal theorem}, lies in a
+maximal ideal, which must be \(\mathfrak m\). Hence the nonunits are exactly
+\(\mathfrak m\). Conversely, suppose that the nonunits form an ideal \(N\).
+It is proper because \(1\) is a unit. Every proper ideal is contained in
+\(N\), since an ideal containing a unit is all of \(R\). Thus \(N\) itself
+is maximal, and every maximal ideal, being proper, equals \(N\). This proves
+both existence and uniqueness.
+\end{proof}
+\begin{unremark}
+Under this convention the zero ring is not local: it has no maximal ideals.
+\end{unremark}
+
+For a prime ideal \(\mathfrak p\), \(1\notin\mathfrak p\), and its complement
+\(S=R\setminus\mathfrak p\) is multiplicatively closed.  Indeed, if
+\(a,b\notin\mathfrak p\) but \(ab\in\mathfrak p\), primality would put
+\(a\) or \(b\) in \(\mathfrak p\), a contradiction.  Hence
+\[R_{\mathfrak p}=(R\setminus\mathfrak p)^{-1}R\]
+is defined, and its elements are fractions \(a/s\) with \(s\notin\mathfrak p\).
+It makes every element outside \(\mathfrak p\) invertible, leaving the
+behavior attached to \(\mathfrak p\) visible; informally, it focuses attention
+at \(\mathfrak p\).
+\begin{theorem}
+For a prime ideal \(\mathfrak p\), \(R_{\mathfrak p}\) is local with unique
+maximal ideal
+\[\mathfrak pR_{\mathfrak p}=\{a/s:a\in\mathfrak p,\ s\notin\mathfrak p\}.\]
+\end{theorem}
+\begin{proof}
+\(R\setminus\mathfrak p\) is multiplicatively closed by primality. The
+displayed set is an ideal: numerators in \(\mathfrak p\) remain there under
+addition and multiplication. It is proper, since an equality \(1=a/s\)
+with \(a\in\mathfrak p\) would say \(u(s-a)=0\) for some
+\(u\notin\mathfrak p\), contradicting primality. If \(a\notin\mathfrak p\),
+then \(a/s\) has inverse \(s/a\). If \(a\in\mathfrak p\), it cannot be a
+unit by the same argument applied to \((a/s)(b/t)=1\). Hence this ideal is
+exactly the nonunits; every proper ideal is contained in it.
+\end{proof}
+For \(\mathbb Z_{(p)}\), the unique maximal ideal is
+\(p\mathbb Z_{(p)}\).  Concretely,
+\[\mathbb Z_{(p)}=\{a/b\in\mathbb Q:p\nmid b\};\]
+every integer not divisible by \(p\) is a unit, and its unique maximal ideal
+is formed by the fractions whose numerator is divisible by \(p\).
+
+\[
+\begin{array}{c|c|c}
+S&\text{localization}&\text{elements made invertible}\\ \hline
+\{1,s,s^2,\ldots\}&R[1/s]&\text{one chosen element }s\\
+R\setminus\mathfrak p&R_{\mathfrak p}&\text{everything outside }\mathfrak p\\
+R\setminus\{0\}\ (R\text{ a domain})&\operatorname{Frac}(R)&
+\text{every nonzero element}
+\end{array}
+\]
+
+\section*{Exercises}
+\begin{exercise}[Basic] Determine the units and zero divisors of
+\(\mathbb Z/10\mathbb Z\). \end{exercise}
+\begin{exercise}[Core] Prove that the preimage of an ideal under a ring
+homomorphism is an ideal. Use correspondence to describe ideals of
+\(\mathbb Z/18\mathbb Z\). \end{exercise}
+\begin{exercise}[Core] Show \((x)\) and \((x-1)\) are comaximal in \(F[x]\),
+and describe \(F[x]/(x(x-1))\). \end{exercise}
+\begin{exercise}[Core] Determine which of \((2),(3),(4),(6)\) are prime or
+maximal in \(\mathbb Z/12\mathbb Z\). \end{exercise}
+\begin{exercise}[Further] Construct \(S^{-1}\mathbb Z\cong\mathbb Z[1/2]\)
+for \(S=\{1,2,2^2,\ldots\}\), and identify its units. \end{exercise}
+\begin{exercise}[Further] Prove
+\(\mathbb Z_{(p)}/p\mathbb Z_{(p)}\cong\mathbb F_p\). \end{exercise}
