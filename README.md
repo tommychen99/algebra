@@ -6,6 +6,8 @@ Tommy Chen
 
 Version 1.0
 
+[Read the compiled PDF](main.pdf)
+
 This repository contains introductory graduate algebra notes that are
 self-contained in their algebraic development, with an elementary entry point
 and a graduate destination. Readers need strong high-school or early
