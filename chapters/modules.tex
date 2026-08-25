@@ -841,66 +841,113 @@ on the usual choice principles.
 
 \section{Vector Spaces, Span, and Finite Bases}
 We now specialize to the case in which the scalar ring is a field \(F\).
-Division by every nonzero scalar is exactly what permits the replacement
-arguments behind ordinary linear algebra. The results in this section are
-therefore theorems about vector spaces, not assertions about arbitrary
-modules.
+An \(F\)-vector space is simply an \(F\)-module, so the notions of span,
+linear independence, and basis from Sections~6.1 and~6.4 apply without
+change. The additional strength of vector-space theory comes from the fact
+that every nonzero scalar is invertible.
 
 \begin{definition}
-An \emph{\(F\)-vector space} is an \(F\)-module. A \emph{subspace} of a
-vector space is an \(F\)-submodule. A finite expression
-\(a_1v_1+\cdots+a_rv_r\), with \(a_i\in F\), is a \emph{linear
-combination}. For a subset \(S\subseteq V\), its \emph{span}
-\[\operatorname{span}(S)=\left\{\sum_{i=1}^r a_is_i:r\geq0,\ a_i\in F,\ s_i\in S\right\}
-\]
-is the smallest subspace containing \(S\). The set \(S\) \emph{spans}
-\(V\) when \(\operatorname{span}(S)=V\). It is \emph{linearly
-independent} when every finite relation among distinct members of \(S\) has
-all coefficients zero. A \emph{basis} is an independent spanning set.
-An \emph{ordered basis} is a basis displayed as an ordered finite list.
-Finally, \(V\) is \emph{finite-dimensional} if it has a finite spanning set.
+An \emph{\(F\)-vector space} is an \(F\)-module, and a \emph{subspace} is an
+\(F\)-submodule.
 \end{definition}
 
-The definition of span makes clear both why it is a subspace and why it is
-the smallest one: sums and scalar multiples of finite linear combinations
-are again finite linear combinations, while any subspace containing \(S\)
-contains every such combination. The module notions of generation and basis
-agree with these definitions, but fields allow the stronger conclusions below.
-
-\begin{lemma}[Exchange lemma]
-Let \(v_1,\ldots,v_r\) be linearly independent vectors in \(V\), and let
-\(w_1,\ldots,w_s\) span \(V\). Then \(r\leq s\). Moreover, one can replace
-\(r\) of the \(w_j\)'s by the \(v_i\)'s and still obtain a spanning list.
-\end{lemma}
-\begin{proof}
-Write
-\[
-v_1=\sum_j a_jw_j.
-\]
-Some \(a_j\ne0\), so field division permits us
-to solve for that \(w_j\). Replacing this \(w_j\) by \(v_1\) still leaves a
-spanning list. Inductively, suppose \(v_1,\ldots,v_{i-1}\) have replaced
-distinct \(w\)'s. Express \(v_i\) in the resulting spanning list. If every
-coefficient of an unreplaced \(w\) were zero, \(v_i\) would lie in the span
-of \(v_1,\ldots,v_{i-1}\), contradicting independence. Hence an unreplaced
-coefficient is nonzero and may be solved for. After \(r\) steps there must
-have been at least \(r\) original \(w\)'s.
-\end{proof}
-
-\begin{theorem}[Finite-dimensional basis theorem]
-If \(V\) has a finite spanning set, then every independent finite list can
-be extended to a basis, every finite spanning list contains a basis, and any
-two bases have the same finite cardinality.
+\begin{theorem}[Basis existence]
+Every vector space has a basis.
 \end{theorem}
 \begin{proof}
-Starting with an independent list, adjoin vectors from a fixed finite
-spanning list whenever they are not already in its span. The resulting list
-remains independent and eventually spans, hence is a basis. Starting with a
-finite spanning list, discard a vector whenever it lies in the span of the
-others; the finite process ends at an independent spanning list. Applying the
-exchange lemma in both directions to two bases proves equality of their
-cardinalities.
+Let \(\mathcal P\) be the set of linearly independent subsets of \(V\),
+ordered by inclusion. It is nonempty because it contains the empty set. If
+\(\mathcal C\) is a chain in \(\mathcal P\), then
+\[
+U=\bigcup_{S\in\mathcal C}S
+\]
+is linearly independent: a finite relation among distinct members of \(U\)
+involves only finitely many members of the chain, hence all of them belong to
+one member of \(\mathcal C\), where their coefficients vanish. Thus every
+chain has an upper bound in \(\mathcal P\). Zorn's lemma gives a maximal
+linearly independent set \(B\).
+
+If \(v\notin\operatorname{span}(B)\), then \(B\cup\{v\}\) is linearly
+independent: in a relation involving \(v\), a nonzero coefficient of \(v\)
+would solve for \(v\) as a linear combination of members of \(B\), while a
+zero coefficient leaves a relation in \(B\). This contradicts maximality.
+Hence \(B\) spans \(V\), and therefore is a basis.
 \end{proof}
+
+\begin{remark}
+It applies also to infinite-dimensional spaces. Its proof uses Zorn's lemma
+and hence the usual Choice principles. The finite
+replacement argument below is elementary and uses no such principle.
+\end{remark}
+
+\begin{theorem}[Replacement theorem]
+Let
+\[
+G=\{w_1,\ldots,w_n\}
+\]
+span \(V\), and let
+\[
+L=\{v_1,\ldots,v_m\}
+\]
+be linearly independent. Then \(m\leq n\), and exactly \(n-m\) vectors from
+\(G\) can be chosen so that, together with \(v_1,\ldots,v_m\), they span
+\(V\). Equivalently, one may replace \(m\) vectors of the original spanning
+list by \(v_1,\ldots,v_m\) and retain a spanning list of size \(n\).
+\end{theorem}
+\begin{proof}
+We argue by induction on \(m\). For \(m=0\), the original list spans. Assume
+the result for \(m-1\). The induction hypothesis gives a spanning list
+\[
+\{v_1,\ldots,v_{m-1},w_{i_1},\ldots,w_{i_{n-m+1}}\}.
+\]
+Write
+\[
+v_m=a_1v_1+\cdots+a_{m-1}v_{m-1}
++b_1w_{i_1}+\cdots+b_{n-m+1}w_{i_{n-m+1}}.
+\]
+Not every \(b_j\) is zero, for otherwise \(v_m\) belongs to the span of
+\(v_1,\ldots,v_{m-1}\). Choose \(b_k\ne0\). Since \(F\) is a field,
+\[
+w_{i_k}
+=b_k^{-1}\left(
+v_m-\sum_{\ell=1}^{m-1}a_\ell v_\ell
+-\sum_{j\ne k}b_jw_{i_j}
+\right).
+\]
+Replacing \(w_{i_k}\) by \(v_m\) therefore preserves spanning. There is an
+unreplaced \(w_{i_k}\) at every stage, so necessarily \(m\leq n\).
+\end{proof}
+
+\begin{corollary}[Extension and extraction]
+If \(V\) has a finite spanning set, every finite linearly independent subset
+extends to a basis, and every finite spanning set contains a basis.
+\end{corollary}
+\begin{proof}
+Apply the replacement theorem to an independent list and a fixed finite
+spanning list. Its retained members, together with the independent list, form
+a finite spanning list; discard a retained member whenever it lies in the
+span of the others. Conversely, applying the same deletion process to the
+original spanning list leaves an independent spanning list.
+\end{proof}
+
+\begin{corollary}[Uniqueness of finite basis size]
+Any two finite bases of a vector space have the same cardinality.
+\end{corollary}
+\begin{proof}
+Apply the replacement theorem to either basis as an independent set and the
+other as a spanning set. The two resulting inequalities are opposite.
+\end{proof}
+
+\begin{definition}
+A vector space is \emph{finite-dimensional} if it has a finite basis. Its
+\emph{dimension}, denoted by \(\dim_FV\), is the common cardinality of its
+finite bases.
+\end{definition}
+
+Thus a basis expansion exists because a basis spans and is unique because a
+basis is independent. An \emph{ordered basis} is a basis displayed as an
+ordered finite list; this extra order becomes essential when coordinates are
+introduced in Section~6.11.
 
 \begin{proposition}[Subspaces of finite-dimensional spaces]
 If \(V\) is finite-dimensional and \(W\leq V\), then \(W\) has a finite
@@ -908,21 +955,29 @@ basis and \(\dim_F W\leq\dim_FV\).
 \end{proposition}
 \begin{proof}
 Begin with the empty independent list in \(W\), and adjoin an element of
-\(W\) not in its span whenever one exists. The exchange lemma, applied to
-the resulting independent list and a fixed basis of \(V\), shows that at
+\(W\) not in its span whenever one exists. The replacement theorem, applied
+to the resulting independent list and a fixed basis of \(V\), shows that at
 most \(\dim_FV\) choices can be made. When the process stops its list spans
-\(W\), so it is a basis. The same exchange lemma gives the inequality.
+\(W\), so it is a basis. The same theorem gives the inequality.
 \end{proof}
 
-The common cardinality of a finite basis is now well-defined and is called
-the \emph{dimension} \(\dim_FV\). In particular, a basis expansion exists
-because the basis spans and is unique because the basis is independent.
+\begin{corollary}[IBN for fields]
+If
+\[
+F^m\cong F^n
+\]
+as \(F\)-vector spaces, then \(m=n\).
+\end{corollary}
+\begin{proof}
+An isomorphism carries the standard basis of \(F^m\) to a basis of \(F^n\).
+Uniqueness of finite basis size gives \(m=n\).
+\end{proof}
 
 \section{Invariant Basis Number and Finite Free Rank}
-For vector spaces, the preceding theorem proves that the size of a finite
-basis is intrinsic. A finite free module over a general ring needs a separate
-argument. This distinction is essential in Chapter~7, where the free part of
-a module over a PID must have a uniquely determined rank.
+The preceding corollary proves IBN for fields. A finite free module over a
+general ring needs a separate argument. This distinction is essential in
+Chapter~7, where the free part of a module over a PID must have a uniquely
+determined rank.
 
 \begin{definition}
 A ring \(R\) has \emph{invariant basis number} (IBN) if
@@ -946,8 +1001,7 @@ R^m/\mathfrak mR^m\ \cong\ R^n/\mathfrak mR^n.
 \]
 Coordinatewise reduction identifies these quotient modules with
 \((R/\mathfrak m)^m\) and \((R/\mathfrak m)^n\). The quotient is a field
-because \(\mathfrak m\) is maximal, so the finite-dimensional basis theorem
-just proved gives \(m=n\).
+because \(\mathfrak m\) is maximal, so IBN for fields gives \(m=n\).
 \end{proof}
 
 The nonzero hypothesis is essential: for the zero ring,
@@ -1009,7 +1063,7 @@ it is surjective, and hence exactly when it is an isomorphism: rank--nullity
 shows that one of kernel and image has the necessary dimension precisely when
 the other does.
 
-\section{Matrices and Change of Basis}
+\section{Matrices and Change of Basis}\label{sec:matrices-change-basis}
 Once ordered bases are chosen, a linear transformation becomes a table of
 coordinates. The matrix is a useful representative, but it is not the
 transformation itself: changing coordinates changes its matrix.
@@ -1027,54 +1081,59 @@ coordinates.
 Let \(R\) be a ring. An \emph{\(m\times n\) matrix over \(R\)} is a
 rectangular array
 \[
-A=(a_{ij}),
+A=(a_{ij})=
+\begin{pmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}\\
+\vdots&\vdots&\ddots&\vdots\\
+a_{m1}&a_{m2}&\cdots&a_{mn}
+\end{pmatrix},
 \qquad
-a_{ij}\in R
-\quad
-(1\leq i\leq m,\ 1\leq j\leq n).
+a_{ij}\in R.
 \]
-The set of all such matrices is denoted by
+The set of all such matrices is \(M_{m\times n}(R)\), and
 \[
-M_{m\times n}(R);
+M_n(R)=M_{n\times n}(R).
 \]
-write \(M_n(R)=M_{n\times n}(R)\). If
+Matrices are equal precisely when their corresponding entries are equal. For
+matrices of the same size, define
+\[
+A+B=(a_{ij}+b_{ij}).
+\]
+If \(R\) is commutative, scalar multiplication is defined entrywise by
+\[
+rA=(ra_{ij}),
+\]
+making \(M_{m\times n}(R)\) an \(R\)-module.
+\end{definition}
+
+Matrices are arrays of scalars; they encode linear maps only after ordered
+bases have been chosen. If
 \[
 A=(a_{ij})\in M_{m\times n}(R),
 \]
 its \emph{transpose} is the matrix
 \[
-A^t\in M_{n\times m}(R),
+A^t=
+\begin{pmatrix}
+a_{11}&a_{21}&\cdots&a_{m1}\\
+a_{12}&a_{22}&\cdots&a_{m2}\\
+\vdots&\vdots&\ddots&\vdots\\
+a_{1n}&a_{2n}&\cdots&a_{mn}
+\end{pmatrix}
+\in M_{n\times m}(R),
 \qquad
 (A^t)_{ij}=a_{ji}.
 \]
-\end{definition}
-
-Matrices are arrays of scalars; they encode linear maps only after ordered
-bases have been chosen. The transpose simply interchanges the row and column
-indices. Directly from the entries,
-\[
-(A^t)^t=A,
-\qquad
-(A+B)^t=A^t+B^t,
-\qquad
-(AB)^t=B^tA^t
-\]
-whenever the indicated sums and products are defined. If \(R\) is
-commutative, then also
-\[
-(rA)^t=rA^t
-\qquad(r\in R).
-\]
+Thus transpose visibly interchanges rows and columns.
 
 For \(A=(a_{ij})\in M_{m\times n}(F)\) and a column
-\(x=(x_1,\ldots,x_n)^t\), define matrix--vector multiplication by
+\[
+x=\begin{pmatrix}x_1\\\vdots\\x_n\end{pmatrix},
+\]
+define matrix--vector multiplication by
 \[
 (Ax)_i=\sum_{j=1}^n a_{ij}x_j.
-\]
-\[
-\begin{pmatrix}a_{11}&\cdots&a_{1n}\\a_{21}&\cdots&a_{2n}\\\vdots&&\vdots\\a_{m1}&\cdots&a_{mn}\end{pmatrix}
-\begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}
-=\begin{pmatrix}a_{11}x_1+\cdots+a_{1n}x_n\\a_{21}x_1+\cdots+a_{2n}x_n\\\vdots\\a_{m1}x_1+\cdots+a_{mn}x_n\end{pmatrix}.
 \]
 For instance,
 \[
@@ -1082,66 +1141,151 @@ For instance,
 \begin{pmatrix}5\\2\end{pmatrix}
 =\begin{pmatrix}8\\23\end{pmatrix}.
 \]
-The same row-by-column rule represents composition:
+
+For
 \[
-\begin{pmatrix}2&-1\\3&4\end{pmatrix}
-\begin{pmatrix}1&0\\2&1\end{pmatrix}
-=\begin{pmatrix}0&-1\\11&4\end{pmatrix}.
+A=(a_{ij})\in M_{m\times n}(R),
+\qquad
+B=(b_{jk})\in M_{n\times r}(R),
 \]
-Thus the \((i,j)\)-entry is the dot product of row \(i\) of the left factor
-with column \(j\) of the right factor, exactly as required by composition.
-If \(T:V\to W\), \(\beta=(v_1,\ldots,v_n)\), and
-\(\gamma=(w_1,\ldots,w_m)\) is an ordered basis of \(W\), write
+define
 \[
-T(v_j)=a_{1j}w_1+\cdots+a_{mj}w_m
-\quad(1\leq j\leq n).
+AB=(c_{ik})\in M_{m\times r}(R),
+\qquad
+c_{ik}=\sum_{j=1}^n a_{ij}b_{jk}.
+\]
+This is row-by-column multiplication, and its dimension rule is
+\[
+(m\times n)(n\times r)\longrightarrow(m\times r).
+\]
+Associativity follows by distributing the finite sums; no commutativity of
+\(R\) is required. The \emph{identity matrix}
+\[
+I_n=(\delta_{ij})\in M_n(R)
+\]
+has entries \(1\) on the diagonal and \(0\) elsewhere. A square matrix \(A\)
+is \emph{invertible} if some square matrix \(B\) satisfies \(AB=BA=I_n\);
+then \(B\) is unique and is denoted by \(A^{-1}\).
+
+\begin{proposition}[Transpose identities]
+For compatible matrices over a commutative ring,
+\[
+(A^t)^t=A,
+\qquad
+(A+B)^t=A^t+B^t,
+\qquad
+(rA)^t=rA^t,
+\qquad
+(AB)^t=B^tA^t.
+\]
+\end{proposition}
+\begin{proof}
+The first three identities follow by comparing entries. For the product,
+\[
+\bigl((AB)^t\bigr)_{ij}
+=(AB)_{ji}
+=\sum_k a_{jk}b_{ki}
+=\sum_k b_{ki}a_{jk}
+=(B^tA^t)_{ij}.
+\]
+Commutativity is used in the third equality.
+\end{proof}
+
+Now let \(T:V\to W\), let
+\[
+\beta=(v_1,\ldots,v_n)
+\]
+be an ordered basis of \(V\), and let
+\[
+\gamma=(w_1,\ldots,w_m)
+\]
+be an ordered basis of \(W\). Write
+\[
+\begin{aligned}
+T(v_1)&=a_{11}w_1+a_{21}w_2+\cdots+a_{m1}w_m,\\
+T(v_2)&=a_{12}w_1+a_{22}w_2+\cdots+a_{m2}w_m,\\
+&\ \vdots\\
+T(v_n)&=a_{1n}w_1+a_{2n}w_2+\cdots+a_{mn}w_m.
+\end{aligned}
 \]
 The \emph{matrix of \(T\) from \(\beta\) to \(\gamma\)} is
 \[
-[T]^\gamma_\beta=(a_{ij})\in M_{m\times n}(F).
+[T]^\gamma_\beta=
+\begin{pmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}\\
+\vdots&\vdots&\ddots&\vdots\\
+a_{m1}&a_{m2}&\cdots&a_{mn}
+\end{pmatrix}.
 \]
-Thus its \(j\)-th column is \([T(v_j)]_\gamma\); its entries depend on both
-chosen ordered bases, though \(T\) itself does not. If
+Equivalently,
 \[
-v=\sum_jx_jv_j,
+\boxed{\text{the \(j\)-th column of \([T]^\gamma_\beta\) is
+\([T(v_j)]_\gamma\).}}
 \]
-linearity gives
+Thus the matrix depends on the chosen ordered bases, though the linear map
+does not. If
 \[
-T(v)=\sum_jx_jT(v_j)=\sum_i\left(\sum_j a_{ij}x_j\right)w_i,
+v=x_1v_1+\cdots+x_nv_n,
 \]
-so, exactly by the displayed definition of matrix--vector multiplication,
+then linearity and the displayed expansions give
+\[
+T(v)
+=\sum_{i=1}^m\left(\sum_{j=1}^n a_{ij}x_j\right)w_i.
+\]
+The inner sum is the \(i\)-th entry of
+\([T]^\gamma_\beta[v]_\beta\), and hence
 \[
 [T(v)]_\gamma=[T]^\gamma_\beta[v]_\beta. \tag{6.1}
 \]
-
-For \(A=(a_{ij})\in M_{m\times n}(F)\) and
-\(B=(b_{jk})\in M_{n\times r}(F)\), define
-\[
-AB=(c_{ik})\in M_{m\times r}(F),\qquad c_{ik}=\sum_{j=1}^n a_{ij}b_{jk}.
-\]
-This is row-by-column multiplication; equivalently, the \(k\)-th column of
-\(AB\) is \(A\) times the \(k\)-th column of \(B\). The dimension rule is
-\((m\times n)(n\times r)\to(m\times r)\). A direct finite-sum calculation
-shows associativity: the \((i,\ell)\)-entries of \((AB)C\) and \(A(BC)\)
-are respectively
-\[
-\sum_{j,k}a_{ij}b_{jk}c_{k\ell}
-\]
-with the two possible parentheses,
-which agree in the field \(F\). Applying (6.1) twice therefore proves
+For \(S:W\to X\), with an ordered basis \(\delta\) of \(X\), this immediately
+explains the order of matrix multiplication:
 \[
 [S\circ T]^\delta_\beta=[S]^\delta_\gamma[T]^\gamma_\beta.
 \]
+Formula (6.1) also shows that a square matrix representing an endomorphism is
+invertible exactly when that endomorphism is an automorphism.
 
-The \emph{identity matrix} \(I_n=(\delta_{ij})\) has entries \(1\) on the
-diagonal and \(0\) elsewhere. The defining sums immediately give
-\(AI_n=A\) and \(I_mA=A\) for compatible matrices. A square matrix \(A\)
-is \emph{invertible} if a square matrix \(B\) satisfies \(AB=BA=I\); such a
-\(B\), if it exists, is unique, since
-\(B=B(AC)=(BA)C=C\), and is denoted \(A^{-1}\). Associativity also gives
-\((AB)^{-1}=B^{-1}A^{-1}\). Formula (6.1) and the composition formula show
-that a square matrix is invertible exactly when its associated linear map is
-an automorphism.
+\begin{example}[Constructing a representing matrix]
+Let
+\[
+T:\mathbb R^2\longrightarrow\mathbb R^2,
+\qquad
+T(x,y)=(x+y,x-y),
+\]
+and choose the ordered bases
+\[
+\beta=((1,1),(1,0)),
+\qquad
+\gamma=((1,0),(1,1)).
+\]
+Then
+\[
+T(1,1)=(2,0)=2(1,0)+0(1,1),
+\qquad
+T(1,0)=(1,1)=0(1,0)+1(1,1).
+\]
+The coordinate columns therefore give
+\[
+[T]^\gamma_\beta=
+\begin{pmatrix}2&0\\0&1\end{pmatrix}.
+\]
+For
+\[
+v=2(1,1)-(1,0)=(1,2),
+\]
+we have
+\[
+[v]_\beta=
+\begin{pmatrix}2\\-1\end{pmatrix},
+\qquad
+[T(v)]_\gamma=
+\begin{pmatrix}4\\-1\end{pmatrix}
+=
+\begin{pmatrix}2&0\\0&1\end{pmatrix}
+\begin{pmatrix}2\\-1\end{pmatrix}.
+\]
+\end{example}
 
 If \(\beta'\) is another ordered basis of \(V\), define the
 change-of-coordinate matrix, with its direction displayed, by
