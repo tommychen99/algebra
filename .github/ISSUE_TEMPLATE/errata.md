@@ -1,21 +1,20 @@
 ---
-name: Report an erratum
-about: Report a mathematical, typographical, or cross-reference error
+name: Erratum report
+about: Report a mathematical or typographical error in the notes
 title: "[Erratum] "
-labels: ""
-assignees: ""
+labels: []
 ---
 
 ## Location
 
-Please give the page, chapter, and section.
-
-If applicable, include the theorem, proposition, example, remark, or exercise number.
+- Page:
+- Chapter and section:
+- Theorem, proposition, definition, example, or exercise number (if applicable):
 
 ## Description
 
-Describe the issue as precisely as possible.
+Describe the issue clearly, including any relevant notation or context.
 
-## Suggested correction
+## Proposed correction
 
-If you know a possible correction, please include it here.
+If you know a correction, please provide it here.

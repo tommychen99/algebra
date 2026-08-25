@@ -4,9 +4,17 @@
 
 Tommy Chen
 
-Version 1.0
+Version 1.1
 
 [Read the compiled PDF](main.pdf)
+
+## Release notes
+
+**Version 1.1** records the substantive revision of the finite-dimensional
+linear-algebra material, particularly the expanded treatment of inner-product
+spaces. Future small maintenance updates use the \`1.01\` style rather than a
+new minor version; larger mathematical or editorial revisions use versions
+such as \`1.1\`.
 
 This repository contains introductory graduate algebra notes that are
 self-contained in their algebraic development, with an elementary entry point
@@ -51,6 +59,16 @@ intentionally excluded. A full classification theory of quadratic forms,
 detailed finite-group classification, and material after classical Galois
 theory are outside the stated scope. The classification of finitely generated
 abelian groups follows from the PID module structure theorem.
+
+The finite-dimensional linear-algebra material has also been audited against
+Friedberg, Insel, and Spence, *Linear Algebra*, 5th ed.  The principal
+revision strengthens the inner-product chapter with complete treatments of
+Cauchy--Schwarz, polarization, Bessel and Parseval, Gram--Schmidt,
+orthogonal projections, Riesz representation, adjoints, the spectral theorems,
+and singular-value decomposition. The existing vector-space, matrix,
+determinant, and canonical-form chapters received only targeted consistency
+checks. A standalone computational course in row reduction and systems of
+linear equations remains deliberately outside the notes' structural scope.
 
 The manuscript uses complete proofs for results required later, consistent
 `tikz-cd` diagrams, restrained borderless hyperlinks, and normalized notation.
