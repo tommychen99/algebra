@@ -4,9 +4,17 @@
 
 Tommy Chen
 
-Version 1.0
+Version 1.1
 
 [Read the compiled PDF](main.pdf)
+
+## Release notes
+
+**Version 1.1** records the substantive revision of the finite-dimensional
+linear-algebra material, particularly the expanded treatment of inner-product
+spaces. Future small maintenance updates use the \`1.01\` style rather than a
+new minor version; larger mathematical or editorial revisions use versions
+such as \`1.1\`.
 
 This repository contains introductory graduate algebra notes that are
 self-contained in their algebraic development, with an elementary entry point
