@@ -1188,6 +1188,10 @@ For example,
 \[
 \begin{pmatrix}2&-1\\3&4\end{pmatrix}
 \begin{pmatrix}1&0\\2&1\end{pmatrix}
+=\begin{pmatrix}
+2\cdot1+(-1)\cdot2&2\cdot0+(-1)\cdot1\\
+3\cdot1+4\cdot2&3\cdot0+4\cdot1
+\end{pmatrix}
 =\begin{pmatrix}0&-1\\11&4\end{pmatrix}.
 \]
 Associativity follows by distributing the finite sums; no commutativity of
@@ -1352,7 +1356,9 @@ a linear bijection
 \]
 by the column construction above; this identification depends on the chosen
 bases. In particular,
-\(\dim_F\mathcal{L}_F(V)=(\dim_FV)^2\).
+\[
+\dim\mathcal{L}(V)=(\dim V)^2.
+\]
 
 \begin{example}[A change of basis]
 Let \(T:\mathbb R^2\to\mathbb R^2\) be given by
@@ -1487,7 +1493,7 @@ invariance.
 \end{definition}
 
 \begin{definition}
-For \(T\in\mathcal{L}_F(V)\), define \(\det(T)\) by
+For \(T\in\mathcal{L}(V)\), define \(\det(T)\) by
 \[
 \omega_\beta(Tx_1,\ldots,Tx_n)
 =\det(T)\,\omega_\beta(x_1,\ldots,x_n)
