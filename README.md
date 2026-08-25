@@ -4,20 +4,20 @@
 
 Tommy Chen
 
-Version 1.11
+Version 1.12
 
 [Read the compiled PDF](main.pdf)
 
 ## Release notes
 
-**Version 1.11** is a small maintenance update following Version 1.1, which
+**Version 1.12** is a small maintenance update following Version 1.1, which
 records the substantive revision of the finite-dimensional linear-algebra
 material, particularly the expanded treatment of inner-product spaces. Small
-maintenance updates append a final digit: for example, `1.01` follows `1.0`,
-and `1.11` follows `1.1`. Larger mathematical or editorial revisions advance
-the minor version, as in `1.1`. This update clarifies the ordering of bases,
-coordinates, matrix representations, matrix operations, transpose, and
-change-of-basis conventions.
+maintenance updates continue the final decimal sequence: for example, `1.01`
+follows `1.0`, while `1.11` and `1.12` follow `1.1`. Larger mathematical or
+editorial revisions advance the minor version, as in `1.1`. This update
+clarifies the ordering of bases, coordinates, matrix representations, matrix
+operations, transpose, and change-of-basis conventions.
 
 This repository contains introductory graduate algebra notes that are
 self-contained in their algebraic development, with an elementary entry point
