@@ -1023,6 +1023,49 @@ one and only one expansion \(v=x_1v_1+\cdots+x_nv_n\); define its
 The order matters: exchanging two basis vectors generally exchanges two
 coordinates.
 
+\begin{definition}
+Let \(R\) be a ring. An \emph{\(m\times n\) matrix over \(R\)} is a
+rectangular array
+\[
+A=(a_{ij}),
+\qquad
+a_{ij}\in R
+\quad
+(1\leq i\leq m,\ 1\leq j\leq n).
+\]
+The set of all such matrices is denoted by
+\[
+M_{m\times n}(R);
+\]
+write \(M_n(R)=M_{n\times n}(R)\). If
+\[
+A=(a_{ij})\in M_{m\times n}(R),
+\]
+its \emph{transpose} is the matrix
+\[
+A^t\in M_{n\times m}(R),
+\qquad
+(A^t)_{ij}=a_{ji}.
+\]
+\end{definition}
+
+Matrices are arrays of scalars; they encode linear maps only after ordered
+bases have been chosen. The transpose simply interchanges the row and column
+indices. Directly from the entries,
+\[
+(A^t)^t=A,
+\qquad
+(A+B)^t=A^t+B^t,
+\qquad
+(AB)^t=B^tA^t
+\]
+whenever the indicated sums and products are defined. If \(R\) is
+commutative, then also
+\[
+(rA)^t=rA^t
+\qquad(r\in R).
+\]
+
 For \(A=(a_{ij})\in M_{m\times n}(F)\) and a column
 \(x=(x_1,\ldots,x_n)^t\), define matrix--vector multiplication by
 \[
@@ -1103,7 +1146,11 @@ an automorphism.
 If \(\beta'\) is another ordered basis of \(V\), define the
 change-of-coordinate matrix, with its direction displayed, by
 \(P=[I_V]^\beta_{\beta'}\). Formula (6.1) for the identity says
-\([v]_\beta=P[v]_{\beta'}\). The reverse change-of-coordinate matrix
+\[
+[v]_\beta=P[v]_{\beta'};
+\]
+thus \(P\) converts \(\beta'\)-coordinates into \(\beta\)-coordinates. The
+reverse change-of-coordinate matrix
 \(Q=[I_V]^{\beta'}_\beta\) satisfies \(PQ=QP=I\), so \(P^{-1}=Q\).
 For an endomorphism \(T\), applying the composition formula to the two
 identity maps gives
@@ -1116,7 +1163,12 @@ in different ordered bases.
 Finally, the matrices \(E_{ij}\), having a single \(1\) in position
 \((i,j)\), form a basis of \(M_{m\times n}(F)\). Hence this matrix space has
 dimension \(mn\). For fixed ordered bases, \(T\mapsto[T]^\gamma_\beta\) is
-a linear bijection by the column construction above. In particular,
+a linear bijection
+\[
+\operatorname{Hom}_F(V,W)\longrightarrow M_{m\times n}(F)
+\]
+by the column construction above; this identification depends on the chosen
+bases. In particular,
 \(\dim_F\mathcal{L}_F(V)=(\dim_FV)^2\).
 
 \begin{example}[A change of basis]
