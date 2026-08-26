@@ -85,7 +85,7 @@ The complex spectral theorem uses the Fundamental Theorem of Algebra as an
 external analytic input. Chapter 12 also gives a Galois-theoretic proof whose
 only substantive analytic ingredient is the Intermediate Value Theorem,
 together with elementary properties of real polynomials and real numbers.
-These facts are developed in *Lecture Notes on Mathematical Analysis*.
+These facts are developed in [*Lecture Notes on Mathematical Analysis*](https://github.com/tommychen99/mathematical-analysis).
 
 Chapter 12 includes the point-set-topology and topological-group bridge needed
 for profinite and infinite Galois theory. Tychonoff's theorem is used there as
