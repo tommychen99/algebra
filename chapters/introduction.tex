@@ -1,11 +1,12 @@
-\chapter{Introduction and Guide to the Notes}
+\chapter{Preliminaries and Guide to the Notes}\label{chap:preliminaries}
 
 \section{Purpose and point of view}
 
 Graduate algebra is not chiefly a collection of classifications.  It is a
 language for recognizing when apparently different problems have the same
-form.  A quotient group, a quotient ring, and a quotient module all arise by
-forcing certain elements to become zero; an action describes symmetry; a
+form. A quotient group, a quotient ring, and a quotient module all arise by
+collapsing a chosen subobject to the trivial one: a normal subgroup becomes
+the identity in a group, while an ideal or submodule becomes zero. An action describes symmetry; a
 polynomial in an operator turns linear algebra into module theory; and a
 Galois group records the symmetries of a field extension.  These notes develop
 that common language with an eye toward the places it will be used next.
@@ -57,14 +58,14 @@ of implications
 It also introduces localization, since it is the first algebraic operation
 that makes a global ring look local.
 
-Part~III develops four connected chapters. Chapter~6 introduces modules
+Part~III develops four connected chapters. Chapter~5 introduces modules
 together with the finite-dimensional linear algebra needed later: bases,
 dimension, matrices, determinants, eigenvalues, diagonalization, duality,
 and a modest introduction to bilinear and quadratic forms.
-Chapter~7 proves the structure theorem over PIDs and then regards an operator
+Chapter~6 proves the structure theorem over PIDs and then regards an operator
 as an \(F[x]\)-module, leading to minimal polynomials and rational and Jordan
-canonical forms. Chapter~8 adds inner-product geometry, adjoints, spectral
-theory, and singular value decomposition. Chapter~9 introduces tensor
+canonical forms. Chapter~7 adds inner-product geometry, adjoints, spectral
+theory, and singular value decomposition. Chapter~8 introduces tensor
 products, exterior powers, and exterior algebra: the module constructions
 that linearize bilinear and alternating multilinear maps and prepare the way
 for later commutative and homological algebra. Thus vector spaces are
@@ -79,7 +80,7 @@ Part~IV studies field extensions, their embeddings, separability, normality,
 and the correspondence between intermediate fields and subgroups of a Galois
 group.  Finite fields and cyclotomic fields supply recurring examples, while
 direct and inverse limits explain how finite Galois symmetries assemble into
-profinite and absolute Galois groups.  Chapter~12 includes a brief local
+profinite and absolute Galois groups.  Chapter~11 includes a brief local
 bridge through point-set topology and topological groups, solely to make the
 profinite and infinite-Galois language self-contained; Tychonoff's theorem is
 used there as an external input.  It closes with a non-prerequisite survey of
@@ -133,8 +134,10 @@ always be stated explicitly when a nonunital object is needed.  Unless
 explicitly qualified otherwise, an ideal means a two-sided ideal.  When
 one-sided ideals are relevant, we explicitly say left ideal or right ideal;
 in a commutative ring these notions coincide.
-Modules are unital left modules unless the contrary is specified.  For a group
-\(G\), the identity is \(1\), and for an additive group it is \(0\).  The
+Modules are unital left modules unless the contrary is specified. For a general
+group \(G\), the identity is \(e\), and for an additive group it is \(0\).
+We retain \(1\) for concrete multiplicative groups and \(I_n\) for matrix
+groups; \(\operatorname{id}_X\) denotes an identity map. The
 notation \(H\leq G\) permits equality, while \(H\trianglelefteq G\) denotes a
 normal subgroup.  If \(R\) is a ring and \(M\) an \(R\)-module, then
 \(\operatorname{Ann}_R(M)\) is its annihilator.
@@ -150,6 +153,97 @@ language of exact sequences.  We will use exact sequences of modules in an
 elementary form, but derived functors and category theory are not prerequisites
 for these notes.
 \end{remark}
+
+\section{Elementary complex arithmetic}
+
+The complex numbers extend the real numbers by an element \(i\) satisfying
+\(i^2=-1\). Every complex number has a unique form
+\[
+z=a+bi,\qquad a,b\in\mathbb R.
+\]
+The numbers \(a=\operatorname{Re}(z)\) and \(b=\operatorname{Im}(z)\) are,
+respectively, its real and imaginary parts. We add and multiply by collecting
+real and imaginary parts and using \(i^2=-1\):
+\[
+(a+bi)+(c+di)=(a+c)+(b+d)i,
+\quad
+(a+bi)(c+di)=(ac-bd)+(ad+bc)i.
+\]
+For instance,
+\[
+(2+3i)+(1-4i)=3-i,\qquad
+(2+3i)(1-4i)=14-5i.
+\]
+
+These definitions inherit the familiar algebraic laws of real-number
+arithmetic. They are closed under addition and multiplication; addition and
+multiplication are associative and commutative; \(0=0+0i\) is the additive
+identity, \(1=1+0i\) is the multiplicative identity, and
+\(-(a+bi)=-a-bi\) is the additive inverse. For example, coordinatewise
+addition gives
+\begin{align*}
+((a+bi)+(c+di))+(p+qi)
+&=(a+c+p)+(b+d+q)i\\
+&=(a+bi)+((c+di)+(p+qi)).
+\end{align*}
+The same calculation gives commutativity and the additive identity and inverse
+laws. Expanding both sides of \(z(w+u)=zw+zu\) and collecting real and
+imaginary parts proves distributivity; associativity and commutativity of
+multiplication follow similarly from the corresponding real-number laws.
+The usual cancellation arguments prove uniqueness of the additive and
+multiplicative identities and of additive inverses.
+
+Conjugation is a useful device for converting a complex number into a real
+number. Define
+\[
+\overline z=a-bi,\qquad |z|=\sqrt{a^2+b^2}.
+\]
+Thus for \(z=3+4i\), \(\overline z=3-4i\) and \(|z|=5\). Direct coordinate
+calculations give
+\[
+\overline{z+w}=\overline z+\overline w,\qquad
+\overline{zw}=\overline z\,\overline w,\qquad
+\overline{\overline z}=z,
+\]
+and
+\[
+z\overline z=(a+bi)(a-bi)=a^2+b^2=|z|^2.
+\]
+Consequently
+\[
+|zw|^2=(zw)\overline{zw}=z\overline z\,w\overline w=|z|^2|w|^2,
+\]
+so \(|zw|=|z||w|\), since moduli are nonnegative.
+
+If \(z=a+bi\ne0\), then \(a\) and \(b\) are not both zero, so
+\(a^2+b^2>0\). Hence
+\[
+z^{-1}=\frac{a-bi}{a^2+b^2}=\frac{\overline z}{|z|^2}
+\]
+is defined, and \(zz^{-1}=z\overline z/|z|^2=1\). For example,
+\[
+(3+4i)^{-1}=\frac{3-4i}{25}.
+\]
+This inverse is unique: if \(u\) and \(v\) both invert \(z\), then
+\[
+u=u\cdot1=u(zv)=(uz)v=1\cdot v=v.
+\]
+These properties---together with the existence of multiplicative inverses for
+every nonzero element---are exactly the familiar algebraic laws that will
+later be summarized by saying that \(\mathbb C\) is a field.
+
+Geometrically, \(a+bi\) is the point \((a,b)\) in the plane, and \(|z|\) is
+its Euclidean distance from the origin. Thus the complex \(n\)-th roots of
+unity
+\[
+\mu_n=\{z\in\mathbb C:z^n=1\}
+=\left\{\cos\frac{2\pi k}{n}+i\sin\frac{2\pi k}{n}:0\leq k<n\right\}
+\]
+are the \(n\) equally spaced points on the unit circle. For example,
+\[
+\mu_2=\{1,-1\},\qquad \mu_4=\{1,i,-1,-i\}.
+\]
+They will later provide important group examples.
 
 \section{Sources}
 

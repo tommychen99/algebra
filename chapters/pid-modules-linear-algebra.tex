@@ -1,6 +1,6 @@
 \chapter[PID Modules and Canonical Forms]{Modules over PIDs and Canonical Forms}\label{chap:pid-modules-canonical-forms}
 
-Chapter~6 showed that diagonalization is possible exactly when an operator has
+Chapter~5 showed that diagonalization is possible exactly when an operator has
 enough eigenvectors. This chapter asks what remains when it does not. The
 answer comes from viewing a linear operator as multiplication by \(x\), and
 from the remarkable fact that finitely generated modules over a principal
@@ -120,7 +120,7 @@ The torsion part of a finitely generated PID module is a direct sum of modules
 \(R/(p^e)\), where \(p\) is a prime element and \(e\geq1\).
 \end{proposition}
 \begin{proof}
-Every PID is a UFD, by Chapter~5. Factor an invariant factor as
+Every PID is a UFD, by Chapter~4. Factor an invariant factor as
 \[
 d=u\prod_i p_i^{e_i},
 \]
@@ -134,7 +134,7 @@ Apply this to every invariant factor.
 
 \section{Cancellation and Uniqueness}
 Before cancelling free summands, we must know that their ranks are meaningful.
-This is supplied by the invariant basis number theorem in Chapter~6: a PID is
+This is supplied by the invariant basis number theorem in Chapter~5: a PID is
 a nonzero commutative ring, so its finite free rank is well-defined.
 
 For a prime \(p\), write
@@ -294,7 +294,7 @@ an alternative proof of uniqueness, logically subsequent to the
 annihilator-and-induction proof above.
 
 \section{Linear Operators as \texorpdfstring{\(F[x]\)}{F[x]}-Modules}
-We return to the concrete invariant subspaces of Chapter~6. An operator can
+We return to the concrete invariant subspaces of Chapter~5. An operator can
 be encoded by declaring that the polynomial variable \(x\) acts as that
 operator; polynomial relations then become module relations.
 
@@ -314,7 +314,7 @@ is an \(F[x]\)-submodule.
 \end{proof}
 
 \section{Minimal Polynomial and Cayley--Hamilton}
-The characteristic polynomial introduced in Chapter~6 detects eigenvalues.
+The characteristic polynomial introduced in Chapter~5 detects eigenvalues.
 The minimal polynomial records the smallest polynomial relation satisfied by
 the whole operator and will control the sizes of canonical-form blocks.
 
@@ -451,7 +451,7 @@ one by inspection.
 \section{Jordan Canonical Form}
 When the relevant polynomials split, elementary divisors refine the rational
 blocks into the familiar Jordan blocks. This is the structural completion of
-the diagonalization discussion in Chapter~6.
+the diagonalization discussion in Chapter~5.
 
 If the characteristic polynomial splits over \(F\), elementary divisors have
 the form \((x-\lambda)^e\). On \(F[x]/((x-\lambda)^e)\), use the basis
