@@ -4,21 +4,37 @@
 
 Tommy Chen
 
-Version 1.14
+Version 1.2
 
 [Read the compiled PDF](main.pdf)
 
 ## Release notes
 
-**Version 1.14** is a small maintenance update following Version 1.1, which
+**Version 1.2** substantially strengthens the finite-dimensional
+inner-product-space material, especially the treatment of singular value
+decomposition. It develops generalized adjoints \(T:V\to W\) and their
+identities; treats \(T^*T\) and \(TT^*\) as positive self-adjoint operators;
+relates singular values to rank; proves SVD from the spectral theorem; and
+includes a worked rectangular computation and brief applications in numerical
+linear algebra, data analysis, computer science, and engineering. The final
+cleanup also extends the inverse-adjoint identity to arbitrary isomorphisms
+\(T:V\to W\).
+
+**Version 1.16** makes a final wording correction in the proof discussion
+before Cauchy's theorem, replacing ``the product is one'' with ``the product
+is the identity.'' It follows Version 1.15, a substantial structural revision
+of the preliminary and
+group-theory material. It renumbers the preliminary chapter as Chapter 0,
+introduces elementary complex arithmetic, and reorganizes Part I so that maps,
+quotients, automorphisms, and actions have their needed foundations. It
+follows Version 1.14, a small maintenance update following Version 1.1, which
 records the substantive revision of the finite-dimensional linear-algebra
 material, particularly the expanded treatment of inner-product spaces. Small
 maintenance updates continue the final decimal sequence: for example, `1.01`
 follows `1.0`, while `1.11`, `1.12`, `1.13`, and `1.14` follow `1.1`. Larger
 mathematical or editorial revisions advance the minor version, as in `1.1`.
-This update completes the contextual cleanup of dimensions and operator-space
-notation, and adds one intermediate arithmetic step to the matrix-product
-example.
+It also retains the contextual cleanup of dimensions and operator-space
+notation and the intermediate arithmetic step in the matrix-product example.
 
 This repository contains introductory graduate algebra notes that are
 self-contained in their algebraic development, with an elementary entry point
@@ -82,12 +98,12 @@ explicit category or functor language.
 ## External inputs
 
 The complex spectral theorem uses the Fundamental Theorem of Algebra as an
-external analytic input. Chapter 12 also gives a Galois-theoretic proof whose
+external analytic input. Chapter 11 also gives a Galois-theoretic proof whose
 only substantive analytic ingredient is the Intermediate Value Theorem,
 together with elementary properties of real polynomials and real numbers.
 These facts are developed in *Lecture Notes on Mathematical Analysis*.
 
-Chapter 12 includes the point-set-topology and topological-group bridge needed
+Chapter 11 includes the point-set-topology and topological-group bridge needed
 for profinite and infinite Galois theory. Tychonoff's theorem is used there as
 an external input; its full arbitrary-product form is noted to be equivalent
 over ZF to the Axiom of Choice.
