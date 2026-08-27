@@ -516,38 +516,78 @@ Uniqueness in Riesz representation proves the linearity of \(T^*\). The
 same uniqueness proves uniqueness of the adjoint.
 \end{proof}
 
+\noindent When \(V=W\), this is precisely the adjoint of the linear operator
+\(T:V\to V\) considered below.  The point of allowing two spaces here is
+that the adjoint reverses the direction of a map:
+\[
+T:V\longrightarrow W,
+\qquad
+T^*:W\longrightarrow V.
+\]
+
 \begin{proposition}[Adjoint identities and matrices]
-For compatible linear maps \(S,T\) and \(a\in F\),
+The familiar adjoint identities remain valid for maps between possibly
+different inner-product spaces, provided all sums and compositions are
+defined.  Thus, if \(S,T:V\to W\) and \(a\in F\), then
 \[
 (S+T)^*=S^*+T^*,
 \qquad
 (aT)^*=\overline a\,T^*,
 \qquad
-(ST)^*=T^*S^*,
-\qquad
 (T^*)^*=T.
 \]
-If \(T\) is invertible, then
+If \(T:V\to W\) and \(S:W\to U\), then \(ST:V\to U\) and
+\[
+(ST)^*=T^*S^*:U\to V.
+\]
+If \(T:V\to W\) is an isomorphism, then
 \[
 (T^{-1})^*=(T^*)^{-1}.
 \]
+Here \(T^{-1}:W\to V\), so \((T^{-1})^*:V\to W\).  Likewise,
+\(T^*:W\to V\), so \((T^*)^{-1}:V\to W\).
 Relative to orthonormal bases, the matrix of \(T^*\) is
 \[
 [T^*]=[T]^*=\overline{[T]}^{\,t}.
 \]
 \end{proposition}
 \begin{proof}
-Each identity follows by putting the proposed right-hand side into the
-defining equation for an adjoint and invoking uniqueness. For example,
+For the sum identity, the defining equation and linearity in the first
+variable give
+\[
+\langle(S+T)v,w\rangle
+=\langle v,(S^*+T^*)w\rangle.
+\]
+For the scalar identity, our convention gives
+\[
+\langle aTv,w\rangle
+=a\langle Tv,w\rangle
+=a\langle v,T^*w\rangle
+=\langle v,\overline a\,T^*w\rangle.
+\]
+Over \(\mathbb R\), \(\overline a=a\).  For composition, if
+\(T:V\to W\) and \(S:W\to U\), then
 \[
 \langle STv,w\rangle
 =\langle Tv,S^*w\rangle
 =\langle v,T^*S^*w\rangle.
 \]
-The inverse formula follows from
+Finally,
 \[
-I=(T^{-1}T)^*=T^*(T^{-1})^*.
+\langle T^*w,v\rangle_V
+=\overline{\langle v,T^*w\rangle_V}
+=\overline{\langle Tv,w\rangle_W}
+=\langle w,Tv\rangle_W,
 \]
+so uniqueness shows that \((T^*)^*=T\).  For an isomorphism \(T:V\to W\),
+\[
+(T^{-1}T)^*=T^*(T^{-1})^*=I_V
+\]
+and
+\[
+(TT^{-1})^*=(T^{-1})^*T^*=I_W.
+\]
+Thus \((T^{-1})^*\) is the inverse of \(T^*\).
 For orthonormal coordinate columns \(x,y\) and a matrix \(A=[T]\),
 \[
 \langle Ax,y\rangle
@@ -914,85 +954,273 @@ Chapter~6.
 
 \section{Singular Value Decomposition}
 
-Eigenvalue diagonalization applies only to endomorphisms. Singular value
-decomposition applies to maps between spaces of different dimensions by
-diagonalizing the positive operator \(T^*T\).
+Eigenvalue diagonalization applies only to endomorphisms.  Singular value
+decomposition applies to a map between two possibly different spaces.  Its
+conceptual path is
+\[
+\begin{gathered}
+\text{adjoint}\longrightarrow T^*T
+\longrightarrow\text{positive self-adjoint operator}\\
+\longrightarrow\text{spectral theorem}\longrightarrow\text{SVD}.
+\end{gathered}
+\]
+Here the adjoint constructed in the preceding section has the defining
+property
+\[
+\langle Tv,w\rangle_W=\langle v,T^*w\rangle_V
+\qquad(v\in V,\ w\in W).
+\]
+Thus, although \(T\) need not be an endomorphism, the two composites are
+endomorphisms of different spaces:
+\[
+T^*T:V\longrightarrow V,
+\qquad
+TT^*:W\longrightarrow W.
+\]
 
-\begin{theorem}[Singular value decomposition]
-Let
-\[
-T:V\longrightarrow W
-\]
-be a linear map of finite-dimensional real or complex inner-product spaces.
-There are orthonormal bases of \(V\) and \(W\) in which the matrix of \(T\)
-is diagonal rectangular with nonnegative entries
-\[
-\sigma_1,\ldots,\sigma_r.
-\]
-For matrices, this says
-\[
-A=U\Sigma V^*,
-\]
-where \(U\) and \(V\) are unitary in the complex case and orthogonal in the
-real case. The nonzero \(\sigma_i\)'s are the square roots of the nonzero
-eigenvalues of \(T^*T\).
-\end{theorem}
+\begin{proposition}[The positive operators associated to a map]
+For a linear map \(T:V\to W\), both \(T^*T\) and \(TT^*\) are self-adjoint
+and positive.  In particular, all their eigenvalues are real and
+nonnegative.
+\end{proposition}
 \begin{proof}
-The operator \(T^*T\) is self-adjoint and positive. By the appropriate
-spectral theorem, choose an orthonormal eigenbasis of \(V\). Its eigenvalues
-are nonnegative because
+The generalized adjoint identities just proved give
 \[
-\langle T^*Tv,v\rangle=\lVert Tv\rVert^2.
+(T^*T)^*=T^*(T^*)^*=T^*T,
+\qquad
+(TT^*)^*=(T^*)^*T^*=TT^*.
 \]
-For each positive eigenvalue \(\sigma_i^2\), set
+Moreover, for \(v\in V\) and \(w\in W\),
 \[
-u_i=\frac{Tv_i}{\sigma_i}.
+\langle T^*Tv,v\rangle_V=\langle Tv,Tv\rangle_W
+=\lVert Tv\rVert^2\geq0,
 \]
-If \(i,j\) correspond to positive eigenvalues, then
+and
 \[
-\langle u_i,u_j\rangle
-=\frac{\langle T^*Tv_i,v_j\rangle}{\sigma_i\sigma_j}
-=\delta_{ij}.
+\langle TT^*w,w\rangle_W=\langle T^*w,T^*w\rangle_V
+=\lVert T^*w\rVert^2\geq0.
+\]
+If, for example, \(T^*Tv=\lambda v\) with \(v\ne0\), then
+\[
+\lambda\lVert v\rVert^2=\langle T^*Tv,v\rangle_V
+=\lVert Tv\rVert^2.
+\]
+The left side is real because \(T^*T\) is self-adjoint (or by the
+eigenvalue geometry proposition), and the right side is nonnegative.
+Hence \(\lambda\) is real and nonnegative.  The same argument applies to
+\(TT^*\).
+\end{proof}
+
+\begin{proposition}[Nonzero spectra]
+The operators \(T^*T\) and \(TT^*\) have the same nonzero eigenvalues, with
+the same multiplicities.
+\end{proposition}
+\begin{proof}
+Let \(\lambda>0\).  The map \(T\) sends the \(\lambda\)-eigenspace of
+\(T^*T\) into the \(\lambda\)-eigenspace of \(TT^*\), since
+\[
+TT^*(Tv)=T(T^*Tv)=\lambda Tv.
+\]
+It is injective on this eigenspace: if \(Tv=0\), then
+\(\lambda v=T^*Tv=0\).  Conversely, if \(TT^*w=\lambda w\), then
+\[
+T\left(\frac{T^*w}{\lambda}\right)=w.
 \]
 Moreover,
 \[
-\ker(T^*T)=\ker T,
+T^*T\left(\frac{T^*w}{\lambda}\right)
+=\frac{T^*(TT^*w)}{\lambda}
+=\lambda\left(\frac{T^*w}{\lambda}\right),
 \]
-because the displayed norm identity shows that \(T^*Tv=0\) exactly when
-\(Tv=0\). The zero-eigenvalue basis vectors therefore form a basis of
-\(\ker T\). Extend the orthonormal \(u_i\)'s to an orthonormal basis of
-\(W\). In the resulting bases, \(Tv_i=\sigma_i u_i\) for positive singular
-values and \(Tv_i=0\) on the kernel, yielding the stated rectangular
-diagonal matrix.
+so this preimage belongs to the \(\lambda\)-eigenspace of \(T^*T\).
+Thus \(T\) is an isomorphism between the two \(\lambda\)-eigenspaces.
+Since both operators are self-adjoint and hence diagonalizable, the
+dimensions of these eigenspaces are their multiplicities.
 \end{proof}
 
-\begin{example}[An SVD calculation]
-For
+\begin{definition}
+List the eigenvalues of \(T^*T\), with multiplicity, as
 \[
-A=\begin{pmatrix}1&1\\0&0\end{pmatrix},
+\lambda_1,\ldots,\lambda_n,
+\qquad n=\dim V.
 \]
-we have
+The numbers
 \[
-A^*A=\begin{pmatrix}1&1\\1&1\end{pmatrix}.
+\sigma_i=\sqrt{\lambda_i}
 \]
-Its orthonormal eigenvectors are
+are the \emph{singular values} of \(T\).  They are well-defined nonnegative
+real numbers by the preceding proposition.  The nonzero singular values are
+called the \emph{positive singular values}.
+\end{definition}
+
+The norm identity also records exactly where the zero singular values occur:
 \[
-v_1=\frac1{\sqrt2}(1,1),
+\ker(T^*T)=\ker T.
+\]
+Indeed, \(Tv=0\) plainly implies \(T^*Tv=0\), while \(T^*Tv=0\) implies
+\(\lVert Tv\rVert^2=0\), hence \(Tv=0\).  Consequently, the number of
+positive singular values, counted with multiplicity, is
+\[
+\dim V-\dim\ker T=\operatorname{rank}T.
+\]
+
+\begin{theorem}[Singular value decomposition]
+Let \(T:V\to W\) be a linear map of finite-dimensional real or complex
+inner-product spaces.  Write
+\[
+n=\dim V,\qquad m=\dim W,\qquad r=\operatorname{rank}T.
+\]
+There are orthonormal bases
+\[
+(v_1,\ldots,v_n)\quad\text{of }V,
 \qquad
-v_2=\frac1{\sqrt2}(1,-1),
+(u_1,\ldots,u_m)\quad\text{of }W,
 \]
-with eigenvalues \(2\) and \(0\). Hence the singular values are
-\(\sqrt2\) and \(0\). Taking
+and positive singular values \(\sigma_1,\ldots,\sigma_r\) such that
 \[
-u_1=\frac{Av_1}{\sqrt2}=(1,0)
+Tv_i=\sigma_i u_i\quad(1\leq i\leq r),
+\qquad
+Tv_i=0\quad(r<i\leq n).
 \]
-and completing it by \(u_2=(0,1)\) gives
+Equivalently, relative to these bases the matrix of \(T\) is the rectangular
+diagonal matrix \(\Sigma=(\Sigma_{ij})\) of size \(m\times n\), where
 \[
-A=U\operatorname{diag}(\sqrt2,0)V^*.
+\Sigma_{ij}=
+\begin{cases}
+\sigma_i,& i=j\leq r,\\
+0,&\text{otherwise}.
+\end{cases}
 \]
-Unlike eigenvalue diagonalization, this description works even though the
-original matrix is not normal.
+\end{theorem}
+\begin{proof}
+By the real or complex spectral theorem, the positive self-adjoint operator
+\(T^*T:V\to V\) has an orthonormal eigenbasis.  Arrange it so that
+\[
+T^*Tv_i=\sigma_i^2v_i\quad(1\leq i\leq r),
+\]
+where \(\sigma_i>0\), and so that \(v_{r+1},\ldots,v_n\) span the
+zero-eigenspace.  The kernel identity above says that this zero-eigenspace
+is \(\ker T\), so \(Tv_i=0\) for \(i>r\).
+
+For \(1\leq i\leq r\), define
+\[
+u_i=\frac{Tv_i}{\sigma_i}\in W.
+\]
+These vectors are orthonormal.  Indeed, since the singular values are real,
+\[
+\begin{aligned}
+\langle u_i,u_j\rangle_W
+&=\frac{1}{\sigma_i\sigma_j}\langle Tv_i,Tv_j\rangle_W\\
+&=\frac{1}{\sigma_i\sigma_j}\langle T^*Tv_i,v_j\rangle_V\\
+&=\frac{\sigma_i}{\sigma_j}\langle v_i,v_j\rangle_V
+=\delta_{ij}.
+\end{aligned}
+\]
+Extend \(u_1,\ldots,u_r\) to an orthonormal basis
+\(u_1,\ldots,u_m\) of \(W\).  The defining equation for the \(u_i\)'s and
+the kernel calculation give the asserted formulas for \(Tv_i\), and these
+formulas say exactly that the matrix is \(\Sigma\).
+\end{proof}
+
+For matrices, work in fixed orthonormal coordinate bases and write \(A=[T]\).
+Let \(V\) and \(U\) be the matrices whose
+columns are respectively the coordinate columns of \(v_1,\ldots,v_n\) and
+\(u_1,\ldots,u_m\).  These matrices are unitary over \(\mathbb C\) and
+orthogonal over \(\mathbb R\).  Since the matrix in the singular-vector
+bases is \(\Sigma\),
+\[
+\Sigma=U^*AV,
+\qquad\text{and hence}\qquad
+A=U\Sigma V^*.
+\]
+Over \(\mathbb R\), this reads
+\[
+A=U\Sigma V^{\mathsf T}.
+\]
+
+\begin{example}[An SVD calculation]
+Consider the real \(3\times2\) matrix
+\[
+A=\begin{pmatrix}1&1\\1&1\\0&0\end{pmatrix}.
+\]
+We first compute the operator on the domain:
+\[
+A^{\mathsf T}A
+=\begin{pmatrix}1&1&0\\1&1&0\end{pmatrix}
+\begin{pmatrix}1&1\\1&1\\0&0\end{pmatrix}
+=\begin{pmatrix}2&2\\2&2\end{pmatrix}.
+\]
+Its characteristic polynomial is
+\[
+\det\begin{pmatrix}2-\lambda&2\\2&2-\lambda\end{pmatrix}
+=\lambda(\lambda-4),
+\]
+so its eigenvalues are \(4\) and \(0\).  Solving the two eigenspace
+equations gives
+\[
+(A^{\mathsf T}A-4I)\begin{pmatrix}x\\y\end{pmatrix}=0
+\quad\Longleftrightarrow\quad x=y,
+\qquad
+A^{\mathsf T}A\begin{pmatrix}x\\y\end{pmatrix}=0
+\quad\Longleftrightarrow\quad x=-y.
+\]
+Normalizing vectors in these two directions gives the orthonormal eigenbasis
+\[
+v_1=\frac1{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix},
+\qquad
+v_2=\frac1{\sqrt2}\begin{pmatrix}1\\-1\end{pmatrix}.
+\]
+Thus the singular values are \(\sigma_1=\sqrt4=2\) and
+\(\sigma_2=\sqrt0=0\).  The vectors \(v_1,v_2\) are the right singular
+vectors; in particular, \(v_2\) spans \(\ker A\).
+
+For the positive singular value, the corresponding left singular vector is
+\[
+u_1=\frac{Av_1}{2}
+=\frac12\begin{pmatrix}\sqrt2\\\sqrt2\\0\end{pmatrix}
+=\begin{pmatrix}1/\sqrt2\\1/\sqrt2\\0\end{pmatrix}.
+\]
+Complete it to an orthonormal basis of \(\mathbb R^3\), for example by
+choosing
+\[
+u_2=\begin{pmatrix}1/\sqrt2\\-1/\sqrt2\\0\end{pmatrix},
+\qquad
+u_3=\begin{pmatrix}0\\0\\1\end{pmatrix}.
+\]
+Therefore
+\[
+U=\begin{pmatrix}
+1/\sqrt2&1/\sqrt2&0\\
+1/\sqrt2&-1/\sqrt2&0\\
+0&0&1
+\end{pmatrix},
+\qquad
+\Sigma=\begin{pmatrix}2&0\\0&0\\0&0\end{pmatrix},
+\qquad
+V=\begin{pmatrix}
+1/\sqrt2&1/\sqrt2\\
+1/\sqrt2&-1/\sqrt2
+\end{pmatrix}.
+\]
+Both \(U\) and \(V\) are orthogonal.  Finally, direct multiplication gives
+\[
+U\Sigma V^{\mathsf T}
+=2u_1v_1^{\mathsf T}
+=2\begin{pmatrix}1/\sqrt2\\1/\sqrt2\\0\end{pmatrix}
+\begin{pmatrix}1/\sqrt2&1/\sqrt2\end{pmatrix}
+=\begin{pmatrix}1&1\\1&1\\0&0\end{pmatrix}=A.
+\]
 \end{example}
+
+\begin{remark}[Why SVD matters]
+The SVD is also a practical tool.  It underlies least-squares problems and
+the Moore--Penrose pseudoinverse, best low-rank approximation, and principal
+component analysis for dimensionality reduction.  Keeping only the largest
+singular values can compress images and other data, while discarding small
+ones is useful in denoising and signal processing.  Singular values also
+measure numerical conditioning, so SVD is central in numerical linear
+algebra and in many applications across computer science and engineering.
+\end{remark}
 
 \section*{Exercises}
 \begin{exercise}[Basic] Verify that the standard formula on \(\mathbb C^n\)

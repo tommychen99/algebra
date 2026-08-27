@@ -4,11 +4,21 @@
 
 Tommy Chen
 
-Version 1.16
+Version 1.2
 
 [Read the compiled PDF](main.pdf)
 
 ## Release notes
+
+**Version 1.2** substantially strengthens the finite-dimensional
+inner-product-space material, especially the treatment of singular value
+decomposition. It develops generalized adjoints \(T:V\to W\) and their
+identities; treats \(T^*T\) and \(TT^*\) as positive self-adjoint operators;
+relates singular values to rank; proves SVD from the spectral theorem; and
+includes a worked rectangular computation and brief applications in numerical
+linear algebra, data analysis, computer science, and engineering. The final
+cleanup also extends the inverse-adjoint identity to arbitrary isomorphisms
+\(T:V\to W\).
 
 **Version 1.16** makes a final wording correction in the proof discussion
 before Cauchy's theorem, replacing ``the product is one'' with ``the product
