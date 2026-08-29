@@ -4,7 +4,7 @@
 
 Tommy Chen
 
-Version 1.2
+Version 1.21
 
 [Read the compiled PDF](main.pdf)
 
@@ -15,6 +15,16 @@ for all mathematical content, editorial decisions, and the published work.
 The repository is <https://github.com/tommychen99/algebra>.
 
 ## Release notes
+
+**Version 1.21** is a focused refinement of the finite-dimensional
+inner-product-space chapter. It defines Hermitian matrices and relates them
+to self-adjoint operators in orthonormal coordinates; distinguishes real
+spectrum and ordinary diagonalizability from self-adjointness; clarifies
+eigenspace orthogonality and the local use of Gram--Schmidt; and makes the
+real/complex distinction for normal operators explicit. It also adds the
+spectral decomposition of a self-adjoint operator and sharpens the
+spectral-theorem bridge to SVD, including the positive-semidefinite and
+absolute-value viewpoints.
 
 **Version 1.2** substantially strengthens the finite-dimensional
 inner-product-space material, especially the treatment of singular value

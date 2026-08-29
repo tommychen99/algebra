@@ -315,6 +315,27 @@ in the span of \(u_k,e_1,\ldots,e_{k-1}\). The two successive spans are
 therefore equal. Induction proves every assertion.
 \end{proof}
 
+\begin{corollary}[Gram--Schmidt fixes orthogonal lists]
+If \(v_1,\ldots,v_k\) is an orthogonal list of nonzero vectors, then
+Gram--Schmidt applied to this ordered list gives
+\[
+e_i=\frac{v_i}{\lVert v_i\rVert}
+\qquad(1\leq i\leq k).
+\]
+In particular, Gram--Schmidt fixes every ordered orthonormal set.
+\end{corollary}
+\begin{proof}
+At the \(i\)-th step, the preceding vectors \(e_j\) are scalar multiples of
+\(v_j\).  Orthogonality gives
+\[
+\langle v_i,e_j\rangle=0
+\qquad(j<i),
+\]
+so every projection term in the Gram--Schmidt formula vanishes.  Thus
+\(u_i=v_i\), and normalizing gives the displayed formula.  If the list is
+already orthonormal, then \(\lVert v_i\rVert=1\), so \(e_i=v_i\).
+\end{proof}
+
 \begin{corollary}[Orthonormal bases]\leavevmode\\
 Each finite-dimensional inner-product space admits an orthonormal basis.
 Every orthonormal set can be enlarged to one.
@@ -598,6 +619,47 @@ Thus the matrix of the adjoint is the conjugate transpose. Over
 \(\mathbb R\), this is the ordinary transpose.
 \end{proof}
 
+\begin{definition}[Hermitian and symmetric matrices]
+For \(A\in M_n(\mathbb C)\), its \emph{conjugate transpose} is
+\[
+A^*=\overline A^{\,\mathsf T}.
+\]
+The matrix \(A\) is \emph{Hermitian} if
+\[
+A^*=A.
+\]
+Equivalently, its entries satisfy
+\[
+a_{ij}=\overline{a_{ji}}
+\qquad(1\leq i,j\leq n).
+\]
+In particular, every diagonal entry of a Hermitian matrix is real.  For
+example,
+\[
+\begin{pmatrix}2&i\\-i&3\end{pmatrix}
+\]
+is Hermitian.  Over \(\mathbb R\), conjugation has no effect, and the
+corresponding condition \(A^{\mathsf T}=A\) defines a \emph{symmetric}
+matrix.
+\end{definition}
+
+\begin{remark}[Self-adjoint operators and matrices]
+If \(\beta\) is an orthonormal basis of a finite-dimensional inner-product
+space, then
+\[
+[T^*]_\beta=[T]_\beta^*.
+\]
+Consequently, over \(\mathbb C\),
+\[
+T\text{ is self-adjoint}
+\quad\Longleftrightarrow\quad
+[T]_\beta\text{ is Hermitian};
+\]
+over \(\mathbb R\), the corresponding statement uses symmetric matrices.
+The orthonormality of \(\beta\) matters: in an arbitrary basis, the matrix
+of a self-adjoint operator need not literally be Hermitian or symmetric.
+\end{remark}
+
 \begin{theorem}[Kernels, images, and adjoints]
 For \(T:V\to W\),
 \[
@@ -850,12 +912,96 @@ then
 Thus \(\langle v,w\rangle=0\) when \(\lambda\ne\mu\).
 \end{proof}
 
-\begin{remark}
-Normality alone does not imply orthogonal diagonalizability over
-\(\mathbb R\). Rotation through \(90^\circ\) on \(\mathbb R^2\) is
-orthogonal and hence normal, but it has no real eigenvector. The real
-spectral theorem therefore concerns self-adjoint operators, while the full
-normal spectral theorem is naturally complex.
+For a normal operator on a complex inner-product space, the last assertion
+may be recorded as
+\[
+\lambda\ne\mu
+\quad\Longrightarrow\quad
+E_\lambda\perp E_\mu.
+\]
+Here the proof above applies to arbitrary vectors in the two eigenspaces,
+not only to a particular choice of eigenvectors.
+
+\begin{example}[Why real eigenvalues are not enough]
+On \(\mathbb C^2\) with its standard inner product, consider
+\[
+A=\begin{pmatrix}1&1\\0&2\end{pmatrix}.
+\]
+Its eigenvalues are \(1\) and \(2\), with eigenvectors
+\[
+v_1=(1,0),
+\qquad
+v_2=(1,1),
+\]
+respectively.  Thus \(A\) is diagonalizable, and all of its eigenvalues are
+real.  Nevertheless,
+\[
+A^*=\begin{pmatrix}1&0\\1&2\end{pmatrix}\ne A,
+\qquad
+A^*A=\begin{pmatrix}1&1\\1&5\end{pmatrix}
+\ne
+\begin{pmatrix}2&2\\2&4\end{pmatrix}=AA^*,
+\]
+so \(A\) is neither self-adjoint nor normal.  Also,
+\(\langle v_1,v_2\rangle=1\), showing that eigenvectors for distinct
+eigenvalues of an arbitrary diagonalizable operator need not be orthogonal.
+
+This example rules out both false implications
+\[
+\begin{gathered}
+\text{real eigenvalues}\ \not\Longrightarrow\ \text{self-adjoint},\\
+\text{diagonalizable with real eigenvalues}\ \not\Longrightarrow\ \text{self-adjoint}.
+\end{gathered}
+\]
+It also illustrates the danger of applying Gram--Schmidt globally to an
+eigenbasis.  Starting with \((v_1,v_2)\), the process gives
+\[
+e_1=(1,0),
+\qquad
+e_2=v_2-\langle v_2,e_1\rangle e_1=(0,1).
+\]
+But
+\[
+Ae_2=(1,2)
+\]
+is not a scalar multiple of \(e_2\), so the resulting orthonormal basis is
+not an eigenbasis.
+\end{example}
+
+\begin{remark}[Local, not global, Gram--Schmidt]
+If
+\[
+V=\bigoplus_\lambda E_\lambda
+\]
+is an eigenspace decomposition, Gram--Schmidt can safely be applied inside
+each individual eigenspace: linear combinations of vectors in
+\(E_\lambda\) remain eigenvectors with eigenvalue \(\lambda\).  Its union
+is an orthonormal basis of \(V\) precisely when the distinct eigenspaces are
+mutually orthogonal.  The example shows why applying the process across
+nonorthogonal eigenspaces can fail.  For a normal complex operator, the
+orthogonality just proved makes the local procedure work globally; if an
+eigenbasis is already orthonormal, the preceding corollary says there is
+nothing for Gram--Schmidt to change.
+\end{remark}
+
+\begin{remark}[The real and complex cases]
+A self-adjoint operator on a finite-dimensional real inner-product space has
+real eigenvalues and an orthonormal eigenbasis, as the real spectral theorem
+below states.  A real normal operator need not be diagonalizable over
+\(\mathbb R\).  Indeed,
+\[
+R_\theta=
+\begin{pmatrix}
+\cos\theta&-\sin\theta\\
+\sin\theta&\cos\theta
+\end{pmatrix}
+\]
+is orthogonal and hence normal, but for
+\(\theta\notin\{0,\pi\}\) it has no real eigenvalues.  The real analogue
+of unitary diagonalization for general normal operators is orthogonal block
+diagonalization, with real \(1\times1\) blocks and \(2\times2\)
+rotation-type blocks.  Thus the full normal spectral theorem is naturally a
+complex statement.
 \end{remark}
 
 \section{Spectral Theorems}
@@ -936,6 +1082,50 @@ They span \(V_\mathbb C\), so the real eigenspaces span \(V\). Distinct
 eigenspaces are orthogonal, and Gram--Schmidt within each one produces a
 real orthonormal eigenbasis.
 \end{proof}
+
+\begin{remark}[Spectral-theorem implications]
+For a finite-dimensional complex inner-product space, the main implications
+are
+\[
+\text{self-adjoint}
+\ \Longrightarrow\
+\text{normal}
+\ \Longrightarrow\
+\text{unitarily diagonalizable}
+\ \Longrightarrow\
+\text{diagonalizable}.
+\]
+The reverse implications fail without additional hypotheses.  More exactly,
+\[
+T\text{ is normal}
+\quad\Longleftrightarrow\quad
+T\text{ has an orthonormal eigenbasis},
+\]
+and
+\[
+\begin{gathered}
+T\text{ is self-adjoint}\\
+\Longleftrightarrow\\
+T\text{ has an orthonormal eigenbasis with real eigenvalues}.
+\end{gathered}
+\]
+The latter equivalence explains the geometric content that is missing from
+ordinary diagonalizability.  It also gives the useful converse
+\[
+T\text{ normal with real spectrum}
+\quad\Longrightarrow\quad
+T\text{ self-adjoint}:
+\]
+in an orthonormal eigenbasis, its diagonal matrix has real entries and hence
+equals its conjugate transpose.  At the matrix level, this says
+\[
+\begin{gathered}
+A\text{ is Hermitian}\\
+\Longleftrightarrow\\
+A\text{ is unitarily diagonalizable with real eigenvalues}.
+\end{gathered}
+\]
+\end{remark}
 
 \begin{example}[Normal diagonalization]
 The matrix
@@ -1137,6 +1327,95 @@ Over \(\mathbb R\), this reads
 \[
 A=U\Sigma V^{\mathsf T}.
 \]
+
+\subsection{Spectral decomposition and SVD}
+
+The case \(T:V\to V\) makes especially transparent both what SVD inherits
+from the spectral theorem and what information it discards.
+
+\begin{proposition}[Spectral decomposition]
+Let \(T:V\to V\) be self-adjoint, let
+\(\lambda_1,\ldots,\lambda_s\) be its distinct eigenvalues, and let
+\(P_{\lambda_j}\) be the orthogonal projection onto
+\(E_{\lambda_j}\).  Then
+\[
+T=\sum_{j=1}^s\lambda_jP_{\lambda_j},
+\qquad
+I=\sum_{j=1}^sP_{\lambda_j},
+\]
+and
+\[
+P_{\lambda_i}P_{\lambda_j}=0\quad(i\ne j),
+\qquad
+P_{\lambda_j}^*=P_{\lambda_j}.
+\]
+\end{proposition}
+\begin{proof}
+The real or complex spectral theorem gives the orthogonal direct sum
+\[
+V=\bigoplus_{j=1}^sE_{\lambda_j}.
+\]
+For \(v=\sum_jv_j\), with \(v_j\in E_{\lambda_j}\), the projections satisfy
+\(P_{\lambda_j}v=v_j\).  Hence
+\[
+Tv=\sum_j\lambda_jv_j
+=\sum_j\lambda_jP_{\lambda_j}v,
+\]
+and the remaining identities follow from the orthogonal direct sum and the
+fact that orthogonal projections are self-adjoint.
+\end{proof}
+
+This formula is the coordinate-free form of unitary or orthogonal
+diagonalization.  It also describes the SVD of a self-adjoint operator.  If
+\(v_1,\ldots,v_n\) is an orthonormal eigenbasis with
+\[
+Tv_i=\lambda_iv_i,
+\]
+then \(T^*T=T^2\), so
+\[
+T^*Tv_i=\lambda_i^2v_i.
+\]
+Thus the corresponding singular values are
+\[
+\sigma_i=|\lambda_i|.
+\]
+For \(\lambda_i\ne0\), set
+\[
+u_i=\operatorname{sgn}(\lambda_i)v_i.
+\]
+Then \(u_i\) is a unit vector and
+\[
+Tv_i=\sigma_i u_i.
+\]
+When \(\lambda_i=0\), take \(u_i=v_i\); then again
+\(Tv_i=0=\sigma_i u_i\).  The \(u_i\)'s form an orthonormal basis, so this
+is an SVD.  The ordinary spectral decomposition retains the sign of every
+real eigenvalue, whereas SVD replaces it by its absolute value.
+
+If \(T\) is positive semidefinite as well as self-adjoint, then
+\(\lambda_i\geq0\), and hence \(\sigma_i=\lambda_i\).  In this case one
+may take \(u_i=v_i\): the SVD and spectral decomposition essentially
+coincide.  At the matrix level, a Hermitian positive semidefinite matrix has
+\[
+A=U\Lambda U^*,
+\qquad
+\Lambda=\operatorname{diag}(\lambda_1,\ldots,\lambda_n),
+\qquad
+\lambda_i\geq0,
+\]
+and this is simultaneously a spectral decomposition and an SVD.
+
+\begin{remark}[A brief polar-decomposition viewpoint]
+For an endomorphism \(T\), the positive operator
+\[
+|T|=(T^*T)^{1/2}
+\]
+is defined by applying the spectral theorem to \(T^*T\).  Its eigenvalues
+are the singular values of \(T\).  When \(T\) is self-adjoint, \(|T|\)
+replaces each eigenvalue \(\lambda\) by \(|\lambda|\).  This is the
+starting point for polar decomposition and another direct bridge between the
+spectral theorem and SVD.
+\end{remark}
 
 \begin{example}[An SVD calculation]
 Consider the real \(3\times2\) matrix
