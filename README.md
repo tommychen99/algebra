@@ -8,6 +8,12 @@ Version 1.2
 
 [Read the compiled PDF](main.pdf)
 
+## AI-assisted declaration
+
+This project was developed with AI assistance. The author remains responsible
+for all mathematical content, editorial decisions, and the published work.
+The repository is <https://github.com/tommychen99/algebra>.
+
 ## Release notes
 
 **Version 1.2** substantially strengthens the finite-dimensional
