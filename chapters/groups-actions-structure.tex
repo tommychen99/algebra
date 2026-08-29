@@ -7,16 +7,29 @@ abstract group concrete without choosing generators or a multiplication table:
 an action is a systematic way to realize its elements as permutations.
 
 \begin{definition}
-An \emph{action} of \(G\) on \(X\) is a map \(G\times X\to X\), written
-\((g,x)\mapsto g\cdot x\), satisfying the following two requirements:
+Let \(G\) be a group and let \(X\) be a set. A \emph{left action} of \(G\)
+on \(X\) is a map \(G\times X\to X\), written \((g,x)\mapsto g\cdot x\),
+satisfying the following two requirements:
 \begin{enumerate}
 \setlength{\itemsep}{5pt}
-\item the group identity does nothing: \(1\cdot x=x\) for all \(x\in X\);
+\item the group identity does nothing: \(e\cdot x=x\) for all \(x\in X\);
 \item successive motions combine according to multiplication:
       \((gh)\cdot x=g\cdot(h\cdot x)\).
 \end{enumerate}
-The \emph{orbit} of \(x\) is \(Gx=\{g\cdot x:g\in G\}\), and its
-\emph{stabilizer} is \(G_x=\{g\in G:g\cdot x=x\}\).
+For \(x\in X\), its \emph{orbit} and \emph{stabilizer} are
+\[
+\operatorname{orb}(x)=\{g\cdot x:g\in G\}\subseteq X,\qquad
+\operatorname{stab}(x)=\{g\in G:g\cdot x=x\}\leq G.
+\]
+For \(g\in G\), its \emph{fixed-point set} is
+\[
+\operatorname{fix}(g)=\{x\in X:g\cdot x=x\}\subseteq X.
+\]
+\footnote{Common alternatives are \(Gx\) and \(\operatorname{Orb}_G(x)\) for
+the orbit, and \(G_x\), \(\operatorname{Stab}_G(x)\), and
+\(\operatorname{Stab}(x)\) for the stabilizer. These notes consistently use
+\(\operatorname{orb}(x)\), \(\operatorname{stab}(x)\), and
+\(\operatorname{fix}(g)\).}
 \end{definition}
 
 Equivalently, an action is a homomorphism \(G\to\operatorname{Sym}(X)\).
@@ -53,11 +66,14 @@ The stabilizer is a subgroup, the orbits partition \(X\), and an action gives
 a homomorphism \(G\to\operatorname{Sym}(X)\).
 \end{proposition}
 \begin{proof}
-For the stabilizer, \(1\cdot x=x\), so \(1\in G_x\).  If \(g,h\in G_x\),
+For the stabilizer, \(e\cdot x=x\), so \(e\in\operatorname{stab}(x)\). If
+\(g,h\in\operatorname{stab}(x)\),
 then \((gh^{-1})\cdot x=g\cdot(h^{-1}\cdot x)=g\cdot x=x\), so the subgroup
 test applies.  If two orbits meet, say \(g\cdot x=h\cdot y\), then applying
-\(g^{-1}\) yields \(x=g^{-1}h\cdot y\).  Hence \(x\in Gy\), and applying
-group elements shows \(Gx\subseteq Gy\); symmetry gives equality.  Finally,
+\(g^{-1}\) yields \(x=g^{-1}h\cdot y\). Hence
+\(x\in\operatorname{orb}(y)\), and applying group elements shows
+\(\operatorname{orb}(x)\subseteq\operatorname{orb}(y)\); symmetry gives
+equality. Finally,
 the assignment \(g\mapsto\rho(g)\), where \(\rho(g)(x)=g\cdot x\), satisfies
 \(\rho(gh)=\rho(g)\rho(h)\) by the second action axiom.
 \end{proof}
@@ -68,12 +84,12 @@ Every group \(G\) is isomorphic to a subgroup of \(\operatorname{Sym}(G)\).
 \begin{proof}
 Let \(G\) act on itself by left translation, \(g\cdot x=gx\).  The associated
 homomorphism sends \(g\) to the permutation \(x\mapsto gx\).  If this
-permutation is the identity, then evaluating it at \(1\) gives \(g=1\).
+permutation is the identity map, then evaluating it at \(e\) gives \(g=e\).
 Its kernel is therefore trivial, so the homomorphism is injective.
 \end{proof}
 
 \begin{example}
-For the left action of \(G\) on itself, the orbit of \(1\) is all of \(G\)
+For the left action of \(G\) on itself, the orbit of \(e\) is all of \(G\)
 and its stabilizer is trivial.  For the conjugation action, the orbit and
 stabilizer become a conjugacy class and a centralizer.  These examples show
 that one definition organizes both the regular action and the internal
@@ -92,23 +108,37 @@ to construct permutation representations from subgroups.
 \end{example}
 
 \begin{theorem}[Orbit--Stabilizer]
-For a finite group action, \(|Gx|=[G:G_x]\), and therefore
-\(|G|=|Gx|\,|G_x|\).
+For every group action, the map
+\[
+G/\operatorname{stab}(x)\longrightarrow\operatorname{orb}(x),\qquad
+g\operatorname{stab}(x)\longmapsto g\cdot x
+\]
+is a bijection. Thus
+\(|\operatorname{orb}(x)|=[G:\operatorname{stab}(x)]\) whenever these
+cardinalities are considered; if \(G\) is finite, then
+\[
+|G|=|\operatorname{orb}(x)|\,|\operatorname{stab}(x)|.
+\]
 \end{theorem}
 \begin{proofidea}
-The cosets of \(G_x\) are exactly the different ways to move \(x\).  Two
+The cosets of \(\operatorname{stab}(x)\) are exactly the different ways to
+move \(x\). Two
 elements \(g,h\) send \(x\) to the same point precisely when
 \(h^{-1}g\) fixes \(x\), which is the equivalence relation defining the cosets.
 \end{proofidea}
 \begin{proof}
-Define \(\Phi:G/G_x\to Gx\) by \(\Phi(gG_x)=g\cdot x\).  To check
-well-definedness, suppose \(gG_x=hG_x\).  Then \(h^{-1}g\in G_x\), whence
+Define \(\Phi:G/\operatorname{stab}(x)\to\operatorname{orb}(x)\) by
+\(\Phi(g\operatorname{stab}(x))=g\cdot x\). To check well-definedness,
+suppose \(g\operatorname{stab}(x)=h\operatorname{stab}(x)\). Then
+\(h^{-1}g\in\operatorname{stab}(x)\), whence
 \(g\cdot x=h\cdot((h^{-1}g)\cdot x)=h\cdot x\).  Conversely, if
 \(g\cdot x=h\cdot x\), applying \(h^{-1}\) gives
-\((h^{-1}g)\cdot x=x\); thus \(h^{-1}g\in G_x\) and \(gG_x=hG_x\).  This
+\((h^{-1}g)\cdot x=x\); thus \(h^{-1}g\in\operatorname{stab}(x)\) and
+\(g\operatorname{stab}(x)=h\operatorname{stab}(x)\). This
 proves injectivity at the same time.  Surjectivity holds because every point
-of the orbit has the form \(g\cdot x\).  Therefore \(|Gx|=[G:G_x]\), and
-Lagrange's theorem yields \(|G|=|Gx|\,|G_x|\).
+of the orbit has the form \(g\cdot x\). Therefore
+\(|\operatorname{orb}(x)|=[G:\operatorname{stab}(x)]\), and Lagrange's
+theorem yields \(|G|=|\operatorname{orb}(x)|\,|\operatorname{stab}(x)|\).
 \end{proof}
 
 \begin{example}
@@ -119,8 +149,10 @@ Thus \(|D_4|=4\cdot2\), as orbit--stabilizer predicts.
 \end{example}
 
 \begin{corollary}[Burnside's Counting Lemma]
-The number of orbits of a finite action on \(X\) is
-\[\frac{1}{|G|}\sum_{g\in G}|\{x\in X:g\cdot x=x\}|.\]
+Let a finite group \(G\) act on a finite set \(X\). Then the number of orbits is
+\[
+\frac{1}{|G|}\sum_{g\in G}|\operatorname{fix}(g)|.
+\]
 \end{corollary}
 \begin{proof}
 Count pairs \((g,x)\) with \(g\cdot x=x\).  Counting by \(g\) gives the
@@ -146,15 +178,14 @@ the group?''  It preserves order and many other structural properties.
 For a group \(G\) and an element \(x\in G\), the \emph{centralizer} of \(x\)
 is
 \[C_G(x)=\{g\in G:gx=xg\}.\]
-The \emph{center} of \(G\) is
-\[Z(G)=\{g\in G:gx=xg\text{ for every }x\in G\};\]
-thus \(Z(G)\) is the collection of elements that commute with all of \(G\).
 For a subgroup \(H\leq G\), the \emph{normalizer} of \(H\) is
 \[N_G(H)=\{g\in G:gHg^{-1}=H\}.\]
 It consists of the elements whose conjugation preserves \(H\) as a set.
 \end{definition}
 
-Each of these sets is a subgroup of \(G\).  For example, the subgroup test
+Each of these sets is a subgroup of \(G\). Recall that the center
+\(Z(G)\), introduced with inner automorphisms, is the collection of elements
+that commute with all of \(G\). For example, the subgroup test
 for \(C_G(x)\) follows from the fact that if \(a,b\) commute with \(x\), then
 \((ab^{-1})x=a(b^{-1}x)=a(xb^{-1})=(ax)b^{-1}=x(ab^{-1})\).
 The same calculation with every \(x\) gives the assertion for \(Z(G)\), and
@@ -167,8 +198,8 @@ largest subgroup of \(G\) in which \(H\) is normal.
 
 \begin{lemma}[\(p\)-Group Action Congruence]
 If a finite \(p\)-group \(P\) acts on a finite set \(X\), then
-\[|X|\equiv|X^P|\pmod p,\]
-where \(X^P=\{x\in X:g\cdot x=x\text{ for every }g\in P\}\).
+\[|X|\equiv|\operatorname{fix}(P)|\pmod p,\]
+where \(\operatorname{fix}(P)=\{x\in X:g\cdot x=x\text{ for every }g\in P\}\).
 \end{lemma}
 \begin{proof}
 Partition \(X\) into \(P\)-orbits.  Orbit--stabilizer makes every orbit size
@@ -182,7 +213,7 @@ into the existence of fixed points whenever \(|X|\) is not divisible by \(p\).
 
 \begin{example}[A Fixed Point Forced Modulo \(p\)]
 Let a group of order \(p\) act on a set with \(p+1\) elements.  The congruence
-gives \(|X^P|\equiv p+1\equiv1\pmod p\), so there is a global fixed point.
+gives \(|\operatorname{fix}(P)|\equiv p+1\equiv1\pmod p\), so there is a global fixed point.
 The same orbit-counting idea powers the center theorem and Sylow congruence.
 \end{example}
 
@@ -218,7 +249,7 @@ partition into symmetry types rather than a numerical trick.
 
 \begin{example}[Centralizers in \(S_3\)]
 The preceding equality can be recovered directly from centralizers.  The
-centralizer of \((12)\) is \(\{1,(12)\}\), so orbit--stabilizer gives a
+centralizer of \((12)\) is \(\{e,(12)\}\), so orbit--stabilizer gives a
 conjugacy class of size \([S_3:C_{S_3}((12))]=3\).  The centralizer of
 \((123)\) is \(\langle(123)\rangle\), so its class has size two.  This is a
 useful practical lesson: to count conjugates of an element, compute the
@@ -257,19 +288,19 @@ The unusual-looking tuple set is chosen so that it has a readily computed size
 and a natural cyclic symmetry.  Once the first \(p-1\) entries are selected,
 the last must be \((g_1\cdots g_{p-1})^{-1}\), so there are exactly
 \(|G|^{p-1}\) tuples.  Rotation preserves the condition that the product is
-one because a cyclic rotation conjugates the total product by its first entry.
+the identity because a cyclic rotation conjugates the total product by its first entry.
 \begin{proofidea}
 The set of tuples has cardinality divisible by \(p\), while cyclic rotation
 organizes it into orbits of size \(1\) or \(p\).  The fixed points are exactly
-the repeated tuples, which encode elements satisfying \(g^p=1\).
+the repeated tuples, which encode elements satisfying \(g^p=e\).
 \end{proofidea}
 \begin{proof}
 Let \(X\) be the set of \(p\)-tuples \((g_1,\ldots,g_p)\) with
-\(g_1\cdots g_p=1\).  Its first \(p-1\) entries may be chosen freely, so
+\(g_1\cdots g_p=e\). Its first \(p-1\) entries may be chosen freely, so
 \(|X|=|G|^{p-1}\), which is divisible by \(p\).  Cyclically rotate these
 tuples.  Every orbit has size \(1\) or \(p\), and the fixed tuples are exactly
-\((g,\ldots,g)\) with \(g^p=1\).  Thus the number of such \(g\) is divisible
-by \(p\).  It includes \(1\), so there is a nonidentity one; its order divides
+\((g,\ldots,g)\) with \(g^p=e\). Thus the number of such \(g\) is divisible
+by \(p\). It includes \(e\), so there is a nonidentity one; its order divides
 the prime \(p\), hence equals \(p\).
 \end{proof}
 
@@ -413,13 +444,13 @@ so \(N\times\{e_H\}\) is normal. The two subgroups meet only in
 \end{proof}
 
 An internal semidirect product is equivalently a split short exact sequence
-\[1\longrightarrow N\longrightarrow G\longrightarrow H\longrightarrow1.\]
+\[e\longrightarrow N\longrightarrow G\longrightarrow H\longrightarrow e.\]
 Here ``split'' means that the quotient map \(q:G\to H\) has a homomorphic
 section \(s:H\to G\). Then \(q\) restricted to \(s(H)\) is inverse to \(s\),
-so \(N\cap s(H)=1\), where \(N=\ker q\). Moreover, if \(g\in G\) and
+so \(N\cap s(H)=\{e\}\), where \(N=\ker q\). Moreover, if \(g\in G\) and
 \(h=q(g)\), then
 \[
-q\bigl(gs(h)^{-1}\bigr)=hh^{-1}=1,
+q\bigl(gs(h)^{-1}\bigr)=hh^{-1}=e_H,
 \]
 so \(gs(h)^{-1}\in N\) and \(g\in Ns(H)\). Hence \(G=Ns(H)\), and
 Proposition~\ref{prop:internal-semiproduct} applies. Conversely, an internal
@@ -430,7 +461,7 @@ but it explains why semidirect products are ubiquitous.
 \begin{example}
 Let \(C_2=\langle s\rangle\) act on \(C_3=\langle r\rangle\) by inversion,
 \(srs^{-1}=r^{-1}\).  Then \(C_3\rtimes C_2\) has presentation
-\(\langle r,s\mid r^3=s^2=1,\ srs^{-1}=r^{-1}\rangle\), and the map sending
+\(\langle r,s\mid r^3=s^2=e,\ srs^{-1}=r^{-1}\rangle\), and the map sending
 \(r\) to \((123)\) and \(s\) to \((12)\) identifies it with \(S_3\).  It is
 not a direct product because its two factors do not commute.
 \end{example}
@@ -439,17 +470,17 @@ not a direct product because its two factors do not commute.
 More generally, \(D_n\cong C_n\rtimes C_2\), where the nontrivial element of
 \(C_2\) acts on \(C_n\) by inversion.  The relation \(srs^{-1}=r^{-1}\) is
 exactly the twisting encoded by this action.  Thus the dihedral examples
-introduced in Chapter~2 provide a geometric model for every semidirect product
+introduced in Chapter~1 provide a geometric model for every semidirect product
 in which a reflection reverses a cyclic rotation.
 \end{example}
 
 \begin{proposition}[Internal Semidirect Product]\label{prop:internal-semiproduct}
-If \(N\trianglelefteq G\), \(H\leq G\), \(G=NH\), and \(N\cap H=1\), then
+If \(N\trianglelefteq G\), \(H\leq G\), \(G=NH\), and \(N\cap H=\{e\}\), then
 \(G\cong N\rtimes H\), where \(H\) acts on \(N\) by conjugation.
 \end{proposition}
 \begin{proof}
 Every element has an expression \(nh\).  It is unique: if \(nh=n'h'\), then
-\(n^{-1}n'=hh'^{-1}\) belongs to both \(N\) and \(H\), hence is \(1\).
+\(n^{-1}n'=hh'^{-1}\) belongs to both \(N\) and \(H\), hence is \(e\).
 Sending \((n,h)\) to \(nh\) is therefore bijective.  Its compatibility with multiplication is
 \(nhn'h'=n(hn'h^{-1})hh'\), which is exactly the external semidirect-product
 law for conjugation.
@@ -468,7 +499,7 @@ group is \emph{solvable} when it has a finite normal series with abelian factors
 \end{definition}
 
 \begin{example}
-The chain \(S_3\trianglerighteq A_3\trianglerighteq1\) is a composition
+The chain \(S_3\trianglerighteq A_3\trianglerighteq\{e\}\) is a composition
 series, with factors \(C_2\) and \(C_3\).  The order in which the factors are
 listed has no intrinsic significance; their isomorphism types do.
 \end{example}
@@ -477,7 +508,7 @@ listed has no intrinsic significance; their isomorphism types do.
 Every finite group has a composition series.
 \end{proposition}
 \begin{proof}
-Induct on the group order.  If \(G\ne1\), choose a maximal proper normal
+Induct on the group order.  If \(G\ne\{e\}\), choose a maximal proper normal
 subgroup \(N\), which exists because the group is finite.  Then \(G/N\) is
 simple, and induction gives a composition series for \(N\).  Prepending \(G\)
 to that series gives one for \(G\).
@@ -488,12 +519,13 @@ Any two composition series of a finite group have the same length and the same
 simple factors, up to ordering and isomorphism.
 \end{theorem}
 \begin{proof}
-We argue by induction on \(|G|\).  There is nothing to prove for \(G=1\).
+We argue by induction on \(|G|\).  There is nothing to prove when \(G\) is
+trivial.
 Write the two series as
 \[
- G=G_0\trianglerighteq G_1=N\trianglerighteq\cdots\trianglerighteq1,
+ G=G_0\trianglerighteq G_1=N\trianglerighteq\cdots\trianglerighteq\{e\},
  \qquad
- G=H_0\trianglerighteq H_1=M\trianglerighteq\cdots\trianglerighteq1.
+ G=H_0\trianglerighteq H_1=M\trianglerighteq\cdots\trianglerighteq\{e\}.
 \]
 The quotients \(G/N\) and \(G/M\) are simple, so \(N\) and \(M\) are maximal
 proper normal subgroups of \(G\).
@@ -515,7 +547,7 @@ Isomorphism Theorem in the forms
 \]
 shows that \(M/I\) and \(N/I\) are simple.
 
-Choose a composition series from \(I\) down to \(1\).  Because \(N/I\) is
+Choose a composition series from \(I\) down to \(\{e\}\).  Because \(N/I\) is
 simple, adjoining \(N\) as a new initial term produces a composition series
 of \(N\), whose new factor is \(N/I\); similarly, adjoining \(M\) produces a
 composition series of \(M\) with new factor \(M/I\).  By induction, the first constructed series has the same factors as
@@ -530,8 +562,8 @@ factors.
 
 For Galois theory it is useful to recognize solvability without guessing a
 normal series.  The commutator \([x,y]=xyx^{-1}y^{-1}\) measures the failure
-of \(x\) and \(y\) to commute: \([x,y]=1\) if and only if \(xy=yx\).  Indeed,
-\(xyx^{-1}y^{-1}=1\) is equivalent, after multiplying on the right by \(yx\),
+of \(x\) and \(y\) to commute: \([x,y]=e\) if and only if \(xy=yx\). Indeed,
+\(xyx^{-1}y^{-1}=e\) is equivalent, after multiplying on the right by \(yx\),
 to \(xy=yx\).  The subgroup generated by all commutators is the
 \emph{derived subgroup} \([G,G]\); define \(G^{(0)}=G\) and
 \(G^{(i+1)}=[G^{(i)},G^{(i)}]\).
@@ -551,7 +583,7 @@ through it.
 \end{proposition}
 \begin{proof}
 Every commutator becomes trivial in the quotient, so its cosets commute.  If
-\(f:G\to A\) and \(A\) is abelian, then \(f([x,y])=1\) for all \(x,y\), hence
+\(f:G\to A\) and \(A\) is abelian, then \(f([x,y])=e_A\) for all \(x,y\), hence
 \([G,G]\leq\ker f\).  The universal property of the quotient map now gives
 the unique factorization.
 \end{proof}
@@ -567,15 +599,15 @@ This nonidentity element generates \(A_3\), so \(A_3\leq[S_3,S_3]\).  Hence
 \end{example}
 
 \begin{theorem}
-A group \(G\) is solvable if and only if \(G^{(r)}=1\) for some \(r\geq0\).
+A group \(G\) is solvable if and only if \(G^{(r)}=\{e\}\) for some \(r\geq0\).
 \end{theorem}
 \begin{proof}
-If the derived series reaches \(1\), its successive quotients are abelian by
+If the derived series reaches \(\{e\}\), its successive quotients are abelian by
 the preceding proposition.  Conversely, let
-\(G=G_0\trianglerighteq\cdots\trianglerighteq G_r=1\) have abelian factors.
+\(G=G_0\trianglerighteq\cdots\trianglerighteq G_r=\{e\}\) have abelian factors.
 Inductively, \(G^{(i)}\leq G_i\): if \(G^{(i)}\leq G_i\), then the image of
 \(G^{(i)}\) in the abelian group \(G_i/G_{i+1}\) has trivial derived subgroup,
-so \(G^{(i+1)}\leq G_{i+1}\).  Hence \(G^{(r)}=1\).
+so \(G^{(i+1)}\leq G_{i+1}\).  Hence \(G^{(r)}=\{e\}\).
 \end{proof}
 
 Solvability asks for a group built by successive abelian quotients.  Nilpotence
@@ -584,15 +616,15 @@ This distinction matters already for \(S_3\), which is solvable but not
 nilpotent.
 
 \begin{definition}
-Set \(Z_0(G)=1\) and define the \emph{upper central series} inductively by
+Set \(Z_0(G)=\{e\}\) and define the \emph{upper central series} inductively by
 \[Z_{i+1}(G)/Z_i(G)=Z\bigl(G/Z_i(G)\bigr).\]
 The group \(G\) is \emph{nilpotent} if \(Z_c(G)=G\) for some \(c\).  The least
-such \(c\) is its nilpotence class (unless \(G=1\)).
+such \(c\) is its nilpotence class (unless \(G\) is trivial).
 \end{definition}
 
 Equivalently, a nilpotent group admits a finite chain
 \[
-1=N_0\leq N_1\leq\cdots\leq N_c=G
+\{e\}=N_0\leq N_1\leq\cdots\leq N_c=G
 \]
 with \(N_{i+1}/N_i\leq Z(G/N_i)\).  Indeed, inductively
 \(N_i\leq Z_i(G)\): this is clear for \(i=0\), and centrality of
@@ -612,12 +644,12 @@ Induct on \(|G|\).  The center of a nontrivial finite \(p\)-group is
 nontrivial, and Cauchy's theorem gives a central subgroup \(C\) of order
 \(p\).  By induction, \(G/C\) has an upper central series
 \[
- 1=\overline Z_0\leq\overline Z_1\leq\cdots\leq\overline Z_c=G/C.
+ \{e\}=\overline Z_0\leq\overline Z_1\leq\cdots\leq\overline Z_c=G/C.
 \]
 Let \(Z_i\) be the inverse image of \(\overline Z_i\) in \(G\).  Then
 \(Z_0=C\), and the chain
 \[
- 1\leq C=Z_0\leq Z_1\leq\cdots\leq Z_c=G
+ \{e\}\leq C=Z_0\leq Z_1\leq\cdots\leq Z_c=G
 \]
 is central: if \(z\in Z_{i+1}\) and \(g\in G\), then the image of \(z\)
 is central modulo \(\overline Z_i\), so \([z,g]\in Z_i\).  The first step
@@ -639,10 +671,10 @@ Subgroups and quotients of solvable groups are solvable.
 \end{proposition}
 \begin{proof}
 Let \(G=G_0\trianglerighteq G_1\trianglerighteq\cdots\trianglerighteq
-G_r=1\) be a solvable series, and let \(H\leq G\).  Intersecting gives
+G_r=\{e\}\) be a solvable series, and let \(H\leq G\).  Intersecting gives
 \[
  H=H\cap G_0\trianglerighteq H\cap G_1\trianglerighteq\cdots
- \trianglerighteq H\cap G_r=1.
+ \trianglerighteq H\cap G_r=\{e\}.
 \]
 Each term is normal in the preceding one.  The map
 \(H\cap G_i\to G_i/G_{i+1}\) has kernel \(H\cap G_{i+1}\), so its quotient
@@ -652,7 +684,7 @@ group \(G_i/G_{i+1}\).  Removing repeated terms leaves a solvable series for
 
 If \(q:G\to Q\) is onto, the chain
 \(Q=q(G_0)\trianglerighteq q(G_1)\trianglerighteq\cdots\trianglerighteq
-q(G_r)=1\) has normal terms.  Each nontrivial factor is an image of a
+q(G_r)=\{e\}\) has normal terms.  Each nontrivial factor is an image of a
 subgroup of some abelian factor \(G_i/G_{i+1}\), and is therefore abelian.
 After repetitions are removed, this is a solvable series for \(Q\).
 \end{proof}
@@ -667,6 +699,20 @@ and pull its terms back under the quotient map \(G\to G/N\).  Splicing the
 first series to these inverse images gives a normal series for \(G\); its
 factors are, respectively, factors from the series for \(N\) and factors
 isomorphic to those from the series for \(G/N\).  They are all abelian.
+\end{proof}
+
+\begin{theorem}[Nonsolvability of alternating and symmetric groups]
+For every \(n\geq5\), \(A_n\) is not solvable. Consequently \(S_n\) is not
+solvable for \(n\geq5\).
+\end{theorem}
+\begin{proof}
+We use the standard theorem that \(A_n\) is a nonabelian simple group for
+\(n\geq5\); its proof is outside the present Sylow-and-composition-series
+scope. Since \(A_n\) is nonabelian, its derived subgroup \([A_n,A_n]\) is
+nontrivial. It is normal, so simplicity gives
+\([A_n,A_n]=A_n\). The derived series therefore never reaches the trivial
+group, and \(A_n\) is not solvable. If \(S_n\) were solvable, its subgroup
+\(A_n\) would be solvable by the preceding proposition, a contradiction.
 \end{proof}
 
 \begin{remark}[Looking Ahead]
@@ -684,14 +730,14 @@ examples summarize how the same group can illuminate several different ideas.
 \subsection*{The Group \(S_3\)}
 
 The six-element symmetric group is the smallest nonabelian group.  It acts
-faithfully and transitively on three letters.  Orbit--stabilizer at the letter
+faithfully and transitively on three letters. Orbit--stabilizer at the letter
 \(1\) gives
-\[|S_3|=|S_3\cdot1|\,|(S_3)_1|=3\cdot2.\]
-The stabilizer is \(\{1,(23)\}\), a copy of \(C_2\).  Thus the action turns a
+\[|S_3|=|\operatorname{orb}(1)|\,|\operatorname{stab}(1)|=3\cdot2.\]
+The stabilizer is \(\{e,(23)\}\), a copy of \(C_2\). Thus the action turns a
 concrete observation about permutations into a coset calculation.
 
 Under conjugation, its elements separate into the classes
-\[\{1\},\qquad\{(12),(13),(23)\},\qquad\{(123),(132)\}.
+\[\{e\},\qquad\{(12),(13),(23)\},\qquad\{(123),(132)\}.
 \]
 The class equation is \(6=1+3+2\).  This is more than bookkeeping: it shows
 that the three transpositions are structurally indistinguishable within
@@ -710,7 +756,7 @@ solvability.
 
 \subsection*{The Group \(D_4\)}
 
-The square group \(D_4=\langle r,s\mid r^4=s^2=1,\ srs^{-1}=r^{-1}\rangle\)
+The square group \(D_4=\langle r,s\mid r^4=s^2=e,\ srs^{-1}=r^{-1}\rangle\)
 has eight elements.  Its geometric action on the four vertices is transitive,
 and the stabilizer of a vertex has two elements.  This gives \(8=4\cdot2\),
 the orbit--stabilizer formula in a visibly geometric form.
@@ -723,8 +769,8 @@ The relation \(srs^{-1}=r^{-1}\) also displays \(D_4\) as
 \(C_4\times C_2\), whose two factors commute; the dihedral relation gives the
 nontrivial twisting.
 
-The center of \(D_4\) is \(\{1,r^2\}\).  Since the quotient by this subgroup
-is abelian, the chain \(1\leq\langle r^2\rangle\leq D_4\) is a central series.
+The center of \(D_4\) is \(\{e,r^2\}\). Since the quotient by this subgroup
+is abelian, the chain \(\{e\}\leq\langle r^2\rangle\leq D_4\) is a central series.
 Thus \(D_4\) is nilpotent.  Comparing it with \(S_3\), which is solvable but
 has trivial center and is not nilpotent, makes the hierarchy
 \[\text{abelian}\ \Longrightarrow\ \text{nilpotent}\ \Longrightarrow\

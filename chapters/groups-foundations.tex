@@ -1,4 +1,4 @@
-\chapter{Groups, Quotients, and Homomorphisms}\label{chap:groups-foundations}
+\chapter{Groups, Homomorphisms, and Quotients}\label{chap:groups-foundations}
 
 \section{Groups, Subgroups, and Generated Subgroups}
 
@@ -16,12 +16,12 @@ A \emph{group} is a set \(G\) equipped with a binary operation
 \setlength{\itemsep}{7pt}
 \item \textbf{Associativity:} for all \(x,y,z\in G\),
       \[(xy)z=x(yz).\]
-\item \textbf{Identity:} there is an element \(1\in G\) such that, for every
+\item \textbf{Identity:} there is an element \(e\in G\) such that, for every
       \(x\in G\),
-      \[1x=x=x1.\]
+      \[ex=x=xe.\]
 \item \textbf{Inverses:} for every \(x\in G\), there is an element
       \(x^{-1}\in G\) such that
-      \[xx^{-1}=1=x^{-1}x.\]
+      \[xx^{-1}=e=x^{-1}x.\]
 \end{enumerate}
 A nonempty subset \(H\subseteq G\) is a \emph{subgroup} when the same
 operation makes \(H\) into a group; equivalently, it is closed under products
@@ -74,27 +74,20 @@ The identity and inverses are unique.  Cancellation holds, and
 If \(e,e'\) are identities, use first the right-identity property of \(e'\)
 and then the left-identity property of \(e\): \(e=ee'=e'\).  If \(y,z\) both
 invert \(x\), then associativity lets us insert parentheses as follows:
-\[y=y1=y(xz)=(yx)z=1z=z.\]
+\[y=ye=y(xz)=(yx)z=ez=z.\]
 For cancellation, if \(ax=ay\), multiply the equality on the left by
 \(a^{-1}\):
-\[x=1x=(a^{-1}a)x=a^{-1}(ax)=a^{-1}(ay)=(a^{-1}a)y=1y=y.\]
+\[x=ex=(a^{-1}a)x=a^{-1}(ax)=a^{-1}(ay)=(a^{-1}a)y=ey=y.\]
 Right cancellation is similar.  Finally,
-\[(xy)(y^{-1}x^{-1})=x(yy^{-1})x^{-1}=x1x^{-1}=1,\]
+\[(xy)(y^{-1}x^{-1})=x(yy^{-1})x^{-1}=xex^{-1}=e,\]
 and the same calculation in the opposite order shows that \(y^{-1}x^{-1}\)
 is the inverse of \(xy\).
 \end{proof}
 
 Thus a subgroup is not merely a subset: it is a collection of operations that
-is itself closed under composition and reversal.  For example,
-\(n\mathbb Z\leq\mathbb Z\), while the transpositions in \(S_3\) do not form a
-subgroup because their product need not be a transposition.
-
-We will use one kind of map before studying maps systematically.  A function
-\(f:G\to H\) between groups is a \emph{homomorphism} if
-\(f(xy)=f(x)f(y)\) for all \(x,y\in G\).  Its \emph{kernel} is the set of
-elements sent to the identity of \(H\).  The structural consequences of these
-definitions---images, normality, and quotient groups---are developed later in
-this chapter.
+is itself closed under composition and reversal. For example,
+\(n\mathbb Z\leq\mathbb Z\), whereas the positive integers are not a subgroup
+of \((\mathbb Z,+)\), because they are not closed under additive inverses.
 
 \begin{proposition}[Subgroup Test]
 A nonempty subset \(H\) of \(G\) is a subgroup if and only if
@@ -104,12 +97,137 @@ A nonempty subset \(H\) of \(G\) is a subgroup if and only if
 If \(H\) is already a subgroup, then \(y^{-1}\in H\) and closure under
 products gives \(xy^{-1}\in H\).  Conversely, assume the displayed condition.
 Choose \(h\in H\), possible because \(H\) is nonempty.  Taking \(x=y=h\)
-gives \(hh^{-1}=1\in H\).  Now take \(x=1\) and any \(y\in H\); the condition
+gives \(hh^{-1}=e\in H\).  Now take \(x=e\) and any \(y\in H\); the condition
 gives \(y^{-1}\in H\).  Finally, if \(x,y\in H\), then \(y^{-1}\in H\), so
 the condition applied to \(x\) and \(y^{-1}\) gives
 \(x(y^{-1})^{-1}=xy\in H\).  Thus \(H\) contains the identity and is closed
 under products and inverses.
 \end{proof}
+
+\section{Homomorphisms, Isomorphisms, and Cayley Tables}
+
+\begin{definition}
+A \emph{group homomorphism} \(\varphi:G\to H\) satisfies
+\(\varphi(xy)=\varphi(x)\varphi(y)\) for all \(x,y\in G\). Its
+\emph{kernel} and \emph{image} are
+\[
+\ker\varphi=\{g\in G:\varphi(g)=e_H\},\qquad
+\operatorname{im}\varphi=\{\varphi(g):g\in G\}.
+\]
+A homomorphism is \emph{injective} or \emph{surjective} in the ordinary
+set-theoretic sense. A bijective homomorphism is an \emph{isomorphism}; in
+that case we write \(G\cong H\).
+\end{definition}
+
+\begin{proposition}
+A homomorphism \(\varphi:G\to H\) satisfies
+\(\varphi(e_G)=e_H\), \(\varphi(g^{-1})=\varphi(g)^{-1}\), and
+\(\varphi(g^n)=\varphi(g)^n\) for every \(n\in\mathbb Z\). Its kernel and
+image are subgroups, and \(\varphi\) is injective if and only if
+\(\ker\varphi=\{e_G\}\).
+\end{proposition}
+\begin{proof}
+The equation \(\varphi(e_G)=\varphi(e_G)^2\) permits cancellation in \(H\)
+and gives \(\varphi(e_G)=e_H\). Applying \(\varphi\) to
+\(gg^{-1}=e_G\) proves the inverse formula, and the power formula follows by
+iteration (and then by inverses for negative exponents). The subgroup test
+applied to \(\varphi(x)\varphi(y)^{-1}=\varphi(xy^{-1})\) proves the image
+claim; the same test proves the kernel claim. Finally,
+\(\varphi(x)=\varphi(y)\) exactly when
+\(\varphi(x^{-1}y)=e_H\), which gives the final assertion.
+\end{proof}
+
+\begin{theorem}[Two-sided inverse criterion]
+A group homomorphism \(f:G\to H\) is an isomorphism if and only if there is a
+group homomorphism \(g:H\to G\) such that
+\[
+g\circ f=\operatorname{id}_G,\qquad f\circ g=\operatorname{id}_H.
+\]
+\end{theorem}
+\begin{proof}
+If \(f\) is an isomorphism, its set-theoretic inverse \(f^{-1}\) is a
+homomorphism: write \(u=f(x)\), \(v=f(y)\), and observe that
+\(f^{-1}(uv)=f^{-1}(f(xy))=xy\). Take \(g=f^{-1}\). Conversely, the first
+identity makes \(f\) injective and the second makes it surjective, so \(f\)
+is an isomorphism.
+\end{proof}
+
+\begin{remark}
+This is the group-theoretic instance of the categorical definition of an
+isomorphism: a morphism possessing a two-sided inverse. No category theory is
+needed here; the displayed equations are the whole content.
+\end{remark}
+
+For a finite group, a \emph{Cayley table} records the product of every ordered
+pair of elements. The row labelled \(a\) and column labelled \(b\) meet in
+\(ab\). The identity row and column reproduce the labels, and the location of
+\(e\) in the row for \(a\) identifies \(a^{-1}\).
+
+\begin{proposition}[Latin-square property]
+Every row and every column of the Cayley table of a finite group contains each
+group element exactly once.
+\end{proposition}
+\begin{proof}
+If \(ax=ay\), cancellation gives \(x=y\); hence left multiplication by \(a\)
+is injective and therefore bijective on a finite group. This proves the row
+claim. Right cancellation gives the column claim.
+\end{proof}
+
+\begin{example}[Small Cayley tables]
+\(C_n\) here denotes a cyclic group with \(n\) elements; this notation will be
+developed formally in the next section.
+\[
+\begin{array}{c|cc}C_2&e&a\\\hline e&e&a\\a&a&e\end{array}\qquad
+\begin{array}{c|ccc}C_3&e&a&a^2\\\hline e&e&a&a^2\\a&a&a^2&e\\a^2&a^2&e&a\end{array}
+\]
+\[
+\begin{array}{c|cccc}C_4&e&a&a^2&a^3\\\hline
+e&e&a&a^2&a^3\\a&a&a^2&a^3&e\\a^2&a^2&a^3&e&a\\a^3&a^3&e&a&a^2\end{array}
+\quad
+\begin{array}{c|cccc}C_2\times C_2&e&a&b&ab\\\hline
+e&e&a&b&ab\\a&a&e&ab&b\\b&b&ab&e&a\\ab&ab&b&a&e\end{array}
+\]
+The final two tables show the two possible patterns for a group of order
+four: one element may have order four, or every nonidentity element may have
+order two.
+\end{example}
+
+\begin{proposition}[Groups of order at most four]
+The group of order \(1\) is trivial; every group of order \(2\) or \(3\) is
+cyclic; and every group of order \(4\) is isomorphic to \(C_4\) or to
+\(C_2\times C_2\).
+\end{proposition}
+\begin{proof}
+For order \(1\) there is only \(e\). If \(G=\{e,a\}\), then \(a^2=e\),
+so \(G=\langle a\rangle\cong C_2\).
+
+Let \(G=\{e,a,b\}\), where \(a\ne e\). If \(a^2=e\), then the row of
+\(a\) has entries \(a\) and \(e\) in the columns \(e\) and \(a\). By the
+Latin-square property its remaining entry is \(b\), so \(ab=b\); right
+cancellation gives \(a=e\), a contradiction. Thus \(e,a,a^2\) are distinct,
+exhaust \(G\), and \(G=\langle a\rangle\cong C_3\).
+
+Now let \(|G|=4\). If some \(a\) has \(e,a,a^2,a^3\) all distinct, these
+exhaust \(G\), and \(G\cong C_4\). Otherwise no nonidentity element has
+order four. Nor can one have order three: if
+\(H=\{e,a,a^2\}\) were a subgroup and \(b\notin H\), then \(b,ba,ba^2\)
+would be distinct by cancellation and none could lie in \(H\), for
+\(ba^i=a^j\) would imply \(b=a^{j-i}\in H\). This is impossible because
+\(G\setminus H\) has only one element. Hence every nonidentity element has
+order two. Choose distinct nonidentity elements \(a,b\). Then \(ab\) differs
+from \(e,a,b\), so \(G=\{e,a,b,ab\}\), and
+\(ab=(ab)^{-1}=b^{-1}a^{-1}=ba\). Thus the Cayley table is the displayed
+table for \(C_2\times C_2\), and \(G\cong C_2\times C_2\).
+\end{proof}
+
+\begin{example}[The Rubik's Cube group]
+Consider the transformations of a Rubik's Cube obtained from finite sequences
+of legal face turns, with multiplication given by composition of transformations. Doing nothing is
+the identity, move sequences compose associatively, and reversing each turn
+in reverse order undoes a sequence. These transformations therefore form a
+large finite nonabelian group. The example captures a central theme: groups
+describe symmetries, reversible transformations, and reversible procedures.
+\end{example}
 
 The subgroup test is useful because it replaces three separate closure checks
 by a single expression.  It also anticipates a recurring algebraic pattern:
@@ -127,21 +245,21 @@ It is the smallest subgroup of \(G\) containing \(S\).  A group is
 The intersection is a subgroup, and it is contained in every subgroup that
 contains \(S\), which proves the asserted minimality.  Equivalently,
 \(\langle S\rangle\) consists exactly of finite products of elements of \(S\)
-and their inverses (including the empty product \(1\)).  This formulation is
+and their inverses (including the empty product \(e\)). This formulation is
 often the practical one; the intersection formulation is the structural one.
 The same ``smallest subobject containing a set'' construction will reappear for
 ideals, modules, algebras, and field extensions.
 
 \begin{example}
 In the additive group \(\mathbb Z\), \(\langle6,10\rangle=2\mathbb Z\), since
-\(2=2\cdot6-10\).  In \(S_3\), \((12)\) and \((23)\) generate \(S_3\).
+\(2=2\cdot6-10\).
 \end{example}
 
 \begin{proposition}[Finite Products from a Generating Set]
 For \(S\subseteq G\), the subgroup \(\langle S\rangle\) consists exactly of
 the finite products \(s_1^{\varepsilon_1}\cdots s_k^{\varepsilon_k}\), where
 \(s_i\in S\) and \(\varepsilon_i\in\{1,-1\}\), together with the empty
-product \(1\).
+product \(e\).
 \end{proposition}
 \begin{proof}
 Let \(W\) be the set of these finite products in the already given group
@@ -159,7 +277,7 @@ generated by a specified set of elements.
 
 For \(g\in G\), \(\langle g\rangle=\{g^n:n\in\mathbb Z\}\) is the special
 case \(S=\{g\}\), the \emph{cyclic subgroup generated by \(g\)}.  The order
-\(|g|\) is the least positive \(n\) with \(g^n=1\), if it exists.
+\(|g|\) is the least positive \(n\) with \(g^n=e\), if it exists.
 
 The cyclic group \(\langle g\rangle\) is the portion of \(G\) generated by one
 operation.  Additively, \(\langle 1\rangle=\mathbb Z\); multiplicatively, the
@@ -185,7 +303,7 @@ For a nontrivial subgroup \(H\), let \(r\) be the least positive integer with
 \[
  g^{n/d}=(g^r)^v(g^{n/d})^{dw}=(g^r)^v,
 \]
-because \((g^{n/d})^d=1\).  Hence
+because \((g^{n/d})^d=e\).  Hence
 \(\langle g^{n/d}\rangle\leq\langle g^r\rangle\); the reverse inclusion is
 immediate from \(g^r=(g^{n/d})^u\).  Thus
 \(H=\langle g^{n/d}\rangle\), which proves uniqueness precisely.
@@ -195,7 +313,7 @@ immediate from \(g^r=(g^{n/d})^u\).  Thus
 \leavevmode\\
 If \(C_{12}=\langle g\rangle\), its subgroups are
 \(\langle g\rangle,\langle g^2\rangle,\langle g^3\rangle,
-\langle g^4\rangle,\langle g^6\rangle\), and \(\{1\}\), of orders
+\langle g^4\rangle,\langle g^6\rangle\), and \(\{e\}\), of orders
 \(12,6,4,3,2,1\), respectively.  The divisors of \(12\) predict exactly this
 subgroup lattice.  In contrast, the analogous subgroup problem for a general
 finite group is substantially harder, which is why cyclic groups are a useful
@@ -221,15 +339,15 @@ For integers \(a,b\),
 \(\varphi_g\) is indeed a homomorphism.  Its image is precisely the set of
 all integer powers of \(g\), namely \(\langle g\rangle\).
 The kernel consists of precisely those integers \(a\)
-for which \(g^a=1\).  If \(g\) has infinite order, this happens only for
-\(a=0\).  If \(|g|=n\), division with remainder shows that \(g^a=1\) if and
+for which \(g^a=e\). If \(g\) has infinite order, this happens only for
+\(a=0\). If \(|g|=n\), division with remainder shows that \(g^a=e\) if and
 only if \(n\mid a\), so the kernel is \(n\mathbb Z\).  In the infinite-order
 case, \(\varphi_g\) is one-to-one: \(g^a=g^b\) implies
-\(g^{a-b}=1\), hence \(a=b\).  It is onto \(\langle g\rangle\) by its
+\(g^{a-b}=e\), hence \(a=b\). It is onto \(\langle g\rangle\) by its
 definition, and thus gives \(\mathbb Z\cong\langle g\rangle\).
 If \(|g|=n\), the map
 \[a+n\mathbb Z\longmapsto g^a\]
-is well-defined because \(g^n=1\); it is a bijective homomorphism onto
+is well-defined because \(g^n=e\); it is a bijective homomorphism onto
 \(\langle g\rangle\).  The First Isomorphism Theorem will later combine these
 two direct arguments into the single statement
 \(\langle g\rangle\cong\mathbb Z/\ker\varphi_g\).
@@ -244,18 +362,26 @@ The order of \(g^k\) is \(n/\gcd(n,k)\).  Thus \(C_{12}\) has generators
 \(g,g^5,g^7,g^{11}\).
 \end{proof}
 
+\begin{example}[Roots of unity revisited]
+The preliminary set \(\mu_n\) is closed under multiplication and inverses,
+because \((zw)^n=z^nw^n=1\) and \((z^{-1})^n=1\). It is therefore a group
+under multiplication. The \(n\) displayed roots are precisely
+\(1,\zeta_n,\ldots,\zeta_n^{n-1}\), so
+\(\mu_n=\langle\zeta_n\rangle\cong C_n\).
+\end{example}
+
 \section{Dihedral Groups}
 
 \begin{definition}
 The \emph{dihedral group} \(D_n\) is the full symmetry group of a regular
 \(n\)-gon.  If \(r\) is rotation through one vertex and \(s\) a reflection,
 then
-\[D_n=\langle r,s\mid r^n=s^2=1,\ srs^{-1}=r^{-1}\rangle.\]
+\[D_n=\langle r,s\mid r^n=s^2=e,\ srs^{-1}=r^{-1}\rangle.\]
 Many authors call this order-\(2n\) group \(D_{2n}\); these notes use \(D_n\).
 \end{definition}
 
 The relation \(sr=r^{-1}s\) lets us move every occurrence of \(s\) to the
-left in a product.  Since \(s^2=1\) and \(r^n=1\), every product of rotations
+left in a product. Since \(s^2=e\) and \(r^n=e\), every product of rotations
 and reflections therefore has the form \(r^i\) or \(sr^i\), with
 \(0\leq i<n\).  These \(2n\) symmetries are distinct geometrically: the first
 family preserves orientation and the second reverses it.  Hence
@@ -264,29 +390,39 @@ family preserves orientation and the second reverses it.  Hence
 \(sr=r^{-1}s\): reflecting after rotating has the same effect as rotating in
 the opposite direction after reflecting.
 
-For the square, choose \(r\) to be the quarter-turn and \(s\) a reflection
-in an axis through opposite vertices.  The complete list is
-\[
- D_4=\{1,r,r^2,r^3,s,sr,sr^2,sr^3\}.
-\]
-The first four are rotations, and the last four are reflections.  In
-particular, \(sr=r^{-1}s=r^3s\), whereas \(rs\) is a different reflection:
-\(sr\ne rs\).  This is a concrete calculation of noncommutativity, not just
-an abstract consequence of the presentation.
+The notation between angle brackets is a compact way to say that \(D_n\) is
+generated by \(r\) and \(s\), and that these generators satisfy the displayed
+relations. No general theory of presentations is needed here.
 
-\begin{example}[Dihedral Groups as Permutation Groups]
-Label the vertices of a regular \(n\)-gon by \(1,\ldots,n\).  Every symmetry
-permutes these vertices, so it determines an element of \(S_n\).  The action
-is injective: a geometric symmetry that fixes every vertex is the identity.
-Thus \(D_n\) is concretely a subgroup of \(S_n\).  The later Cayley theorem
-will generalize this phenomenon from dihedral groups to every finite group.
-\end{example}
+The smallest nonabelian dihedral example is \(D_3\), the symmetry group of an
+equilateral triangle. Label its vertices \(1,2,3\), let \(r\) rotate through
+\(120^\circ\), and let \(s\) reflect across the axis through vertex \(1\).
+The six labelled pictures display the images of the original vertex labels:
+\[
+\begin{array}{ccc}
+\begin{tikzpicture}[baseline=-.5ex,scale=.34]\draw (0,1)--(-.87,-.5)--(.87,-.5)--cycle;\node at (0,1.25){\scriptsize1};\node at (-1.08,-.65){\scriptsize2};\node at (1.08,-.65){\scriptsize3};\end{tikzpicture}&
+\begin{tikzpicture}[baseline=-.5ex,scale=.34]\draw (0,1)--(-.87,-.5)--(.87,-.5)--cycle;\node at (0,1.25){\scriptsize3};\node at (-1.08,-.65){\scriptsize1};\node at (1.08,-.65){\scriptsize2};\end{tikzpicture}&
+\begin{tikzpicture}[baseline=-.5ex,scale=.34]\draw (0,1)--(-.87,-.5)--(.87,-.5)--cycle;\node at (0,1.25){\scriptsize2};\node at (-1.08,-.65){\scriptsize3};\node at (1.08,-.65){\scriptsize1};\end{tikzpicture}\\[-2pt]
+e&r&r^2\\[6pt]
+\begin{tikzpicture}[baseline=-.5ex,scale=.34]\draw (0,1)--(-.87,-.5)--(.87,-.5)--cycle;\node at (0,1.25){\scriptsize1};\node at (-1.08,-.65){\scriptsize3};\node at (1.08,-.65){\scriptsize2};\end{tikzpicture}&
+\begin{tikzpicture}[baseline=-.5ex,scale=.34]\draw (0,1)--(-.87,-.5)--(.87,-.5)--cycle;\node at (0,1.25){\scriptsize3};\node at (-1.08,-.65){\scriptsize2};\node at (1.08,-.65){\scriptsize1};\end{tikzpicture}&
+\begin{tikzpicture}[baseline=-.5ex,scale=.34]\draw (0,1)--(-.87,-.5)--(.87,-.5)--cycle;\node at (0,1.25){\scriptsize2};\node at (-1.08,-.65){\scriptsize1};\node at (1.08,-.65){\scriptsize3};\end{tikzpicture}\\[-2pt]
+s&sr&sr^2
+\end{array}
+\]
+The first three symmetries are rotations and the last three are reflections.
+Their effects on the vertices are summarized after permutation notation has
+been introduced below.
+
+The relation with permutation groups will be made precise after symmetric
+groups and their notation have been introduced.
 
 \section{Symmetric and Alternating Groups}
 
 \begin{definition}
 The \emph{symmetric group} \(S_n\) is the group of all bijections of the set
-\(\{1,2,\ldots,n\}\), with composition as the operation.  A \(k\)-\emph{cycle}
+\(\{1,2,\ldots,n\}\), with composition as the operation and identity \(e\).
+A \(k\)-\emph{cycle}
 \((a_1\ a_2\ \cdots\ a_k)\) sends \(a_i\) to \(a_{i+1}\) for
 \(1\leq i<k\), sends \(a_k\) to \(a_1\), and fixes every other letter.
 \end{definition}
@@ -342,9 +478,7 @@ as is verified by following the images of \(i\), \(j\), and every other
 letter.  Thus adjacent transpositions also generate \(S_n\).
 \end{proof}
 
-The preliminary definition of homomorphism introduced above is all that is
-needed for the next result; its kernel and quotient theory are still deferred
-to the later systematic treatment.
+For example, the two transpositions \((12)\) and \((23)\) generate \(S_3\).
 
 \begin{theorem}[Parity and the Sign Homomorphism]
 Every expression of a fixed permutation as a product of transpositions has the
@@ -374,18 +508,53 @@ onto.
 \end{proof}
 
 \begin{definition}
-The \emph{alternating group} \(A_n\) is the set of even permutations, namely
-\(\{\sigma\in S_n:\operatorname{sgn}(\sigma)=1\}\).
+The \emph{alternating group} \(A_n\) is the kernel of the sign homomorphism,
+\[
+A_n=\ker(\operatorname{sgn})=\{\sigma\in S_n:\operatorname{sgn}(\sigma)=1\}.
+\]
 \end{definition}
 
 The sign rule shows directly that the product and inverse of even permutations
-are even, so \(A_n\) is a subgroup.  The displayed sign rule says that
-\(\operatorname{sgn}\) is a homomorphism.  The general theory of such maps
-follows after cosets.  There we will prove that \(A_n\), as the kernel of the
-sign map, is normal of index two.
-For \(S_3\), \(A_3=\langle(123)\rangle\), and the three transpositions are
+are even, so \(A_n\) is a subgroup. For \(n\geq2\), the sign homomorphism is
+surjective: a transposition has sign \(-1\). Its two fibers have the same
+size, since multiplication by a fixed transposition bijects them. Therefore
+\[
+|A_n|=\frac{|S_n|}{2}=\frac{n!}{2}.
+\]
+This elementary count already shows that \(A_n\) has index two; normality will
+also follow from the general kernel criterion below.
+For \(S_3\), \(A_3=\{e,(123),(132)\}=\langle(123)\rangle\), and the three transpositions are
 the odd permutations.  Later quotient theory will identify the two parity
 classes with a copy of \(C_2\).
+
+\begin{example}[The triangle group \(D_3\)]
+Label an equilateral triangle cyclically by \(1,2,3\). Let \(r\) be the
+counterclockwise rotation \(1\mapsto2\mapsto3\mapsto1\), and let \(s\) be the
+reflection fixing vertex \(1\). With products evaluated from right to left,
+the six geometric symmetries are:
+\[
+\begin{array}{c|c|ccc|c}
+ &\text{description}&1&2&3&\text{permutation}\\\hline
+e&\text{do nothing}&1&2&3&e\\
+r&\text{rotation by }120^\circ&2&3&1&(123)\\
+r^2&\text{rotation by }240^\circ&3&1&2&(132)\\
+s&\text{reflection through vertex }1&1&3&2&(23)\\
+sr&\text{reflection}&3&2&1&(13)\\
+sr^2&\text{reflection}&2&1&3&(12)
+\end{array}
+\]
+Now that \(S_3\) is defined, the final column identifies the six
+rearrangements with permutations: \(r=(123)\), \(r^2=(132)\), and the three
+reflections are the three transpositions. Thus the action on vertices defines
+a homomorphism \(D_3\to S_3\) whose images are all six permutations. It is
+injective because a symmetry fixing every vertex is the identity, and so
+\(D_3\cong S_3\).
+\end{example}
+
+More generally, the action of \(D_n\) on the labelled vertices of a regular
+\(n\)-gon gives a homomorphism \(D_n\hookrightarrow S_n\). It is injective:
+a symmetry that fixes every vertex fixes the polygon pointwise and is the
+identity.
 
 \section{Cosets, Index, and Lagrange's Theorem}
 
@@ -450,10 +619,25 @@ that the order of \(g\) divides \(|G|\).
 \end{proof}
 
 \begin{corollary}
-If \(G\) is finite, then \(g^{|G|}=1\) for every \(g\in G\).
+If \(G\) is finite, then \(g^{|G|}=e\) for every \(g\in G\).
 \end{corollary}
 \begin{proof}
 The order of \(g\) divides \(|G|\).
+\end{proof}
+
+\begin{theorem}[Fermat's Little Theorem]
+If \(p\) is prime and \(a\in\mathbb Z\) satisfies \(p\nmid a\), then
+\[
+a^{p-1}\equiv1\pmod p.
+\]
+Equivalently, \(a^p\equiv a\pmod p\) for every integer \(a\).
+\end{theorem}
+\begin{proof}
+The nonzero residue classes form the multiplicative group
+\((\mathbb Z/p\mathbb Z)^\times\), which has \(p-1\) elements. Lagrange's
+theorem applied to the class of \(a\) gives
+\([a]^{p-1}=[1]\). If \(p\mid a\), the equivalent statement is immediate;
+otherwise multiply the displayed congruence by \(a\).
 \end{proof}
 
 \begin{corollary}
@@ -469,47 +653,11 @@ The converse to Lagrange's theorem is false: divisibility of \(|H|\) by
 has no subgroup of order six, although six divides twelve.  This limitation is
 one reason later existence theorems such as Cauchy's and Sylow's are valuable.
 
-\section{Homomorphisms, Kernels, and Images}\label{sec:homomorphisms}
+\section{Normal Subgroups}
 
-A homomorphism is the appropriate map between groups because it preserves the
-operation.  Its kernel measures exactly what information the map discards,
-and its image records exactly what it reaches.  These two subgroups are the
-bridge between maps and quotient constructions.
-
-\begin{definition}
-\leavevmode\\
-A \emph{homomorphism} \(\varphi:G\to K\) satisfies
-\(\varphi(gh)=\varphi(g)\varphi(h)\).
-
-Its \emph{kernel} is
-\(\ker\varphi=\{g:\varphi(g)=1\}\), and its \emph{image} is
-\(\operatorname{im}\varphi=\{\varphi(g):g\in G\}\).
-\end{definition}
-
-A homomorphism preserves the basic group operations automatically:
-\(\varphi(1)=1\), \(\varphi(g^{-1})=\varphi(g)^{-1}\), and
-\(\varphi(g^n)=\varphi(g)^n\).  Its kernel records exactly which elements the
-map identifies, since \(\varphi(x)=\varphi(y)\) if and only if
-\(x^{-1}y\in\ker\varphi\).  Images, by contrast, are subgroups but need not
-be normal: \(\langle(12)\rangle\) is the image of \(C_2\to S_3\) but is not
-invariant under conjugation.
-
-For example, reduction modulo \(n\), \(\mathbb Z\to\mathbb Z/n\mathbb Z\),
-has kernel \(n\mathbb Z\) and is onto.  The sign map
-\(S_n\to\{\pm1\}\) has kernel \(A_n\).  The latter example is a useful source
-of normal subgroups that is not obtained by inspection.  Likewise, the map
-\(D_n\to\{\pm1\}\) that sends rotations to \(1\) and reflections to \(-1\)
-has kernel \(\langle r\rangle\).
-
-\begin{proposition}
-The kernel and image of a homomorphism are subgroups; moreover,
-\(\varphi\) is injective if and only if \(\ker\varphi=\{1\}\).
-\end{proposition}
-\begin{proof}
-The subgroup test gives both subgroup assertions.  Also,
-\(\varphi(x)=\varphi(y)\) exactly when
-\(\varphi(xy^{-1})=1\), equivalently when \(xy^{-1}\in\ker\varphi\).
-\end{proof}
+The kernel of a homomorphism is a subgroup, but it has a further invariance
+property that makes quotient groups possible. This is the first important
+connection between maps and quotient constructions.
 
 \begin{definition}
 A subgroup \(N\leq G\) is \emph{normal}, written \(N\trianglelefteq G\), if
@@ -537,7 +685,7 @@ chosen representatives.
 \(\ker\varphi\trianglelefteq G\) for every homomorphism \(\varphi:G\to K\).
 \end{proposition}
 \begin{proof}
-For \(n\in\ker\varphi\), \(\varphi(gng^{-1})=\varphi(g)1\varphi(g)^{-1}=1\).
+For \(n\in\ker\varphi\), \(\varphi(gng^{-1})=\varphi(g)e_K\varphi(g)^{-1}=e_K\).
 The reverse inclusion follows on replacing \(g\) by \(g^{-1}\).
 \end{proof}
 
@@ -583,7 +731,7 @@ normality.
 The quotient \(\mathbb Z/n\mathbb Z\) identifies integers whose difference is
 a multiple of \(n\).  The sign homomorphism has kernel \(A_n\), so
 \(S_n/A_n\cong C_2\).  For the dihedral group
-\(D_n=\langle r,s\mid r^n=s^2=1,\ srs^{-1}=r^{-1}\rangle\), the rotation
+\(D_n=\langle r,s\mid r^n=s^2=e,\ srs^{-1}=r^{-1}\rangle\), the rotation
 subgroup \(\langle r\rangle\) is normal and the quotient has two elements:
 it records whether a symmetry preserves or reverses orientation.
 \end{example}
@@ -617,7 +765,7 @@ target define the same map.  Here commutativity says exactly
 \(f=\overline f\circ\pi\).  This elementary language will be used whenever a
 canonical map and a factorization clarify a later construction.
 \begin{proofidea}
-The quotient identifies \(g\) and \(gn\).  The condition \(f(n)=1\) says
+The quotient identifies \(g\) and \(gn\). The condition \(f(n)=e_H\) says
 that \(f\) also identifies them, so its value should depend only on the coset.
 \end{proofidea}
 \begin{proof}
@@ -632,7 +780,7 @@ well-defined.  It is a homomorphism because
 
 \begin{example}[A Factorization Computed in Full]
 Let \(f:\mathbb Z\to C_6\) send \(1\) to a chosen generator \(u\).  Since
-\(f(6k)=u^{6k}=1\), the subgroup \(6\mathbb Z\) is contained in \(\ker f\).
+\(f(6k)=u^{6k}=e\), the subgroup \(6\mathbb Z\) is contained in \(\ker f\).
 The universal property produces a unique map
 \[\overline f:\mathbb Z/6\mathbb Z\longrightarrow C_6,
 \qquad \overline f(\overline k)=u^k.\]
@@ -784,7 +932,7 @@ containment \(12\mathbb Z\subseteq4\mathbb Z\subseteq\mathbb Z\) becomes
 
 \begin{example}[The Sign Quotient of \(S_3\)]
 The sign map separates the six permutations of \(S_3\) into the three even
-permutations \(A_3=\{1,(123),(132)\}\) and the three odd permutations.  The
+permutations \(A_3=\{e,(123),(132)\}\) and the three odd permutations. The
 two cosets of \(A_3\) are therefore \(A_3\) itself and \((12)A_3\).  In the
 quotient, every even permutation becomes the identity coset and every odd
 permutation becomes the same nontrivial coset.  Its square is the identity,
@@ -801,7 +949,7 @@ generators of the two factors, generates the product.
 \end{proposition}
 \begin{proof}
 The order of \((g,h)\) is the least positive integer \(k\) for which both
-\(g^k=1\) and \(h^k=1\).  Thus its order is \(\operatorname{lcm}(m,n)\).
+\(g^k=e\) and \(h^k=e\).  Thus its order is \(\operatorname{lcm}(m,n)\).
 If \(m\) and \(n\) are coprime, this least common multiple is \(mn\), the
 order of the product, so \((g,h)\) is a generator.  Conversely, suppose a
 single element generated \(C_m\times C_n\).  Its order would be \(mn\), but
@@ -818,7 +966,7 @@ basic operations of algebraic construction.
 \subsection*{A Guided Tour of the Quotient Construction}
 
 It is useful to see the quotient construction operate several times before
-leaving Chapter~2.  The same four questions organize each instance:
+leaving Chapter~1. The same four questions organize each instance:
 
 \begin{enumerate}
 \item What elements should be regarded as indistinguishable?
@@ -841,7 +989,7 @@ Let \(N=\langle r\rangle\leq D_n\).  The relation \(srs^{-1}=r^{-1}\)
 implies \(sr^is^{-1}=r^{-i}\in N\), so conjugation by the reflection keeps
 the rotation subgroup inside itself.  Conjugation by a rotation plainly does
 the same; therefore \(N\) is normal.  Its two cosets are
-\[N=\{1,r,\ldots,r^{n-1}\}\quad\text{and}\quad sN=
+\[N=\{e,r,\ldots,r^{n-1}\}\quad\text{and}\quad sN=
 \{s,sr,\ldots,sr^{n-1}\}.\]
 The product of two elements of the second coset lies in \(N\), because
 \[(sr^i)(sr^j)=s(r^is)r^j=r^{j-i}.\]
@@ -883,7 +1031,7 @@ Group actions supply a second durable pattern.  When a group acts on a set of
 geometric objects, on roots of a polynomial, or on a vector space, the orbit
 records what can be moved into what, and the stabilizer records the residual
 symmetry at a chosen point.  This is why the elementary formula
-\(|G|=|Gx|\,|G_x|\) later becomes a tool in Galois theory, representation
+\(|G|=|\operatorname{orb}(x)|\,|\operatorname{stab}(x)|\) later becomes a tool in Galois theory, representation
 theory, algebraic geometry, and number theory.
 
 Finally, the examples \(S_3\) and \(D_4\) should be regarded as small models
@@ -893,6 +1041,96 @@ rotations with reflections.  Both groups have meaningful quotients and
 semidirect-product decompositions.  Revisiting them when later constructions
 become abstract is an efficient way to keep the structural ideas grounded.
 
+\section{Automorphisms and Inner Automorphisms}
+
+An isomorphism compares two groups; an automorphism is a symmetry of one group
+viewed as an algebraic structure. It rearranges the elements while preserving
+every multiplication relation. Automorphisms therefore record the internal
+symmetries of a group.
+
+\begin{definition}
+An \emph{automorphism} of a group \(G\) is an isomorphism
+\(\varphi:G\to G\). The set of all automorphisms is denoted
+\(\operatorname{Aut}(G)\).
+\end{definition}
+
+\begin{proposition}
+\(\operatorname{Aut}(G)\) is a group under composition.
+\end{proposition}
+\begin{proof}
+Composition of two automorphisms is an automorphism, the identity map
+\(\operatorname{id}_G\) is an automorphism, and the inverse of an
+automorphism is an automorphism by the two-sided inverse criterion.
+Associativity is inherited from composition of functions.
+\end{proof}
+
+\begin{example}
+Every automorphism of the additive group \(\mathbb Z\) is determined by the
+image of \(1\), which must be a generator: either \(1\) or \(-1\). Hence
+\(\operatorname{Aut}(\mathbb Z)\cong C_2\).
+
+Likewise, if \(C_n=\langle a\rangle\), an automorphism is determined by
+\(a\mapsto a^k\), and this is an automorphism exactly when \(a^k\) is also a
+generator, equivalently when \(\gcd(k,n)=1\). Composition multiplies the
+exponents modulo \(n\), so
+\[
+\operatorname{Aut}(C_n)\cong(\mathbb Z/n\mathbb Z)^\times.
+\]
+For instance, if \(C_6=\langle a\rangle\), its only generators are \(a\) and
+\(a^5\). Thus its only automorphisms send \(a\) to \(a\) or to \(a^5\), and
+\(\operatorname{Aut}(C_6)\cong C_2\). More generally, composing the maps
+\(a\mapsto a^j\) and \(a\mapsto a^k\) sends \(a\) to \(a^{jk}\), which
+explains the multiplication of exponents modulo \(n\).
+\end{example}
+
+The \emph{center} of \(G\) is
+\[
+Z(G)=\{g\in G:gx=xg\text{ for every }x\in G\}.
+\]
+For \(g\in G\), define the \emph{inner automorphism}
+\[
+c_g:G\to G,\qquad c_g(x)=gxg^{-1}.
+\]
+For a concrete preview, conjugation by \((123)\) in \(S_3\) cycles the three
+transpositions:
+\begin{align*}
+(123)(12)(123)^{-1}&=(23),\\
+(123)(23)(123)^{-1}&=(13),\\
+(123)(13)(123)^{-1}&=(12).
+\end{align*}
+Thus conjugation is itself a structure-preserving rearrangement, not merely a
+calculation. In general, \(c_g\) is a homomorphism, and \(c_{g^{-1}}\) is
+its inverse, so \(c_g\) is an automorphism. The assignment
+\[
+\Phi:G\longrightarrow\operatorname{Aut}(G),\qquad \Phi(g)=c_g
+\]
+is a homomorphism, because
+\[
+c_{gh}(x)=(gh)x(gh)^{-1}=g(hxh^{-1})g^{-1}
+=(c_g\circ c_h)(x).
+\]
+Its kernel is
+\[
+\ker\Phi=\{g\in G:gxg^{-1}=x\text{ for every }x\in G\}=Z(G),
+\]
+and its image is the subgroup
+\[
+\operatorname{Inn}(G)=\{c_g:g\in G\}
+\]
+of \(\operatorname{Aut}(G)\). Thus central elements are exactly those that
+act trivially by conjugation. The subgroup
+\(\operatorname{Inn}(G)\leq\operatorname{Aut}(G)\) consists precisely of
+the symmetries visible from conjugation inside \(G\). The First Isomorphism Theorem gives
+\[
+G/Z(G)\cong\operatorname{Inn}(G).
+\]
+Moreover, the \emph{canonical conjugation homomorphism} \(\Phi\) is injective
+if and only if \(Z(G)=\{e\}\). In particular, a centerless group has the
+canonical embedding \(G\hookrightarrow\operatorname{Aut}(G)\) supplied by
+conjugation; this statement
+concerns this specific embedding, not the possible existence of an unrelated
+one.
+
 \section{Direct Products and Extensions}
 
 The external direct product \(G\times H\) combines independent symmetries:
@@ -901,7 +1139,7 @@ the symmetries of a rectangle with unequal side lengths form \(C_2\times C_2\).
 The internal criterion below recognizes this construction inside a larger group.
 
 \begin{proposition}
-Suppose \(N,H\trianglelefteq G\), \(G=NH\), and \(N\cap H=\{1\}\).  Then
+Suppose \(N,H\trianglelefteq G\), \(G=NH\), and \(N\cap H=\{e\}\).  Then
 \(G\cong N\times H\).
 \end{proposition}
 \begin{proof}
