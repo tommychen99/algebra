@@ -52,8 +52,8 @@ these proved results, but not on unstated undergraduate-algebra background.
 | Groups: foundations, quotients, actions | Pending | isomorphism theorems; orbit--stabilizer; action constructions |
 | Groups: symmetric/alternating and dihedral examples | Pending | sign map; alternating subgroup; concrete quotient and semidirect-product models |
 | Groups: Sylow and structural theory | Pending | class equation; Sylow consequences; semidirect products; composition factors; solvability |
-| Rings and ideals | Pending | quotient criteria; Chinese remainder theorem; prime/maximal ideal characterizations |
-| Polynomial rings and factorization | Pending | Gauss lemma; irreducibility criteria; Euclidean/PID/UFD implications |
+| Rings and ideals | Revised in 1.3 | quotient criteria; Chinese remainder theorem; prime/maximal ideal characterizations; localization; group rings |
+| Polynomial rings and factorization | Revised in 1.4 | Gauss lemma; irreducibility criteria; Euclidean/PID/UFD implications; Noetherianity; formal power series; finite-field and multivariable applications |
 | Modules | Pending | exactness; universal properties; annihilators; cyclic modules; PID structure theorem |
 | Algebraic linear algebra | Pending | rational/Jordan canonical forms through \(F[x]\)-modules; Cayley--Hamilton |
 | Field extensions | Pending | tower law; embeddings; splitting fields; algebraic closures |

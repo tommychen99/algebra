@@ -4,7 +4,7 @@
 
 Tommy Chen
 
-Version 1.21
+Version 1.22
 
 [Read the compiled PDF](main.pdf)
 
@@ -16,15 +16,30 @@ The repository is <https://github.com/tommychen99/algebra>.
 
 ## Release notes
 
-**Version 1.21** is a focused refinement of the finite-dimensional
-inner-product-space chapter. It defines Hermitian matrices and relates them
-to self-adjoint operators in orthonormal coordinates; distinguishes real
-spectrum and ordinary diagonalizability from self-adjointness; clarifies
-eigenspace orthogonality and the local use of Gram--Schmidt; and makes the
-real/complex distinction for normal operators explicit. It also adds the
-spectral decomposition of a self-adjoint operator and sharpens the
-spectral-theorem bridge to SVD, including the positive-semidefinite and
-absolute-value viewpoints.
+**Version 1.22** completes the expansion and final editorial refinement of
+Part II. It strengthens the treatment of rings, ideals, localization,
+factorization, and polynomial rings; adds Noetherian and Artinian finiteness,
+Hilbert's Basis Theorem, formal power series, finite-field applications, and
+an introductory Gröbner-basis discussion; and completes the Chapter 0
+renumbering audit, including automatic equation numbering and repaired
+cross-references.
+
+**Version 1.4** adds a concise commutative-algebra bridge to Part II:
+ascending and descending chain conditions, Noetherian and Artinian rings,
+the finite-generation characterizations of Noetherianity, Hilbert's basis
+theorem, formal power series, and an elementary proof that Noetherianity
+passes to formal power-series rings.  It also corrects the remaining
+field-coefficient and dependency qualifications in the multivariable and
+Gr\"obner-basis discussions.
+
+**Version 1.3** is a substantive expansion of Part II.  It adds division
+rings and Hamilton's quaternions; group rings; organized ideal arithmetic and
+the finite Chinese remainder theorem; stronger localization and fraction-field
+treatments; strict Euclidean/PID/UFD implications; finite-field polynomial
+applications and a quadratic-reciprocity orientation; several-variable
+polynomials; and an introductory treatment of Gr\"obner bases.  It also audits
+renumbered internal references and corrects the affected matrix, determinant,
+and duality cross-references.
 
 **Version 1.2** substantially strengthens the finite-dimensional
 inner-product-space material, especially the treatment of singular value
@@ -76,8 +91,11 @@ The manuscript has four completed parts.
 
 - **Groups** develops groups, homomorphisms, quotients, actions, Sylow theory,
   semidirect products, composition series, solvability, and nilpotence.
-- **Rings and Polynomial Rings** develops ideals, quotient rings, localization,
-  Euclidean domains, PIDs, UFDs, polynomial factorization, and Gauss's Lemma.
+- **Rings and Polynomial Rings** develops division rings, ideals, quotient
+  rings, group rings, localization, Euclidean domains, PIDs, UFDs, polynomial
+  factorization, Noetherian and Artinian finiteness conditions, Hilbert's basis
+  theorem, formal power series, finite-field applications, several-variable
+  polynomial rings, and introductory Gr\"obner bases.
 - **Modules and Linear Algebra** develops modules, exact sequences, determinants,
   duality, bilinear and quadratic forms, PID modules, canonical forms,
   inner-product spaces, tensor products, and exterior algebra.
@@ -126,9 +144,9 @@ over ZF to the Axiom of Choice.
 
 ## Status
 
-Parts I--IV are mathematically complete and pedagogically frozen within the
-stated scope. Future changes are limited to typographical corrections or
-genuine mathematical errata.
+All four parts are mathematically complete within their stated scope.  Part II
+is maintained through editorial refinement, and future revisions may continue
+to improve its exposition and applications.
 
 ## License
 

@@ -73,8 +73,8 @@
 \vspace{2.25em}
 {\Large Tommy Chen\par}
 \vfill
-% Version 1.21 refines the spectral-theorem and SVD connections.
-{\large Version 1.21\par}
+% Version 1.22 completes the Part II expansion and numbering cleanup.
+{\large Version 1.22\par}
 \vspace{0.45em}
 {\small Licensed under CC BY 4.0.\par}
 \end{titlepage}
@@ -101,7 +101,10 @@ mathematical dependency, whether the source presents them in its text or its
 exercises.  The accompanying coverage audit records each verified promotion
 with an exact source reference.
 \mainmatter
-\setcounter{chapter}{-1}% The preliminary chapter is Chapter 0.
+% The first \chapter increments this counter, so the preliminary chapter is
+% visibly Chapter 0 and all dependent section, theorem, exercise, and equation
+% counters retain the standard book-class numbering.
+\setcounter{chapter}{-1}
 \input{chapters/introduction}
 \part{Groups}
 \input{chapters/groups-foundations}

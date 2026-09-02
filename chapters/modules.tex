@@ -11,10 +11,10 @@ need not possess coordinates.
 Throughout \(R\) is a ring with identity, and a module means a unital left
 \(R\)-module unless a different convention is stated. For a noncommutative
 ring this is important: a right module has its scalar multiplication on the
-other side. From \S6.8 onward, \(F\) denotes a field and \(V,W\) denote
+other side. From Section~\ref{sec:vector-spaces-bases} onward, \(F\) denotes a field and \(V,W\) denote
 finite-dimensional \(F\)-vector spaces.
 
-\section{Modules and Submodules}
+\section{Modules and Submodules}\label{sec:modules-submodules}
 The vector-space axioms make sense before one assumes that nonzero scalars
 are invertible. That observation gives the correct setting for relations such
 as \(n\bar a=0\) in \(\mathbb Z/n\mathbb Z\), which cannot occur in a
@@ -447,7 +447,7 @@ measure the obstruction in the next kernel, and record it modulo the
 ambiguity forced by the first vertical map.  It is natural with respect to
 maps of such diagrams, a fact used later in homological algebra.
 
-\section{Free Modules and Module Bases}
+\section{Free Modules and Module Bases}\label{sec:free-modules-bases}
 Coordinates are useful only when expansions are unique. Free modules record
 that condition over a general ring; vector spaces are the especially well
 behaved free modules over fields.
@@ -839,10 +839,10 @@ Baer's criterion and its Zorn-lemma argument.  Thus the presentation relies
 on the usual choice principles.
 \end{remark}
 
-\section{Vector Spaces and Bases}
+\section{Vector Spaces and Bases}\label{sec:vector-spaces-bases}
 We now specialize to the case in which the scalar ring is a field \(F\).
 An \(F\)-vector space is simply an \(F\)-module, so the notions of span,
-linear independence, and basis from Sections~6.1 and~6.4 apply without
+linear independence, and basis from Section~\ref{sec:free-modules-bases} apply without
 change. The additional strength of vector-space theory comes from the fact
 that every nonzero scalar is invertible.
 
@@ -954,7 +954,7 @@ finite bases. When the scalar field is clear, we write
 Thus a basis expansion exists because a basis spans and is unique because a
 basis is independent. An \emph{ordered basis} is a basis displayed as an
 ordered finite list; this extra order becomes essential when coordinates are
-introduced in Section~6.11.
+introduced in Section~5.11.
 
 \begin{proposition}[Subspaces of finite-dimensional spaces]
 If \(V\) is finite-dimensional and \(W\leq V\), then \(W\) has a finite
@@ -1027,7 +1027,7 @@ into a numerical conservation law.
 \begin{definition}
 A \emph{linear transformation} \(T:V\to W\) is an \(F\)-module
 homomorphism: \(T(av+bw)=aT(v)+bT(w)\). Its kernel and image are the
-submodules already defined in \S6.1, now called respectively its
+submodules already defined in \S5.1, now called respectively its
 \emph{kernel} and \emph{range}. It is injective, surjective, bijective, or
 an isomorphism in the same sense as a module map. An endomorphism is a map
 \(V\to V\), and an automorphism is an invertible endomorphism. The
@@ -1044,7 +1044,7 @@ For finite-dimensional \(V\), define
 \]
 \end{definition}
 
-The kernel and image are subspaces by Proposition~6.1, and the preceding
+The kernel and image are subspaces by Proposition~5.1, and the preceding
 subspace theorem supplies their finite bases. Thus the numerical words in the
 definition are legitimate before rank--nullity is invoked.
 
@@ -1278,15 +1278,15 @@ T(v)
 \]
 The inner sum is the \(i\)-th entry of
 \([T]^\gamma_\beta[v]_\beta\), and hence
-\[
-[T(v)]_\gamma=[T]^\gamma_\beta[v]_\beta. \tag{6.1}
-\]
+\begin{equation}\label{eq:matrix-coordinate-action}
+[T(v)]_\gamma=[T]^\gamma_\beta[v]_\beta.
+\end{equation}
 For \(S:W\to X\), with an ordered basis \(\delta\) of \(X\), this immediately
 explains the order of matrix multiplication:
 \[
 [S\circ T]^\delta_\beta=[S]^\delta_\gamma[T]^\gamma_\beta.
 \]
-Formula (6.1) also shows that a square matrix representing an endomorphism is
+Equation~\eqref{eq:matrix-coordinate-action} also shows that a square matrix representing an endomorphism is
 invertible exactly when that endomorphism is an automorphism.
 
 \begin{example}[Constructing a representing matrix]
@@ -1332,7 +1332,8 @@ we have
 
 If \(\beta'\) is another ordered basis of \(V\), define the
 change-of-coordinate matrix, with its direction displayed, by
-\(P=[I_V]^\beta_{\beta'}\). Formula (6.1) for the identity says
+\(P=[I_V]^\beta_{\beta'}\). Equation~\eqref{eq:matrix-coordinate-action}
+for the identity says
 \[
 [v]_\beta=P[v]_{\beta'};
 \]
@@ -1455,11 +1456,11 @@ By Lemma~\ref{lem:alternating-sign-change}, each adjacent transposition of
 arguments contributes a factor of \(-1\). The Chapter~1 parity theory then
 shows that the term indexed by \(\sigma\) has the factor
 \(\operatorname{sgn}(\sigma)\), and normalization gives
-\[
+\begin{equation}\label{eq:leibniz-form}
 \omega_\beta(x_1,\ldots,x_n)
 =\sum_{\sigma\in S_n}\operatorname{sgn}(\sigma)
-a_{\sigma(1),1}\cdots a_{\sigma(n),n}. \tag{6.2}\label{eq:leibniz-form}
-\]
+a_{\sigma(1),1}\cdots a_{\sigma(n),n}.
+\end{equation}
 Thus there can be at most one such map.
 
 Conversely, define the right side of \eqref{eq:leibniz-form} to be
@@ -1508,9 +1509,9 @@ and is unique; evaluating at \(\beta\) shows that it equals
 \(\omega_\beta(Tv_1,\ldots,Tv_n)\). The identity itself holds for every
 tuple, so evaluating in another ordered basis proves that \(\det(T)\) is
 independent of \(\beta\). Expanding the columns \(Tv_j\) in \(\beta\) gives
-\[
-\det(T)=\det([T]_\beta). \tag{6.3}\label{eq:operator-matrix-det}
-\]
+\begin{equation}\label{eq:operator-matrix-det}
+\det(T)=\det([T]_\beta).
+\end{equation}
 This separates the intrinsic operator from its coordinate matrix.
 
 \begin{theorem}[Basic determinant identities]\label{thm:det-identities}
@@ -1534,7 +1535,7 @@ The defining identity for determinants gives
 \]
 which proves multiplicativity and \(\det(I)=1\). Matrix multiplicativity
 follows from \eqref{eq:operator-matrix-det} and the composition formula
-proved in \S6.11. Replacing \(\sigma\) by \(\sigma^{-1}\) in
+proved in \S5.11. Replacing \(\sigma\) by \(\sigma^{-1}\) in
 \eqref{eq:leibniz-form} gives \(\det(A^t)=\det(A)\).
 \end{proof}
 
@@ -1560,9 +1561,9 @@ For every row \(i\) and column \(j\),
 \det A=\sum_{k=1}^n a_{kj}C_{kj}.
 \]
 If \(\operatorname{adj}(A)=(C_{ji})\), then
-\[
-A\operatorname{adj}(A)=\operatorname{adj}(A)A=(\det A)I_n. \tag{6.4}\label{eq:adjugate}
-\]
+\begin{equation}\label{eq:adjugate}
+A\operatorname{adj}(A)=\operatorname{adj}(A)A=(\det A)I_n.
+\end{equation}
 \end{theorem}
 \begin{proof}
 Group the terms of the Leibniz formula according to the column selected in
