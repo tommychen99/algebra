@@ -207,10 +207,10 @@ G/\operatorname{Gal}(E/K)\cong\operatorname{Gal}(K/F).
 \end{proposition}
 \begin{proof}
 Write \(H=\operatorname{Gal}(E/K)\).  First,
-\[
+\begin{equation}\label{eq:galois-fixed-field}
 K/F\text{ is normal}\quad\Longleftrightarrow\quad
-\sigma(K)=K\text{ for every }\sigma\in G. \tag{12.1}
-\]
+\sigma(K)=K\text{ for every }\sigma\in G.
+\end{equation}
 Normality makes every conjugate of an element of \(K\) remain in \(K\).
 Conversely, extend any \(F\)-embedding of \(K\) to \(E\) by
 Theorem~\ref{thm:embedding-extension}; normality of \(E/F\) makes the
@@ -220,7 +220,7 @@ For \(\sigma\in G\),
 \[
 \sigma H\sigma^{-1}=\operatorname{Gal}(E/\sigma(K)).
 \]
-The finite correspondence and (12.1) show that \(H\) is normal exactly when
+The finite correspondence and \eqref{eq:galois-fixed-field} show that \(H\) is normal exactly when
 \(K/F\) is normal.  Every intermediate extension is separable, so this is
 equivalent to Galoisness.
 
@@ -1389,9 +1389,9 @@ an intermediate \(K\),
 \operatorname{Gal}(E/K)=\bigcap_{\alpha\in K}\operatorname{Stab}(\alpha)
 \]
 is closed.  We have
-\[
-E^{\operatorname{Gal}(E/K)}=K. \tag{12.2}
-\]
+\begin{equation}\label{eq:infinite-galois-fixed-field}
+E^{\operatorname{Gal}(E/K)}=K.
+\end{equation}
 Indeed, if \(\alpha\notin K\), its minimal polynomial over \(K\) has degree
 larger than one.  The extension \(E/K\) is normal and separable, so that
 polynomial has in \(E\) a second, distinct root \(\beta\).  The map

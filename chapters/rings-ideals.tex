@@ -61,9 +61,10 @@ gives \((-a)(-b)=-\bigl(a(-b)\bigr)=ab\).
 \begin{definition}
 A \emph{unit} is an element \(u\) with \(uv=vu=1\) for some \(v\).
 A nonzero \(a\) is a \emph{zero divisor} if \(ab=0\) or \(ba=0\) for some
-nonzero \(b\). A \emph{domain} is a nonzero commutative ring with identity
-and no zero divisors; a \emph{field} is a nonzero commutative ring in which
-every nonzero element is a unit.
+nonzero \(b\). A \emph{division ring} is a nonzero ring in which every
+nonzero element is a unit; commutativity is not assumed.  A \emph{field} is
+a commutative division ring.  An \emph{integral domain} (or simply a
+\emph{domain}) is a commutative ring with \(1\ne0\) and no zero divisors.
 \end{definition}
 
 Every field is a domain: if \(ab=0\) and \(a\ne0\), multiply by \(a^{-1}\).
@@ -71,6 +72,50 @@ The converse fails, since \(\mathbb Z\) is a domain but \(2\) has no inverse.
 In \(\mathbb Z/12\mathbb Z\), \(5\) is a unit, while \(2\cdot6=0\) shows
 that \(2\) and \(6\) are zero divisors. The class of \(a\) modulo \(n\) is
 a unit exactly when \(\gcd(a,n)=1\), by B\'ezout's identity.
+
+\begin{example}[Hamilton's quaternions]
+The set
+\[
+\mathbb H=\{a+bi+cj+dk:a,b,c,d\in\mathbb R\}
+\]
+is a division ring under distributive multiplication determined by
+\[
+i^2=j^2=k^2=ijk=-1.
+\]
+For example, \(ij=k\), whereas \(ji=-k\); thus \(\mathbb H\) is not
+commutative.  Define
+\[
+\overline{a+bi+cj+dk}=a-bi-cj-dk,
+\qquad N(a+bi+cj+dk)=a^2+b^2+c^2+d^2.
+\]
+Expanding with the defining relations gives
+\(q\overline q=\overline q q=N(q)\) and
+\(N(qr)=N(q)N(r)\).  Hence, if \(q\ne0\), then \(N(q)>0\) and
+\[
+q^{-1}=\frac{\overline q}{N(q)}.
+\]
+The quaternions are therefore the standard example of a noncommutative
+division ring.
+\end{example}
+
+\begin{theorem}
+Every finite integral domain is a field.
+\end{theorem}
+\begin{proof}
+Let \(0\ne a\in R\).  The map \(R\to R\), \(x\mapsto ax\), is injective:
+\(ax=ay\) implies \(a(x-y)=0\), so cancellation gives \(x=y\).  Since
+\(R\) is finite, the map is surjective.  Thus \(ax=1\) for some \(x\in R\),
+and commutativity gives \(xa=1\).  Every nonzero element is invertible.
+\end{proof}
+\begin{applicationtheorem}[Wedderburn's little theorem]
+Every finite division ring is a field.
+\end{applicationtheorem}
+\begin{remark}
+This assertion is considerably deeper than the finite-domain theorem: the
+latter uses cancellation and a finite-set argument, whereas the former must
+first force commutativity.  Its proof is beyond the needs of the present
+discussion.
+\end{remark}
 
 \begin{example}[A useful warning]
 Over a domain, every unit of \(R[x]\) is constant. This is false in a ring
@@ -143,13 +188,16 @@ minimality gives \(r=0\); hence \(I=n\mathbb Z\). The reverse containment
 is ideal closure, and \(n\ge0\) makes the generator unique.
 \end{proof}
 
-For ideals \(I,J\), the sum, intersection, and product are
+For ideals \(I,J\), define their sum and product by
 \[
-I+J=\{i+j:i\in I,j\in J\},\quad I\cap J,\quad
-IJ=\left\{\sum i_kj_k:i_k\in I,j_k\in J\right\}.
+I+J=\{a+b:a\in I,\ b\in J\},\qquad
+IJ=\left\{\sum_{k=1}^n a_kb_k:a_k\in I,\ b_k\in J\right\}.
 \]
-They are ideals. The sum is the smallest ideal containing both; the
-intersection is their largest common subideal. Always \(IJ\subseteq I\cap J\).
+The sums are finite; the empty sum is \(0\).  Together with \(I\cap J\),
+these are ideals.  The sum is the smallest ideal containing both: any ideal
+containing \(I\) and \(J\) contains every \(a+b\).  The intersection is their
+largest common subideal. Always \(IJ\subseteq I\cap J\).  Finite sums and
+products \(I_1+\cdots+I_n\) and \(I_1\cdots I_n\) are defined similarly.
 For example, in \(\mathbb Z\),
 \[(6)+(10)=(2),\qquad (6)\cap(10)=(30),\qquad (6)(10)=(60).\]
 Thus intersection and product need not agree when the ideals are not
@@ -211,6 +259,30 @@ are inverse ideal-preserving maps. Finally,
 \((r+I)+(K/I)\mapsto r+K\) is well-defined and has zero kernel.
 \end{proof}
 
+\begin{example}[Group rings]
+Let \(R\) be a commutative ring and \(G\) a group.  The \emph{group ring}
+\(R[G]\) consists of finite formal sums
+\[
+\sum_{g\in G}a_g g,
+\]
+with coefficientwise addition and multiplication determined by distributivity
+and the multiplication in \(G\):
+\[
+\left(\sum_g a_g g\right)\left(\sum_h b_h h\right)
+=\sum_{g,h}a_gb_h(gh).
+\]
+The finiteness condition makes each coefficient in the product a finite sum.
+For the cyclic group \(C_2=\{1,s\}\), \(s^2=1\), every element is uniquely
+\(a+bs\), and the map sending \(s\) to the class of \(x\) gives
+\[
+R[C_2]\cong R[x]/(x^2-1).
+\]
+This is an elementary way in which a group relation becomes a polynomial
+relation.  The polynomial-ring construction is developed formally in the next
+chapter; this is an intentional forward preview.  No representation theory is
+needed here.
+\end{example}
+
 \section{Prime Ideals, Maximal Ideals, Domains, and Fields}
 From this point through localization, rings are assumed to be commutative
 and unital; the zero ring remains allowed.  Thus the unqualified word
@@ -269,6 +341,16 @@ maximal-ideal theorem here.
 \end{unremark}
 
 \section{The Chinese Remainder Theorem}
+\begin{definition}
+Ideals \(I,J\) of a commutative ring are \emph{comaximal} if \(I+J=R\).
+Equivalently,
+\[
+I+J=R\quad\Longleftrightarrow\quad 1=a+b
+\quad\text{for some }a\in I,\ b\in J.
+\]
+Indeed, \(1\in I+J\) is exactly the displayed assertion, and an ideal
+containing \(1\) is all of \(R\).
+\end{definition}
 \begin{lemma}
 If \(I+J=R\), then \(I\cap J=IJ\).
 \end{lemma}
@@ -290,8 +372,32 @@ To solve \(x\equiv2\pmod3\), \(x\equiv3\pmod5\), use
 \(6+(-5)=1\), with \(6\in(3)\), \(-5\in(5)\). The proof gives
 \(x=2(-5)+3(6)=8\). All solutions are \(8\pmod {15}\).
 \end{example}
-The corresponding statement for finitely many pairwise comaximal ideals
-follows by induction.
+\begin{theorem}[Finite Chinese Remainder Theorem]
+If \(I_1,\ldots,I_n\) are pairwise comaximal ideals of a commutative ring
+\(R\), then
+\[
+R/\bigcap_{i=1}^n I_i\cong\prod_{i=1}^n R/I_i.
+\]
+Moreover,
+\[
+\bigcap_{i=1}^n I_i=\prod_{i=1}^n I_i.
+\]
+\end{theorem}
+\begin{proof}
+For \(n=2\), both assertions were just proved.  Suppose they hold for
+\(I_1,\ldots,I_{n-1}\), and put \(J=I_1\cap\cdots\cap I_{n-1}\).  For each
+\(i<n\), choose \(a_i\in I_i\), \(b_i\in I_n\) with \(a_i+b_i=1\).
+Then \(\prod_{i<n}a_i\in J\), while
+\(1-\prod_{i<n}a_i\in I_n\), by expanding the product.  Thus \(J+I_n=R\).
+The two-ideal theorem and the induction hypothesis now give
+\[
+R/(J\cap I_n)\cong R/J\times R/I_n
+\cong\prod_{i=1}^n R/I_i.
+\]
+The two-ideal product formula gives
+\(J\cap I_n=JI_n\), and induction identifies this with
+\(I_1\cdots I_n\).
+\end{proof}
 
 \section{Localization and Local Rings}
 The inclusion \(\mathbb Z\subseteq\mathbb Q\) permits division by every
@@ -312,14 +418,6 @@ a homomorphism from \(R\) in which the image of \(s\) is invertible.
 \(2\) and \(3\) invertible, so one should not expect the only new units to
 be powers of the chosen element.
 
-Fraction fields and localizations at primes are two further instances.  If
-\(R\) is a domain, then
-\[\operatorname{Frac}(R)\cong(R\setminus\{0\})^{-1}R;\]
-in particular \(\mathbb Q\cong(\mathbb Z\setminus\{0\})^{-1}\mathbb Z\).
-Thus the ordinary fraction-field construction inverts every nonzero element.
-At the other extreme, localization at a prime ideal will invert only the
-elements outside that prime.
-
 \begin{definition}
 A set \(S\subseteq R\) is \emph{multiplicatively closed} if \(1\in S\) and
 \(s,t\in S\) imply \(st\in S\). Define \((a,s)\sim(b,t)\) in \(R\times S\)
@@ -328,8 +426,18 @@ and \(S^{-1}R\) has operations
 \[\frac as+\frac bt=\frac{at+bs}{st},\qquad
 \frac as\frac bt=\frac{ab}{st}.\]
 \end{definition}
-The conditions in the definition are forced by fraction arithmetic: if
-\(s,t\) are allowed denominators, then
+Ordinary fraction arithmetic suggests
+\[
+\frac as=\frac bt\quad\Longleftrightarrow\quad at=bs.
+\]
+In a general ring, however, a denominator may be a zero divisor, so the
+cancellation implicit in cross multiplication can fail after denominators
+are inverted.  The condition \(u(at-bs)=0\) for some \(u\in S\) says exactly
+that the cross-difference becomes zero after multiplying by an allowed
+denominator; it is therefore the correct replacement.  If every element of
+\(S\) is a non-zero-divisor, this condition simplifies to \(at=bs\), since
+one may cancel \(u\).  The conditions in the definition are also forced by
+fraction arithmetic: if \(s,t\) are allowed denominators, then
 \((a/s)(b/t)=ab/(st)\) requires \(st\) to be allowed as well; \(1\) is needed
 to represent each original element as \(a/1\).
 \begin{proposition}
@@ -345,6 +453,19 @@ two witnessing equalities by the other numerator and denominator proves
 \(ab/(st)=a'b'/(s't')\). For sums the needed cross-difference is
 \(tt'(as'-a's)+ss'(bt'-b't)\), after multiplication by the two witnesses;
 it is zero. The remaining ring laws follow from common denominators.
+\end{proof}
+\begin{proposition}[Fraction fields as localizations]
+If \(R\) is an integral domain and \(S=R\setminus\{0\}\), then
+\[\operatorname{Frac}(R)=S^{-1}R.\]
+Under this identification, \(a/b=c/d\) if and only if \(ad=bc\).
+In particular, \(\mathbb Q=\operatorname{Frac}(\mathbb Z)\).
+\end{proposition}
+\begin{proof}
+The set \(S\) is multiplicatively closed, and every one of its elements is
+regular.  The defining equivalence relation is consequently ordinary cross
+multiplication.  Thus the usual fractions and the localization have the same
+representatives, equality relation, and operations.  Taking \(R=\mathbb Z\)
+gives the final assertion.
 \end{proof}
 \begin{example}
 In \(R=\mathbb Z/6\mathbb Z\), take \(S=\{1,3\}\). Then
