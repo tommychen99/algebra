@@ -44,22 +44,27 @@
 \makeatother
 
 \theoremstyle{definition}
-\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
-\newtheorem*{applicationtheorem}{Theorem}
-\newtheorem*{undefinition}{Definition}
+\newtheorem{applicationtheorem}[theorem]{Theorem}
+\newtheorem{undefinition}[theorem]{Definition}
 % Exercises have their own counter within each chapter; they do not share the
 % theorem/proposition sequence.
 \newtheorem{exercise}{Exercise}[chapter]
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
-\newtheorem*{unremark}{Remark}
+\newtheorem{unremark}[theorem]{Remark}
 \newcommand{\highlight}[1]{\textbf{#1}}
 \renewcommand{\emph}[1]{\textbf{#1}}
+\newcommand{\descriptivesubsection}[1]{%
+  \phantomsection
+  \subsection*{#1}%
+  \addcontentsline{toc}{subsection}{#1}%
+}
 \newenvironment{proofidea}{\par\medskip\noindent\textbf{Proof Idea.}\ }{\par\medskip}
 
 \begin{document}

@@ -14,7 +14,7 @@ is \emph{alternating} if
 f(m_1,\ldots,m_k)=0
 \]
 whenever two arguments coincide.  This is the same alternating condition
-used for determinants in \hyperref[sec:determinants]{Section~5.12}; it is
+used for determinants in Section~\ref{sec:determinants}; it is
 not to be confused with skew-symmetry in characteristic \(2\).
 
 \begin{theorem}[Exterior-power universal property]\label{thm:exterior-power}
@@ -92,7 +92,8 @@ contributes \(-1\). The sign theory of Chapter~1 then gives the formula for
 an arbitrary permutation.
 \end{proof}
 
-\noindent\textbf{Example.} If \(M=R^3\) has basis \(e_1,e_2,e_3\), then
+\begin{example}
+If \(M=R^3\) has basis \(e_1,e_2,e_3\), then
 \[
 \bigwedge_R^2M
 \]
@@ -102,6 +103,7 @@ e_1\wedge e_2,\qquad e_1\wedge e_3,\qquad e_2\wedge e_3.
 \]
 Terms \(e_i\wedge e_i\) vanish, and reversing two basis vectors changes the
 sign, so these are precisely the increasing-index wedges.
+\end{example}
 
 \begin{theorem}[Basis of an exterior power]\label{thm:exterior-basis}
 If \(M\) is finite free with ordered basis
@@ -140,7 +142,7 @@ f_I(m_1,\ldots,m_k)=
 \det(a_{i_rj})_{1\leq r,j\leq k}.
 \]
 The determinant theory of
-\hyperref[sec:determinants]{Section~5.12} shows that \(f_I\) is alternating
+Section~\ref{sec:determinants} shows that \(f_I\) is alternating
 and multilinear, so it induces a linear map from \(\bigwedge_R^kM\) to
 \(R\).  On the displayed wedges it has value \(1\) for the tuple \(I\) and
 \(0\) for every other increasing tuple.  Applying these maps to a linear
@@ -218,7 +220,7 @@ Fix an ordered basis \((v_1,\ldots,v_n)\).  The linear functional on
 \(\bigwedge_F^nV\) that takes \(v_1\wedge\cdots\wedge v_n\) to \(1\)
 corresponds, by the exterior universal property, to a normalized alternating
 \(n\)-linear form on \(V\).  By the uniqueness theorem for determinants in
-\hyperref[sec:determinants]{Section~5.12}, its value on
+Section~\ref{sec:determinants}, its value on
 \[
 (Tv_1,\ldots,Tv_n)
 \]
@@ -228,7 +230,7 @@ exactly the scalar by which \(\bigwedge^nT\) acts.
 
 This gives a later, equivalent characterization of the determinant already
 developed from normalized alternating multilinear forms in
-\hyperref[sec:determinants]{Section~5.12}.  Since
+Section~\ref{sec:determinants}.  Since
 \[
 \dim\bigwedge_F^nV=1,
 \]
