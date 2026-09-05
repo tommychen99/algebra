@@ -4,7 +4,7 @@
 
 Tommy Chen
 
-Version 1.22
+Version 1.3
 
 [Read the compiled PDF](main.pdf)
 
@@ -16,30 +16,42 @@ The repository is <https://github.com/tommychen99/algebra>.
 
 ## Release notes
 
-**Version 1.22** completes the expansion and final editorial refinement of
-Part II. It strengthens the treatment of rings, ideals, localization,
-factorization, and polynomial rings; adds Noetherian and Artinian finiteness,
-Hilbert's Basis Theorem, formal power series, finite-field applications, and
-an introductory Gröbner-basis discussion; and completes the Chapter 0
-renumbering audit, including automatic equation numbering and repaired
-cross-references.
+**Version 1.3** makes Chapters 5--7 a single pedagogical progression from
+ordinary diagonalization through generalized eigenvectors and Jordan chains,
+the \(F[x]\)-module reinterpretation, PID classification and canonical forms,
+and finally orthonormal diagonalization and spectral theory. It adds
+characteristic and prime-subring foundations, strengthens Euclidean/PID
+arithmetic and the prime--irreducible--maximal-ideal connections, and refines
+the spectral-theorem exposition. Its Chapter 6
+opening theorem now strengthens freeness of submodules by producing compatible
+ambient coordinates one invariant-factor direction at a time, while uniqueness
+in elementary-divisor form is recovered intrinsically from torsion,
+prime-primary components, and successive layers. Uniqueness in invariant-factor
+form is also proved by annihilator--cancellation and, presentation-theoretically,
+through Smith normal form, determinantal/Fitting ideals, and presentation
+independence. The \(xI-A\) presentation now connects Smith reduction directly
+to \(F[x]\)-module operator classification. Expanded treatments of the minimal
+polynomial, Cayley--Hamilton, rational and Jordan canonical forms, examples,
+and exercises complete the revision.  It also adds a selective treatment of
+elementary matrix operations, Gaussian elimination, rank normal form, row and
+column rank, an expanded determinant development and Cramer's rule, stronger
+duality and forms material, and fully explicit real and matrix spectral
+theorems.  A final cleanup makes row and matrix equivalence explicit, justifies
+the original pivot-column basis statement, and displays the adjugate step in
+the \(2\times2\) inverse example.
 
-**Version 1.4** adds a concise commutative-algebra bridge to Part II:
-ascending and descending chain conditions, Noetherian and Artinian rings,
-the finite-generation characterizations of Noetherianity, Hilbert's basis
-theorem, formal power series, and an elementary proof that Noetherianity
-passes to formal power-series rings.  It also corrects the remaining
-field-coefficient and dependency qualifications in the multivariable and
-Gr\"obner-basis discussions.
+**Version 1.22** completes the Part II expansion and numbering cleanup.  It
+strengthens rings, ideals, localization, factorization, and polynomial rings;
+adds Noetherian and Artinian finiteness, Hilbert's Basis Theorem, formal power
+series, finite-field and multivariable applications, and an introductory
+Gr\"obner-basis discussion; and repairs affected cross-references.
 
-**Version 1.3** is a substantive expansion of Part II.  It adds division
-rings and Hamilton's quaternions; group rings; organized ideal arithmetic and
-the finite Chinese remainder theorem; stronger localization and fraction-field
-treatments; strict Euclidean/PID/UFD implications; finite-field polynomial
-applications and a quadratic-reciprocity orientation; several-variable
-polynomials; and an introductory treatment of Gr\"obner bases.  It also audits
-renumbered internal references and corrects the affected matrix, determinant,
-and duality cross-references.
+**Version 1.21** is a focused refinement of the finite-dimensional
+inner-product-space chapter. It defines Hermitian matrices and relates them
+to self-adjoint operators in orthonormal coordinates; distinguishes real
+spectrum and ordinary diagonalizability from self-adjointness; clarifies
+eigenspace orthogonality and the local use of Gram--Schmidt; and sharpens the
+spectral-theorem bridge to SVD.
 
 **Version 1.2** substantially strengthens the finite-dimensional
 inner-product-space material, especially the treatment of singular value
@@ -51,21 +63,19 @@ linear algebra, data analysis, computer science, and engineering. The final
 cleanup also extends the inverse-adjoint identity to arbitrary isomorphisms
 \(T:V\to W\).
 
-**Version 1.16** makes a final wording correction in the proof discussion
-before Cauchy's theorem, replacing ``the product is one'' with ``the product
-is the identity.'' It follows Version 1.15, a substantial structural revision
-of the preliminary and
-group-theory material. It renumbers the preliminary chapter as Chapter 0,
-introduces elementary complex arithmetic, and reorganizes Part I so that maps,
-quotients, automorphisms, and actions have their needed foundations. It
-follows Version 1.14, a small maintenance update following Version 1.1, which
-records the substantive revision of the finite-dimensional linear-algebra
-material, particularly the expanded treatment of inner-product spaces. Small
-maintenance updates continue the final decimal sequence: for example, `1.01`
-follows `1.0`, while `1.11`, `1.12`, `1.13`, and `1.14` follow `1.1`. Larger
-mathematical or editorial revisions advance the minor version, as in `1.1`.
-It also retains the contextual cleanup of dimensions and operator-space
-notation and the intermediate arithmetic step in the matrix-product example.
+**Version 1.1 maintenance series (archived labels 1.14--1.16)** revised the
+preliminary and group-theory material, renumbered the preliminary chapter as
+Chapter 0, introduced elementary complex arithmetic, and expanded the
+finite-dimensional inner-product material.  The final archived label made a
+small wording correction before Cauchy's theorem.  The historical labels are
+retained in repository history, but they should be read as maintenance
+identifiers within Version 1.1, not as semantic minor versions.
+
+The numbering policy is hierarchical: a substantive revision advances the
+minor version (for example, \(1.22\) is followed by \(1.3\)), while a small
+update appends the next maintenance digit (so a small update after \(1.22\)
+would be \(1.23\)).  Thus the maintenance label \(1.22\) belongs to the
+Version \(1.2\) line and precedes substantive Version \(1.3\).
 
 This repository contains introductory graduate algebra notes that are
 self-contained in their algebraic development, with an elementary entry point
@@ -116,12 +126,12 @@ abelian groups follows from the PID module structure theorem.
 
 The finite-dimensional linear-algebra material has also been audited against
 Friedberg, Insel, and Spence, *Linear Algebra*, 5th ed.  The principal
-revision strengthens the inner-product chapter with complete treatments of
+revision develops the vector-space, determinant, generalized-eigenvector,
+PID-module, canonical-form, and inner-product chapters as a connected
+structural progression.  The inner-product chapter includes complete treatments of
 Cauchy--Schwarz, polarization, Bessel and Parseval, Gram--Schmidt,
 orthogonal projections, Riesz representation, adjoints, the spectral theorems,
-and singular-value decomposition. The existing vector-space, matrix,
-determinant, and canonical-form chapters received only targeted consistency
-checks. A standalone computational course in row reduction and systems of
+and singular-value decomposition. A standalone computational course in row reduction and systems of
 linear equations remains deliberately outside the notes' structural scope.
 
 The manuscript uses complete proofs for results required later, consistent

@@ -1,5 +1,14 @@
 # Exercise-to-theorem editorial policy
 
+## Release numbering
+
+Substantive pedagogical or mathematical revisions advance the minor version:
+for example, the next substantive release after Version 1.22 is Version 1.3.
+Small maintenance updates append a digit within the current line: the next
+small update after Version 1.22 would be Version 1.23.  Accordingly, labels
+such as 1.14--1.16 and 1.21--1.22 are maintenance releases within Versions
+1.1 and 1.2, respectively, rather than later minor versions.
+
 ## Governing principle
 
 The notes are logically complete relative to their stated scope.  The location

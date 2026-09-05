@@ -14,6 +14,15 @@ ring this is important: a right module has its scalar multiplication on the
 other side. From Section~\ref{sec:vector-spaces-bases} onward, \(F\) denotes a field and \(V,W\) denote
 finite-dimensional \(F\)-vector spaces.
 
+The chapter has two intertwined routes.  Sections on quotients, direct sums,
+free modules, bases, dimension, matrices, determinants, eigenvalues, and
+Jordan chains form the foundational route used immediately in Chapters~6
+and~7.  The intervening material on exact sequences, diagram chases,
+projective modules, and injective modules is an advanced bridge toward
+homological algebra.  It explains why splitting is automatic over a field
+and exceptional over a general ring, but the deeper injective-module results
+may be read on a first pass after the finite-dimensional route.
+
 \section{Modules and Submodules}\label{sec:modules-submodules}
 The vector-space axioms make sense before one assumes that nonzero scalars
 are invertible. That observation gives the correct setting for relations such
@@ -153,6 +162,78 @@ both denoted
 M_1\oplus\cdots\oplus M_n.
 \]
 \end{definition}
+
+The preceding construction is an \emph{external} direct sum: its summands
+are assembled into a new module. There is also an internal version. Let
+\((M_i)_{i\in I}\) be submodules of a fixed module \(M\). The summation map is
+\[
+\Sigma:\bigoplus_{i\in I}M_i\longrightarrow M,
+\qquad \Sigma((m_i))=\sum_{i\in I}m_i.
+\]
+The sum is meaningful because \((m_i)\) has finite support.
+
+\begin{definition}
+We say that \(M=\bigoplus_{i\in I}M_i\) is an \emph{internal direct sum} if
+\(\Sigma\) is an isomorphism. Equivalently, every \(m\in M\) has a unique
+expression \(m=\sum_i m_i\), with \(m_i\in M_i\) and only finitely many
+\(m_i\) nonzero.
+\end{definition}
+
+Thus the summation map is the precise bridge between the external direct sum
+and a decomposition by submodules already lying inside \(M\).
+
+\begin{proposition}[Internal direct-sum criteria]\leavevmode\\
+\label{prop:internal-direct-sum-criteria}
+For submodules \(M_1,\ldots,M_n\) of \(M\), the following are equivalent.
+\begin{enumerate}
+\item \(M=M_1\oplus\cdots\oplus M_n\) internally.
+\item \(M=M_1+\cdots+M_n\), and every relation
+\(m_1+\cdots+m_n=0\), with \(m_i\in M_i\), forces every \(m_i=0\).
+\item Every \(m\in M\) has a unique expression
+\(m=m_1+\cdots+m_n\), with \(m_i\in M_i\).
+\item \(M=M_1+\cdots+M_n\), and, for every \(i\),
+\[
+M_i\cap\sum_{j\ne i}M_j=\{0\}.
+\]
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+The summation map has image \(M_1+\cdots+M_n\), and its kernel consists
+exactly of the tuples satisfying \(m_1+\cdots+m_n=0\). Hence it is an
+isomorphism precisely when condition \(2\) holds, proving
+\(1\Longleftrightarrow2\).
+
+Condition \(2\) gives existence. If \(\sum_i m_i=\sum_i m'_i\), then
+\(\sum_i(m_i-m'_i)=0\), so \(m_i=m'_i\) for every \(i\); thus the expression
+is unique. Conversely, uniqueness applied to the zero element proves that
+every zero relation is trivial. Hence \(2\Longleftrightarrow3\).
+
+If \(2\) holds and \(x\in M_i\cap\sum_{j\ne i}M_j\), write
+\(x=\sum_{j\ne i}m_j\). Then \(x-\sum_{j\ne i}m_j=0\) is a zero relation,
+so \(x=0\), proving \(4\). Finally, under \(4\), a relation
+\(\sum_i m_i=0\) gives
+\[
+m_i=-\sum_{j\ne i}m_j\in M_i\cap\sum_{j\ne i}M_j=\{0\}
+\]
+for each \(i\), proving \(2\).
+\end{proof}
+
+For two submodules this specializes to
+\[
+M=A\oplus B\quad\Longleftrightarrow\quad
+M=A+B\ \text{ and }\ A\cap B=\{0\}.
+\]
+For three or more summands, pairwise zero intersections are not sufficient.
+In \(V=F^2\), let
+\[
+L_1=\operatorname{span}(e_1),\quad L_2=\operatorname{span}(e_2),\quad
+L_3=\operatorname{span}(e_1+e_2).
+\]
+The three lines have pairwise zero intersections, but
+\[
+e_1+e_2-(e_1+e_2)=0
+\]
+is a nontrivial relation with one vector from each summand.
 
 There are canonical injections and projections
 \[
@@ -408,6 +489,20 @@ there is an exact sequence
 \end{gathered}
 \]
 \end{theorem}
+The connecting map is the only part of the resulting sequence not already
+visible in the diagram.  Its construction follows a reusable three-step
+pattern:
+\[
+\begin{gathered}
+\boxed{\text{choose a lift}}\\
+\big\downarrow\\
+\boxed{\text{measure its obstruction}}\\
+\big\downarrow\\
+\boxed{\text{record it modulo the ambiguity}}.
+\end{gathered}
+\]
+Here the lift lies in \(B'\), its obstruction lies in \(A\), and changing
+the lift changes that obstruction by an element coming from \(A'\).
 \begin{proof}
 For \(c'\in\ker f_C\), choose \(b'\in B'\) with \(q'(b')=c'\).  Then
 \[
@@ -437,9 +532,20 @@ then \(i(a)=f_B(b')\) for some \(b'\).  Hence
 \(\operatorname{coker}f_A\).  Finally, exactness at
 \(\operatorname{coker}f_B\) and \(\operatorname{coker}f_C\) follows by the
 same two-square chase: a class \(b+\operatorname{im}f_B\) maps to zero
-precisely when \(q(b)=f_C(c')\), and a lift of \(c'\) corrects \(b\) to an
-element of \(i(A)\).  The last induced map is surjective because \(q\) is
-surjective.  This also proves the asserted endpoint exactness.
+precisely when \(q(b)=f_C(c')\).  Choose \(b'\in B'\) with \(q'(b')=c'\).
+Then
+\[
+q\bigl(b-f_B(b')\bigr)=q(b)-f_C(q'(b'))=0,
+\]
+so \(b-f_B(b')=i(a)\) for some \(a\in A\).  Thus the class of \(b\) in
+\(\operatorname{coker}f_B\) is the image of the class of \(a\) in
+\(\operatorname{coker}f_A\).  Conversely, every class coming from
+\(\operatorname{coker}f_A\) maps to zero because \(qi=0\).  This proves
+exactness at \(\operatorname{coker}f_B\).  Finally, every class of \(C\)
+has a representative \(q(b)\) because \(q\) is surjective, so the last
+induced map is surjective.  The same calculation shows that its kernel is
+the image of \(\operatorname{coker}f_B\), proving the asserted endpoint
+exactness.
 \end{proof}
 
 The construction of \(\delta\) is the model diagram chase: choose a lift,
@@ -465,6 +571,39 @@ module with a basis is \emph{free}. The free module on a set \(X\) is the
 module \(R^{(X)}\) of finitely supported functions \(X\to R\), with basis
 \(\{e_x:x\in X\}\).
 \end{definition}
+
+\begin{theorem}[Bases and internal direct sums]
+\label{thm:bases-internal-direct-sums}
+Let \(M_1,\ldots,M_n\) be free submodules of an \(R\)-module \(M\), and let
+\(\beta_i=\{b_{i,s}:s\in S_i\}\) be a basis of \(M_i\), where the index sets
+\(S_i\) are regarded as disjoint labels. Then
+\(M=M_1\oplus\cdots\oplus M_n\) internally if and only if the combined
+labelled family
+\[
+\{b_{i,s}:1\leq i\leq n,\ s\in S_i\}
+\]
+is a basis of \(M\).  When the bases are finite ordered lists, this combined
+family is their list concatenation in the order \(1,\ldots,n\).
+\end{theorem}
+\begin{proof}
+If the sum is internal, Proposition~\ref{prop:internal-direct-sum-criteria}
+says that the summands span \(M\) and that a zero relation among contributions
+from them is trivial. The concatenated family therefore spans \(M\); grouping
+any linear relation by summand and then using the independence of each
+\(\beta_i\) makes every coefficient zero.
+
+Conversely, if the concatenated family is a basis, it spans \(M\), so
+\(M=M_1+\cdots+M_n\). In a relation \(m_1+\cdots+m_n=0\), expand every
+\(m_i\) in \(\beta_i\). Independence of the concatenated family makes all
+coefficients zero, hence every \(m_i=0\). The preceding proposition now makes
+the sum internal.
+\end{proof}
+
+In particular, if \(V=V_1\oplus\cdots\oplus V_n\) is an internal direct sum
+of vector spaces, concatenating a basis of each \(V_i\) gives a basis of
+\(V\). Conversely, if bases of the \(V_i\) concatenate to a basis of \(V\),
+then the sum is internal. This basis assembly is one of the most practical
+meanings of an internal direct sum.
 
 \begin{theorem}[Universal property of a free module]
 For every function \(u:X\to M\), there is a unique linear map
@@ -685,7 +824,11 @@ term.
 If \(E\) is injective, apply its extension property to the identity map of
 \(E\) and the first injection in the sequence.  The resulting retraction
 splits the sequence.  Conversely, let \(j:A\hookrightarrow B\) and
-\(f:A\to E\) be given.  Form
+\(f:A\to E\) be given.  We want a single module containing both \(E\) and
+\(B\) in which the copy of \(f(a)\) in \(E\) is forced to agree with the
+copy of \(j(a)\) in \(B\).  If the resulting copy of \(E\) splits off, the
+projection onto it will turn the copy of \(B\) into the desired extension.
+This explains the quotient construction: form
 \[
 S=\{(f(a),-j(a)):a\in A\}\subseteq E\oplus B,
 \qquad
@@ -740,7 +883,16 @@ from a left ideal \(J\) of \(R\) extends to a map \(R\to E\).
 \end{theorem}
 \begin{proof}
 The forward implication applies injectivity to \(J\hookrightarrow R\).
-Conversely, given \(A\subseteq B\) and \(f:A\to E\), order extensions
+For the converse, the strategy is to extend \(f\) as far as possible.  If a
+maximal domain \(C\) is not all of \(B\), choose \(b\notin C\) and adjoin the
+one cyclic direction \(Rb\).  The ideal
+\[
+J=\{r\in R:rb\in C\}
+\]
+records exactly the relations that the new value assigned to \(b\) must
+respect.
+
+Given \(A\subseteq B\) and \(f:A\to E\), order extensions
 \[
 (C,g),\qquad A\subseteq C\subseteq B,\qquad g|_A=f,
 \]
@@ -880,6 +1032,20 @@ and hence the usual Choice principles. The finite
 replacement argument below is elementary and uses no such principle.
 \end{remark}
 
+\begin{theorem}[Basis extension in arbitrary dimension]
+Every linearly independent subset of a vector space extends to a basis.
+Consequently, if \(U\subseteq V\), every basis of \(U\) extends to a basis of
+\(V\).
+\end{theorem}
+\begin{proof}
+Fix a linearly independent set \(S\) and order by inclusion the linearly
+independent subsets of \(V\) that contain \(S\).  The union of a chain is
+linearly independent by the same finite-relation argument used in the basis
+existence theorem.  Zorn's Lemma gives a maximal member, and the proof of that
+theorem shows that maximality forces it to span \(V\).  Taking \(S\) to be a
+basis of \(U\) gives the consequence.
+\end{proof}
+
 \begin{theorem}[Replacement theorem]
 Let
 \[
@@ -956,7 +1122,7 @@ basis is independent. An \emph{ordered basis} is a basis displayed as an
 ordered finite list; this extra order becomes essential when coordinates are
 introduced in Section~5.11.
 
-\begin{proposition}[Subspaces of finite-dimensional spaces]
+\begin{proposition}[Subspaces of finite-dimensional spaces]\label{prop:finite-subspaces}
 If \(V\) is finite-dimensional and \(W\leq V\), then \(W\) has a finite
 basis and \(\dim W\leq\dim V\).
 \end{proposition}
@@ -967,6 +1133,88 @@ to the resulting independent list and a fixed basis of \(V\), shows that at
 most \(\dim V\) choices can be made. When the process stops its list spans
 \(W\), so it is a basis. The same theorem gives the inequality.
 \end{proof}
+
+\begin{proposition}[Complements and dimension formulas]\label{prop:dimension-formulas}
+Let \(U,W\) be subspaces of a finite-dimensional vector space \(V\).
+\begin{enumerate}
+\item Every subspace \(W\) has a complementary subspace \(W'\), so
+\[
+V=W\oplus W'.
+\]
+\item For finite-dimensional vector spaces,
+\[
+\dim(U\oplus W)=\dim U+\dim W.
+\]
+\item More generally,
+\[
+\dim(U+W)=\dim U+\dim W-\dim(U\cap W).
+\]
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+Choose a basis \(w_1,\ldots,w_r\) of \(W\) and extend it to a basis
+\[
+w_1,\ldots,w_r,v_1,\ldots,v_s
+\]
+of \(V\).  Then \(W'=\operatorname{span}(v_1,\ldots,v_s)\) has zero
+intersection with \(W\), and the displayed basis shows that \(W+W'=V\).
+For arbitrary finite-dimensional \(U\) and \(W\), concatenate the bases
+\[
+(u_1,0),\ldots,(u_r,0),(0,w_1),\ldots,(0,w_s)
+\]
+  inside the external direct sum \(U\oplus W\). This is a basis by
+  Theorem~\ref{thm:bases-internal-direct-sums}, proving the direct-sum formula.
+
+For the general formula, begin with a basis
+\(a_1,\ldots,a_t\) of \(U\cap W\).  Extend it to bases
+\[
+a_1,\ldots,a_t,u_1,\ldots,u_r\quad\text{of }U,
+\qquad
+a_1,\ldots,a_t,w_1,\ldots,w_s\quad\text{of }W.
+\]
+The combined list
+\[
+a_1,\ldots,a_t,u_1,\ldots,u_r,w_1,\ldots,w_s
+\]
+spans \(U+W\).  In a relation, move the \(w_j\)-terms to the other side.
+Their sum then belongs to \(U\cap W\), hence to the span of the \(a_i\).
+Independence of the chosen basis of \(W\) forces the \(w_j\)-coefficients
+to vanish; independence of the basis of \(U\) forces all remaining
+coefficients to vanish.  Counting this basis gives
+\[
+t+r+s=(t+r)+(t+s)-t.
+\]
+\end{proof}
+
+\begin{corollary}[Splitting over a field]\label{cor:vector-space-splitting}
+Every short exact sequence of vector spaces over \(F\) splits.  Equivalently,
+every vector space is both projective and injective as an \(F\)-module.
+\end{corollary}
+\begin{proof}
+For
+\[
+0\longrightarrow U\xrightarrow{i}V\xrightarrow{q}W\longrightarrow0,
+\]
+choose a complementary subspace \(C\) to \(i(U)\).  The restriction
+\(q|_C:C\to W\) is injective because \(C\cap\ker q=0\), and it is
+surjective because \(V=i(U)+C\).  Its inverse followed by \(C\hookrightarrow
+V\) is a section of \(q\), so the sequence splits.
+
+The same argument applies in arbitrary dimension after choosing a basis of
+the subspace and extending it to a basis of the whole space.  Thus every
+short exact sequence beginning or ending in a vector space splits.  The
+projective and injective characterizations proved above give the final
+statement.
+\end{proof}
+
+This is a decisive difference between vector spaces and general modules.
+For \(n>1\), the short exact sequence
+\[
+0\longrightarrow\mathbb Z\xrightarrow{\times n}\mathbb Z
+\longrightarrow\mathbb Z/n\mathbb Z\longrightarrow0
+\]
+does not split: a section would embed the nonzero torsion group
+\(\mathbb Z/n\mathbb Z\) into the torsion-free group \(\mathbb Z\).
 
 \begin{corollary}[IBN for fields]
 If
@@ -1019,6 +1267,53 @@ for all finite \(m,n\), so invariant basis number fails.  Arbitrary
 noncommutative rings need not have IBN, so no unqualified rank is attached to
 their finite free modules.
 
+\begin{proposition}[Rank of a finite direct sum]
+\label{prop:finite-direct-sum-rank}
+Let \(R\) be a ring with invariant basis number, and let
+\(F_1,\ldots,F_n\) be free \(R\)-modules of finite rank. Then
+\(F_1\oplus\cdots\oplus F_n\) is free of finite rank and
+\[
+\operatorname{rank}(F_1\oplus\cdots\oplus F_n)
+=\sum_{i=1}^n\operatorname{rank}F_i.
+\]
+\end{proposition}
+\begin{proof}
+For each \(i\), choose a basis
+\(\beta_i=(e_{i1},\ldots,e_{ir_i})\) of \(F_i\). Insert each \(e_{ij}\)
+into the \(i\)-th coordinate of the direct sum, with zero in every other
+coordinate, and concatenate the resulting lists. This list spans: if
+\(x=(x_1,\ldots,x_n)\), expand each coordinate as
+\(x_i=\sum_j a_{ij}e_{ij}\), and then \(x\) is the sum of the corresponding
+  inserted basis vectors with coefficients \(a_{ij}\). Equivalently, this is
+  the basis supplied by Theorem~\ref{thm:bases-internal-direct-sums} for the
+  coordinate summands.
+
+The list is linearly independent as well. Projecting a relation among its
+vectors onto the \(i\)-th coordinate gives a relation among the vectors in
+\(\beta_i\), so every coefficient belonging to that coordinate is zero.
+Doing this for each \(i\) makes every coefficient zero. Thus the concatenated
+list is a basis with \(r_1+\cdots+r_n\) elements. Invariant basis number
+identifies this basis size with the rank of the direct sum.
+\end{proof}
+
+\begin{corollary}[Dimension of a finite direct sum]
+\label{cor:finite-direct-sum-dimension}
+If \(V_1,\ldots,V_n\) are finite-dimensional vector spaces, then
+\[
+\dim(V_1\oplus\cdots\oplus V_n)=\sum_{i=1}^n\dim V_i.
+\]
+Consequently, if \(V=V_1\oplus\cdots\oplus V_n\) is an internal direct sum,
+then
+\[
+\dim V=\sum_{i=1}^n\dim V_i.
+\]
+\end{corollary}
+\begin{proof}
+Apply Proposition~\ref{prop:finite-direct-sum-rank} over the field of
+scalars. An internal direct sum is isomorphic to the corresponding external
+direct sum by the summation map.
+\end{proof}
+
 \section{Linear Transformations and Dimension}
 The module homomorphisms of vector spaces are the familiar linear
 transformations. Finite dimension turns the abstract kernel--image picture
@@ -1027,8 +1322,8 @@ into a numerical conservation law.
 \begin{definition}
 A \emph{linear transformation} \(T:V\to W\) is an \(F\)-module
 homomorphism: \(T(av+bw)=aT(v)+bT(w)\). Its kernel and image are the
-submodules already defined in \S5.1, now called respectively its
-\emph{kernel} and \emph{range}. It is injective, surjective, bijective, or
+submodules already defined in \S5.1; the image is also called the
+\emph{range}. It is injective, surjective, bijective, or
 an isomorphism in the same sense as a module map. An endomorphism is a map
 \(V\to V\), and an automorphism is an invertible endomorphism. The
 endomorphisms form the \(F\)-vector space and ring \(\mathcal{L}_F(V)\) of
@@ -1044,7 +1339,7 @@ For finite-dimensional \(V\), define
 \]
 \end{definition}
 
-The kernel and image are subspaces by Proposition~5.1, and the preceding
+The kernel and image are subspaces by Proposition~5.2, and the preceding
 subspace theorem supplies their finite bases. Thus the numerical words in the
 definition are legitimate before rank--nullity is invoked.
 
@@ -1076,6 +1371,21 @@ Thus a linear map between equal finite dimensions is injective exactly when
 it is surjective, and hence exactly when it is an isomorphism: rank--nullity
 shows that one of kernel and image has the necessary dimension precisely when
 the other does.
+
+\begin{corollary}[Dimension in a short exact sequence]\label{cor:short-exact-dimension}
+If
+\[
+0\longrightarrow U\longrightarrow V\longrightarrow W\longrightarrow0
+\]
+is a short exact sequence of finite-dimensional vector spaces, then
+\[
+\dim V=\dim U+\dim W.
+\]
+\end{corollary}
+\begin{proof}
+Apply rank--nullity to the surjection \(V\to W\).  Its kernel is the image
+of \(U\), which has dimension \(\dim U\) because the first map is injective.
+\end{proof}
 
 \section{Matrices and Change of Basis}\label{sec:matrices-change-basis}
 Once ordered bases are chosen, a linear transformation becomes a table of
@@ -1202,6 +1512,14 @@ I_n=(\delta_{ij})\in M_n(R)
 has entries \(1\) on the diagonal and \(0\) elsewhere. A square matrix \(A\)
 is \emph{invertible} if some square matrix \(B\) satisfies \(AB=BA=I_n\);
 then \(B\) is unique and is denoted by \(A^{-1}\).
+
+\begin{definition}
+For a ring \(R\), the \emph{general linear group} is
+\[
+\operatorname{GL}_n(R)
+=\{A\in M_n(R):A\text{ is invertible}\}.
+\]
+\end{definition}
 
 \begin{proposition}[Transpose identities]
 For compatible matrices over a commutative ring,
@@ -1348,6 +1666,40 @@ identity maps gives
 Matrices related in this way are \emph{similar}; they represent one operator
 in different ordered bases.
 
+For \(T_i\in\mathcal L(V_i)\), \(i=1,2\), define the direct-sum operator
+\[
+T_1\oplus T_2:V_1\oplus V_2\longrightarrow V_1\oplus V_2,
+\qquad
+(T_1\oplus T_2)(v_1,v_2)=(T_1v_1,T_2v_2).
+\]
+For matrices \(A\in M_{m\times n}(R)\) and
+\(B\in M_{p\times q}(R)\), define their block direct sum by
+\[
+A\oplus B=\begin{pmatrix}A&0\\0&B\end{pmatrix}
+\in M_{(m+p)\times(n+q)}(R).
+\]
+For arbitrary rectangular matrices this is simply the block direct sum; when
+both matrices are square, it is the block-diagonal direct sum used for
+operators and determinant formulas. More generally, finite direct sums are
+defined in the same block sense by
+\[
+A_1\oplus\cdots\oplus A_r
+=\operatorname{diag}(A_1,\ldots,A_r).
+\]
+The dimensions of the zero blocks are determined by the adjacent blocks, and
+this notation is not ordinary matrix addition. If
+\(\beta_1=(v_1,\ldots,v_m)\) and \(\beta_2=(w_1,\ldots,w_n)\) are ordered
+bases of \(V_1\) and \(V_2\), respectively, put
+\[
+\beta=(v_1,\ldots,v_m,w_1,\ldots,w_n).
+\]
+Then
+\[
+[T_1\oplus T_2]_\beta
+=[T_1]_{\beta_1}\oplus[T_2]_{\beta_2},
+\]
+as follows by reading the two families of coordinate columns.
+
 Finally, the matrices \(E_{ij}\), having a single \(1\) in position
 \((i,j)\), form a basis of \(M_{m\times n}(F)\). Hence this matrix space has
 dimension \(mn\). For fixed ordered bases, \(T\mapsto[T]^\gamma_\beta\) is
@@ -1377,12 +1729,257 @@ consists of eigenvectors. This computation is the concrete meaning of
 similarity and anticipates diagonalization.
 \end{example}
 
+\subsection{Elementary operations and Gaussian elimination}
+The matrix of a linear map is a coordinate device, and elementary operations
+are controlled changes of that device.  Over a field \(F\), the three
+\emph{elementary row operations} are
+\begin{enumerate}
+\item interchanging two rows;
+\item multiplying one row by a nonzero scalar;
+\item adding a scalar multiple of one row to another.
+\end{enumerate}
+The analogous operations on columns are the \emph{elementary column
+operations}.  Each is invertible: a swap undoes itself, a scaling by
+\(c\ne0\) is undone by scaling by \(c^{-1}\), and
+\(R_j\mapsto R_j+cR_i\) is undone by \(R_j\mapsto R_j-cR_i\).
+
+An \emph{elementary matrix} is obtained by performing one elementary
+operation on an identity matrix.  If \(E\) is obtained from \(I_m\) by a row
+operation, then applying that operation to \(A\in M_{m\times n}(F)\) gives
+\[
+A\longmapsto EA.
+\]
+If \(E\) is obtained from \(I_n\) by the analogous column operation, the
+result is
+\[
+A\longmapsto AE.
+\]
+For example, adding \(-2\) times row \(1\) to row \(2\) uses
+\[
+E=\begin{pmatrix}1&0&0\\-2&1&0\\0&0&1\end{pmatrix}.
+\]
+Indeed,
+\[
+E\begin{pmatrix}1&3\\2&5\\4&7\end{pmatrix}
+=\begin{pmatrix}
+1\cdot1&1\cdot3\\
+(-2)\cdot1+1\cdot2&(-2)\cdot3+1\cdot5\\
+4&7
+\end{pmatrix}
+=\begin{pmatrix}1&3\\0&-1\\4&7\end{pmatrix}.
+\]
+The same entry calculation proves the assertion for all three operations.
+For matrices \(A,B\) of the same size, we say that \(A\) and \(B\) are
+\emph{row equivalent} if \(B=PA\) for some invertible \(P\), equivalently if
+one may pass from \(A\) to \(B\) by elementary row operations.  They are
+\emph{matrix equivalent} if
+\[
+B=PAQ
+\]
+for invertible matrices \(P,Q\) of compatible sizes, equivalently if one may
+use invertible row and column operations.  Row equivalence changes target
+coordinates (or equations), while matrix equivalence permits independent
+changes of source and target coordinates.  Similarity is different: an
+identity \(B=P^{-1}AP\) represents the same endomorphism in two bases related
+by one change of coordinates.
+
+\begin{definition}
+A matrix is in \emph{row-echelon form} if all zero rows occur below all
+nonzero rows, the first nonzero entry of each successive nonzero row lies
+strictly to the right of the one above it, and every entry below such a first
+nonzero entry is zero.  These first nonzero entries are \emph{pivots}; their
+locations are \emph{pivot positions}, and the columns containing them are
+\emph{pivot columns}.
+\end{definition}
+
+\emph{Gaussian elimination} applies elementary row operations until a
+row-echelon form is reached.  \emph{Gauss--Jordan elimination} continues
+until every pivot is \(1\) and is the only nonzero entry in its column; that
+stronger form is called reduced row-echelon form.  The following example
+shows the mechanism rather than hiding it behind the final matrix.
+
+\begin{example}[Gaussian elimination, one operation at a time]
+Starting with
+\[
+A=\begin{pmatrix}1&2&-1&1\\2&5&1&4\\-1&-1&2&0\end{pmatrix},
+\]
+first use \(R_2\mapsto R_2-2R_1\):
+\[
+\begin{pmatrix}1&2&-1&1\\2&5&1&4\\-1&-1&2&0\end{pmatrix}
+\longmapsto
+\begin{pmatrix}1&2&-1&1\\0&1&3&2\\-1&-1&2&0\end{pmatrix}.
+\]
+Next use \(R_3\mapsto R_3+R_1\):
+\[
+\begin{pmatrix}1&2&-1&1\\0&1&3&2\\-1&-1&2&0\end{pmatrix}
+\longmapsto
+\begin{pmatrix}1&2&-1&1\\0&1&3&2\\0&1&1&1\end{pmatrix}.
+\]
+Finally use \(R_3\mapsto R_3-R_2\):
+\[
+\begin{pmatrix}1&2&-1&1\\0&1&3&2\\0&1&1&1\end{pmatrix}
+\longmapsto
+\begin{pmatrix}1&2&-1&1\\0&1&3&2\\0&0&-2&-1\end{pmatrix}.
+\]
+The last matrix is in row-echelon form, with pivots in columns \(1,2,3\).
+\end{example}
+
+When \(A\) is the coefficient matrix of \(Ax=b\), performing an elementary
+row operation on the augmented matrix \((A\mid b)\) replaces the equations by
+invertible combinations of them, so the solution set is unchanged.  In
+particular, row operations on \(A\) preserve the coordinate-vector kernel of
+\(Ax=0\).  Column operations have a different role: they change source
+coordinates, and therefore change the variables unless that coordinate change
+is tracked simultaneously.  They must not be used as ordinary
+equation-preserving operations on \(Ax=b\).
+
+\subsection{Rank, nullity, and rank normal form}
+For \(A\in M_{m\times n}(F)\), let
+\[
+T_A:F^n\longrightarrow F^m,\qquad T_A(x)=Ax,
+\]
+and define
+\[
+\operatorname{rank}A=\dim\operatorname{im}T_A,
+\qquad
+\operatorname{nullity}A=\dim\ker T_A.
+\]
+If \(e_j\) is the \(j\)-th standard basis vector, then \(T_A(e_j)\) is
+exactly the \(j\)-th column \(A_j\).  Hence
+\[
+\operatorname{im}T_A=\operatorname{span}\{A_1,\ldots,A_n\}.
+\]
+The rank is therefore the dimension of the \emph{column space}, initially
+called the \emph{column rank}.  Operator rank--nullity gives
+\begin{equation}\label{eq:matrix-rank-nullity}
+\operatorname{rank}A+\operatorname{nullity}A=n.
+\end{equation}
+The \emph{row space} is the span in \(F^n\) of the rows of \(A\), and its
+dimension is the \emph{row rank}.
+
+\begin{theorem}[Rank normal form]\label{thm:rank-normal-form}
+If \(A\in M_{m\times n}(F)\) has column rank \(r\), then there are
+\(P\in\operatorname{GL}_m(F)\) and \(Q\in\operatorname{GL}_n(F)\) such that
+\[
+PAQ=J_r:=
+\begin{pmatrix}I_r&0\\0&0\end{pmatrix}.
+\]
+Equivalently, after changing bases in domain and codomain, a rank-\(r\) map is
+the identity on \(r\) independent directions and zero on its remaining
+\(n-r\) kernel directions.
+\end{theorem}
+\begin{proof}
+The idea is to choose coordinates adapted to the kernel and image.  Choose a
+basis \(k_1,\ldots,k_{n-r}\) of \(\ker T_A\), extend it by
+\(v_1,\ldots,v_r\) to a basis of \(F^n\), and put \(w_i=T_Av_i\).
+The \(w_i\) are independent: a relation among them would put the corresponding
+combination of the \(v_i\) in the kernel.  They span the image by construction,
+so extend \(w_1,\ldots,w_r\) to a basis of \(F^m\).  In the reordered domain
+basis
+\((v_1,\ldots,v_r,k_1,\ldots,k_{n-r})\) and this codomain basis, the matrix of
+\(T_A\) is \(J_r\).  The change-of-coordinate formula supplies invertible
+matrices \(P,Q\) with \(PAQ=J_r\).  Its last \(n-r\) columns also display
+rank--nullity geometrically.
+\end{proof}
+
+\begin{theorem}[Equality of row and column rank]\label{thm:row-column-rank}
+For every matrix over a field, row rank equals column rank.
+\end{theorem}
+\begin{proof}
+First track what invertible multiplication does.  The columns of \(PA\) are
+the images under the isomorphism \(x\mapsto Px\) of the columns of \(A\), so
+their span has the same dimension; at the same time, the rows of \(PA\) are
+invertible combinations of the rows of \(A\).  Thus left multiplication by
+\(P\) preserves both ranks.  The columns of \(AQ\) are invertible combinations
+of the columns of \(A\), while every row vector \(v\) is sent to \(vQ\); since
+\(v\mapsto vQ\) is an isomorphism, right multiplication preserves both ranks.
+
+By Theorem~\ref{thm:rank-normal-form}, \(PAQ=J_r\).  The first \(r\) rows of
+\(J_r\) are independent and every other row is zero, so its row rank is \(r\).
+The same statement about its first \(r\) columns shows that its column rank is
+\(r\).  Invariance under \(P,Q\) now gives the equality for \(A\).
+\end{proof}
+
+We henceforth call their common value simply \(\operatorname{rank}A\).
+To see exactly what Gaussian elimination exposes, let \(E=PA\) be an echelon
+form with \(r\) pivots.  Its \(r\) nonzero rows are independent, so by the
+theorem its rank is \(r\).  The pivot columns of \(E\) are independent and
+hence form a basis of its column space.  Moreover, multiplication by the
+invertible matrix \(P\) preserves every linear relation among corresponding
+columns.  Thus the columns of \(A\) in the pivot positions are also
+independent; since there are \(r=\operatorname{rank}A\) of them, they form a
+basis of the column space of \(A\).  Consequently
+\[
+\operatorname{rank}A=\text{number of pivots},
+\qquad
+\operatorname{nullity}A=n-\text{number of pivots}.
+\]
+This also proves that every echelon form obtained from \(A\) has the same
+number of pivots, even though the intermediate row operations need not be
+unique.
+
+\begin{proposition}[Basic rank identities]\label{prop:basic-rank-identities}
+For compatible matrices over \(F\),
+\[
+\operatorname{rank}(PAQ)=\operatorname{rank}A
+\qquad(P,Q\text{ invertible}),
+\]
+\[
+\operatorname{rank}(BA)\leq
+\min\{\operatorname{rank}A,\operatorname{rank}B\},
+\qquad
+\operatorname{rank}(A+B)\leq\operatorname{rank}A+\operatorname{rank}B,
+\]
+and
+\[
+\operatorname{rank}(A^t)=\operatorname{rank}A.
+\]
+\end{proposition}
+\begin{proof}
+The first identity was proved in the preceding argument.  Since
+\(\operatorname{im}(T_BT_A)=T_B(\operatorname{im}T_A)\), its dimension is at
+most \(\operatorname{rank}A\) and at most \(\dim\operatorname{im}T_B\).
+Moreover,
+\(\operatorname{im}(T_A+T_B)\subseteq
+\operatorname{im}T_A+\operatorname{im}T_B\),
+whose dimension is at most the sum of the two ranks.  Finally,
+\[
+\operatorname{rank}(A^t)
+=\operatorname{column\ rank}(A^t)
+=\operatorname{row\ rank}(A)
+=\operatorname{column\ rank}(A)
+=\operatorname{rank}A.
+\]
+Section~\ref{sec:dual-spaces} will give a second, conceptual explanation of
+the transpose identity through dual maps.
+\end{proof}
+
+Over a field, the Smith normal form of
+Chapter~\ref{chap:pid-modules-canonical-forms} has every nonzero invariant
+factor scaled to \(1\), and is exactly
+\(\operatorname{diag}(1,\ldots,1,0,\ldots,0)\).  Rank normal form is therefore
+the field prototype of Smith normal form over a PID.
+
 \section{Determinants}\label{sec:determinants}
 An endomorphism of an \(n\)-dimensional space either preserves oriented
 \(n\)-dimensional volume up to a scalar or collapses some direction. The
 determinant is that scalar. Its most useful definition is therefore
 structural, not computational. Permutations and their signs, used below, were
 proved in \hyperref[chap:groups-foundations]{Chapter~1}.
+
+The familiar two-dimensional case is the concrete anchor.  If the columns
+of
+\[
+A=\begin{pmatrix}a&b\\c&d\end{pmatrix}
+\]
+are the sides of a parallelogram, its signed area scale is
+\[
+\det A=ad-bc.
+\]
+The term \(ad\) measures the contribution that preserves the coordinate
+order, while \(bc\) comes from exchanging it.  The alternating-multilinear
+definition below explains why this formula, and its higher-dimensional
+analogue, is forced rather than guessed.
 
 \begin{definition}
 Let \(V\) be an \(n\)-dimensional vector space over \(F\), with ordered basis
@@ -1493,6 +2090,66 @@ This is a column convention. The row convention follows below from transpose
 invariance.
 \end{definition}
 
+What does one summand mean?  A permutation \(\sigma\) chooses exactly one
+entry from each column and exactly one from each row: in column \(j\), it
+chooses the entry in row \(\sigma(j)\).  We multiply the chosen entries and
+attach the sign \(\operatorname{sgn}(\sigma)\).
+
+\begin{example}[The six Leibniz terms in dimension three]
+Let
+\[
+A=\begin{pmatrix}a&b&c\\d&e&f\\g&h&i\end{pmatrix}.
+\]
+There are \(3!=6\) terms because there are six permutations of the three
+rows.  Writing a permutation as the list
+\([\sigma(1),\sigma(2),\sigma(3)]\), every choice is visible in the table:
+\begingroup\footnotesize
+\[
+\begin{array}{c|c|c|c|c|c}
+\sigma&\text{parity}&\operatorname{sgn}(\sigma)&
+\text{columns }1,2,3\text{ select}&\text{product}&\text{contribution}\\ \hline
+{[1,2,3]}&\text{even}&+1&a,e,i&a_{11}a_{22}a_{33}=aei&+aei\\
+{[2,1,3]}&\text{odd}&-1&d,b,i&a_{21}a_{12}a_{33}=dbi&-bdi\\
+{[3,2,1]}&\text{odd}&-1&g,e,c&a_{31}a_{22}a_{13}=gec&-ceg\\
+{[1,3,2]}&\text{odd}&-1&a,h,f&a_{11}a_{32}a_{23}=ahf&-afh\\
+{[2,3,1]}&\text{even}&+1&d,h,c&a_{21}a_{32}a_{13}=dhc&+cdh\\
+{[3,1,2]}&\text{even}&+1&g,b,f&a_{31}a_{12}a_{23}=gbf&+bfg
+\end{array}
+\]
+\endgroup
+Collecting the six signed contributions only after finding them separately,
+\begin{equation}\label{eq:three-by-three-leibniz}
+\det A=aei+bfg+cdh-ceg-bdi-afh.
+\end{equation}
+For \(n\times n\) matrices the same formula has \(n!\) terms.  It is
+conceptually fundamental and excellent for proofs, but rapidly becomes a poor
+direct numerical algorithm.
+\end{example}
+
+\begin{example}[One determinant by the Leibniz formula]
+For
+\[
+B=\begin{pmatrix}1&2&1\\2&1&3\\3&2&2\end{pmatrix},
+\]
+the six permutations give
+\[
+\begin{array}{c|c|c}
+\sigma&\text{signed product}&\text{value}\\ \hline
+{[1,2,3]}&+(1)(1)(2)&2\\
+{[2,1,3]}&-(2)(2)(2)&-8\\
+{[3,2,1]}&-(3)(1)(1)&-3\\
+{[1,3,2]}&-(1)(2)(3)&-6\\
+{[2,3,1]}&+(2)(2)(1)&4\\
+{[3,1,2]}&+(3)(2)(3)&18
+\end{array}
+\]
+and therefore
+\[
+\det B=2-8-3-6+4+18=7.
+\]
+We will recompute this same determinant by cofactors and elimination below.
+\end{example}
+
 \begin{definition}
 For \(T\in\mathcal{L}(V)\), define \(\det(T)\) by
 \[
@@ -1539,11 +2196,67 @@ proved in \S5.11. Replacing \(\sigma\) by \(\sigma^{-1}\) in
 \eqref{eq:leibniz-form} gives \(\det(A^t)=\det(A)\).
 \end{proof}
 
-Thus adding a multiple of one column to another leaves the determinant
-unchanged, scaling a column scales the determinant by the same scalar, and
-interchanging two columns changes its sign; these are immediate consequences
-of multilinearity and alternation. Transpose invariance supplies the
-corresponding row operations.
+The elementary-operation rules are consequences, not new axioms.  If
+\(i\ne j\), multilinearity in column \(j\) and alternation give
+\[
+\begin{aligned}
+&\det(C_1,\ldots,C_j+cC_i,\ldots,C_n)\\
+&\quad=\det(C_1,\ldots,C_j,\ldots,C_n)
++c\det(C_1,\ldots,C_i,\ldots,C_n)\\
+&\quad=\det(C_1,\ldots,C_j,\ldots,C_n),
+\end{aligned}
+\]
+because the second determinant has two equal columns.  Alternation says that
+interchanging two columns changes the sign, and multilinearity says that
+scaling one column by \(c\) scales the determinant by \(c\).  Transpose
+invariance supplies the identical three rules for rows.  These rules explain
+how elimination can compute a determinant: row additions leave it unchanged,
+row swaps change its sign, and row scalings must be recorded.
+
+\begin{theorem}[Triangular and block-triangular determinants]
+\label{thm:block-triangular-determinant}
+If \(A=(a_{ij})\in M_n(F)\) is upper or lower triangular, then
+\[
+\det A=\prod_{i=1}^n a_{ii}.
+\]
+More generally, for square diagonal blocks \(A\) and \(B\),
+\[
+\det\begin{pmatrix}A&*\\0&B\end{pmatrix}
+=\det(A)\det(B).
+\]
+The analogous lower block-triangular formula also holds.  In particular,
+\[
+\det(A\oplus B)=\det(A)\det(B).
+\]
+\end{theorem}
+\begin{proof}
+Suppose first that \(A\) is upper triangular.  In a nonzero term
+\[
+\operatorname{sgn}(\sigma)
+a_{\sigma(1),1}\cdots a_{\sigma(n),n}
+\]
+of the Leibniz formula, one must have \(\sigma(j)\leq j\) for every \(j\).
+The only permutation with this property is the identity: successively
+\(\sigma(1)=1,\sigma(2)=2,\ldots\).  Thus only the diagonal product remains.
+Transpose invariance gives the lower-triangular case.
+
+Let the first block have size \(r\).  In a nonzero Leibniz term for
+\(\begin{pmatrix}A&*\\0&B\end{pmatrix}\), each of the first \(r\) columns
+must select one of the first \(r\) rows because the lower-left block is zero.
+The selected rows are distinct, so they are exactly the first \(r\) rows.
+The permutation therefore restricts independently to a permutation within
+each diagonal block.  Summing first over the two restrictions factors the
+Leibniz sum as \(\det(A)\det(B)\).  Transposition gives the lower
+block-triangular formula, and taking the off-diagonal block to be zero gives
+the direct-sum formula.
+\end{proof}
+
+\begin{remark}[Commutative coefficient rings]
+The preceding proofs use only the Leibniz formula and commutativity of the
+coefficients, not division.  Hence the triangular, block-triangular, and
+direct-sum determinant formulas remain valid for matrices over every
+commutative ring.  In particular, they apply later to matrices over \(F[x]\).
+\end{remark}
 
 \begin{definition}
 For \(A=(a_{ij})\in M_n(F)\), let \(A_{ij}\) be the matrix obtained by
@@ -1552,6 +2265,22 @@ deleting row \(i\) and column \(j\). Its \emph{cofactor} is
 C_{ij}=(-1)^{i+j}\det(A_{ij}).
 \]
 \end{definition}
+
+For the general \(3\times3\) matrix above, formula
+\eqref{eq:three-by-three-leibniz} can be regrouped as
+\[
+\begin{aligned}
+\det A
+&=(aei-afh)+(-bdi+bfg)+(cdh-ceg)\\
+&=a(ei-fh)-b(di-fg)+c(dh-eg)\\
+&=a\det\begin{pmatrix}e&f\\h&i\end{pmatrix}
+-b\det\begin{pmatrix}d&f\\g&i\end{pmatrix}
++c\det\begin{pmatrix}d&e\\g&h\end{pmatrix}.
+\end{aligned}
+\]
+Thus cofactor expansion is already present inside the Leibniz formula: it
+recursively regroups permutation terms according to one selected row or
+column.
 
 \begin{theorem}[Laplace expansion and adjugate]\label{thm:adjugate}
 For every row \(i\) and column \(j\),
@@ -1566,14 +2295,42 @@ A\operatorname{adj}(A)=\operatorname{adj}(A)A=(\det A)I_n.
 \end{equation}
 \end{theorem}
 \begin{proof}
-Group the terms of the Leibniz formula according to the column selected in
-row \(i\). Moving that selected entry to the first position requires
-\(i+j\) parity changes, giving the first expansion; transpose invariance
-gives the column version. The \((i,j)\)-entry of
-\(A\operatorname{adj}(A)\) is the row-\(i\) cofactor expansion if \(i=j\).
-If \(i\ne j\), it is the same expansion after replacing row \(j\) by row
-\(i\), which is zero by alternation. The column calculation proves the
-identity on the other side.
+Fix row \(i\) and group the Leibniz terms according to the chosen column
+\(j\), so the distinguished entry is \(a_{ij}\).  Delete row \(i\) and
+column \(j\).  The remaining choices are exactly the permutations contributing
+to \(\det(A_{ij})\).  To compare signs, move row \(i\) to the first row using
+\(i-1\) adjacent swaps and column \(j\) to the first column using \(j-1\)
+adjacent swaps.  The total is
+\[
+(i-1)+(j-1)=i+j-2,
+\]
+which has the same parity as \(i+j\).  The group of terms containing
+\(a_{ij}\) is therefore
+\[
+a_{ij}(-1)^{i+j}\det(A_{ij})=a_{ij}C_{ij}.
+\]
+Summing over \(j\) proves the row expansion.  Transpose invariance gives the
+column expansion.
+
+Now calculate an entry of the matrix product:
+\[
+(A\operatorname{adj}(A))_{ij}
+=\sum_{k=1}^n a_{ik}C_{jk}.
+\]
+If \(i=j\), this is
+\[
+\sum_{k=1}^n a_{ik}C_{ik}=\det A
+\]
+by expansion along row \(i\).  If \(i\ne j\), it is the determinant of the
+matrix obtained from \(A\) by replacing row \(j\) by row \(i\): the cofactors
+along row \(j\) are unchanged because that row is deleted when each minor is
+formed.  The replacement matrix has two equal rows, so its determinant is
+zero.  Hence \(A\operatorname{adj}(A)=(\det A)I\).
+
+Similarly, the \((i,j)\)-entry of \(\operatorname{adj}(A)A\) is a column
+expansion when \(i=j\), and for \(i\ne j\) is the determinant obtained by
+replacing column \(i\) by column \(j\).  It vanishes because two columns are
+equal.  This proves the second identity.
 \end{proof}
 
 \begin{corollary}[Invertibility criterion over a field]\label{cor:field-det-invertibility}
@@ -1588,7 +2345,10 @@ If \(A\) is invertible, determinant multiplicativity gives
 1=\det(A)\det(A^{-1}).
 \]
 Conversely, if \(\det(A)\ne0\), then
-\(\det(A)^{-1}\operatorname{adj}(A)\) is an inverse by
+\[
+A^{-1}=\frac1{\det A}\operatorname{adj}(A)
+\]
+is an inverse by
 \eqref{eq:adjugate}.
 \end{proof}
 
@@ -1597,16 +2357,102 @@ For a \(2\times2\) matrix,
 \[
 \det\begin{pmatrix}a&b\\c&d\end{pmatrix}=ad-bc.
 \]
-Thus \(\det\begin{pmatrix}2&1\\4&2\end{pmatrix}=0\), while
+Thus \(\det\begin{pmatrix}2&1\\4&2\end{pmatrix}=0\).  For
+\(A=\begin{pmatrix}2&1\\1&1\end{pmatrix}\),
 \[
-\det\begin{pmatrix}2&1\\1&1\end{pmatrix}=1,
+\det A=1,
 \qquad
-\begin{pmatrix}2&1\\1&1\end{pmatrix}^{-1}
+\operatorname{adj}(A)=\begin{pmatrix}1&-1\\-1&2\end{pmatrix},
+\]
+and therefore
+\[
+A^{-1}=\frac{1}{\det A}\operatorname{adj}(A)
+=\operatorname{adj}(A)
 =\begin{pmatrix}1&-1\\-1&2\end{pmatrix}.
 \]
 Laplace expansion and the adjugate are computational consequences of the
 same structural determinant form, not competing definitions.
 \end{example}
+
+\begin{example}[The same \(3\times3\) determinant by cofactors]
+Expand the matrix
+\(B=\begin{pmatrix}1&2&1\\2&1&3\\3&2&2\end{pmatrix}\)
+along its first row.  Keeping every cofactor sign and minor visible gives
+\[
+\begin{aligned}
+\det B
+&=1(-1)^{1+1}\det\begin{pmatrix}1&3\\2&2\end{pmatrix}
+ +2(-1)^{1+2}\det\begin{pmatrix}2&3\\3&2\end{pmatrix}\\
+&\qquad
+ +1(-1)^{1+3}\det\begin{pmatrix}2&1\\3&2\end{pmatrix}\\
+&=1\bigl((1)(2)-(3)(2)\bigr)
+-2\bigl((2)(2)-(3)(3)\bigr)\\
+&\qquad
++1\bigl((2)(2)-(1)(3)\bigr)\\
+&=1(-4)-2(-5)+1(1)=-4+10+1=7.
+\end{aligned}
+\]
+This agrees with the six-term Leibniz calculation.  The two methods are not
+competing definitions: Leibniz gives the global permutation description,
+whereas Laplace expansion recursively regroups those same terms.
+\end{example}
+
+\begin{theorem}[Cramer's rule]\label{thm:cramers-rule}
+Let \(A=(A_1,\ldots,A_n)\in M_n(F)\) have nonzero determinant, and suppose
+\(Ax=b\).  If \(A_i(b)\) is obtained by replacing column \(i\) of \(A\) by
+\(b\), then
+\[
+x_i=\frac{\det A_i(b)}{\det A}.
+\]
+\end{theorem}
+\begin{proof}
+The coordinate equation says
+\[
+b=Ax=x_1A_1+\cdots+x_nA_n.
+\]
+Use multilinearity in the replaced column:
+\[
+\begin{aligned}
+\det A_i(b)
+&=\det(A_1,\ldots,x_1A_1+\cdots+x_nA_n,\ldots,A_n)\\
+&=\sum_{j=1}^n x_j
+\det(A_1,\ldots,A_j,\ldots,A_n).
+\end{aligned}
+\]
+Here \(A_j\) occupies position \(i\) in the \(j\)-th summand.  If \(j\ne i\),
+that determinant also contains the original column \(A_j\), so two columns
+are equal and the term vanishes.  Only \(j=i\) survives:
+\[
+\det A_i(b)=x_i\det A.
+\]
+Division by the nonzero scalar \(\det A\) proves the formula.
+\end{proof}
+
+\begin{remark}[Choosing a determinant method]
+The Leibniz formula is conceptually fundamental but has \(n!\) terms and is
+rarely efficient numerically.  Cofactor expansion is clearer for hand
+calculations on small matrices, especially along a row or column with many
+zeros.  For larger matrices, Gaussian elimination is normally preferable:
+reduce to triangular form, track swaps and scalings, and multiply the diagonal
+entries.  Cramer's rule is elegant for symbolic formulas and very small
+systems, but elimination is normally preferable for larger numerical systems.
+
+For example, using only row additions on the same matrix \(B\),
+\[
+\begin{pmatrix}1&2&1\\2&1&3\\3&2&2\end{pmatrix}
+\xrightarrow{R_2\mapsto R_2-2R_1}
+\begin{pmatrix}1&2&1\\0&-3&1\\3&2&2\end{pmatrix}
+\xrightarrow{R_3\mapsto R_3-3R_1}
+\begin{pmatrix}1&2&1\\0&-3&1\\0&-4&-1\end{pmatrix},
+\]
+and then
+\[
+\xrightarrow{R_3\mapsto R_3-\frac43R_2}
+\begin{pmatrix}1&2&1\\0&-3&1\\0&0&-\frac73\end{pmatrix}.
+\]
+No determinant-changing operation occurred, so the triangular formula gives
+\(\det B=(1)(-3)(-7/3)=7\), agreeing with both earlier methods.
+\end{remark}
 
 \subsection{Determinants over commutative rings}
 The Leibniz expression uses only addition, multiplication, commutativity,
@@ -1668,13 +2514,21 @@ invertible. In particular, the field criterion involving linear dependence
 must not be transferred unqualified to general commutative rings. For
 \(A\in M_n(R)\), the polynomial
 \(\chi_A(t)=\det(tI-A)\in R[t]\) is nevertheless defined, and the adjugate
-identity over \(R[t]\) gives \(\chi_A(A)=0\). Chapter~6 uses this argument in
-its operator-theoretic field setting.
+identity over \(R[t]\) supplies the determinant identity underlying the
+Cayley--Hamilton argument. Chapter~6 carries out the substitution carefully
+in the operator setting.
 
 \section{Eigenvalues, Eigenvectors, and Invariant Subspaces}
-An eigenvector is a direction whose direction is not changed by an operator:
-the operator merely scales it. Such directions are the first indication that
-a complicated transformation might have a simple coordinate system.
+What would it mean for \(T\) to have a diagonal matrix in some basis? Suppose
+\(\beta=(v_1,\ldots,v_n)\) and
+\[
+[T]_\beta=\operatorname{diag}(\lambda_1,\ldots,\lambda_n).
+\]
+Reading the columns gives \(T(v_i)=\lambda_i v_i\) for every \(i\). A
+diagonal matrix does not mix basis directions: every basis vector is merely
+scaled by \(T\). Thus diagonalization is possible precisely when one can find
+a basis consisting of vectors whose directions are preserved by \(T\). This
+observation motivates eigenvectors and eigenvalues.
 
 \begin{definition}
 For \(T:V\to V\), a nonzero \(v\) is an \emph{eigenvector} with
@@ -1684,8 +2538,16 @@ For \(T:V\to V\), a nonzero \(v\) is an \emph{eigenvector} with
 \end{definition}
 
 Because eigenspaces are kernels, they are subspaces before any dimension is
-attached to them. Now let \(\beta\) be an ordered basis and
-\(A=[T]_\beta\). Define the \emph{characteristic polynomial} by
+attached to them. More explicitly,
+\[
+Tv=\lambda v\quad\Longleftrightarrow\quad(T-\lambda I)v=0.
+\]
+A nonzero solution exists exactly when \(T-\lambda I\) is not injective.
+In finite dimension this is equivalent to noninvertibility, hence to
+\(\det(\lambda I-A)=0\). We therefore introduce one polynomial whose roots
+over the base field are exactly the possible eigenvalues. Let \(\beta\) be
+an ordered basis and \(A=[T]_\beta\). Define the \emph{characteristic
+polynomial} by
 \[\chi_T(x)=\det(xI-A)\in F[x].\]
 This definition is independent of \(\beta\). Indeed, if
 \(A'=P^{-1}AP\), then, in the polynomial ring \(F[x]\),
@@ -1708,11 +2570,66 @@ above says precisely that \(\det(A-\lambda I)=0\), equivalently
 of equivalences proves the converse.
 \end{proof}
 
+\begin{definition}
+If \(\lambda\) is an eigenvalue, its \emph{algebraic multiplicity} is its
+multiplicity as a root of \(\chi_T\), and its \emph{geometric multiplicity}
+is \(\dim E_\lambda\).
+\end{definition}
+
+\begin{proposition}[Algebraic and geometric multiplicity]
+\label{prop:eigenvalue-multiplicities}
+For every eigenvalue \(\lambda\),
+\[
+1\leq\dim E_\lambda\leq
+\text{the algebraic multiplicity of }\lambda.
+\]
+\end{proposition}
+\begin{proof}
+The lower bound holds because an eigenvalue has a nonzero eigenvector.
+Let \(g=\dim E_\lambda\), choose a basis of \(E_\lambda\), and extend it to
+a basis of \(V\).  Since \(E_\lambda\) is \(T\)-invariant, the matrix of
+\(T\) in this basis has block form
+\[
+\begin{pmatrix}\lambda I_g&*\\0&B\end{pmatrix}.
+\]
+The block-triangular determinant formula,
+Theorem~\ref{thm:block-triangular-determinant}, gives
+\[
+\chi_T(x)=\det\begin{pmatrix}
+(x-\lambda)I_g&*\\0&xI-B
+\end{pmatrix}
+=(x-\lambda)^g\det(xI-B).
+\]
+Thus \((x-\lambda)^g\) divides \(\chi_T\), proving the upper bound.
+\end{proof}
+
 The eigenspace is a subspace because it is a kernel. It can have dimension
 larger than one: for the identity operator, the unique eigenspace is all of
 \(V\). By contrast, a rotation of the real plane through a nonzero angle less
 than \(\pi\) has no real eigenvector at all. The field therefore matters:
 the same rotation has complex eigenvalues, a point returned to in Chapter~6.
+
+\begin{example}[Characteristic polynomial and eigenspaces]
+Let
+\[
+A=\begin{pmatrix}2&1&0\\0&2&0\\0&0&3\end{pmatrix}.
+\]
+The triangular formula gives
+\[
+\chi_A(x)=(x-2)^2(x-3).
+\]
+For \(\lambda=2\),
+\[
+A-2I=\begin{pmatrix}0&1&0\\0&0&0\\0&0&1\end{pmatrix},
+\qquad
+E_2=\operatorname{span}(e_1),
+\]
+so the algebraic multiplicity is \(2\) but the geometric multiplicity is
+\(1\).  For \(\lambda=3\), \(E_3=\operatorname{span}(e_3)\), and both
+multiplicities are \(1\).  Although the characteristic polynomial splits,
+the eigenspaces together have dimension only \(2<3\), so \(A\) is not
+diagonalizable.
+\end{example}
 
 \section{Diagonalization}
 The best possible matrix of an operator is diagonal: each coordinate evolves
@@ -1720,7 +2637,7 @@ independently. The question is therefore not whether a matrix happens to
 look diagonal, but whether the underlying operator has a basis made of
 eigenvectors.
 
-\begin{theorem}[Diagonalization criterion]
+\begin{theorem}[Diagonalization criterion]\label{thm:diagonalization-criterion}
 For an endomorphism \(T:V\to V\), the following are equivalent:
 \begin{enumerate}
 \item \(T\) is represented by a diagonal matrix in some basis;
@@ -1731,6 +2648,10 @@ V=\bigoplus_\lambda E_\lambda,
 \]
 where the sum ranges over the
 eigenvalues that occur.
+\item The characteristic polynomial splits over \(F\) and
+\[
+\sum_\lambda\dim E_\lambda=\dim V.
+\]
 \end{enumerate}
 \end{theorem}
 \begin{proof}
@@ -1747,14 +2668,37 @@ applying \(T-\lambda_rI\) gives a shorter relation
 \]
 its coefficients are nonzero
 whenever the original ones are, a contradiction. Thus the sum of the
-eigenspaces is direct. A basis of eigenvectors spans precisely this direct
-sum, proving (2) iff (3).
+eigenspaces is direct. By Theorem~\ref{thm:bases-internal-direct-sums}, bases
+of the eigenspaces concatenate to a basis precisely when their internal
+direct sum is all of \(V\), proving (2) iff (3).
+Corollary~\ref{cor:finite-direct-sum-dimension}
+makes (3)
+imply (4).  Conversely, the sum of the eigenspaces is always direct; under
+(4) it has the same dimension as \(V\), and therefore equals \(V\).
 \end{proof}
 
 In particular, if \(\dim V=n\) and \(T\) has \(n\) distinct eigenvalues,
-then it is diagonalizable. Diagonalization is powerful but not universal. The
-next chapter explains the additional structure that remains when no eigenbasis
-exists.
+then it is diagonalizable; this is sufficient but not necessary, as the
+identity operator shows. A split characteristic polynomial is necessary for
+diagonalizability, because a diagonal matrix displays all its eigenvalues in
+the field, but it is not sufficient, as a nontrivial Jordan block shows. The
+true criterion is \(\sum_\lambda\dim E_\lambda=\dim V\). When \(\chi_T\)
+splits, Proposition~\ref{prop:eigenvalue-multiplicities} says equivalently
+that geometric and algebraic multiplicities agree for every eigenvalue.
+
+\begin{remark}[Practical diagonalization test]
+Compute and factor \(\chi_T\) over the base field. If it does not split,
+\(T\) is not diagonalizable over that field. For each root \(\lambda\),
+compute \(E_\lambda=\ker(T-\lambda I)\) and compare its geometric and
+algebraic multiplicities. The operator is diagonalizable exactly when the
+eigenspaces have total dimension \(\dim V\). In that case, concatenate bases
+of the eigenspaces to obtain an eigenbasis and hence a diagonal matrix, as
+guaranteed by Theorem~\ref{thm:bases-internal-direct-sums}.
+\end{remark}
+
+Diagonalization is powerful but not universal. The next section shows
+concretely what replaces missing eigenvectors; Chapter~6 then explains the
+resulting structure through modules.
 
 \begin{example}[Three first tests for diagonalization]
 On \(\mathbb R^2\), the operator with matrix
@@ -1770,6 +2714,215 @@ does not by itself supply an eigenbasis; the missing information is precisely
 what the module structure in Chapter~6 records.
 \end{example}
 
+\section{Beyond Diagonalization: Generalized Eigenvectors and Jordan Chains}
+\label{sec:generalized-eigenvectors-jordan-chains}
+
+Return to the obstruction
+\[
+J=\begin{pmatrix}1&1\\0&1\end{pmatrix}.
+\]
+Its ordinary eigenspace is only \(\operatorname{span}(e_1)\), but the
+missing direction is not unrelated to that eigenspace:
+\[
+(J-I)e_2=e_1,\qquad (J-I)e_1=0.
+\]
+Thus \(e_2\) becomes an eigenvector after one application of \(J-I\).
+In other words, \(e_2\) is not an eigenvector, but it is only one step away
+from one. Generalized eigenvectors record exactly this eventual-eigenvector
+behavior: repeated applications of \(T-\lambda I\) eventually send them to
+zero.
+
+\begin{definition}
+Let \(\lambda\in F\).  A nonzero vector \(v\) is a
+\emph{generalized eigenvector} for \(\lambda\) if
+\[
+(T-\lambda I)^kv=0
+\]
+for some \(k\geq1\).  The \emph{generalized eigenspace} is
+\[
+G_\lambda(T)=\bigcup_{k\geq1}\ker(T-\lambda I)^k.
+\]
+\end{definition}
+
+Put \(N=T-\lambda I\).  The kernels form an increasing sequence
+\[
+\ker N\subseteq\ker N^2\subseteq\ker N^3\subseteq\cdots.
+\]
+These spaces measure increasing heights above the ordinary eigenspace:
+\(\ker N\) contains the eigenvectors, while \(\ker N^j\) also contains
+vectors that may require as many as \(j\) downward steps to reach zero.
+If two consecutive terms agree, say \(\ker N^m=\ker N^{m+1}\), then every
+later term agrees as well.  Indeed, if \(N^{m+2}v=0\), then
+\(Nv\in\ker N^{m+1}=\ker N^m\), so \(v\in\ker N^{m+1}\); induction gives
+stability.  In finite dimension the dimensions cannot increase forever.
+Consequently, if \(n=\dim V\), then
+\[
+G_\lambda(T)=\ker(T-\lambda I)^n.
+\]
+This is a subspace, and it is \(T\)-invariant because \(T\) commutes with
+every polynomial in \(T\).
+
+\begin{example}[The missing direction recovered]
+For the matrix \(J\) above,
+\[
+\ker(J-I)=\operatorname{span}(e_1),
+\qquad
+\ker(J-I)^2=F^2.
+\]
+The ordinary eigenspace sees only one direction.  The generalized eigenspace
+recovers the entire plane.
+\end{example}
+
+\begin{definition}
+A \emph{Jordan chain of length \(k\) for \(\lambda\)} is an ordered list
+\[
+v_1,\ldots,v_k
+\]
+such that \(v_1\ne0\) and
+\[
+(T-\lambda I)v_1=0,
+\qquad
+(T-\lambda I)v_j=v_{j-1}\quad(2\leq j\leq k).
+\]
+The vector \(v_1\) is an eigenvector; each later vector maps one step
+down the chain.
+\[
+v_k\xrightarrow{\,T-\lambda I\,}v_{k-1}
+\xrightarrow{\,T-\lambda I\,}\cdots
+\xrightarrow{\,T-\lambda I\,}v_1
+\xrightarrow{\,T-\lambda I\,}0.
+\]
+Equivalently,
+\[
+T(v_1)=\lambda v_1,\qquad
+T(v_j)=\lambda v_j+v_{j-1}\quad(2\leq j\leq k).
+\]
+These equations are exactly what place \(\lambda\)'s on the diagonal and
+\(1\)'s on the superdiagonal in the ordered chain basis.
+\end{definition}
+
+\begin{proposition}[Independence of a Jordan chain]
+Every Jordan chain is linearly independent.
+\end{proposition}
+\begin{proofidea}
+Apply a sufficiently high power of \(T-\lambda I\) to a proposed relation
+to isolate its last coefficient, then work downward.
+\end{proofidea}
+\begin{proof}
+Write \(N=T-\lambda I\) and suppose
+\[
+a_1v_1+\cdots+a_kv_k=0.
+\]
+Applying \(N^{k-1}\) gives \(a_kv_1=0\), so \(a_k=0\).  Applying
+\(N^{k-2}\) to the remaining relation gives \(a_{k-1}v_1=0\), so
+\(a_{k-1}=0\).  Continuing downward gives every \(a_j=0\).
+\end{proof}
+
+\begin{definition}
+The \emph{Jordan block of size \(k\) with eigenvalue \(\lambda\)} is
+\[
+J_k(\lambda)=
+\begin{pmatrix}
+\lambda&1&0&\cdots&0\\
+0&\lambda&1&\ddots&\vdots\\
+\vdots&\ddots&\ddots&\ddots&0\\
+0&\cdots&0&\lambda&1\\
+0&\cdots&\cdots&0&\lambda
+\end{pmatrix}.
+\]
+\end{definition}
+
+\begin{proposition}[A chain produces a Jordan block]
+If \(v_1,\ldots,v_k\) is a Jordan chain, then its span is \(T\)-invariant
+and the matrix of the restriction of \(T\) in this ordered basis is
+\(J_k(\lambda)\).
+\end{proposition}
+\begin{proof}
+The chain equations say
+\[
+Tv_1=\lambda v_1,\qquad
+Tv_j=v_{j-1}+\lambda v_j\quad(j\geq2).
+\]
+These formulas prove invariance.  They also give the coordinate columns:
+the \(j\)-th column has \(\lambda\) in row \(j\), a \(1\) in row \(j-1\)
+when \(j\geq2\), and zeros elsewhere.  This is precisely
+\(J_k(\lambda)\).
+\end{proof}
+
+\subsection{Kernel-growth blueprint for assembling chains}
+The following discussion is a blueprint for the construction, not by itself
+a complete proof that a jointly independent spanning family of chains can
+always be chosen.  The essential bookkeeping is clearest for a nilpotent
+operator \(N\).
+Let
+\[
+K_j=\ker N^j,\qquad K_0=0.
+\]
+The quotient \(K_j/K_{j-1}\) records the genuinely new vectors that first
+appear at height \(j\).  A vector \(v_j\in K_j\setminus K_{j-1}\) can be
+viewed as the top of a potential chain
+\[
+N^{j-1}v_j,\ldots,Nv_j,v_j.
+\]
+One would work from the largest nonzero \(K_j\) downward, choosing top vectors
+whose classes account for new directions and including their successive
+images.  Turning this outline into a proof requires compatible choices that
+establish joint independence and spanning; independence of each individual
+chain does not establish those two facts for their union.
+
+The growth numbers make the bookkeeping visible.  If a Jordan-chain basis
+has been assembled and
+\[
+c_j=\dim K_j-\dim K_{j-1},
+\]
+then \(c_j\) is the number of chains having length at least \(j\):
+each such chain contributes exactly one new vector to \(K_j/K_{j-1}\).
+Consequently \(c_j-c_{j+1}\) counts the chains of length exactly \(j\).
+This kernel-growth rule will later recover block sizes without choosing the
+chains themselves.
+
+\begin{example}[Reading chains from kernel growth]
+Suppose \(N\) is nilpotent and
+\[
+\dim\ker N^j=0,3,5,6,6,\ldots\qquad(j=0,1,2,3,4,\ldots).
+\]
+Then
+\[
+c_1=3,\qquad c_2=2,\qquad c_3=1,\qquad c_4=0.
+\]
+Thus three chains reach height \(1\), two reach height \(2\), and one reaches
+height \(3\). Since \(c_j-c_{j+1}\) counts chains of length exactly \(j\),
+there is one chain of each length \(1,2,3\). Thus any Jordan basis---whose
+existence will be proved in Chapter~6---must contain blocks of lengths
+\(3,2,1\).
+\end{example}
+
+\begin{remark}[Kernel growth and primary layers]
+For a nilpotent operator,
+\(\dim\ker N^j-\dim\ker N^{j-1}\) counts Jordan chains reaching height \(j\).
+For a \(p\)-primary PID module, Chapter~6 uses
+\[
+a_j(P)=\dim_{R/(p)}p^{j-1}P/p^jP
+\]
+to count cyclic \(p\)-power blocks reaching the same height. Kernel growth
+is the linear-algebra shadow of the primary-layer argument.
+\end{remark}
+
+For a general eigenvalue \(\lambda\), the operator
+\(N=T-\lambda I\) is nilpotent on \(G_\lambda(T)\), so the same construction
+applies there.  When the characteristic polynomial splits, the generalized
+eigenspaces supply the separate eigenvalue pieces.  Chapter~6 proves the
+existence of the resulting decomposition through the \(F[x]\)-module
+structure theorem.  That proof also establishes what the construction alone
+does not yet explain:
+\[
+\boxed{\text{the multiset of Jordan-block sizes is intrinsic}.}
+\]
+Thus the present section explains how generalized eigenvectors, chains, and
+blocks arise; the next chapter explains why their structural classification
+and uniqueness are canonical, without duplicating a specialized uniqueness
+proof.
+
 \input{chapters/duality-forms}
 
 \section*{Exercises}
@@ -1780,6 +2933,35 @@ what the module structure in Chapter~6 records.
 arbitrary family of modules.\end{exercise}
 \begin{exercise}[Core] Let \(T:F^4\to F^3\) have rank \(2\). Find its
 nullity and decide whether it can be injective or surjective.\end{exercise}
+\begin{exercise}[Core] Apply Gaussian elimination to
+\[
+\begin{pmatrix}1&2&0&1\\2&4&1&3\\-1&-2&2&1\end{pmatrix}.
+\]
+Display every row operation, identify the pivot columns, and compute rank and
+nullity.\end{exercise}
+\begin{exercise}[Core] For
+\[
+A=\begin{pmatrix}1&2&3\\2&4&6\\1&1&0\end{pmatrix},
+\]
+find bases of the row and column spaces and verify that their dimensions
+agree.  Then find invertible \(P,Q\) with \(PAQ\) in rank normal form.
+\end{exercise}
+\begin{exercise}[Core] Prove directly from images of linear maps that
+\(\operatorname{rank}(BA)\leq
+\min\{\operatorname{rank}A,\operatorname{rank}B\}\).\end{exercise}
+\begin{exercise}[Core] For
+\[
+A=\begin{pmatrix}2&1&3\\1&-1&2\\3&2&1\end{pmatrix},
+\]
+compute \(\det A\) by listing all six Leibniz terms, then compute it again by
+cofactor expansion and by elimination.\end{exercise}
+\begin{exercise}[Core] Use Cramer's rule to solve
+\[
+\begin{pmatrix}2&1\\1&-1\end{pmatrix}
+\begin{pmatrix}x\\y\end{pmatrix}
+=\begin{pmatrix}5\\1\end{pmatrix},
+\]
+and check the result by substitution.\end{exercise}
 \begin{exercise}[Core] Compute the matrix of differentiation on polynomials
 of degree at most \(3\), using the basis \(1,x,x^2,x^3\).\end{exercise}
 \begin{exercise}[Core] Show that similar matrices have the same characteristic
@@ -1787,14 +2969,37 @@ polynomial and determinant.\end{exercise}
 \begin{exercise}[Further] Decide which of the matrices
 \(\begin{pmatrix}1&1\\0&1\end{pmatrix}\) and
 \(\begin{pmatrix}1&0\\0&1\end{pmatrix}\) are diagonalizable.\end{exercise}
-\begin{exercise}[Further, Challenging] Prove that an operator is
-diagonalizable exactly when the sum of the dimensions of its eigenspaces is
-\(\dim V\).\end{exercise}
+\begin{exercise}[Core] For
+\[
+A=\begin{pmatrix}4&1&0\\0&4&1\\0&0&4\end{pmatrix},
+\]
+compute \(\ker(A-4I)^j\) for \(j=1,2,3\), construct a Jordan chain, and
+verify directly that its vectors form a basis.\end{exercise}
+\begin{exercise}[Further] Let \(N\) be nilpotent, and suppose
+\[
+\dim\ker N^j=0,4,7,9,10,10,\ldots\quad(j=0,1,2,\ldots).
+\]
+Determine the lengths of the
+Jordan chains that a Jordan basis must contain.\end{exercise}
 \begin{exercise}[Core] For the standard basis of \(F^3\), compute its dual
-basis and the matrix of the dual of a specified \(3\times3\) matrix.  Then
-verify the congruence formula for the bilinear form whose matrix is
+basis and the matrix of the dual of
+\[
+A=\begin{pmatrix}1&2&0\\0&1&1\\2&0&1\end{pmatrix}.
+\]
+In a separate two-dimensional calculation, verify the congruence formula for
+the bilinear form whose matrix is
 \[
 \begin{pmatrix}2&1\\1&0\end{pmatrix}
 \]
 after the basis change \((e_1,e_2)\mapsto(e_1+e_2,e_2)\).
 \end{exercise}
+\begin{exercise}[Core] For a concrete map \(T:F^3\to F^2\) of your choice,
+compute both sides of
+\(\ker(T^\vee)=(\operatorname{im}T)^\circ\).  For a one-dimensional subspace
+\(W\leq F^3\), identify \((F^3/W)^\vee\cong W^\circ\) explicitly.
+\end{exercise}
+\begin{exercise}[Core] Find the rank and radical of the bilinear form on
+\(F^3\) with matrix
+\(\begin{pmatrix}1&0&1\\0&1&0\\1&0&1\end{pmatrix}\).  Over a field of
+characteristic not \(2\), diagonalize
+\(q(x,y)=2x^2+6xy+2y^2\) by completing the square.\end{exercise}

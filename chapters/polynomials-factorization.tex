@@ -1,8 +1,9 @@
-\chapter{Polynomial Rings and Factorization}
-
+\chapter{Polynomial Rings, Factorization, and Finiteness}
+\chaptermark{Polynomial Rings}
 Polynomials turn arithmetic in a ring into a tool for studying roots, maps,
 and later linear operators.  Over a field, division of polynomials recovers
-the Euclidean algorithm; this leads from fields to PIDs and UFDs.
+the Euclidean algorithm; this leads from fields to principal ideal domains
+and then to unique factorization.
 
 \section{Polynomial Rings and Evaluation}
 For a commutative ring \(R\), \(R[x]\) consists of finite sums
@@ -75,11 +76,20 @@ most \(n\) roots. \end{corollary}
 degree proves the assertion. \end{proof}
 
 \section{Euclidean Domains and Principal Ideal Domains}
-\begin{definition} A domain \(R\) is \emph{Euclidean} if it has a function
-\(\delta:R\setminus\{0\}\to\mathbb N\) such that division with remainder
-reduces \(\delta\).  A \emph{principal ideal domain} (PID) is a domain in
-which every ideal is principal. \end{definition}
 \begin{definition}
+A domain \(R\) is \emph{Euclidean} if there is a function
+\(\delta:R\setminus\{0\}\to\mathbb N\) such that for every \(a,b\in R\)
+with \(b\ne0\), there exist \(q,r\in R\) satisfying
+\[
+a=bq+r,
+\]
+where either \(r=0\) or \(\delta(r)<\delta(b)\). Repeated remainder
+reduction is the Euclidean algorithm. A \emph{principal ideal domain} (PID)
+is a domain in which every ideal is principal.
+\end{definition}
+\begin{definition}
+Nonzero \(a,b\) in a domain are \emph{associates} if \(a=ub\) for a unit
+\(u\).
 For \(a,b\) in a domain, a \emph{greatest common divisor} is an element \(d\)
 such that \(d\mid a\), \(d\mid b\), and every common divisor of \(a,b\)
 divides \(d\).  A gcd, when it exists, is unique only up to associates.  In
@@ -92,17 +102,24 @@ PID for every field \(F\). \end{theorem}
 \(\delta(d)\).  Divide any \(a\in I\) by \(d\): \(a=qd+r\).  Then
 \(r\in I\), so minimality gives \(r=0\), hence \(I=(d)\).  Polynomial degree
 is a Euclidean function by the division algorithm. \end{proof}
-\begin{remark}[The implications are strict]
-The implications
-\[
-\text{Euclidean domain}\Longrightarrow\text{PID}\Longrightarrow\text{UFD}
-\]
-cannot be reversed.  The second failure is exhibited below.  The first has
-elementary but substantially longer examples; it is not needed for the
-factorization theory developed here.  In
-particular, ``not Euclidean'' means that no Euclidean function exists, not
-merely that one familiar candidate fails.
+\begin{remark}
+Thus every Euclidean domain is a PID. The next section defines unique
+factorization domains and proves that every PID has that property. There are
+PIDs that are not Euclidean, although the examples are substantially longer
+than needed here. In particular, ``not Euclidean'' means that no Euclidean
+function exists, not merely that one familiar candidate fails. In a Euclidean
+domain, repeated division computes a gcd; in a PID, gcds still exist through
+principal ideals even when no Euclidean function is available.
 \end{remark}
+
+For principal ideals in a domain,
+\[
+(a)\subseteq(b)\quad\Longleftrightarrow\quad b\mid a,
+\qquad
+(a)=(b)\quad\Longleftrightarrow\quad a\text{ and }b\text{ are associates}.
+\]
+The first equivalence makes the reversal explicit: the element that divides
+the other generates the larger ideal.
 \begin{proposition}[B\'ezout and gcd]
 In a PID, \((a,b)=(d)\) if and only if \(d\) is a gcd of \(a,b\), up to
 associates.  Consequently every pair has a gcd and
@@ -122,15 +139,27 @@ B\'ezout representation.  This connects gcds, generated ideals, and
 B\'ezout identities.
 \end{proof}
 
+\begin{corollary}[Coprimality in a PID]\label{cor:pid-coprime-bezout}
+For \(a,b\) in a PID, the following are equivalent:
+\[
+\gcd(a,b)\sim1,\qquad (a,b)=R,\qquad ra+sb=1
+\text{ for some }r,s\in R.
+\]
+\end{corollary}
+\begin{proof}
+Apply the preceding proposition with a unit as gcd. The final equivalence is
+the definition of membership \(1\in(a,b)\).
+\end{proof}
+
 \section{Unique Factorization Domains and Gauss's Lemma}
 The factorization of an integer into primes is a model for a property enjoyed
 by many domains.  The central question here is whether the property survives
-the passage from a UFD \(R\) to \(R[x]\).  The answer is yes, and Gauss's
+whether unique factorization passes from \(R\) to \(R[x]\).  The answer is
+yes, and Gauss's
 lemma explains why coefficients do not introduce hidden factorizations.
 
 \begin{definition}
-Let \(R\) be a domain.  Nonzero \(a,b\in R\) are \emph{associates} if
-\(a=ub\) for a unit \(u\).  A nonzero nonunit \(p\) is \emph{irreducible} if
+Let \(R\) be a domain. A nonzero nonunit \(p\) is \emph{irreducible} if
 \(p=ab\) implies that \(a\) or \(b\) is a unit.  It is \emph{prime} if
 \(p\mid ab\) implies \(p\mid a\) or \(p\mid b\).  A \emph{UFD} is a domain
 where every nonzero nonunit has a factorization into irreducibles, unique up
@@ -140,6 +169,15 @@ to ordering and replacement by associates.
 Every prime is irreducible: if \(p=ab\), then \(p\mid a\) or \(p\mid b\);
 cancellation makes the other factor a unit.  The converse need not hold in
 an arbitrary domain, but it does hold in a PID.
+
+For a nonzero nonunit \(p\) in any domain,
+\[
+p\text{ is a prime element}
+\quad\Longleftrightarrow\quad
+(p)\text{ is a prime ideal}.
+\]
+Indeed, \(ab\in(p)\) means \(p\mid ab\), and membership of either factor in
+\((p)\) means that \(p\) divides that factor.
 
 \begin{proposition}[Irreducibles are prime in a PID]
 Every irreducible element of a principal ideal domain is prime.
@@ -180,7 +218,7 @@ quotients is the quotient characterization of maximal ideals from Chapter~3.
 Irreducibility therefore does more than forbid a factorization: it is exactly
 what makes the quotient obtained by adjoining a formal root into a field.
 
-\begin{theorem}[Every PID is a UFD]
+\begin{theorem}[Every PID is a UFD]\label{thm:pid-ufd}
 Every principal ideal domain is a unique factorization domain.
 \end{theorem}
 \begin{proofidea}
@@ -205,6 +243,43 @@ prime by the proposition, hence divides some \(q_j\).  Since \(q_j\) is
 irreducible, they are associates.  Reorder, absorb the unit, and cancel.
 Induction gives uniqueness.
 \end{proof}
+
+Now that unique factorization domains have been defined and the second
+implication proved, the hierarchy may be summarized as
+\[
+\text{Euclidean domain}\Longrightarrow\text{PID}
+\Longrightarrow\text{UFD}.
+\]
+
+\begin{proposition}[Nonzero prime ideals in a PID are maximal]
+\label{prop:pid-nonzero-prime-maximal}
+Every nonzero prime ideal in a PID is maximal. Consequently, if \(p\) is a
+nonzero prime element, then \(R/(p)\) is a field.
+\end{proposition}
+\begin{proof}
+Write the nonzero prime ideal as \((p)\); the preceding equivalence makes
+\(p\) a prime element, hence irreducible. Suppose
+\[
+(p)\subseteq(a)\subseteq R.
+\]
+The reversal between divisibility and principal-ideal inclusion gives
+\(a\mid p\). Since \(p\) is irreducible, either \(a\) is a unit, so
+\((a)=R\), or \(a\) is associate to \(p\), so \((a)=(p)\). Thus no proper
+ideal lies strictly between \((p)\) and \(R\), proving maximality. The
+quotient is a field by Theorem~\ref{thm:prime-maximal-quotient}.
+\end{proof}
+
+The qualification ``nonzero'' matters: \((0)\) is prime in every domain,
+but it is maximal only when the domain is already a field. In a PID, for a
+nonzero nonunit \(p\),
+\[
+\begin{array}{c}
+p\text{ irreducible}\Longleftrightarrow p\text{ prime}
+\Longleftrightarrow(p)\text{ nonzero prime}\\
+\Longrightarrow(p)\text{ maximal}
+\Longleftrightarrow R/(p)\text{ is a field}.
+\end{array}
+\]
 
 \begin{example}[A UFD that is not a PID]
 For a field \(k\), the polynomial UFD theorem below will show that \(k[x,y]\)
@@ -400,7 +475,29 @@ Since \(\mathbb F_p[x]\) is a domain, comparison of the smallest powers of
 \(\mathbb Q\) for every \(n\ge1\). \end{example}
 
 \section{Polynomials over Finite Fields}
-Over \(\mathbb F_p\), and more generally over a finite field \(\mathbb F_q\),
+\begin{proposition}[Finite fields have prime-power order]
+\label{prop:finite-field-prime-power-order}
+If \(F\) is a finite field, then
+\[
+|F|=p^n
+\]
+for some prime \(p\) and integer \(n\geq1\).
+\end{proposition}
+\begin{proof}
+By Proposition~\ref{prop:domain-characteristic},
+\(\operatorname{char}F=p\) for some prime \(p\). The additive group
+\((F,+)\) has exponent \(p\): every \(a\in F\) satisfies \(pa=0\), and
+every nonzero \(a\) has additive order exactly \(p\). If a prime \(\ell\)
+divided \(|F|\), Cauchy's theorem (Theorem~\ref{thm:cauchy}) would give an
+element of additive order \(\ell\). Hence \(\ell=p\), so \(p\) is the only
+prime divisor of \(|F|\), and \(|F|=p^n\).
+\end{proof}
+
+Once Chapter~5 develops vector spaces, this becomes the conceptual statement
+that \(F\) is a finite-dimensional vector space over its prime field
+\(\mathbb F_p\). Write \(q=p^n\), and denote a finite field of order \(q\)
+by \(\mathbb F_q\). Over \(\mathbb F_p\), and more generally over
+\(\mathbb F_q\),
 the preceding irreducibility tests and division algorithm work without change.
 Factorization depends on the coefficient field: \(x^2+1\) is irreducible in
 \(\mathbb F_3[x]\), since it has no root there, but
@@ -444,12 +541,18 @@ a^{(p-1)/2}\equiv\left(\frac ap\right)\pmod p.
 \]
 \end{theorem}
 \begin{proof}
-Put \(m=(p-1)/2\).  The \(m\) nonzero squares are roots of \(x^m-1\), so
+Put \(m=(p-1)/2\). By Fermat's Little Theorem,
+Theorem~\ref{thm:fermat-little}, every nonzero \(b\in\mathbb F_p\) satisfies
+\(b^{p-1}=1\), so a nonzero square \(b^2\) satisfies
+\((b^2)^m=b^{p-1}=1\). Thus the \(m\) nonzero squares are roots of
+\(x^m-1\), so
 they are exactly its roots.  Since \(x^{2m}-1=(x^m-1)(x^m+1)\) and every
-nonzero element satisfies \(x^{2m}=1\), the nonsquares are exactly the roots
-of \(x^m+1\).  This proves the assertion.  Equivalently, it describes the
-index-two subgroup of \(\mathbb F_p^\times\); its cyclicity was proved in
-the group-theory chapter.
+nonzero element satisfies \(x^{2m}=1\), again by Fermat's Little Theorem,
+the nonsquares are exactly the roots
+of \(x^m+1\). This proves the assertion. Equivalently, it describes the
+index-two subgroup of \(\mathbb F_p^\times\). The general theorem that every
+finite subgroup of a field's multiplicative group is cyclic will be proved
+in Chapter~10; cyclicity is not needed here.
 \end{proof}
 For \(p\nmid ab\), Euler's criterion also gives the basic multiplicativity
 in one line:
@@ -802,6 +905,14 @@ but it is neither a PID nor a Euclidean domain.  Indeed,
 Since every Euclidean domain is a PID, it cannot be Euclidean.
 
 \section{An Introduction to Gr\"obner Bases}
+\begin{remark}[Optional orientation]
+This section is an orientation to effective ideal computation and is not used
+later in the manuscript.  Buchberger's criterion and Dickson's lemma are
+stated without proof, so the section should not be read as part of the
+proof-bearing dependency chain.  Its purpose is to contrast Hilbert's
+existence theorem with a computational theory that can actually decide ideal
+membership.
+\end{remark}
 For the remainder of this section, the coefficient ring is a field \(F\), and
 we work in \(F[x_1,\ldots,x_n]\).  In more than one variable, division needs
 an agreed notion of the largest monomial.  A \emph{monomial order} is a total
@@ -876,3 +987,38 @@ root. \end{exercise}
 \(\operatorname{Frac}(R)[x]\) and \(g\in R[x]\), then there is a
 primitive polynomial \(h\in R[x]\) and \(a\in R\) such that
 \(g=ahf\) up to multiplication by a unit. \end{exercise}
+\begin{exercise}[Basic] Decide which of
+\[
+\mathbb Z,\qquad \mathbb Z/12\mathbb Z,\qquad F[x],\qquad F
+\]
+are Noetherian and which are Artinian.  For each negative answer, exhibit an
+appropriate nonstabilizing chain of ideals.\end{exercise}
+\begin{exercise}[Core] If \(R\) is Noetherian and \(I\trianglelefteq R\),
+prove from the ideal correspondence that \(R/I\) is Noetherian.\end{exercise}
+\begin{exercise}[Core] Determine which of
+\[
+2+x,\qquad 1-x+x^2,\qquad x+x^2
+\]
+are units in \(\mathbb Z[[x]]\), and compute the first four coefficients of
+the inverse whenever it exists.\end{exercise}
+\begin{exercise}[Core] Explain why
+\[
+(x)\supsetneq(x^2)\supsetneq(x^3)\supsetneq\cdots
+\]
+does not contradict Noetherianity of \(F[x]\), and give an ascending chain
+that would contradict Noetherianity if it failed to stabilize.\end{exercise}
+\begin{exercise}[Further] In \(F[x,y]\) with lexicographic order \(x>y\),
+divide \(x^2y+xy^2+y\) by the ordered list
+\((x-y,y^2-1)\), recording each leading-term cancellation and the final
+remainder.\end{exercise}
+\begin{exercise}[Further] Using the Gr\"obner basis
+\(G=\{x-y,y^2-1\}\) from the text, decide whether each of
+\[
+x^3-y,\qquad x^2+y,\qquad xy-1
+\]
+belongs to \((G)\) by reduction.\end{exercise}
+\begin{exercise}[Looking Ahead] Hilbert's Basis Theorem proves that every
+ideal of \(F[x_1,\ldots,x_n]\) has a finite generating set.  Explain why
+this existence statement alone does not provide an ideal-membership
+algorithm, and identify the additional effective information supplied by a
+Gr\"obner basis.\end{exercise}

@@ -8,7 +8,13 @@ ideal domain have a complete decomposition theory. The same theorem therefore
 classifies finitely generated abelian groups and produces rational and Jordan
 canonical forms.
 
-Throughout the first six sections \(R\) is a principal ideal domain (PID).
+The first half of the chapter deliberately uses three different viewpoints.
+Compatible ambient coordinates construct the decomposition, primary layers
+recognize its pieces intrinsically, and Smith reduction expresses the result in computational
+matrix language.  Keeping those tasks separate is the key to the proof
+architecture.
+
+Through the Smith normal form section, \(R\) is a principal ideal domain (PID).
 A PID need not be a Euclidean domain. We use only principal ideals, gcds and
 B\'ezout identities; no division-with-remainder argument is used over an
 arbitrary PID. The polynomial ring \(F[x]\), used later, is Euclidean, so its
@@ -19,108 +25,384 @@ Over a field, every subspace has a basis. The analogous statement fails over
 general rings, but a PID retains just enough divisibility control for finite
 free modules to behave similarly.
 
-\begin{theorem}[Submodules of finite free modules]
-Let \(R\) be a PID. Every submodule of \(R^n\) is free of rank at most \(n\).
+\begin{theorem}[Submodules of finite free modules over a PID]
+\label{thm:pid-submodules-compatible-bases}
+Let \(R\) be a PID, let \(F\) be a free \(R\)-module of finite rank \(n\),
+and let \(N\subseteq F\) be a submodule.
+\begin{enumerate}
+\item The module \(N\) is free of rank at most \(n\).
+\item There exist a basis \(y_1,\ldots,y_n\) of \(F\), an integer
+      \(m\leq n\), and nonzero elements \(a_1,\ldots,a_m\in R\) such that
+\[
+a_1\mid a_2\mid\cdots\mid a_m
+\qquad\text{and}\qquad
+N=Ra_1y_1\oplus\cdots\oplus Ra_my_m.
+\]
+\end{enumerate}
+Part~(1) is the freeness conclusion. Part~(2) strengthens it by choosing
+compatible coordinates in the ambient module; it makes no claim about an
+arbitrarily prescribed basis of \(F\).
 \end{theorem}
 \begin{proof}
-We argue by induction on \(n\). The assertion is clear for \(n=0\). Let
-\(N\leq R^n\) and project to the first coordinate. Its image is an ideal,
-say \((d)\). If \(d=0\), then \(N\subseteq0\oplus R^{n-1}\), and induction
-applies. Otherwise choose \(x\in N\) whose first coordinate is \(d\).
-The kernel \(K\) of the restricted projection lies in \(0\oplus R^{n-1}\)
-and is free by induction.
-
-For \(y\in N\), the first coordinate is \(rd\) for some \(r\in R\), so
-\(y-rx\in K\). Hence \(N=Rx+K\). If \(ax+k=0\), with \(k\in K\), then the
-first coordinate gives \(ad=0\). Since a PID is a domain and \(d\ne0\),
-\(a=0\), and then \(k=0\). Thus this sum is direct, and a basis of \(K\)
-together with \(x\) is a basis of \(N\).
-\end{proof}
-
-We will need the following direct termination principle for ideals.
-\begin{lemma}[Ascending chains of ideals in a PID]
-If \(I_1\subseteq I_2\subseteq\cdots\) is an ascending chain of ideals in a
-PID, then \(I_n=I_N\) for every sufficiently large \(n\).
-\end{lemma}
-\begin{proof}
-The union
+\emph{Proof of (1).}
+Choose a basis of \(F\) and identify it with \(R^n\). We argue by induction
+on \(n\). The assertion is clear for \(n=0\). Let
 \[
-I=\bigcup_n I_n
+\pi:R^n\longrightarrow R
 \]
-is an ideal: two elements lie together in a large enough member of the
-chain, where their difference and all scalar multiples lie. Write \(I=(a)\).
-Since \(a\in I\), it lies in some \(I_N\).
-Then \((a)\subseteq I_N\subseteq I=(a)\), so \(I_N=I\), and all later ideals
-are equal to it.
+be projection onto the first coordinate, and set
+\[
+K=\ker(\pi|_N)=N\cap(0\oplus R^{n-1}).
+\]
+The image \(\pi(N)\) is an ideal, say \((d)\).
+
+If \(\pi(N)=0\), then \(N\subseteq0\oplus R^{n-1}\). Induction makes \(N\)
+free of rank at most \(n-1\), and hence at most \(n\).
+
+Suppose instead that \(\pi(N)=(d)\ne0\). Choose \(x\in N\) with
+\(\pi(x)=d\). For every \(y\in N\), there is \(r\in R\) such that
+\(\pi(y)=rd\). Therefore
+\[
+\pi(y-rx)=rd-rd=0,
+\]
+so \(y-rx\in K\), and
+\[
+y=rx+(y-rx)\in Rx+K.
+\]
+This proves \(N=Rx+K\). The sum is direct: if \(ax+k=0\) with \(k\in K\),
+then applying \(\pi\) gives
+\[
+ad=\pi(ax+k)=0.
+\]
+Because \(R\) is a domain and \(d\ne0\), we have \(a=0\), and then \(k=0\).
+
+By induction, choose a basis \(k_1,\ldots,k_s\) of \(K\), with
+\(s\leq n-1\). The decomposition above shows that
+\(x,k_1,\ldots,k_s\) spans \(N\), and the directness calculation together
+with independence of the \(k_i\) shows that this list is independent. Hence
+it is a basis of \(N\), and
+\[
+\operatorname{rank}N=1+s\leq n.
+\]
+
+\medskip
+\noindent\emph{Proof idea for (2).}
+We find one invariant-factor direction at a time.  Among all linear
+functionals \(\phi:F\to R\), choose one whose image \(\phi(N)\) is maximal
+as an ideal.  Its generator becomes the first invariant factor.  We show that
+a corresponding element of \(N\) is a scalar multiple of a primitive basis
+vector, split this direction from both \(F\) and \(N\), and repeat inside a
+free module of rank one smaller:
+\[
+\begin{gathered}
+\text{choose the first coefficient}\longrightarrow
+\text{find a primitive direction},\\
+\text{split it off}\longrightarrow\text{induct}.
+\end{gathered}
+\]
+
+\medskip
+\noindent\emph{Proof of (2).}
+We induct on \(n\).  The result is clear if \(n=0\), and if \(N=0\) we may
+take \(m=0\) and any basis of \(F\).  Suppose therefore that \(n>0\) and
+\(N\ne0\).
+
+\emph{Stage 1: choose a maximal image ideal.}
+For every \(\phi\in\operatorname{Hom}_R(F,R)\), the set \(\phi(N)\) is an
+ideal.  A PID is Noetherian because all its ideals are principal, so the
+maximal-member characterization of Noetherian rings proved in Chapter~4
+gives a maximal member of the partially ordered set
+\[
+\Sigma=\{\phi(N):\phi\in\operatorname{Hom}_R(F,R)\},
+\qquad\text{ordered by set inclusion}.
+\]
+Choose \(\psi:F\to R\) with \(\psi(N)=(a_1)\) maximal.  This ideal is
+nonzero. Indeed, choose \(0\ne z\in N\) and a basis
+\(x_1,\ldots,x_n\) of \(F\). Write
+\[
+z=r_1x_1+\cdots+r_nx_n.
+\]
+Some \(r_i\ne0\). Define the projection onto the \(i\)-th coordinate
+relative to this basis by
+\[
+\pi_i:F\longrightarrow R,
+\qquad
+\pi_i\left(\sum_{j=1}^n r_jx_j\right)=r_i.
+\]
+Then \(\pi_i(z)=r_i\ne0\), so \(\pi_i(N)\ne0\) is a nonzero member of
+\(\Sigma\). Recall the divisibility reversal
+\[
+(a)\subseteq(b)\quad\Longleftrightarrow\quad b\mid a.
+\]
+Thus enlarging an image ideal means finding a more fundamental divisor.
+
+\emph{Stage 2: force divisibility of every scalar measurement.}
+Choose \(z_1\in N\) with \(\psi(z_1)=a_1\).  We claim that
+\[
+a_1\mid\phi(z_1)
+\qquad\text{for every }\phi:F\to R.
+\]
+If one scalar measurement of \(z_1\) were not divisible by \(a_1\), the
+B\'ezout calculation below would produce a strictly larger image ideal.
+
+Fix an arbitrary \(\phi:F\to R\). Let \((a_1,\phi(z_1))=(g)\), and choose
+\(r,s\in R\) such that
+\(g=ra_1+s\phi(z_1)\). Define \(\nu=r\psi+s\phi\). Then
+\[
+\nu(z_1)=r\psi(z_1)+s\phi(z_1)
+=ra_1+s\phi(z_1)=g.
+\]
+Since \(z_1\in N\), this gives \(g\in\nu(N)\), and hence
+\((g)\subseteq\nu(N)\). Also \(g\mid a_1\), so principal-ideal inclusion
+reverses divisibility and gives \((a_1)\subseteq(g)\). Therefore
+\[
+(a_1)\subseteq(g)\subseteq\nu(N).
+\]
+The map \(\nu\) belongs to \(\operatorname{Hom}_R(F,R)\), so \(\nu(N)\)
+is a member of \(\Sigma\). Since \((a_1)=\psi(N)\) was chosen maximal in
+\(\Sigma\), the inclusion \((a_1)\subseteq\nu(N)\) forces
+\(\nu(N)=(a_1)\). Consequently \((a_1)=(g)\), so \(g\) is associate to
+\(a_1\). Since \(g\mid\phi(z_1)\), it follows that
+\(a_1\mid\phi(z_1)\).
+
+\emph{Stage 3: identify a primitive direction.}
+Choose any basis \(x_1,\ldots,x_n\) of \(F\), and define the projection onto
+the \(i\)-th coordinate relative to this basis by
+\[
+\pi_i:F\longrightarrow R,
+\qquad
+\pi_i\left(\sum_{j=1}^n r_jx_j\right)=r_i.
+\]
+Since the preceding step applies to every \(\pi_i\), write
+\(\pi_i(z_1)=a_1b_i\) and set
+\[
+y_1=\sum_{i=1}^n b_ix_i.
+\]
+The coordinate expansion of \(z_1\) now gives
+\[
+z_1=\sum_i\pi_i(z_1)x_i
+=\sum_i a_1b_ix_i=a_1y_1.
+\]
+Moreover,
+\[
+a_1=\psi(z_1)=\psi(a_1y_1)=a_1\psi(y_1).
+\]
+Because \(R\) is a domain and \(a_1\ne0\), we have \(\psi(y_1)=1\).
+Thus \(y_1\) has an \(R\)-linear functional taking it to \(1\). This is the
+key primitive property: it makes \(Ry_1\) split off from \(F\).
+
+\emph{Stage 4: split \(F\) and \(N\) simultaneously.}
+For every \(x\in F\),
+\[
+x=\psi(x)y_1+\bigl(x-\psi(x)y_1\bigr).
+\]
+Indeed,
+\[
+\psi\bigl(x-\psi(x)y_1\bigr)
+=\psi(x)-\psi(x)\psi(y_1)=0,
+\]
+so the second term lies in \(\ker\psi\), and hence
+\(F=Ry_1+\ker\psi\). If \(ry_1\in\ker\psi\), then
+\[
+0=\psi(ry_1)=r\psi(y_1)=r.
+\]
+Thus \(Ry_1\cap\ker\psi=0\), and therefore
+\[
+F=Ry_1\oplus\ker\psi.
+\]
+If \(z\in N\), then \(\psi(z)=ra_1\) for some \(r\in R\), so
+\(z-ra_1y_1\in N\), and
+\[
+\psi(z-ra_1y_1)=ra_1-ra_1\psi(y_1)=0.
+\]
+Therefore
+\[
+z=ra_1y_1+(z-ra_1y_1),
+\]
+with the second summand in \(N\cap\ker\psi\). This proves
+\(N=Ra_1y_1+(N\cap\ker\psi)\). If
+\(ra_1y_1\in N\cap\ker\psi\), then
+\[
+0=\psi(ra_1y_1)=ra_1.
+\]
+Since \(R\) is a domain and \(a_1\ne0\), we have \(r=0\). Hence the sum is
+direct:
+\[
+N=Ra_1y_1\oplus(N\cap\ker\psi).
+\]
+One relation direction has now been completely separated from all the others.
+
+\emph{Stage 5: induct and recover the divisibility chain.}
+The module \(\ker\psi\) is a submodule of \(F\), hence free by part~(1).
+Since \(\operatorname{rank}F=n\), \(\operatorname{rank}(Ry_1)=1\), and
+\(F=Ry_1\oplus\ker\psi\),
+Proposition~\ref{prop:finite-direct-sum-rank} gives
+\[
+n=1+\operatorname{rank}(\ker\psi).
+\]
+Thus \(\operatorname{rank}(\ker\psi)=n-1\), which justifies the induction
+parameter. Apply induction to
+\(N\cap\ker\psi\subseteq\ker\psi\).  We obtain basis vectors
+\(y_2,\ldots,y_n\) and nonzero elements \(a_2,\ldots,a_m\) with
+\[
+a_2\mid\cdots\mid a_m,
+\qquad
+N\cap\ker\psi=Ra_2y_2\oplus\cdots\oplus Ra_my_m.
+\]
+If \(m\geq2\), define \(\phi:F\to R\) on the new basis by
+\[
+\phi(y_1)=1,\qquad \phi(y_2)=1,\qquad
+\phi(y_i)=0\quad(i\geq3).
+\]
+Then
+\[
+\phi(a_1y_1)=a_1,
+\qquad
+\phi(a_2y_2)=a_2.
+\]
+Hence \(a_1,a_2\in\phi(N)\), and in particular
+\((a_1)\subseteq\phi(N)\). Because
+\(\phi\in\operatorname{Hom}_R(F,R)\), the ideal \(\phi(N)\) is a member of
+\(\Sigma\). Maximality of \((a_1)\) therefore gives
+\(\phi(N)=(a_1)\).
+Therefore \(a_2\in(a_1)\), or \(a_1\mid a_2\), as required.
 \end{proof}
+
+\begin{corollary}[Rank--nullity for finite free modules over a PID]
+\label{cor:pid-rank-nullity}
+Let \(R\) be a PID and let \(f:F\to G\) be an \(R\)-linear map between
+finite free \(R\)-modules. Then \(\ker f\) and \(\operatorname{im}f\) are
+finite free, the short exact sequence
+\[
+0\longrightarrow\ker f\longrightarrow F
+\xrightarrow{f}\operatorname{im}f\longrightarrow0
+\]
+splits, and
+\[
+F\cong\ker f\oplus\operatorname{im}f,
+\qquad
+\operatorname{rank}F
+=\operatorname{rank}(\ker f)+\operatorname{rank}(\operatorname{im}f).
+\]
+More precisely, after choosing a section
+\(s:\operatorname{im}f\to F\), the literal internal decomposition is
+\(F=\ker f\oplus s(\operatorname{im}f)\), with
+\(s(\operatorname{im}f)\cong\operatorname{im}f\).
+\end{corollary}
+\begin{proof}
+The inclusions \(\ker f\leq F\) and \(\operatorname{im}f\leq G\), together
+with Theorem~\ref{thm:pid-submodules-compatible-bases}(1), show that both
+modules are finite free. In particular \(\operatorname{im}f\) is projective,
+so Theorem~\ref{thm:projective-characterizations} splits the displayed short
+exact sequence. The Splitting Lemma gives the stated internal decomposition,
+and Proposition~\ref{prop:finite-direct-sum-rank} gives the rank formula.
+\end{proof}
+
+One should not conclude similarly that
+\(G\cong\operatorname{im}f\oplus\operatorname{coker}f\): although
+\(2\mathbb Z\leq\mathbb Z\) is free, it is not a direct summand.
 
 \section{Structure Theorem: Existence in Invariant-Factor Form}
+\label{sec:pid-structure-existence}
 A finitely generated module is built from generators subject to relations.
-Over a PID, the relations can be separated into independent one-variable
-relations. The next diagonal-reduction lemma is the technical heart of that
-separation; it is deliberately stated before Smith normal form, which will be
-introduced later as a matrix interpretation of the result.
+The compatible-basis conclusion of Theorem~\ref{thm:pid-submodules-compatible-bases}
+separates those relations inside a finite free module; taking the quotient
+then reads off the answer coordinate by coordinate.
 
-\begin{lemma}[PID diagonal reduction]
-Let \(A\) be a finite matrix over a PID \(R\). By invertible row and column
-operations, \(A\) can be transformed into a diagonal matrix
-\[\operatorname{diag}(d_1,\ldots,d_t,0,\ldots,0)\]
-with nonzero entries satisfying \(d_1\mid d_2\mid\cdots\mid d_t\).
-\end{lemma}
-\begin{proof}
-We first construct one pivot. Move any nonzero entry \(a\) to the upper-left
-corner. If \(a\) does not divide an entry \(b\), use row and column swaps to
-bring \(b\) into the first row or first column. Let \(g\) generate \((a,b)\)
-and write \(a=ga'\), \(b=gb'\). There are \(u,v\in R\) with
-\(ua+vb=g\), hence \(ua'+vb'=1\). The matrix
-\[\begin{pmatrix}u&v\\-b'&a'\end{pmatrix}\]
-has determinant one and sends the column \((a,b)^t\) to \((g,0)^t\).
-Applying this invertible two-row or two-column operation replaces the pivot
-by an associate of \(g\). If \(a\nmid b\), then
-\((a)\subsetneq(a,b)=(g)\). Repeating therefore creates a strictly ascending
-chain of pivot ideals, and the preceding lemma says that it stops.
-
-At that point the pivot divides every entry. Subtract suitable multiples of
-the first row and first column to clear its row and column. Induction on the
-smaller remaining matrix gives a Smith diagonal
-\(\operatorname{diag}(d_2,\ldots,d_t,0,\ldots,0)\).  Every entry in that
-remaining submatrix is divisible by \(d_1\), and this remains true under its
-row and column operations.  Thus \(d_1\mid d_2\), while induction gives
-\(d_2\mid\cdots\mid d_t\).  This produces the displayed divisibility chain.
-Every operation used is invertible, so the claim follows.
-\end{proof}
-
-\begin{theorem}[Structure theorem: invariant-factor existence]
-Let \(M\) be a finitely generated module over a PID \(R\). There are an
-integer \(r\geq0\) and nonzero nonunits \(d_1,\ldots,d_k\) satisfying
-\(d_1\mid d_2\mid\cdots\mid d_k\) such that
+\begin{theorem}[Structure theorem: existence]\label{thm:pid-structure-existence}
+Let \(M\) be a finitely generated module over a PID \(R\).
+\begin{enumerate}
+\item There exist an integer \(r\geq0\) and nonzero nonunits
+\(a_1,\ldots,a_m\) such that
 \[
-M\cong R^r\oplus R/(d_1)\oplus\cdots\oplus R/(d_k).
+a_1\mid a_2\mid\cdots\mid a_m
+\quad\text{and}\quad
+M\cong R/(a_1)\oplus\cdots\oplus R/(a_m)\oplus R^r.
 \]
+\item The module \(M\) is free if and only if it is torsion-free.
+\item In the decomposition above,
+\[
+T(M)\cong R/(a_1)\oplus\cdots\oplus R/(a_m),
+\qquad M/T(M)\cong R^r.
+\]
+\end{enumerate}
 \end{theorem}
+\begin{proofidea}
+Choose generators of \(M\) and realize it as a quotient \(F/N\) of a finite
+free module. Apply Theorem~\ref{thm:pid-submodules-compatible-bases}(2) to
+choose compatible coordinates for \(N\subseteq F\). The quotient becomes
+coordinatewise, producing the invariant factors. Once the free and torsion
+summands are visible, parts (2) and (3) follow immediately.
+\end{proofidea}
 \begin{proof}
-Choose generators \(m_1,\ldots,m_n\) of \(M\). The map \(R^n\to M\) taking
-the \(i\)-th standard vector to \(m_i\) is onto, with relation module
-\(N\). By Section~\ref{sec:pid-submodules-free}, \(N\) is free, so choose a finite basis and write the
-inclusion \(N\hookrightarrow R^n\) as a matrix. PID diagonal reduction
-chooses bases in source and target for which the image is generated by
-\(d_1e_1,\ldots,d_ke_k\), with the displayed divisibility condition.
-Quotienting \(R^n\) by this image gives \(R/(d_i)\) in the first \(k\)
-coordinates and one free copy of \(R\) in each remaining coordinate. Since
-\(M\cong R^n/N\), this is the desired decomposition.
+Choose a surjection \(F=R^n\twoheadrightarrow M\) and let \(N\) be its
+kernel. By Theorem~\ref{thm:pid-submodules-compatible-bases}(2), there are a basis
+\(y_1,\ldots,y_n\) of \(F\) and nonzero \(a_1\mid\cdots\mid a_s\) such that
+\[
+N=Ra_1y_1\oplus\cdots\oplus Ra_sy_s.
+\]
+Define
+\[
+\Phi:F\longrightarrow
+R/(a_1)\oplus\cdots\oplus R/(a_s)\oplus R^{n-s}
+\]
+by
+\[
+\Phi\left(\sum_{i=1}^n r_iy_i\right)
+=\bigl(r_1+(a_1),\ldots,r_s+(a_s),r_{s+1},\ldots,r_n\bigr).
+\]
+Coordinatewise addition and scalar multiplication show directly that
+\(\Phi\) is \(R\)-linear. It is surjective: choose representatives in \(R\)
+for the first \(s\) coordinates of any target tuple and use its remaining
+coordinates directly. Moreover,
+\[
+\Phi\left(\sum_i r_iy_i\right)=0
+\]
+if and only if \(r_i\in(a_i)\) for \(1\leq i\leq s\) and \(r_i=0\) for
+\(i>s\). Thus \(r_i=a_ic_i\) for \(i\leq s\), and
+\[
+\ker\Phi=Ra_1y_1\oplus\cdots\oplus Ra_sy_s=N.
+\]
+The First Isomorphism Theorem therefore gives
+\[
+M\cong F/N
+\cong R/(a_1)\oplus\cdots\oplus R/(a_s)\oplus R^{n-s}.
+\]
+If some \(a_i\) is a unit, then \(R/(a_i)=0\); omit every such zero summand.
+Relabel the remaining divisibility chain as \(a_1,\ldots,a_m\).  Its cyclic
+factors are nonzero and the free rank is \(r=n-s\), which proves part (1).
+
+If \(M\) is free, it is torsion-free because \(R\) is a domain.  Conversely,
+each nonzero summand \(R/(a_i)\) in part (1) is torsion, since
+\[
+a_i\bigl(1+(a_i)\bigr)=0.
+\]
+Thus a torsion-free \(M\) has no cyclic torsion summands and is free, proving
+part (2).
+
+Finally, set \(C=R/(a_1)\oplus\cdots\oplus R/(a_m)\). If \(m>0\), the
+divisibility \(a_i\mid a_m\) makes \(a_m\) annihilate every cyclic summand,
+hence every element of \(C\); if \(m=0\), then \(C=0\). Thus
+\(C\subseteq T(M)\). Conversely, write an element of
+\(M\cong C\oplus R^r\) as \(x=c+u\). If \(x\) is torsion, some
+\(0\ne d\in R\) satisfies \(d(c+u)=0\). Its free coordinate gives
+\(du=0\). Since \(R^r\) is torsion-free, \(u=0\), so every torsion element
+lies in \(C\). Therefore \(T(M)=C\), and quotienting gives
+\(M/T(M)\cong R^r\). This proves part (3).
 \end{proof}
 
-\section{Elementary-Divisor Existence via the UFD Property}
-Invariant factors package the torsion part into a divisibility chain. Prime
-factorization lets us instead see its independent prime-power pieces. This is
-an existence statement; uniqueness will be proved only after cancellation.
+\section{Elementary Divisors and Primary Decomposition}
+Invariant factors group the torsion into a divisibility chain.  Elementary
+divisors reorganize the same module in the opposite direction: they separate
+the independent prime-power phenomena.  This is still an existence argument;
+intrinsic uniqueness comes afterward.
 
 \begin{proposition}[Elementary-divisor existence]
 The torsion part of a finitely generated PID module is a direct sum of modules
 \(R/(p^e)\), where \(p\) is a prime element and \(e\geq1\).
 \end{proposition}
 \begin{proof}
-Every PID is a UFD, by Chapter~4. Factor an invariant factor as
+Every PID is a UFD by Theorem~\ref{thm:pid-ufd}. Factor an invariant factor as
 \[
 d=u\prod_i p_i^{e_i},
 \]
@@ -132,91 +414,338 @@ The Chinese Remainder Theorem therefore gives
 Apply this to every invariant factor.
 \end{proof}
 
-\section{Cancellation and Uniqueness}
-Before cancelling free summands, we must know that their ranks are meaningful.
-This is supplied by the invariant basis number theorem in Chapter~5: a PID is
-a nonzero commutative ring, so its finite free rank is well-defined.
+Fix one representative from each associate class of prime elements of \(R\).
+When \(R=F[x]\), we take the monic irreducible polynomials as representatives.
+For such a representative \(p\), define the \(p\)-primary component of \(M\) by
+\[
+M_p:=M[p^\infty]
+=\{m\in M:p^em=0\text{ for some }e\geq1\}.
+\]
+Grouping the elementary-divisor summands by these representatives gives
+submodules \(E_p\) and a decomposition
+\[
+T(M)=\bigoplus_p E_p.
+\]
+Each \(E_p\) is killed by a power of \(p\), so
+\(E_p\subseteq M_p\). Conversely, suppose
+\(m\in M_p\) and write \(m=\sum_qm_q\), with \(m_q\in E_q\).
+For \(q\ne p\), some powers \(p^e\) and \(q^f\) kill \(m_q\). Since
+distinct prime representatives are relatively prime, B\'ezout gives
+\(up^e+vq^f=1\), and therefore
+\(m_q=up^em_q+vq^fm_q=0\). Thus \(m=m_p\in E_p\), proving
+\(E_p=M_p\). Hence the intrinsic primary decomposition is
+\[
+T(M)=\bigoplus_p M_p,
+\]
+where \(p\) runs over the fixed representatives and only finitely many
+summands are nonzero. For example, the CRT
+decomposition \(\mathbb Z/12\cong\mathbb Z/4\oplus\mathbb Z/3\) separates
+the \(2\)-primary and \(3\)-primary behavior.
 
-For a prime \(p\), write
-\[M[p^\infty]=\{m\in M:p^em=0\text{ for some }e\geq1\}.\]
-This is a submodule intrinsic to \(M\), called its \(p\)-primary part.
+\section{Why Is the Decomposition Unique?}
+Existence asked a constructive question: how can we choose coordinates that
+split a module into standard pieces?  Uniqueness asks a different question:
+how can those pieces be recognized from \(M\) without referring to chosen
+coordinates?
 
-\begin{lemma}[Primary layers]
-For a finitely generated \(p\)-primary torsion module \(P\), put
-\[a_j(P)=\dim_{R/(p)}\bigl(p^{j-1}P/p^jP\bigr)\qquad(j\geq1).\]
-The displayed quotient is naturally an \(R/(p)\)-vector space, \(a_j(P)\)
-is invariant under isomorphism and additive under direct sums, and, if
+The free part is immediate from Theorem~\ref{thm:pid-structure-existence}(3).
+The torsion submodule \(T(M)\) is intrinsic, so
+\[
+M/T(M)\cong R^r.
+\]
+Invariant basis number from Chapter~5 therefore makes \(r\) intrinsic.  The
+real problem is to recover the torsion blocks.
+
+There is a useful first clue. Suppose a nonzero torsion module \(M\) has an
+invariant-factor decomposition
+\[
+M\cong R/(a_1)\oplus\cdots\oplus R/(a_k),
+\qquad a_1\mid\cdots\mid a_k.
+\]
+The annihilator of a direct sum is the intersection of the annihilators of
+its summands: a scalar annihilates the direct sum exactly when it annihilates
+every coordinate. The divisibility chain therefore gives
+\[
+\operatorname{Ann}(M)=(a_1)\cap\cdots\cap(a_k)=(a_k).
+\]
+Thus the largest invariant factor is visible intrinsically.  It is tempting
+to remove a displayed copy of \(R/(a_k)\) and repeat.  But an abstract
+isomorphism of direct sums need not identify the last displayed summand on
+one side with the last displayed summand on the other.  Cancellation cannot
+be assumed silently.  We instead seek stronger intrinsic invariants that
+recover every block at once.
+
+Different primes describe independent torsion phenomena, so the intrinsic
+submodules \(M_p\) tell us to fix \(p\) and study \(M_p\), solving uniqueness
+one prime at a time.
+
+\section{Primary Layers and Uniqueness}\label{sec:primary-layers}
+Let \(P\) be a finitely generated \(p\)-primary module.  Elementary-divisor
+existence shows that one common power of \(p\) annihilates \(P\), so its powers
+of \(p\) form a finite filtration
+\[
+P\supseteq pP\supseteq p^2P\supseteq\cdots\supseteq0.
+\]
+What disappears between \(p^{j-1}P\) and \(p^jP\)?  The quotient
+\(p^{j-1}P/p^jP\) measures exactly that loss.  Multiplication by \(p\) kills
+the quotient, so it is naturally a vector space over \(R/(p)\).  This
+motivates the intrinsic layer dimensions
+\[
+a_j(P)=\dim_{R/(p)}\bigl(p^{j-1}P/p^jP\bigr)
+\qquad(j\geq1).
+\]
+At the first layer, every cyclic \(p\)-power block is still present, so
+\(a_1(P)\) counts all blocks. At the second layer only blocks of exponent at
+least two survive, so \(a_2(P)\) counts those blocks; at the third layer only
+blocks of exponent at least three survive, and so on. The successive layers
+therefore record the block heights without choosing a decomposition.
+
+First consider one block \(C=R/(p^4)\).  Its filtration is
+\[
+C\supseteq pC\supseteq p^2C\supseteq p^3C\supseteq p^4C=0,
+\]
+and every nonzero successive quotient is one-dimensional over \(R/(p)\).
+Its layer sequence is therefore \(1,1,1,1,0,\ldots\).  Similarly,
+\(R/(p^2)\) contributes \(1,1,0,\ldots\), while \(R/(p)\) contributes
+\(1,0,\ldots\).
+
+For the multi-block example
+\[
+P=R/(p^4)\oplus R/(p^2)\oplus R/(p^2),
+\]
+the Young-diagram bookkeeping appears numerically as
+\[
+\begin{array}{c|ccccc}
+ &a_1&a_2&a_3&a_4&a_5\\ \hline
+R/(p^4)&1&1&1&1&0\\
+R/(p^2)&1&1&0&0&0\\
+R/(p^2)&1&1&0&0&0\\ \hline
+P&3&3&1&1&0.
+\end{array}
+\]
+Representing each cyclic summand by a column whose height is its exponent,
+\(a_j\) counts columns reaching height \(j\), while \(a_j-a_{j+1}\) counts
+columns ending there.  The picture reveals the recovery mechanism before the
+formal proof.
+
+\begin{lemma}[Primary layers]\label{lem:primary-layers}
+If
 \[
 P\cong\bigoplus_iR/(p^{e_i}),
 \]
 then
-\[a_j(P)=\#\{i:e_i\geq j\}.\]
+\[
+a_j(P)=\#\{i:e_i\geq j\}.
+\]
 \end{lemma}
 \begin{proof}
-Define \((r+(p))(z+p^jP)=rz+p^jP\) for \(z\in p^{j-1}P\). This is
-well-defined: changing \(z\) changes \(rz\) by an element of \(p^jP\),
-and if \(r-r'=ps\), then \((r-r')z\in p^jP\). Thus the quotient is an
-\(R/(p)\)-module, hence a vector space because \(R/(p)\) is a field.
-Isomorphisms preserve the two powers of \(p\), and direct sums commute with
-them, proving invariance and additivity. For one summand \(R/(p^e)\), the
-layer is zero for \(e<j\), and otherwise is generated by the class of
-\(p^{j-1}\) with annihilator \((p)\), hence is one copy of \(R/(p)\).
-Elementary-divisor existence and additivity give the formula.
+We separate the four mechanisms in the formula.
+
+\emph{Vector-space structure.}
+Because \(p\) is a nonzero prime element of the PID \(R\),
+Proposition~\ref{prop:pid-nonzero-prime-maximal} shows that \(R/(p)\) is a
+field.
+Define \((r+(p))(z+p^jP)=rz+p^jP\) for \(z\in p^{j-1}P\).  This is
+well-defined: changing \(z\) changes \(rz\) by an element of \(p^jP\), and
+if \(r-r'=ps\), then \((r-r')z\in p^jP\).  Thus the quotient is an
+\(R/(p)\)-module, hence a vector space.
+
+\emph{Intrinsic character.}
+If \(f:P\to Q\) is an isomorphism, then
+\(f(p^kP)=p^kf(P)=p^kQ\) for every \(k\). Hence
+\[
+\overline f_j:p^{j-1}P/p^jP\longrightarrow p^{j-1}Q/p^jQ,
+\qquad z+p^jP\longmapsto f(z)+p^jQ
+\]
+is well-defined and \(R/(p)\)-linear. The map induced in the same way by
+\(f^{-1}\) is its inverse. Thus corresponding layers are isomorphic, and
+\(a_j(P)\) depends only on \(P\).
+
+\emph{Additivity.}
+For modules \(P_1,P_2\), powers of \(p\) commute with their direct sum. There
+is therefore a natural \(R/(p)\)-linear isomorphism
+\[
+\frac{p^{j-1}(P_1\oplus P_2)}{p^j(P_1\oplus P_2)}
+\cong
+\frac{p^{j-1}P_1}{p^jP_1}\oplus
+\frac{p^{j-1}P_2}{p^jP_2}.
+\]
+Explicitly, it is given by
+\[
+(z_1,z_2)+p^j(P_1\oplus P_2)
+\longmapsto (z_1+p^jP_1,z_2+p^jP_2)
+\]
+and its inverse is obtained by pairing representatives. Iterating this binary
+isomorphism gives the corresponding statement for every finite direct sum;
+Corollary~\ref{cor:finite-direct-sum-dimension} then gives
+\[
+a_j(P_1\oplus\cdots\oplus P_n)=\sum_{i=1}^n a_j(P_i).
+\]
+
+\emph{Contribution of one block.}
+For \(R/(p^e)\), the \(j\)-th layer is zero when \(e<j\).  When \(e\geq j\),
+it is generated by the class of \(p^{j-1}\), whose annihilator in that layer
+is \((p)\); it is one copy of \(R/(p)\).  Additivity proves the formula.
 \end{proof}
 
-\begin{lemma}[Special cyclic prime-power cancellation]
-Let \(M,N\) be finitely generated \(p\)-primary torsion modules and let
-\(e\geq1\). If
-\[M\oplus R/(p^e)\cong N\oplus R/(p^e),\]
-then \(M\cong N\).
-\end{lemma}
-\begin{proof}
-Put \(C=R/(p^e)\). The preceding lemma gives
-\(a_j(C)=1\) for \(j\leq e\) and \(a_j(C)=0\) for \(j>e\). Additivity and
-the assumed isomorphism therefore give \(a_j(M)=a_j(N)\) for every \(j\).
-By elementary-divisor existence, write \(M\) and \(N\) as sums of modules
-\(R/(p^q)\). The formula above implies
-\[a_j(P)-a_{j+1}(P)=\#\{\text{summands }R/(p^j)\text{ in }P\}.\]
-Thus the two decompositions have the same multiplicity at every exponent,
-and hence give an isomorphism \(M\cong N\). This uses existence of
-elementary divisors, but no uniqueness statement.
-\end{proof}
+The decisive recovery formula is
+\begin{equation}\label{eq:primary-layer-recovery}
+m_j:=a_j(P)-a_{j+1}(P)
+=\#\{\text{summands }R/(p^j)\text{ in }P\}.
+\end{equation}
+It converts intrinsic row lengths of the filtration into column heights,
+hence into elementary divisors.
 
-\begin{theorem}[Structure theorem: uniqueness]
-In the invariant-factor decomposition, the free rank and the ideals
-\((d_1),\ldots,(d_k)\) are uniquely determined. Equivalently, elementary
-divisors are unique up to associates and order.
+\begin{theorem}[Uniqueness: elementary-divisor form]
+\label{thm:uniqueness-elementary-divisor}
+For each prime representative \(p\) and each \(j\geq1\), the multiplicity of
+\(R/(p^j)\) in a finitely generated PID module is uniquely determined by the
+module. Hence the elementary-divisor decomposition is unique up to associates
+and order; the free rank is unique as well.
 \end{theorem}
 \begin{proof}
-The torsion submodule \(T(M)\) is intrinsic: over a domain, sums and scalar
-multiples of torsion elements are torsion. Thus
-\(M/T(M)\cong R^r\), and IBN proves that the free rank \(r\) is unique.
-The intrinsic submodule \(M[p^\infty]\) separates the remaining torsion into
-its prime-primary components, so fix a prime \(p\) and a nonzero component
-\(P\). We induct on the number of cyclic summands in one elementary-divisor
-decomposition, the zero-summand case being clear.
-
-Let \(e\) be its largest exponent. The annihilator of
-\[
-\bigoplus_iR/(p^{e_i})
-\]
-is \((p^e)\): an element kills every summand
-exactly when it is divisible by each \(p^{e_i}\), equivalently by \(p^e\).
-Hence \(e\) is intrinsic. If \(s\) is the number of summands
-\(R/(p^e)\), then \(p^{e-1}P\) is naturally an \(R/(p)\)-vector space:
-define scalar multiplication just as in the primary-layer lemma. Shorter
-summands vanish there, while each largest summand contributes one dimension,
-so \(s=\dim_{R/(p)}p^{e-1}P\) is intrinsic. Two decompositions therefore
-have the forms
-\[P\cong M'\oplus(R/(p^e))^s\cong N'\oplus(R/(p^e))^s.\]
-Apply special cyclic prime-power cancellation \(s\) times to obtain
-\(M'\cong N'\). The induction hypothesis then determines the remaining
-summands. This proves uniqueness of all elementary divisors.
-
-Finally, line up the prime-power lists by increasing exponent, padding on the
-left by units when necessary, and multiply entries in corresponding positions.
-This recovers the unique divisibility-chain invariant factors.
+The intrinsic module \(T(M)\) and
+Theorem~\ref{thm:pid-structure-existence}(3) give
+\(M/T(M)\cong R^r\), so IBN determines \(r\). Each primary component
+\(M_p\) is intrinsic. On it, the intrinsic sequence \(a_j\)
+determines through \eqref{eq:primary-layer-recovery} the multiplicity of every
+block \(R/(p^j)\). Thus all elementary divisors are unique, prime by prime.
 \end{proof}
+
+Elementary divisors determine invariant factors by a canonical regrouping
+procedure. Here is that regrouping explicitly. Suppose the elementary divisors are
+\[
+p,\quad p^3,\quad q^2,\quad q^4,\quad q^5,
+\]
+for nonassociate primes \(p,q\).  Arrange each prime's powers by increasing
+exponent and pad the shorter list on the left by units:
+\[
+\begin{array}{ccc}
+1&p&p^3\\
+q^2&q^4&q^5
+\end{array}.
+\]
+Multiplying down the columns gives
+\[
+q^2,\qquad pq^4,\qquad p^3q^5,
+\]
+and visibly \(q^2\mid pq^4\mid p^3q^5\).  Factoring an invariant-factor
+chain reverses this construction. Thus elementary-divisor uniqueness already
+provides one route to invariant-factor uniqueness; after establishing
+cancellation, we will also give a direct proof in invariant-factor language.
+
+\section{Cancellation and Consequences}
+Cancellation is now a consequence of the intrinsic classification, rather
+than an unproved step inside its proof.
+
+\begin{corollary}[Cyclic prime-power cancellation]
+Let \(M,N\) be finitely generated \(p\)-primary modules and let \(e\geq1\).
+If
+\[
+M\oplus R/(p^e)\cong N\oplus R/(p^e),
+\]
+then \(M\cong N\).
+\end{corollary}
+\begin{proof}
+Theorem~\ref{thm:uniqueness-elementary-divisor} says that the two sides have
+the same multiplicity of every elementary divisor. Removing the one common
+occurrence of \(p^e\) leaves identical elementary-divisor multisets for \(M\)
+and \(N\).
+\end{proof}
+
+\begin{corollary}[Cyclic cancellation]\label{cor:cyclic-cancellation}
+Let \(M,N\) be finitely generated torsion \(R\)-modules and let \(0\ne d\in R\).
+If
+\[
+M\oplus R/(d)\cong N\oplus R/(d),
+\]
+then \(M\cong N\).
+\end{corollary}
+\begin{proof}
+If \(d\) is a unit, the added cyclic module is zero and there is nothing to
+prove. Otherwise factor \(d\), up to a unit, into powers of distinct fixed
+prime representatives. The Chinese Remainder Theorem expresses \(R/(d)\) as
+the direct sum of the corresponding prime-power cyclic modules.
+Theorem~\ref{thm:uniqueness-elementary-divisor} says that the two sides of the
+given isomorphism have the same multiset of elementary divisors. Remove the
+common elementary divisors contributed by \(R/(d)\). The modules \(M\) and
+\(N\) then have identical elementary-divisor decompositions, so \(M\cong N\).
+\end{proof}
+
+\begin{theorem}[Uniqueness: invariant-factor form]
+\label{thm:uniqueness-invariant-factor}
+Suppose a finitely generated torsion \(R\)-module has two decompositions
+\[
+M\cong R/(a_1)\oplus\cdots\oplus R/(a_r)
+\cong R/(b_1)\oplus\cdots\oplus R/(b_s),
+\]
+where
+\[
+a_1\mid\cdots\mid a_r,
+\qquad b_1\mid\cdots\mid b_s,
+\]
+and every displayed cyclic factor is nonzero. Then \(r=s\) and, after
+matching the two divisibility chains, \((a_i)=(b_i)\) for every \(i\).
+\end{theorem}
+\begin{proofidea}
+The annihilator identifies the largest invariant factor. Cyclic cancellation
+removes that factor, and induction repeats the argument on the remaining
+chains.
+\end{proofidea}
+\begin{proof}
+We induct on \(r+s\). If \(r=0\), then \(M=0\); because every displayed
+factor in the second decomposition is nonzero, necessarily \(s=0\). The same
+argument applies with the two decompositions reversed, establishing the base
+case.
+
+Now suppose \(r,s>0\). The annihilator of a finite direct sum is the
+intersection of the annihilators of its summands, because a scalar
+annihilates the direct sum exactly when it annihilates every coordinate. The
+divisibility chains give
+\[
+\operatorname{Ann}(M)
+=(a_1)\cap\cdots\cap(a_r)=(a_r),
+\qquad
+\operatorname{Ann}(M)
+=(b_1)\cap\cdots\cap(b_s)=(b_s).
+\]
+Thus \((a_r)=(b_s)\), so \(R/(a_r)\cong R/(b_s)\). Put
+\[
+A=\bigoplus_{i<r}R/(a_i),
+\qquad
+B=\bigoplus_{j<s}R/(b_j).
+\]
+After identifying the last two factors with the common cyclic type
+\(R/(a_r)\), the original isomorphisms give
+\[
+A\oplus R/(a_r)\cong B\oplus R/(a_r).
+\]
+Corollary~\ref{cor:cyclic-cancellation} yields \(A\cong B\). The total number
+of displayed factors has decreased, so induction gives \(r-1=s-1\) and
+\((a_i)=(b_i)\) for \(i<r\). Together with \((a_r)=(b_s)\), this proves
+\(r=s\) and equality of all matched ideals.
+\end{proof}
+
+The two uniqueness theorems reflect the two normal forms. Primary layers
+recover all prime-power block multiplicities simultaneously and prove
+Theorem~\ref{thm:uniqueness-elementary-divisor}. In contrast, the direct
+invariant-factor argument follows the chain
+\[
+\text{annihilator}\longrightarrow\text{largest invariant factor}
+\longrightarrow\text{cancellation}\longrightarrow\text{induction},
+\]
+detecting and removing one factor at a time. Consequently, invariant factors
+are unique up to associates, while elementary divisors are unique up to
+associates and order.
+
+\begin{remark}
+The annihilator alone does not single out a preferred embedded cyclic summand
+inside an abstract direct sum, so cancellation cannot be assumed. The
+primary-layer argument is the natural intrinsic proof of uniqueness in
+elementary-divisor form. Once cyclic cancellation has been proved from that
+classification, the annihilator argument gives a particularly short inductive
+proof of uniqueness in invariant-factor form.
+\end{remark}
 
 \section{Finitely Generated Abelian Groups}
 The familiar classification of finitely generated abelian groups is now a
@@ -238,15 +767,88 @@ Indeed, abelian groups are precisely \(\mathbb Z\)-modules and
 to \(R=\mathbb Z\).  Factoring the invariant factors into prime powers gives
 the elementary-divisor form.
 
-For example, \(\mathbb Z/12\mathbb Z\oplus\mathbb Z/18\mathbb Z\) has
+\begin{corollary}[Finiteness and order]
+A finitely generated abelian group is finite if and only if its free rank is
+zero.  In that case,
+\[
+\left|\mathbb Z/(d_1)\oplus\cdots\oplus\mathbb Z/(d_k)\right|
+=d_1\cdots d_k.
+\]
+\end{corollary}
+\begin{proof}
+A nonzero free summand \(\mathbb Z\) makes the group infinite.  With no free
+summand, the group is a finite Cartesian product of finite cyclic groups, so
+its order is the product of their orders.
+\end{proof}
+
+\begin{example}[Free and torsion parts]
+The group
+\[
+G=\mathbb Z^2\oplus\mathbb Z/6\mathbb Z\oplus\mathbb Z/30\mathbb Z
+\]
+has free rank \(2\), torsion subgroup of order \(180\), and is infinite.
+Its elementary divisors are
+\[
+2,\ 3,\ 2,\ 3,\ 5
+\]
+with prime powers grouped by their two invariant-factor columns; more
+transparently,
+\[
+G_{\mathrm{tors}}\cong
+\mathbb Z/2\oplus\mathbb Z/3\oplus
+\mathbb Z/2\oplus\mathbb Z/3\oplus\mathbb Z/5.
+\]
+\end{example}
+
+\begin{example}[Converting the two forms]
+\(\mathbb Z/12\mathbb Z\oplus\mathbb Z/18\mathbb Z\) has
 elementary divisors \(\mathbb Z/4\mathbb Z\), \(\mathbb Z/3\mathbb Z\),
 \(\mathbb Z/2\mathbb Z\), and \(\mathbb Z/9\mathbb Z\); regrouping gives
-the invariant factors \(\mathbb Z/6\mathbb Z\oplus\mathbb Z/36\mathbb Z\).
+the invariant factors
+\[
+\mathbb Z/6\mathbb Z\oplus\mathbb Z/36\mathbb Z.
+\]
+Its order is \(6\cdot36=216\), the same as \(12\cdot18\).
+\end{example}
+
+\begin{example}[Classification at a fixed order]
+Every abelian group of order \(72=2^3 3^2\) is obtained by independently
+choosing a partition of \(3\) for the \(2\)-primary part and a partition of
+\(2\) for the \(3\)-primary part.  The three possibilities
+\[
+\mathbb Z/8,\qquad \mathbb Z/4\oplus\mathbb Z/2,\qquad
+(\mathbb Z/2)^3
+\]
+for the \(2\)-part combine with the two possibilities
+\[
+\mathbb Z/9,\qquad(\mathbb Z/3)^2
+\]
+for the \(3\)-part.  Thus there are exactly six isomorphism types, one for
+each pairing of the displayed choices.  For example, pairing the middle and
+second choices gives
+\[
+\mathbb Z/4\oplus\mathbb Z/2\oplus
+\mathbb Z/3\oplus\mathbb Z/3.
+\]
+No search through group operations is needed.
+\end{example}
 
 \section{Smith Normal Form}
-The structure theorem classified modules before mentioning a named matrix
-normal form. Smith normal form now makes the same information visible in one
-presentation matrix, and provides a separate uniqueness check.
+Theorem~\ref{thm:pid-submodules-compatible-bases}(2) gives the conceptual
+existence argument, while the preceding uniqueness theorems identify the
+elementary-divisor and invariant-factor data intrinsically. Smith normal form
+is the matrix manifestation of the same structure. We first explain why it exists, then
+show how B\'ezout row and column operations compute it.
+
+For matrices \(A,B\in M_{n\times m}(R)\), say that \(A\) and \(B\) are
+\emph{equivalent} if \(B=UAV\) for some
+\(U\in\operatorname{GL}_n(R)\) and \(V\in\operatorname{GL}_m(R)\).
+Here \(U\) changes the basis of the target \(R^n\), while \(V\) changes the
+basis of the source \(R^m\). This differs fundamentally from similarity,
+\(B=P^{-1}AP\), which concerns square matrices representing one endomorphism
+after one change of basis. Thus matrix equivalence is not operator similarity.
+This distinction matters when Smith reduction is applied to \(xI-A\), whereas
+rational canonical form classifies \(A\) up to similarity.
 
 \begin{definition}
 A matrix over a PID is in \emph{Smith normal form} if it is
@@ -254,17 +856,170 @@ A matrix over a PID is in \emph{Smith normal form} if it is
 d_1\mid\cdots\mid d_t,\quad d_i\ne0.\]
 \end{definition}
 
+The elementary invertible row and column operations are: interchange two
+rows or columns; multiply one row or column by a unit; and add a scalar
+multiple of one row or column to another. Each is multiplication on the
+appropriate side by an elementary matrix. Its inverse is respectively the
+same interchange, multiplication by the inverse unit, or addition of the
+negative scalar multiple, so each operation preserves matrix equivalence.
+
 \begin{theorem}[Smith normal form]
 For every matrix \(A\) over a PID, there are invertible matrices \(U,V\)
 such that \(UAV\) is in Smith normal form.
 \end{theorem}
+\begin{proofidea}
+Regard the matrix as a homomorphism \(A:R^m\to R^n\). Choose compatible
+target coordinates for \(\operatorname{im}(A)\), then split the surjection from the source
+onto that free image.  Compatible source and target bases make the matrix
+diagonal.
+\end{proofidea}
 \begin{proof}
-The PID diagonal-reduction lemma proves existence using only gcd and B\'ezout
-row and column operations and the directly proved ascending-chain lemma. Such
-operations multiply on the left or right by an invertible elementary matrix,
-so their accumulated products are the required \(U\) and \(V\). No Euclidean
-division is used.
+Apply Theorem~\ref{thm:pid-submodules-compatible-bases}(2) to
+\(\operatorname{im}(A)\subseteq R^n\).  There is a target basis
+\(y_1,\ldots,y_n\) such that
+\[
+\operatorname{im}(A)=Rd_1y_1\oplus\cdots\oplus Rd_ty_t,
+\qquad d_1\mid\cdots\mid d_t.
+\]
+The displayed generators form a basis of \(\operatorname{im}(A)\).  Because
+this module is free, it is projective by Chapter~5, so the surjection
+\[
+R^m\twoheadrightarrow\operatorname{im}(A)
+\]
+splits.  Choose a section \(s\), put \(x_i=s(d_iy_i)\), and choose a basis
+of \(\ker A\), which is free by Section~\ref{sec:pid-submodules-free}.  The
+splitting gives
+\[
+R^m=s(\operatorname{im}(A))\oplus\ker A,
+\]
+so \(x_1,\ldots,x_t\), followed by the kernel basis, is a basis of the
+source.  In these bases,
+\[
+A(x_i)=d_iy_i\quad(1\leq i\leq t),
+\qquad A(\ker A)=0,
+\]
+and the matrix is \(\operatorname{diag}(d_1,\ldots,d_t,0,\ldots,0)\).
+The two changes of basis give the required invertible \(U,V\).
 \end{proof}
+
+\subsection*{Constructive viewpoint: B\'ezout row and column reduction}
+The structural proof explains why Smith form exists.  The next argument
+explains how to reach it through explicit invertible operations.
+
+\begin{proposition}[Constructive PID diagonal reduction]
+Every finite matrix over a PID can be transformed to Smith normal form by
+invertible row and column operations.
+\end{proposition}
+\begin{proofidea}
+Improve the upper-left pivot until it divides every entry; prove termination
+by ACC on principal ideals; clear its row and column; then induct on the
+remaining submatrix.
+\end{proofidea}
+\begin{proof}
+If the matrix is zero, there is nothing to prove.  Otherwise move a nonzero
+entry \(d\) to the upper-left corner.  Suppose first that an entry \(b\) in
+the first column is not divisible by \(d\).  Let \(g\) generate \((d,b)\),
+write \(d=gd'\), \(b=gb'\), and choose \(u,v\in R\) with \(ud+vb=g\).  Then
+\[
+\begin{pmatrix}u&v\\-b'&d'\end{pmatrix}
+\begin{pmatrix}d\\b\end{pmatrix}
+=\begin{pmatrix}g\\0\end{pmatrix},
+\qquad
+\det\begin{pmatrix}u&v\\-b'&d'\end{pmatrix}=ud'+vb'=1.
+\]
+This invertible row operation replaces the pivot by \(g\).  Analogous right
+multiplication on two columns handles a nondivisible first-row entry.
+
+Repeat these B\'ezout improvements until the pivot divides every entry in its
+row and column, then clear the rest of that row and column.  The matrix has
+the form
+\[
+\begin{pmatrix}d&0\\0&A_1\end{pmatrix}.
+\]
+If an interior entry \(b\) of \(A_1\) is not divisible by \(d\), add its row
+to the first row.  The first column remains unchanged, while \(b\) enters the
+first row.  Apply to the pivot column and the column containing \(b\) the
+two-column operation
+\[
+\begin{pmatrix}u&-b'\\v&d'\end{pmatrix},
+\qquad ud+vb=g,\quad d=gd',\quad b=gb'.
+\]
+Indeed,
+\[
+(d,b)\begin{pmatrix}u&-b'\\v&d'\end{pmatrix}=(g,0),
+\]
+and its determinant is \(1\).  The new pivot generates \((d,b)\), and
+\(d\nmid b\) implies
+\[
+(d)\subsetneq(d,b).
+\]
+Every such improvement strictly enlarges the principal pivot ideal.
+Chapter~4 proves that a PID is Noetherian and that ACC terminates ascending
+ideal chains, so this process stops.
+
+At termination, clear the first row and column once more.  No interior entry
+can fail to be divisible by the pivot, or the preceding step would improve it
+again.  Thus the first diagonal entry \(d_1\) divides every entry of the
+remaining matrix.  Apply induction to that submatrix.  Its operations form
+only linear combinations of its entries, so divisibility by \(d_1\) survives,
+and the resulting diagonal satisfies
+\[
+d_1\mid d_2\mid\cdots\mid d_t.
+\]
+Every operation used is invertible; no Euclidean division is required.
+\end{proof}
+
+Over an arbitrary PID this is an explicit terminating reduction procedure,
+with termination supplied by ACC. Effectiveness additionally requires the
+ability to compute gcds and B\'ezout coefficients. Over Euclidean domains such
+as \(\mathbb Z\) and \(F[x]\), the Euclidean algorithm supplies these, so the
+procedure is a computational algorithm in the usual sense.
+
+Presentations explain what this computation does to a module.  Chosen
+generators and relations give an exact sequence
+\[
+\begin{tikzcd}[column sep=large]
+R^m\arrow[r,"A"]&R^n\arrow[r,two heads]&M\arrow[r]&0,
+\end{tikzcd}
+\]
+where the columns of \(A\) record the relations and
+\(M\cong\operatorname{coker}(A)\).  Row operations change the target basis,
+column operations change the source basis, and neither changes the cokernel.
+Smith reduction therefore separates the defining relations coordinatewise.
+
+\begin{corollary}[Kernel and cokernel from Smith form]
+\label{cor:smith-kernel-cokernel}
+Suppose \(A:R^m\to R^n\) has Smith form
+\(\operatorname{diag}(d_1,\ldots,d_t,0,\ldots,0)\). Then
+\[
+\operatorname{rank}(\operatorname{im}A)=t,
+\qquad \ker A\cong R^{m-t},
+\]
+and
+\[
+\operatorname{coker}A\cong
+R/(d_1)\oplus\cdots\oplus R/(d_t)\oplus R^{n-t}.
+\]
+Unit \(d_i\) contribute zero cyclic summands and may be omitted. Thus Smith
+reduction diagonalizes the relations in a finite presentation.
+\end{corollary}
+\begin{proof}
+Equivalent matrices represent the same map after source and target
+isomorphisms. For the diagonal map the assertions follow coordinatewise;
+multiplication by each nonzero \(d_i\) is injective because a PID is a domain.
+\end{proof}
+
+Over a field every nonzero Smith entry is a unit and can be normalized to
+\(1\). Thus Smith form becomes
+\(\operatorname{diag}(1,\ldots,1,0,\ldots,0)\): ordinary rank normal form is
+the field case of the divisibility data carried by Smith form over a PID.
+
+If \(A\) is \(n\times n\) and has full rank, determinant multiplicativity
+gives \(\det A\sim d_1\cdots d_n\). For an integral matrix with
+\(\det A\ne0\), the cokernel formula therefore gives
+\[
+\lvert\mathbb Z^n/A\mathbb Z^n\rvert=\lvert\det A\rvert.
+\]
 
 \noindent\textbf{Worked example.} Over \(\mathbb Z\), elementary operations
 give
@@ -283,25 +1038,209 @@ Consequently its cokernel is
 \[
 \mathbb Z/2\mathbb Z\oplus\mathbb Z/4\mathbb Z.
 \]
+Equivalently, the abelian group with two generators and relation columns
+\((2,6)^t\) and \((4,8)^t\) has precisely these invariant factors.  This is
+the promised passage from a presentation matrix to the classification of its
+cokernel.
+
+\noindent\textbf{A genuine B\'ezout pivot improvement.}
+For the column matrix \(A=(6,15)^t\), the pivot \(6\) does not divide \(15\).
+Since \((-2)6+15=3\),
+\[
+\begin{pmatrix}-2&1\\-5&2\end{pmatrix}
+\begin{pmatrix}6\\15\end{pmatrix}
+=\begin{pmatrix}3\\0\end{pmatrix},
+\qquad
+\det\begin{pmatrix}-2&1\\-5&2\end{pmatrix}=1.
+\]
+This invertible row operation replaces the pivot by
+\(\gcd(6,15)=3\), displaying the B\'ezout improvement that repeated
+subtraction can conceal.
 
 For a matrix, let \(D_j(A)\) be the ideal generated by its \(j\times j\)
-minors, with \(D_0(A)=R\). Elementary row and column operations preserve
+minors, with \(D_j(A)=R\) for \(j\leq0\) and \(D_j(A)=0\) when \(j\)
+exceeds the possible minor size. Elementary row and column operations preserve
 each \(D_j(A)\), because each new minor is an \(R\)-linear combination of old
-minors, and the inverse operation gives the reverse inclusion. In Smith form,
-\[D_j(A)=(d_1\cdots d_j).\]
-Thus the determinantal ideals recover each \((d_j)\) successively. This is
-an alternative proof of uniqueness, logically subsequent to the
-annihilator-and-induction proof above.
+minors, and the inverse operation gives the reverse inclusion.  In Smith form
+with \(t\) nonzero entries,
+\[
+D_j(A)=(d_1\cdots d_j)\quad(1\leq j\leq t),
+\qquad D_j(A)=0\quad(j>t).
+\]
+If \(D_j(A)=(\Delta_j)\), then, up to associates,
+\(d_1\sim\Delta_1\) and
+\(\Delta_j\sim\Delta_{j-1}d_j\) successively. Concretely, \(d_1\) is
+associate to the gcd of all entries, \(d_1d_2\) to the gcd of all
+\(2\times2\) minors, and so forth.
+
+\begin{corollary}[Uniqueness of Smith normal form]
+\label{cor:smith-uniqueness}
+Suppose
+\[
+\operatorname{diag}(d_1,\ldots,d_t,0,\ldots,0),\qquad
+\operatorname{diag}(e_1,\ldots,e_s,0,\ldots,0)
+\]
+are Smith forms equivalent to the same matrix, with both nonzero lists ordered
+by divisibility. Then \(t=s\) and \(d_i\sim e_i\) for every \(i\).
+With fixed associate representatives, such as positive integers in
+\(\mathbb Z\) or monic polynomials in \(F[x]\), the Smith form is literally
+unique.
+\end{corollary}
+\begin{proof}
+Equivalent matrices have the same determinantal ideals. The integer \(t\) is
+the largest \(j\geq0\) for which \(D_j(A)\ne0\), with \(D_0(A)=R\) by
+convention. Hence equivalent matrices have the same \(t\). Then
+\((d_1\cdots d_j)=(e_1\cdots e_j)\) for \(1\leq j\leq t\); cancellation in the
+domain, applied successively, gives \((d_j)=(e_j)\).
+\end{proof}
+
+\subsection*{Alternative uniqueness via Smith normal form and Fitting ideals}
+Smith uniqueness compares equivalent matrices. An abstract module, however,
+can have many finite presentations, so another step is required before minors
+become module invariants.
+
+Let
+\[
+R^m\xrightarrow{A}R^n\longrightarrow M\longrightarrow0
+\]
+be a finite presentation. For every integer \(k\), define
+\[
+\operatorname{Fitt}_k(M)=D_{n-k}(A),
+\]
+using \(D_j(A)=R\) for \(j\leq0\) and \(D_j(A)=0\) beyond the possible
+minor size.
+
+\begin{theorem}[Presentation independence of Fitting ideals]
+\label{thm:fitting-presentation-independent}
+The ideal \(\operatorname{Fitt}_k(M)\) is independent of the chosen finite
+presentation. Hence every Fitting ideal is intrinsic to \(M\).
+\end{theorem}
+\begin{proof}
+We compare separately the relations and the module generators.
+
+First fix a surjection \(R^n\twoheadrightarrow M\). If the columns of two
+matrices \(A\) and \(A'\) generate its kernel, each column of either matrix is
+a linear combination of columns of the other. Thus \(A'=AC\) and \(A=A'C'\)
+for suitable matrices. Fix a \(j\times j\) minor of \(AC\). After selecting
+its \(j\) rows, each of its columns is an \(R\)-linear combination of the
+columns of \(A\) restricted to those rows. Multilinearity expands its
+determinant as an \(R\)-linear combination of determinants formed from \(j\)
+restricted columns of \(A\). Terms with a repeated column vanish; every
+remaining determinant is, up to sign, a \(j\times j\) minor of \(A\).
+Therefore \(D_j(AC)\subseteq D_j(A)\), so
+\(D_j(A')\subseteq D_j(A)\). The reverse factorization gives equality, and
+the ideals do not depend on the chosen finite generating list of relations.
+
+Now adjoin to module generators \(y_1,\ldots,y_n\) one redundant generator
+\(y=\sum c_i y_i\). If \(c=(c_1,\ldots,c_n)^t\), a relation matrix for the
+enlarged list is
+\[
+B=\begin{pmatrix}A&-c\\0&1\end{pmatrix}.
+\]
+Indeed, \((u,s)\) is a relation on the enlarged list exactly when
+\(u+sc\in\operatorname{im}A\), which is exactly when
+\((u,s)=B(z,s)\) for some \(z\).
+Adding \(c_i\) times the last row to row \(i\) makes \(B\) equivalent to
+\(A\oplus(1)\). A Laplace expansion of any \(j\times j\) minor of \(A\)
+along one row expresses it as an \(R\)-linear combination of
+\((j-1)\times(j-1)\) minors of \(A\). Hence
+\(D_j(A)\subseteq D_{j-1}(A)\). A \(j\)-minor of the block matrix either avoids the unit
+block or uses it, so
+\[
+D_j(A\oplus(1))=D_j(A)+D_{j-1}(A)=D_{j-1}(A),
+\]
+because \(D_j(A)\subseteq D_{j-1}(A)\). Therefore
+\[
+D_{(n+1)-k}(B)=D_{n-k}(A),
+\]
+so adjoining a redundant module generator does not change
+\(\operatorname{Fitt}_k\).
+
+Finally, take two finite generating lists for \(M\) and adjoin every member
+of each list to the other. Both become the same combined list, one redundant
+generator at a time. For that common surjection, the first paragraph compares
+any two finite relation lists. Such lists exist because its kernel is a
+submodule of a finite free module over the PID \(R\), hence is finitely
+generated by Theorem~\ref{thm:pid-submodules-compatible-bases}. Thus the two
+original presentations give the same ideals.
+\end{proof}
+
+\begin{theorem}[Invariant factors from Fitting ideals]
+\label{thm:fitting-invariant-factors}
+Suppose existence gives
+\[
+M\cong R^r\oplus R/(d_1)\oplus\cdots\oplus R/(d_t),
+\qquad d_1\mid\cdots\mid d_t,
+\]
+where the \(d_i\) are nonzero nonunits. Then the free rank and all associate
+classes \((d_i)\) are determined by \(M\).
+\end{theorem}
+\begin{proof}
+The free rank \(r\) is intrinsic because
+\(M/T(M)\cong R^r\) and IBN determines \(r\). A diagonal presentation with
+\(r+t\) generators has relation matrix consisting of a zero \(r\)-row block
+above \(\operatorname{diag}(d_1,\ldots,d_t)\). Consequently
+\[
+\begin{aligned}
+\operatorname{Fitt}_k(M)&=0 &&(k<r),\\
+\operatorname{Fitt}_{r+t-j}(M)&=(d_1\cdots d_j)
+&&(1\leq j\leq t),\\
+\operatorname{Fitt}_{r+t}(M)&=R.
+\end{aligned}
+\]
+Because every \(d_i\) is a nonunit, \(r+t\) is the least index at which the
+Fitting ideal becomes \(R\); hence \(t\) is intrinsic. Reading the middle
+line from \(j=1\) upward gives
+\[
+(d_1),\quad(d_1d_2),\quad\ldots,\quad(d_1\cdots d_t).
+\]
+Successive cancellation recovers each \((d_j)\). This proves invariant-factor
+uniqueness without choosing or identifying a summand of \(M\). Factoring the
+recovered invariant factors into prime powers then recovers the elementary
+divisors as well.
+\end{proof}
+
+The three uniqueness arguments illuminate different structure. Primary
+layers use the intrinsic \(p\)-primary filtration and recover all prime-power
+block multiplicities at once; this remains the conceptual main proof.
+Annihilator plus cancellation detects the largest invariant factor, removes
+it, and inducts. Smith form and Fitting ideals pass from a finite presentation
+to minors, prove those ideals presentation-independent, and recover invariant
+factors. These are complementary rather than circular: the Fitting argument
+uses only existence of a decomposition, not its uniqueness, and the Smith
+uniqueness corollary rests directly on determinantal ideals. Fitting ideals
+also make sense beyond PIDs, where they help measure how many generators a
+module needs locally.
 
 \section{Linear Operators as \texorpdfstring{\(F[x]\)}{F[x]}-Modules}
-We return to the concrete invariant subspaces of Chapter~5. An operator can
-be encoded by declaring that the polynomial variable \(x\) acts as that
-operator; polynomial relations then become module relations.
+\label{sec:linear-operators-fx-modules}
+Chapter~5 showed what generalized eigenvectors and Jordan chains look like.
+It did not yet explain why enough compatible chains exist or why their block
+sizes are intrinsic. Why do the canonical blocks exist, and why are their
+sizes unique? The structural answer is to let \(x\) act as \(T\). Then \(V\)
+becomes a finitely generated torsion \(F[x]\)-module, and the PID structure
+theorem answers both questions: the blocks are its cyclic summands, whose
+types are intrinsic.
 
 Let \(T:V\to V\) be linear over a field \(F\). Define
 \[p(x)\cdot v=p(T)v,\qquad
 p(T)=a_0I+a_1T+\cdots+a_nT^n.\]
 Because \((pq)(T)=p(T)q(T)\), the module axioms hold.
+Write \(V_T\) when the operator defining this \(F[x]\)-module structure
+needs to be displayed.
+
+Recall from Section~\ref{sec:matrices-change-basis} the direct sums of
+operators and their block-diagonal matrices. Direct calculation on pairs
+gives, for every \(p\in F[x]\),
+\[
+p(T_1\oplus T_2)=p(T_1)\oplus p(T_2),
+\]
+and the identity map on the underlying direct sum is an \(F[x]\)-module
+isomorphism
+\[
+(V_1\oplus V_2)_{T_1\oplus T_2}
+\cong (V_1)_{T_1}\oplus(V_2)_{T_2}.
+\]
 
 \begin{proposition}
 A subspace \(W\subseteq V\) is \(T\)-invariant if and only if it is an
@@ -313,61 +1252,471 @@ If \(W\) is a submodule, then \(Tw=x\cdot w\in W\). Conversely, if
 is an \(F[x]\)-submodule.
 \end{proof}
 
+\begin{proposition}[Intertwiners are module maps]\label{prop:intertwiner-module-map}
+Let \(T:V\to V\) and \(S:W\to W\).  An \(F\)-linear map
+\(\phi:V\to W\) is \(F[x]\)-linear from \(V_T\) to \(W_S\) if and only if
+\[
+\phi T=S\phi.
+\]
+Consequently \(V_T\cong W_S\) as \(F[x]\)-modules if and only if there is
+an invertible intertwining map between \(T\) and \(S\).  In coordinates this
+is precisely similarity of their matrices.
+\end{proposition}
+\begin{proof}
+If \(\phi\) is \(F[x]\)-linear, then
+\[
+\phi(Tv)=\phi(x\cdot v)=x\cdot\phi(v)=S\phi(v).
+\]
+Conversely, \(\phi T=S\phi\) implies \(\phi T^j=S^j\phi\) by induction,
+and linear combinations give
+\(\phi p(T)=p(S)\phi\) for every polynomial \(p\).  Thus \(\phi\) is
+\(F[x]\)-linear.  If \(\phi\) is invertible and its matrix is \(P\), the
+intertwining equation becomes \(PA=BP\), or \(B=PAP^{-1}\), exactly the
+change-of-basis relation.
+\end{proof}
+
+\begin{proposition}[Finite-dimensional operator modules are torsion]
+\label{prop:operator-module-torsion}
+If \(V\) is finite-dimensional, then \(V_T\) is a finitely generated torsion
+\(F[x]\)-module.
+\end{proposition}
+\begin{proof}
+An \(F\)-basis \(v_1,\ldots,v_n\) generates \(V_T\), because constants in
+\(F[x]\) already produce every \(F\)-linear combination.  For each \(v_i\),
+the \(n+1\) vectors
+\[
+v_i,Tv_i,\ldots,T^nv_i
+\]
+are linearly dependent, so a nonzero polynomial \(f_i\) satisfies
+\(f_i(T)v_i=0\).  The nonzero product \(f_1\cdots f_n\) annihilates every
+basis vector and hence all of \(V\).  In particular every vector is torsion.
+\end{proof}
+
+For a monic polynomial
+\[
+d(x)=x^m+a_{m-1}x^{m-1}+\cdots+a_0
+\]
+define its \emph{companion matrix} by
+\[
+C_d=
+\begin{pmatrix}
+0&0&\cdots&0&-a_0\\
+1&0&\cdots&0&-a_1\\
+0&1&\cdots&0&-a_2\\
+\vdots&&\ddots&\vdots&\vdots\\
+0&0&\cdots&1&-a_{m-1}
+\end{pmatrix}.
+\]
+The next proposition derives this matrix directly from the first polynomial
+relation in an operator orbit.
+
+\begin{proposition}[Cyclic subspaces, companion matrices, and annihilators]
+\label{prop:cyclic-subspace-annihilator}
+Let \(0\ne v\in V\), and let
+\[
+W=F[x]v=\operatorname{span}_F\{v,Tv,T^2v,\ldots\}.
+\]
+If \(\dim W=m\), then
+\[
+\beta=(v,Tv,\ldots,T^{m-1}v)
+\]
+is a basis of \(W\). There is a unique monic polynomial
+\[
+d(x)=x^m+a_{m-1}x^{m-1}+\cdots+a_1x+a_0
+\]
+generating \(\operatorname{Ann}_{F[x]}(v)\), and
+\[
+F[x]v\cong F[x]/(d),
+\qquad
+[T|_W]_\beta=C_d.
+\]
+\end{proposition}
+\begin{proof}
+Let \(k\) be the least index for which
+\(v,Tv,\ldots,T^kv\) are linearly dependent. Then the first \(k\) vectors
+are independent, and the first dependence expresses \(T^kv\) in their span.
+Applying \(T\) repeatedly shows that every later orbit vector remains in that
+span. Thus those \(k\) vectors form a basis of \(W\), so \(k=\dim W=m\).
+Equivalently, \(v,Tv,\ldots,T^{m-1}v\) are independent, and adjoining
+\(T^mv\) produces the first dependence.
+
+Consequently there are scalars \(c_0,\ldots,c_m\in F\) such that
+\[
+c_mT^mv+c_{m-1}T^{m-1}v+\cdots+c_1Tv+c_0v=0.
+\]
+Here \(c_m\ne0\): otherwise this would already be a dependence among the
+first \(m\) orbit vectors. Because \(F\) is a field, \(c_m\) is invertible.
+We intentionally divide the entire relation by \(c_m\), normalizing its
+leading coefficient to \(1\). With \(a_i=c_i/c_m\), the relation becomes
+\[
+T^mv+a_{m-1}T^{m-1}v+\cdots+a_1Tv+a_0v=0,
+\]
+or equivalently
+\[
+T^mv=-a_0v-a_1Tv-\cdots-a_{m-1}T^{m-1}v.
+\]
+This deliberate normalization makes
+\(d(x)=x^m+a_{m-1}x^{m-1}+\cdots+a_1x+a_0\) monic, matching the convention
+for generators of ideals in \(F[x]\).
+
+On the orbit basis, the action is
+\[
+T(v)=Tv,\quad T(Tv)=T^2v,\quad\ldots,\quad
+T(T^{m-2}v)=T^{m-1}v,
+\]
+while the last basis vector satisfies
+\[
+T(T^{m-1}v)=-a_0v-a_1Tv-\cdots-a_{m-1}T^{m-1}v.
+\]
+Reading these coordinate columns gives
+\[
+[T|_W]_\beta=C_d=
+\begin{pmatrix}
+0&0&\cdots&0&-a_0\\
+1&0&\cdots&0&-a_1\\
+0&1&\cdots&0&-a_2\\
+\vdots&&\ddots&\vdots&\vdots\\
+0&0&\cdots&1&-a_{m-1}
+\end{pmatrix}.
+\]
+Thus a companion matrix is precisely the matrix of \(T\) on a cyclic
+\(T\)-invariant subspace in its natural orbit basis.
+
+The normalized relation says \(d(T)v=0\), so
+\(d\in\operatorname{Ann}_{F[x]}(v)\). No nonzero polynomial of degree less
+than \(m\) can annihilate \(v\), since it would give a dependence among
+\(v,Tv,\ldots,T^{m-1}v\). If \(d_v\) is the monic generator of
+\(\operatorname{Ann}(v)\), then \(d_v\mid d\), while the preceding
+independence gives \(\deg d_v\geq m\). Hence \(d_v=d\) and
+\(\operatorname{Ann}(v)=(d)\).
+
+Finally, the surjective module map
+\[
+F[x]\longrightarrow F[x]v,\qquad p\longmapsto p(T)v,
+\]
+has kernel \((d)\). The First Isomorphism Theorem gives
+\(F[x]v\cong F[x]/(d)\), making the concrete orbit calculation and the
+abstract cyclic-module description identical.
+\end{proof}
+
+\begin{theorem}[The \(xI-A\) presentation]
+\label{thm:operator-cokernel-presentation}
+Let \(V\) have ordered basis \(\beta=(v_1,\ldots,v_n)\), let
+\(T\in\mathcal L(V)\), and put \(A=[T]_\beta\). Then, as \(F[x]\)-modules,
+\[
+V_T\cong\operatorname{coker}\bigl(xI_n-A:F[x]^n\to F[x]^n\bigr).
+\]
+If the Smith form over \(F[x]\) is
+\[
+\operatorname{diag}(1,\ldots,1,d_1,\ldots,d_r),
+\qquad d_1\mid\cdots\mid d_r,
+\]
+with the \(d_i\) monic nonunits, then they are precisely the invariant factors
+of \(V_T\).
+\end{theorem}
+\begin{proof}
+Send the standard basis vector \(e_i\) of \(F[x]^n\) to \(v_i\). This gives
+a surjective \(F[x]\)-linear map to \(V_T\). If \(A=(a_{ij})\), column \(j\)
+of \(xI_n-A\) maps to
+\[
+xv_j-\sum_i a_{ij}v_i=Tv_j-Tv_j=0,
+\]
+so the map factors through the cokernel. Conversely, send
+\(\sum_i c_iv_i\) to the class of the constant vector \((c_i)\). In the
+cokernel, the displayed column relations say
+\(x[e_j]=\sum_i a_{ij}[e_i]\), so this inverse candidate respects the action
+of \(x\), hence every polynomial. The two induced maps are inverse on the
+displayed generators.
+
+Smith equivalence preserves the cokernel. Corollary~\ref{cor:smith-kernel-cokernel}
+therefore identifies it with the direct sum of the \(F[x]/(d_i)\); unit
+entries contribute zero modules. Also
+\(\det(xI_n-A)=\chi_T(x)\) is a nonzero monic polynomial, so \(xI_n-A\)
+has full rank and its Smith form has no zero diagonal entries. The remaining
+nonunit entries are exactly the invariant factors.
+\end{proof}
+
+Thus
+\[
+\operatorname{SNF}_{F[x]}(xI-A)
+\longrightarrow\text{invariant factors of }V_T
+\longrightarrow\text{rational canonical form}.
+\]
+The matrix \(xI-A\) is a matrix over \(F[x]\), and its Smith equivalence is
+the computational bridge from presentations to similarity classification.
+
+The cyclic-subspace proposition is the first half of the canonical-form dictionary:
+a cyclic module \(F[x]/(d)\) is a companion block.  The special case
+\(d=(x-\lambda)^k\) is the Jordan-chain block described below.
+
+\[
+\begin{array}{c|c}
+\text{Linear algebra}&F[x]\text{-module theory}\\ \hline
+T\text{-invariant subspace}&F[x]\text{-submodule}\\
+\text{cyclic \(T\)-subspace generated by }v&F[x]v\\
+p(T)v=0&p(x)\text{ annihilates }v\\
+\text{similarity of operators}&F[x]\text{-module isomorphism}\\
+\text{generalized eigenspace for }\lambda&(x-\lambda)\text{-primary component}\\
+\text{companion block }C_d&F[x]/(d)\\
+\text{Jordan block }J_k(\lambda)&F[x]/((x-\lambda)^k)
+\end{array}
+\]
+This dictionary synthesizes the correspondences proved in this section and
+turns the linear-algebra questions into the PID classification problem.
+
+\begin{definition}
+For an irreducible polynomial \(p\in F[x]\), the \emph{\(p\)-primary
+component} of \(V_T\) is
+\[
+V_p=\{v\in V:p(T)^Nv=0\text{ for some }N\geq1\}.
+\]
+We also write this component as \((V_T)_p\) when the ambient operator module
+needs to be emphasized.
+\end{definition}
+
+\begin{proposition}[Primary components and generalized eigenspaces]
+\label{prop:primary-generalized-eigenspace}
+For \(p(x)=x-\lambda\),
+\[
+V_p=G_\lambda(T).
+\]
+Thus the concrete generalized eigenspace of Chapter~5 is exactly the
+\((x-\lambda)\)-primary component of the operator module.
+\end{proposition}
+\begin{proof}
+The defining condition \(p(T)^Nv=0\) is precisely
+\((T-\lambda I)^Nv=0\).  Taking all such vectors gives the same set in the
+two definitions.
+\end{proof}
+
+If \(p_1,\ldots,p_s\) are the distinct monic irreducibles occurring in the
+elementary divisors of \(V_T\), the PID primary decomposition gives
+\[
+V_T=(V_T)_{p_1}\oplus\cdots\oplus(V_T)_{p_s}.
+\]
+
+\begin{proposition}[Jordan-chain dictionary]
+\label{prop:jordan-chain-cyclic-module}
+A Jordan chain \(v_1,\ldots,v_k\) for \(\lambda\) spans a cyclic
+\(F[x]\)-module isomorphic to
+\[
+F[x]/((x-\lambda)^k).
+\]
+Conversely, every such cyclic summand supplies a Jordan chain of length
+\(k\).
+\end{proposition}
+\begin{proof}
+The last vector \(v_k\) generates the chain because
+\[
+(x-\lambda)^{k-j}\cdot v_k=v_j.
+\]
+It is killed by \((x-\lambda)^k\), but not by a smaller positive power,
+so if \(\operatorname{Ann}(v_k)=(d)\) with \(d\) monic, then
+\(d\mid(x-\lambda)^k\). Hence \(d=(x-\lambda)^j\) for some \(j\leq k\).
+No smaller positive power kills \(v_k\), so \(j=k\) and
+\(\operatorname{Ann}(v_k)=((x-\lambda)^k)\). Conversely, in
+\(F[x]/((x-\lambda)^k)\), use the ordered basis
+\[
+(x-\lambda)^{k-1},(x-\lambda)^{k-2},\ldots,x-\lambda,1.
+\]
+Multiplication by \(x-\lambda\) sends each basis vector to the preceding
+one and kills the first.  Multiplication by \(x\) therefore has matrix
+\(J_k(\lambda)\), and the basis is a Jordan chain in the convention of
+Chapter~5.
+\end{proof}
+
 \section{Minimal Polynomial and Cayley--Hamilton}
 The characteristic polynomial introduced in Chapter~5 detects eigenvalues.
 The minimal polynomial records the smallest polynomial relation satisfied by
-the whole operator and will control the sizes of canonical-form blocks.
+the whole operator and will control the sizes of canonical-form blocks.  In
+module language it is the global relation shared by every vector, whereas
+\(\operatorname{Ann}(v)\) records only the relation on one cyclic subspace.
 
 \begin{lemma}
 If \(V\) is finite-dimensional, then
 \(\operatorname{Ann}_{F[x]}(V)=\{p\in F[x]:p(T)=0\}\) is nonzero.
 \end{lemma}
 \begin{proof}
-The vector space \(\mathcal{L}(V)\) has dimension \((\dim V)^2\).
-The \((\dim V)^2+1\) endomorphisms \(I,T,\ldots,T^{(\dim V)^2}\) are
-therefore linearly dependent. Their nontrivial linear relation is
-\(p(T)=0\) for a nonzero polynomial \(p\).
+The proof of Proposition~\ref{prop:operator-module-torsion} constructs, from
+an \(F\)-basis \(v_1,\ldots,v_n\), nonzero polynomials \(f_i\) that
+annihilate the individual basis vectors.  Their product annihilates every
+basis vector and hence all of \(V\).
 \end{proof}
 
 Since \(F[x]\) is a PID, this annihilator has a unique monic generator,
-called the \emph{minimal polynomial} \(\mu_T\). Every polynomial annihilating
-\(T\) is a multiple of \(\mu_T\).
+called the \emph{minimal polynomial} \(m_T\):
+\[
+\operatorname{Ann}_{F[x]}(V_T)=(m_T).
+\]
+It is the monic polynomial of least degree satisfying \(m_T(T)=0\), and
+every polynomial annihilating \(T\) is a multiple of it.
 
-\begin{theorem}[Cayley--Hamilton]
+For \(v\in V\), write \(\operatorname{Ann}_{F[x]}(v)=(d_v)\) with \(d_v\)
+monic. Since every global annihilator kills \(v\),
+\((m_T)\subseteq(d_v)\), equivalently \(d_v\mid m_T\). If
+\(v_1,\ldots,v_n\) is an \(F\)-basis and
+\(\operatorname{Ann}(v_i)=(d_i)\), then a polynomial kills \(V\) exactly
+when it kills every basis vector. Therefore
+\[
+\operatorname{Ann}(V_T)=\bigcap_{i=1}^n\operatorname{Ann}(v_i),
+\qquad
+m_T=\operatorname{lcm}(d_1,\ldots,d_n),
+\]
+with monic representatives. The minimal polynomial is thus the least common
+polynomial relation satisfied simultaneously in every direction of \(V\).
+
+\begin{proposition}[Eigenvalues and the minimal polynomial]
+\label{prop:eigenvalue-minimal-polynomial}
+For \(\lambda\in F\),
+\[
+\lambda\text{ is an eigenvalue of }T
+\quad\Longleftrightarrow\quad m_T(\lambda)=0
+\quad\Longleftrightarrow\quad (x-\lambda)\mid m_T.
+\]
+\end{proposition}
+\begin{proof}
+If \(Tv=\lambda v\) for some \(v\ne0\), then
+\(0=m_T(T)v=m_T(\lambda)v\), so \(m_T(\lambda)=0\). The factor theorem gives
+the second equivalence in one direction. Conversely, write
+\(m_T=(x-\lambda)q\). If \(T-\lambda I\) were invertible, then
+\[
+0=m_T(T)=(T-\lambda I)q(T)
+\]
+would imply \(q(T)=0\), contradicting the minimal degree of \(m_T\). Thus
+\(T-\lambda I\) is singular and \(\lambda\) is an eigenvalue.
+\end{proof}
+
+\begin{proposition}[Polynomial invariants of a direct sum]
+\label{prop:direct-sum-polynomials}
+Let \(T_i\in\mathcal L(V_i)\), \(i=1,2\), where the \(V_i\) are
+finite-dimensional. Then
+\[
+m_{T_1\oplus T_2}
+=\operatorname{lcm}(m_{T_1},m_{T_2}),
+\qquad
+\chi_{T_1\oplus T_2}=\chi_{T_1}\chi_{T_2},
+\]
+where the least common multiple is chosen monic.
+\end{proposition}
+\begin{proof}
+A polynomial annihilates \(T_1\oplus T_2\) exactly when it annihilates both
+summands.  Hence
+\[
+(m_{T_1\oplus T_2})
+=(m_{T_1})\cap(m_{T_2}),
+\]
+whose monic generator in the PID \(F[x]\) is the least common multiple.
+This also follows directly from
+\(p(T_1\oplus T_2)=p(T_1)\oplus p(T_2)\). Choose bases and write
+\(A_i=[T_i]\). In the concatenated basis,
+\([T_1\oplus T_2]=[T_1]\oplus[T_2]\). Therefore
+Chapter~5's block-determinant formula gives
+\[
+\det(xI-(A_1\oplus A_2))
+=\det(xI-A_1)\det(xI-A_2).
+\]
+\end{proof}
+
+\begin{theorem}[Cayley--Hamilton]\label{thm:cayley-hamilton}
 Every linear operator satisfies its characteristic polynomial:
 \[\chi_T(T)=0.\]
 \end{theorem}
+\begin{proofidea}
+The matrix \(TI-A\) records the relations describing \(T\) on a basis.
+Multiplying this relation matrix by its adjugate collapses it to its
+determinant, forcing \(\chi_T(T)\) to kill every basis vector.
+\end{proofidea}
 \begin{proof}
-Choose a basis and write \(A=[T]\). In the commutative polynomial ring
-\(F[A][x]\), whose coefficients are matrices commuting with \(A\), the
-adjugate identity reads
-\[(xI-A)\operatorname{adj}(xI-A)=\chi_T(x)I.\]
-Evaluation \(x\mapsto A\) is a ring homomorphism from this commutative
-subring to \(F[A]\). It sends the left side to \(0\), so it sends the right
-side to \(\chi_T(A)=0\). Conjugating back to \(T\) proves the result. This
-justifies the substitution: the coefficient matrices lie in the commuting
-algebra \(F[A]\), not in an arbitrary matrix-coefficient polynomial ring.
+Choose a basis \(\beta=(v_1,\ldots,v_n)\), write
+\(A=(a_{ij})=[T]_\beta\), and regard the basis as the row vector
+\(\mathbf v=(v_1,\ldots,v_n)\). For a matrix of operators \(Q=(q_{ij})\),
+the \(j\)-th entry of \(\mathbf vQ\) means
+\(\sum_i q_{ij}(v_i)\). Since column \(j\) of \(A\) gives the coordinates of
+\(Tv_j\), the coordinate relations are exactly
+\begin{equation}\label{eq:cayley-hamilton-relation-matrix}
+\mathbf v(TI_n-A)=0.
+\end{equation}
+
+Every entry of \(TI_n-A\) lies in the subring
+\[
+F[T]=\{p(T):p\in F[x]\}\subseteq\operatorname{End}_F(V).
+\]
+Here each scalar entry \(a_{ij}\in F\) is identified with the scalar operator
+\(a_{ij}I_V\in F[T]\), so every entry of \(TI_n-A\) genuinely belongs to
+this one coefficient ring.
+This ring is commutative because all its elements are polynomials in the same
+operator. Determinants and adjugates therefore obey their usual identities
+over \(F[T]\):
+\[
+(TI_n-A)\operatorname{adj}(TI_n-A)
+=\det(TI_n-A)I_n.
+\]
+Multiplying \eqref{eq:cayley-hamilton-relation-matrix} on the right gives
+\[
+0=\mathbf v(TI_n-A)\operatorname{adj}(TI_n-A)
+=\mathbf v\det(TI_n-A).
+\]
+Thus \(\det(TI_n-A)\) kills every basis vector.
+
+It remains to identify this determinant. By definition,
+\(\chi_T(x)=\det(xI_n-A)\). The evaluation homomorphism
+\[
+F[x]\longrightarrow F[T],\qquad p(x)\longmapsto p(T),
+\]
+takes \(\det(xI_n-A)\) to \(\det(TI_n-A)\), because a determinant is a
+finite sum of products of entries. Hence
+\[
+\det(TI_n-A)=\chi_T(T).
+\]
+This operator kills every basis vector and therefore all of \(V\), proving
+\(\chi_T(T)=0\).
 \end{proof}
 
-Polynomial division in \(F[x]\) now gives \(\chi_T=q\mu_T+r\), with
-\(\deg r<\deg\mu_T\). Evaluating at \(T\) and using Cayley--Hamilton gives
-\(r(T)=0\); minimality forces \(r=0\). Thus \(\mu_T\mid\chi_T\).
+\begin{corollary}[Minimal polynomial divides characteristic polynomial]
+\label{cor:minimal-divides-characteristic}
+For every endomorphism of a finite-dimensional vector space,
+\[
+m_T\mid\chi_T,
+\qquad \deg m_T\leq\dim V.
+\]
+\end{corollary}
+\begin{proof}
+Cayley--Hamilton says \(\chi_T\in\operatorname{Ann}(V_T)=(m_T)\), which is
+exactly the divisibility assertion. Since \(\deg\chi_T=\dim V\), the degree
+bound follows. Equivalently, polynomial division
+\(\chi_T=qm_T+r\), \(\deg r<\deg m_T\), and evaluation at \(T\) give
+\(r(T)=0\); minimality forces \(r=0\).
+\end{proof}
+
+If \(\chi_T\) splits over \(F\), then
+Corollary~\ref{cor:minimal-divides-characteristic} shows that \(m_T\), as a
+divisor of a split polynomial, also splits into linear factors. Every
+irreducible \(p_i\) occurring in the operator module divides its annihilator
+generator \(m_T\), so \(p_i=x-\lambda_i\) for some \(\lambda_i\in F\).
+Proposition~\ref{prop:eigenvalue-minimal-polynomial} identifies the distinct
+\(\lambda_i\) as the eigenvalues of \(T\), and
+Proposition~\ref{prop:primary-generalized-eigenspace} turns the primary
+decomposition from Section~\ref{sec:linear-operators-fx-modules} into
+\[
+V=G_{\lambda_1}(T)\oplus\cdots\oplus G_{\lambda_s}(T).
+\]
+This proves the generalized-eigenspace decomposition promised in Chapter~5,
+using only results already established.
 
 \section{Rational Canonical Form}
-The invariant-factor theorem over the PID \(F[x]\) classifies an arbitrary
-operator without requiring its characteristic polynomial to split. If
-\(d=x^n+a_{n-1}x^{n-1}+\cdots+a_0\) is monic, multiplication by \(x\) on
-\(F[x]/(d)\), in the basis \(1,x,\ldots,x^{n-1}\), has the companion matrix
-\(C_d\)
-\[
-\begin{pmatrix}0&0&\cdots&0&-a_0\\1&0&\cdots&0&-a_1\\
-0&1&\cdots&0&-a_2\\ \vdots&&\ddots&\vdots&\vdots\\0&0&\cdots&1&-a_{n-1}\end{pmatrix}.
-\]
-Indeed, multiplication shifts each basis vector one place, except that
-\(x^n\equiv-a_{n-1}x^{n-1}-\cdots-a_0\) modulo \(d\).
+Rational canonical form exists over every field; it is the field-independent
+classification of linear operators. Jordan form is available only when the
+relevant irreducible polynomials split into linear factors over the base
+field. Thus Jordan form is a split-polynomial refinement of rational form.
 
-\phantomsection\label{thm:companion-characteristic}
-\begin{applicationtheorem}[Characteristic polynomial of a companion matrix]
+Recall from Section~\ref{sec:linear-operators-fx-modules} that the companion
+matrix \(C_d\) is multiplication by \(x\) on the cyclic module
+\(F[x]/(d)\) in the basis \(1,x,\ldots,x^{n-1}\). It is not an artificial
+matrix recipe: it is the coordinate form of one generator subject to the
+single polynomial relation \(d(x)=0\).
+
+\begin{theorem}[Characteristic polynomial of a companion matrix]
+\label{thm:companion-characteristic}
 For a monic polynomial
 \[
 d(x)=x^n+a_{n-1}x^{n-1}+\cdots+a_0,
@@ -376,36 +1725,248 @@ the companion matrix \(C_d\) has characteristic polynomial
 \[
 \chi_{C_d}(x)=d(x).
 \]
-\end{applicationtheorem}
+\end{theorem}
 \begin{proof}
-The matrix \(C_d\) represents multiplication by \(x\) on
+Write \(D_n(x)=\det(xI-C_d)\). Explicitly,
 \[
-F[x]/(d).
+\begin{pmatrix}
+x&0&\cdots&0&a_0\\
+-1&x&\cdots&0&a_1\\
+0&-1&\ddots&0&a_2\\
+\vdots&\ddots&\ddots&x&\vdots\\
+0&\cdots&0&-1&x+a_{n-1}
+\end{pmatrix}.
 \]
-The polynomial \(d\) annihilates this operator.  No nonzero polynomial of
-smaller degree does: if \(p\) did, then \(p+(d)=0\) in \(F[x]/(d)\), so
-\(d\mid p\), which is impossible when \(\deg p<\deg d\).  Thus the minimal
-polynomial of \(C_d\) is \(d\).  Cayley--Hamilton gives
+Expand along the first row. Only the entries \(x\) and \(a_0\) contribute.
+Deleting the first row and column leaves the companion-type determinant for
 \[
-d\mid\chi_{C_d}.
+x^{n-1}+a_{n-1}x^{n-2}+\cdots+a_2x+a_1;
 \]
-Both polynomials are monic of degree \(n\), so they are equal.
+call it \(D_{n-1}(x)\). Hence the first contribution is
+\(xD_{n-1}(x)\). The minor of \(a_0\) is triangular with diagonal entries
+\(-1\), so its determinant is \((-1)^{n-1}\). Its cofactor sign is
+\((-1)^{1+n}\), and
+\[
+(-1)^{1+n}(-1)^{n-1}=1.
+\]
+Thus
+\[
+D_n(x)=xD_{n-1}(x)+a_0.
+\]
+The case \(n=1\) is \(D_1(x)=x+a_0\). Induction now gives
+\[
+D_n(x)=x^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0=d(x).
+\]
 \end{proof}
 
-Applying the invariant-factor decomposition to \(V\) as an \(F[x]\)-module
-gives a block diagonal matrix of these companion matrices. This is the
-\emph{rational canonical form}; its ordered invariant factors give existence
-and uniqueness up to block order.  The minimal polynomial of the direct sum
-is the least common multiple of the block minimal polynomials, so
+The minimal polynomial of \(C_d\) is also \(d\), independently of the
+determinant calculation. The matrix acts as multiplication by \(x\) on
+\(F[x]/(d)\), whose class of \(1\) is cyclic. We have \(d(C_d)(1)=0\), while
+no nonzero polynomial of degree less than \(n\) annihilates \(1\), because
+such a polynomial cannot belong to the ideal \((d)\). Because the class of
+\(1\) generates the entire \(F[x]\)-module, a polynomial annihilates the
+whole module if and only if it annihilates that class. Therefore
+\(m_{C_d}=d\).
+
+\begin{lemma}[Characteristic polynomials and invariant subspaces]
+\label{lem:invariant-subspace-characteristic-divisibility}
+If \(W\leq V\) is \(T\)-invariant, then
 \[
-\mu_T=d_r.
+\chi_{T|_W}(x)\mid\chi_T(x).
 \]
-The characteristic polynomial of a block diagonal matrix is the product of
-the block characteristic polynomials; the companion-matrix theorem therefore
-gives
+\end{lemma}
+\begin{proof}
+Choose a basis of \(W\) and extend it to a basis of \(V\). In this adapted
+basis the matrix of \(T\) has block form
 \[
+\begin{pmatrix}[T|_W]&*\\0&C\end{pmatrix}.
+\]
+The block-triangular determinant formula,
+Theorem~\ref{thm:block-triangular-determinant}, gives
+\[
+\chi_T(x)=\chi_{T|_W}(x)\det(xI-C).
+\]
+\end{proof}
+
+\begin{corollary}[Polynomial invariants of a cyclic subspace]
+\label{cor:cyclic-subspace-polynomials}
+Use the notation of Proposition~\ref{prop:cyclic-subspace-annihilator}. Then
+\[
+[T|_W]_\beta=C_d,
+\qquad
+m_{T|_W}=\chi_{T|_W}=d,
+\qquad
+d\mid\chi_T.
+\]
+If \(v\) is cyclic for all of \(V\), so \(W=V\) and \(n=\dim V\), then
+\[
+\beta=(v,Tv,\ldots,T^{n-1}v),\qquad
+[T]_\beta=C_d,\qquad
+m_T=\chi_T=d.
+\]
+\end{corollary}
+\begin{proof}
+The proposition gives the natural orbit basis and
+\([T|_W]_\beta=C_d\). The direct companion determinant computation gives
+\(\chi_{T|_W}=d\). Since \(v\) generates \(W\), a polynomial annihilates
+\(T|_W\) on all of \(W\) exactly when it annihilates \(v\); hence
+\(\operatorname{Ann}_{F[x]}(W)=\operatorname{Ann}_{F[x]}(v)=(d)\) and
+\(m_{T|_W}=d\). Finally, \(W\) is \(T\)-invariant, so
+Lemma~\ref{lem:invariant-subspace-characteristic-divisibility} gives
+\(d=\chi_{T|_W}\mid\chi_T\). Taking \(W=V\) yields the last display.
+\end{proof}
+
+\Needspace{10\baselineskip}
+\begin{remark}[Alternative proof: cyclic invariant subspaces]
+Here is a classical linear-algebra proof of Cayley--Hamilton. Fix
+\(0\ne v\in V\) and put
+\[
+W=F[x]v.
+\]
+Corollary~\ref{cor:cyclic-subspace-polynomials} gives both
+\[
+\chi_{T|_W}(T)v=0
+\qquad\text{and}\qquad
+\chi_{T|_W}\mid\chi_T.
+\]
+Write
+\(\chi_T=q\chi_{T|_W}\). Hence
+\[
+\chi_T(T)v=q(T)\chi_{T|_W}(T)v=0.
+\]
+The zero vector is automatic, and \(v\) was otherwise arbitrary, so
+\(\chi_T(T)=0\).
+\end{remark}
+
+\begin{theorem}[Rational canonical form]\label{thm:rational-canonical-form}
+Let \(T\) be an endomorphism of a finite-dimensional vector space over an
+arbitrary field \(F\).  There are unique monic nonconstant polynomials
+\[
+d_1\mid d_2\mid\cdots\mid d_r
+\]
+such that, in a suitable basis,
+\[
+[T]=C_{d_1}\oplus\cdots\oplus C_{d_r}.
+\]
+The invariant factors \(d_i\) classify \(T\) up to similarity.  Moreover,
+\[
+m_T=d_r,
+\qquad
 \chi_T=d_1\cdots d_r.
 \]
+\end{theorem}
+\begin{proof}
+Proposition~\ref{prop:operator-module-torsion} makes \(V_T\) a finitely
+generated torsion module over the PID \(F[x]\).  The structure theorem gives
+its unique invariant factors and a decomposition
+\[
+V_T\cong\bigoplus_{i=1}^rF[x]/(d_i).
+\]
+The cyclic-subspace proposition turns multiplication by \(x\) on each
+summand into \(C_{d_i}\).  The intertwiner proposition says that isomorphic
+operator modules are exactly similar operators, proving both existence and
+classification.
+
+The annihilator of the direct sum is generated by the least common multiple
+of the \(d_i\), which is \(d_r\) because they form a divisibility chain.
+Thus \(m_T=d_r\).  The direct-sum characteristic-polynomial formula and
+Theorem~\ref{thm:companion-characteristic} give
+\(\chi_T=d_1\cdots d_r\).
+\end{proof}
+
+\begin{corollary}[Irreducible factors of the polynomial invariants]
+\label{cor:minimal-characteristic-factors}
+The polynomials \(m_T\) and \(\chi_T\) have exactly the same distinct monic
+irreducible factors. Consequently, \(m_T\) splits over \(F\) if and only if
+\(\chi_T\) splits over \(F\).
+\end{corollary}
+\begin{proof}
+In rational canonical form, \(m_T=d_r\) and
+\(\chi_T=d_1\cdots d_r\). Every monic irreducible factor of \(\chi_T\)
+occurs in some \(d_i\); since \(d_i\mid d_r=m_T\), that irreducible factor
+divides \(m_T\). Conversely, every monic irreducible factor of
+\(m_T=d_r\) occurs in the product \(\chi_T=d_1\cdots d_r\).
+\end{proof}
+
+\begin{definition}
+A vector \(v\in V\) is a \emph{cyclic vector} for \(T\) if
+\(V=F[x]v\). The operator \(T\) is \emph{cyclic} if it has a cyclic vector.
+\end{definition}
+
+\begin{corollary}[Cyclic-operator criterion]
+\label{cor:cyclic-operator-criterion}
+For an endomorphism of a nonzero finite-dimensional vector space, the
+following are equivalent:
+\begin{enumerate}
+\item \(T\) is cyclic;
+\item its rational canonical form consists of one companion block;
+\item \(m_T=\chi_T\).
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+If \(V=F[x]v\), then
+\(V_T\cong F[x]/\operatorname{Ann}(v)\), so its invariant-factor
+decomposition has one summand and its rational form has one companion block.
+Conversely, the class of \(1\) generates the module belonging to one
+companion block, so such an operator is cyclic. A single block has both
+minimal and characteristic polynomial equal to its defining polynomial.
+
+Finally, if the rational form has invariant factors
+\(d_1\mid\cdots\mid d_r\), then
+\(m_T=d_r\) and \(\chi_T=d_1\cdots d_r\). All \(d_i\) are nonconstant, so
+equality of these monic polynomials forces
+\(\sum_i\deg d_i=\deg d_r\), hence \(r=1\).
+\end{proof}
+
+\begin{remark}[Cayley--Hamilton from the PID structure theorem]
+The rational canonical form gives a second structural derivation. If
+\(d_1\mid\cdots\mid d_r\) are the invariant factors, then
+\[
+V_T\cong\bigoplus_iF[x]/(d_i),\qquad
+m_T=d_r,\qquad
+\chi_T=d_1\cdots d_r.
+\]
+The last formula uses the direct companion determinant computation and the
+block-diagonal determinant formula. Since \(d_r\mid d_1\cdots d_r\), we have
+\(m_T\mid\chi_T\). Therefore \(m_T(T)=0\) implies
+\(\chi_T(T)=0\). This argument is noncircular: the companion characteristic
+polynomial was proved directly by cofactor expansion, without invoking
+Cayley--Hamilton.
+\end{remark}
+
+\begin{remark}[Three views of Cayley--Hamilton]
+The adjugate proof is a matrix identity from determinant algebra. The cyclic
+invariant-subspace proof uses the characteristic polynomial of each local
+cyclic restriction and its divisibility into \(\chi_T\). The PID proof says structurally that
+\(\chi_T\) is a multiple of the annihilator generator \(m_T\):
+\[
+\begin{array}{c}
+\text{adjugate identity}\longrightarrow\text{matrix proof},\\
+\text{cyclic invariant subspaces}\longrightarrow\text{local restrictions and divisibility},\\
+\text{PID structure theorem}\longrightarrow\text{module-theoretic proof}.
+\end{array}
+\]
+Each proof exposes a different reason for the same theorem.
+\end{remark}
+
+\begin{example}[Rational form without real Jordan form]
+Over \(\mathbb R\), let
+\[
+A=\begin{pmatrix}0&-1\\1&0\end{pmatrix}.
+\]
+Then \(\chi_A(x)=x^2+1\), and \(A^2=-I\) while no linear polynomial
+annihilates \(A\), so \(m_A(x)=x^2+1\). Moreover,
+\[
+e_1=\begin{pmatrix}1\\0\end{pmatrix},
+\qquad Ae_1=\begin{pmatrix}0\\1\end{pmatrix}
+\]
+form a basis, so \(e_1\) is cyclic and the operator module is explicitly
+\(\mathbb R[x]/(x^2+1)\). Its rational canonical form is the companion
+matrix of \(x^2+1\), which is exactly \(A\) in the convention above. There
+is no real Jordan form because \(A\) has no real eigenvalues. Over
+\(\mathbb C\), the factorization \(x^2+1=(x-i)(x+i)\) makes the operator
+diagonalizable with eigenvalues \(i\) and \(-i\).
+\end{example}
 
 \begin{example}[From invariant factors to rational canonical form]
 Suppose an \(F[x]\)-module has invariant factors
@@ -415,7 +1976,7 @@ summand contributes the \(1\times1\) companion matrix \((1)\), and the
 second contributes the companion matrix of
 \(x^3-x^2+x-1\). Their block diagonal sum is the rational canonical form.
 At once we read
-\[\mu_T=d_2=(x-1)(x^2+1),\qquad
+\[m_T=d_2=(x-1)(x^2+1),\qquad
 \chi_T=d_1d_2=(x-1)^2(x^2+1).\]
 The example illustrates the division of labor: invariant factors describe
 the cyclic summands, while matrices make that description visible in a chosen
@@ -428,7 +1989,8 @@ Over \(\mathbb C\), begin with the actual matrix
 A=\begin{pmatrix}1&1&0\\0&1&0\\0&0&-1\end{pmatrix}.
 \]
 Let \(T\) be its operator on \(\mathbb C^3\), and give the space its
-\(\mathbb C[x]\)-module structure from \S6.7. On the first two standard
+\(\mathbb C[x]\)-module structure from
+Section~\ref{sec:linear-operators-fx-modules}. On the first two standard
 basis vectors, \((T-I)e_2=e_1\) and \((T-I)e_1=0\), so this plane is the
 cyclic module \(\mathbb C[x]/((x-1)^2)\). The last basis vector gives
 \(\mathbb C[x]/(x+1)\). Thus the elementary divisors are
@@ -437,7 +1999,7 @@ single invariant factor
 \[
 d=(x-1)^2(x+1)=x^3-x^2-x+1.
 \]
-Consequently \(\chi_T=d\) and \(\mu_T=d\), the rational canonical form is
+Consequently \(\chi_T=d\) and \(m_T=d\), the rational canonical form is
 the companion matrix of \(d\),
 \[
 \begin{pmatrix}0&0&-1\\1&0&1\\0&1&1\end{pmatrix},
@@ -448,22 +2010,155 @@ invariants produce both canonical descriptions rather than merely recognize
 one by inspection.
 \end{example}
 
+\begin{example}[A noncanonical matrix through the classification]
+Over \(\mathbb R\), consider
+\[
+A=\begin{pmatrix}2&0&1\\0&3&-1\\0&0&2\end{pmatrix}.
+\]
+Triangularity gives \(\chi_A(x)=(x-2)^2(x-3)\).  For \(N=A-2I\),
+\[
+\ker N=\operatorname{span}(e_1),
+\qquad
+\ker N^2=\operatorname{span}(e_1,e_2+e_3).
+\]
+Thus the generalized \(2\)-eigenspace has dimension \(2\), and
+\[
+N(e_2+e_3)=e_1,\qquad Ne_1=0
+\]
+is a Jordan chain of length \(2\).  The ordinary \(3\)-eigenspace is
+\(\operatorname{span}(e_2)\).  Hence the elementary divisors are
+\((x-2)^2\) and \(x-3\), so
+\[
+m_A=(x-2)^2(x-3)=\chi_A.
+\]
+Because the elementary divisors are coprime, they combine into the single
+invariant factor
+\[
+d=(x-2)^2(x-3)=x^3-7x^2+16x-12.
+\]
+The rational canonical form is
+\[
+C_d=\begin{pmatrix}0&0&12\\1&0&-16\\0&1&7\end{pmatrix},
+\]
+while the Jordan canonical form is \(J_2(2)\oplus(3)\).
+
+The Jordan basis \(\beta=(e_1,e_2+e_3,e_2)\) gives an explicit change of
+basis.  With
+\[
+P=\begin{pmatrix}1&0&0\\0&1&1\\0&1&0\end{pmatrix}
+\]
+whose columns are the vectors of \(\beta\), one has
+\[
+P^{-1}AP=J_2(2)\oplus(3).
+\]
+This example starts from a matrix in neither canonical form and uses
+generalized eigenspaces, kernel growth, a Jordan chain, elementary divisors,
+and invariant factors to reach both forms.
+\end{example}
+
 \section{Jordan Canonical Form}
 When the relevant polynomials split, elementary divisors refine the rational
 blocks into the familiar Jordan blocks. This is the structural completion of
-the diagonalization discussion in Chapter~5.
+the diagonalization discussion in Chapter~5. The two canonical forms mirror
+the two forms of the PID structure theorem:
+\[
+\begin{array}{ccl}
+\text{invariant factors}&\longleftrightarrow&\text{rational companion blocks},\\
+\text{elementary divisors}&\longleftrightarrow&\text{Jordan blocks}.
+\end{array}
+\]
+Accordingly, Theorem~\ref{thm:uniqueness-invariant-factor} gives uniqueness
+of rational canonical form, while
+Theorem~\ref{thm:uniqueness-elementary-divisor} gives uniqueness of the
+Jordan blocks.
 
-If the characteristic polynomial splits over \(F\), elementary divisors have
-the form \((x-\lambda)^e\). On \(F[x]/((x-\lambda)^e)\), use the basis
-\((x-\lambda)^{e-1},\ldots,(x-\lambda),1\). Multiplication by \(x\) has a
-Jordan block with eigenvalue \(\lambda\) and ones immediately above the
-diagonal. Hence \(T\) is similar over \(F\) to a block diagonal matrix of
-Jordan blocks, uniquely determined up to their order.
+\begin{theorem}[Jordan canonical form]\label{thm:jordan-canonical-form}
+Let \(T\) be an endomorphism of a finite-dimensional \(F\)-vector space and
+suppose that \(\chi_T\) splits over \(F\).  Then \(V\) has a basis in which
+\[
+[T]=J_{k_1}(\lambda_1)\oplus\cdots\oplus J_{k_s}(\lambda_s).
+\]
+The blocks correspond to the elementary divisors
+\[
+(x-\lambda_1)^{k_1},\ldots,(x-\lambda_s)^{k_s},
+\]
+and their multiset is unique up to ordering.  Equivalently, \(V\) has a
+basis obtained by concatenating Jordan chains.
+\end{theorem}
+\begin{proof}
+When \(\chi_T\) splits, every irreducible factor in the elementary-divisor
+decomposition of \(V_T\) is \(x-\lambda\).  Thus the PID structure theorem
+gives a direct sum of cyclic modules
+\[
+F[x]/((x-\lambda)^k).
+\]
+Proposition~\ref{prop:jordan-chain-cyclic-module} supplies a Jordan-chain
+basis and the block \(J_k(\lambda)\) on each summand.  Uniqueness of the
+elementary divisors makes the multiset of blocks unique immediately; no
+separate linear-algebraic uniqueness proof is needed.
+\end{proof}
 
-In particular, \(T\) is diagonalizable exactly when every Jordan block has
-size \(1\), equivalently when \(\mu_T\) splits over \(F\) into distinct
-linear factors. The splitting hypothesis is essential: real rotation of the
-plane has no real eigenbasis, even though it has a rational canonical form.
+\begin{corollary}[Diagonalizability criterion]
+\label{cor:diagonalizable-minimal-polynomial}
+An endomorphism \(T\) is diagonalizable over \(F\) if and only if \(m_T\) is
+a product of distinct linear factors over \(F\).
+\end{corollary}
+\begin{proof}
+In Jordan form, diagonalizability says exactly that every block has size
+\(1\). The elementary divisor belonging to a block \(J_k(\lambda)\) is
+\((x-\lambda)^k\), and \(m_T\) is the least common multiple of all elementary
+divisors. Thus all block sizes are \(1\) exactly when \(m_T\) splits into
+distinct linear factors; for the reverse implication,
+Corollary~\ref{cor:minimal-characteristic-factors} first ensures that
+\(\chi_T\) splits, so Jordan form exists. The splitting condition is
+essential: real rotation
+of the plane has no real eigenbasis.
+\end{proof}
+
+\begin{corollary}[Largest blocks and kernel growth]
+\label{cor:jordan-kernel-growth}
+Assume that \(\chi_T\) splits over \(F\). For each eigenvalue \(\lambda\),
+the exponent of \(x-\lambda\) in \(m_T\)
+is the size of the largest Jordan block for \(\lambda\). Moreover, put
+\[
+K_j=\ker(T-\lambda I)^j,
+\qquad K_0=0,
+\qquad c_j=\dim K_j-\dim K_{j-1}.
+\]
+Then
+\[
+c_j=\#\{\text{Jordan blocks for \(\lambda\) of size at least \(j\)}\},
+\]
+and therefore
+\[
+c_j-c_{j+1}
+=\#\{\text{Jordan blocks for \(\lambda\) of size exactly \(j\)}\}.
+\]
+Finally,
+\[
+\dim G_\lambda(T)=
+\text{the algebraic multiplicity of \(\lambda\)}.
+\]
+\end{corollary}
+\begin{proof}
+The least common multiple of the elementary divisors contains
+\((x-\lambda)^k\) to the largest exponent occurring among the
+\(\lambda\)-blocks, proving the first assertion. On a block of size \(k\)
+for \(\lambda\), the kernel of the \(j\)-th power has dimension
+\(\min(j,k)\), so its contribution to \(c_j\) is \(1\) exactly when
+\(k\geq j\). On a block for a different eigenvalue, \(T-\lambda I\) is
+invertible and the contribution is zero. Summing over blocks proves both
+counting formulas.
+
+The generalized eigenspace is the direct sum of all \(\lambda\)-blocks, so
+its dimension is their total size. The same total is the exponent of
+\(x-\lambda\) in \(\chi_T\), hence the algebraic multiplicity.
+\end{proof}
+
+Chapter~5 established these kernel-growth formulas conditionally from a
+displayed Jordan decomposition. The Jordan theorem supplies the required
+decomposition for every split characteristic polynomial, so the bookkeeping
+is now unconditional under precisely that hypothesis.
 
 \begin{example}[From elementary divisors to Jordan form]
 Over \(\mathbb C\), suppose the elementary divisors are
@@ -479,13 +2174,29 @@ determines the corresponding exponent in the minimal polynomial.
 
 \begin{remark}[How the polynomial invariants fit together]
 If \(d_1\mid\cdots\mid d_r\) are invariant factors, then
-\(\chi_T=d_1\cdots d_r\) and \(\mu_T=d_r\). Factoring the \(d_i\)'s and
+\(\chi_T=d_1\cdots d_r\) and \(m_T=d_r\). Factoring the \(d_i\)'s and
 using CRT yields elementary divisors. When these factors are powers of linear
 polynomials, their exponents are exactly the Jordan-block sizes. Thus the
 characteristic polynomial records total algebraic multiplicities, the minimal
 polynomial records the largest required exponents, invariant factors produce
 rational canonical form over every field, and elementary divisors produce
 Jordan form when splitting is available.
+\[
+\begin{gathered}
+\text{PID structure theorem}\\
+\big\downarrow\\
+\text{invariant factors}\\
+\big\downarrow\\
+\text{rational canonical form over every field},\\[1.5ex]
+\text{factor into prime powers}\\
+\big\downarrow\\
+\text{elementary divisors}\\
+\big\downarrow\\
+\text{Jordan blocks when }p=x-\lambda.
+\end{gathered}
+\]
+Rational canonical form is the field-independent classification.  Jordan
+form is its split-polynomial refinement.
 \end{remark}
 
 \section*{Exercises}
@@ -495,16 +2206,72 @@ Jordan form when splitting is available.
 \]
 in invariant-factor and elementary-divisor form.
 \end{exercise}
+\begin{exercise}[Core] Convert
+\[
+\mathbb Z/4\oplus\mathbb Z/8\oplus\mathbb Z/9\oplus\mathbb Z/3
+\]
+from elementary-divisor form to invariant-factor form, and convert
+\(\mathbb Z/12\oplus\mathbb Z/60\) in the opposite direction.
+\end{exercise}
+\begin{exercise}[Core] List the abelian groups of order \(360=2^3 3^2 5\)
+up to isomorphism by choosing partitions prime by prime.  Check the order of
+each group from its invariant factors.\end{exercise}
 \begin{exercise}[Core] Find the Smith normal form of
 \(\begin{pmatrix}2&4&6\\4&10&14\end{pmatrix}\) over \(\mathbb Z\), regarded
 as a homomorphism \(\mathbb Z^3\to\mathbb Z^2\), and determine its
 cokernel.\end{exercise}
 \begin{exercise}[Core] For \(T(x,y)=(-y,x)\) on \(\mathbb R^2\), find the
 minimal polynomial and explain why no real Jordan form exists.\end{exercise}
-\begin{exercise}[Core] Prove directly that the companion matrix of a monic
-polynomial \(f\) has characteristic polynomial \(f\).\end{exercise}
+\begin{exercise}[Core] Let \(T:V\to V\), \(S:W\to W\), and let
+\(\phi:V\to W\) be \(F\)-linear.  Verify directly for
+\(p(x)=2x^3-x+1\) that \(\phi T=S\phi\) implies
+\(\phi p(T)=p(S)\phi\), and then prove the assertion for every
+\(p\in F[x]\).\end{exercise}
+\begin{exercise}[Core] For a vector \(v\), suppose
+\(v,Tv,T^2v,T^3v\) are independent and
+\[
+T^4v=2v-Tv+3T^3v.
+\]
+Find \(\operatorname{Ann}(v)\) and the companion matrix of \(T\) on
+\(F[x]v\).\end{exercise}
+\begin{exercise}[Core] Prove the minimal-polynomial formula for a direct sum
+of three operators by applying Proposition~\ref{prop:direct-sum-polynomials}
+twice.  Give an example showing why the answer is an lcm rather than a
+product.\end{exercise}
+\begin{exercise}[Core] For
+\[
+A=\begin{pmatrix}1&1\\0&1\end{pmatrix}\in M_2(F),
+\]
+compute the Smith normal form of \(xI-A\) over \(F[x]\), recover the invariant
+factors of \(V_A\), and determine the rational canonical form.\end{exercise}
 \begin{exercise}[Further] Show that the invariant factors of a diagonalizable
 operator are square-free.\end{exercise}
+\begin{exercise}[Further] First suppose an operator has
+\[
+\dim\ker(T-\lambda I)^j=2,4,5,6,6,\ldots,
+\]
+and recover the sizes of all its Jordan blocks for \(\lambda\).  In a
+separate example with different block data, construct explicit chains for
+the matrix
+\[
+\begin{pmatrix}
+\lambda&1&0&0\\0&\lambda&0&0\\
+0&0&\lambda&1\\0&0&0&\lambda
+\end{pmatrix}.
+\]\end{exercise}
+\begin{exercise}[Further] Decide whether the matrices
+\[
+\begin{pmatrix}1&1&0\\0&1&0\\0&0&2\end{pmatrix},
+\qquad
+\begin{pmatrix}1&0&0\\0&1&1\\0&0&2\end{pmatrix}
+\]
+are similar.  Justify the answer using elementary divisors rather than an
+attempt to solve directly for a change-of-basis matrix.\end{exercise}
 \begin{exercise}[Further, Challenging] Determine the rational and Jordan
 canonical forms of an operator whose elementary divisors are
 \((x-1)^3,(x-1),(x+2)^2\).\end{exercise}
+\begin{exercise}[Looking Ahead] For a Jordan matrix, read off
+\(\chi_T\), \(m_T\), and the dimensions of all generalized eigenspaces.
+For a rational canonical matrix, read off \(\chi_T\) and \(m_T\) from its
+companion blocks and explain how factorization over a splitting field predicts
+the Jordan blocks.\end{exercise}

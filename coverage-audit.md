@@ -30,11 +30,13 @@ against an unproved result silently becoming a dependency.
 
 ## Current development status
 
-Part I is the only developed part of the manuscript.  Its core results are
-kept in the exposition rather than delegated to exercises; the exercise audit
-will receive exact Dummit--Foote references only after direct inspection of the
-3rd-edition exercise sets.  Parts II--V remain roadmap material and are not yet
-eligible for a completed coverage audit.
+All four parts of the manuscript are developed.  Version 1.3 substantially
+revises the dependency chain from Chapter 5 generalized eigenvectors and
+Jordan chains through Chapter 6 \(F[x]\)-modules, PID classification, and
+canonical forms to Chapter 7 spectral theory.  Core results are proved in the
+exposition rather than delegated to exercises.  Exact Dummit--Foote exercise
+references remain pending direct inspection of the 3rd-edition exercise sets;
+none have been guessed during the revision.
 
 ## Entry-level and dependency audit
 
@@ -52,8 +54,8 @@ these proved results, but not on unstated undergraduate-algebra background.
 | Groups: foundations, quotients, actions | Pending | isomorphism theorems; orbit--stabilizer; action constructions |
 | Groups: symmetric/alternating and dihedral examples | Pending | sign map; alternating subgroup; concrete quotient and semidirect-product models |
 | Groups: Sylow and structural theory | Pending | class equation; Sylow consequences; semidirect products; composition factors; solvability |
-| Rings and ideals | Revised in 1.3 | quotient criteria; Chinese remainder theorem; prime/maximal ideal characterizations; localization; group rings |
-| Polynomial rings and factorization | Revised in 1.4 | Gauss lemma; irreducibility criteria; Euclidean/PID/UFD implications; Noetherianity; formal power series; finite-field and multivariable applications |
+| Rings and ideals | Expanded through 1.22 | quotient criteria; Chinese remainder theorem; prime/maximal ideal characterizations; localization; group rings |
+| Polynomial rings and factorization | Expanded through 1.22 | Gauss lemma; irreducibility criteria; Euclidean/PID/UFD implications; Noetherianity; formal power series; finite-field and multivariable applications |
 | Modules | Pending | exactness; universal properties; annihilators; cyclic modules; PID structure theorem |
 | Algebraic linear algebra | Pending | rational/Jordan canonical forms through \(F[x]\)-modules; Cayley--Hamilton |
 | Field extensions | Pending | tower law; embeddings; splitting fields; algebraic closures |

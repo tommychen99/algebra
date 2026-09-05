@@ -1,5 +1,5 @@
-\chapter[Inner Product Spaces]{Inner Product Spaces and Spectral Theory}\label{chap:inner-products-spectral-theory}
-
+\chapter{Inner Product Spaces and Spectral Theory}\label{chap:inner-products-spectral-theory}
+\chaptermark{Spectral Theory}
 Chapters~5 and~6 develop linear maps algebraically: kernels, images,
 eigenvalues, and canonical forms do not require a notion of length. An inner
 product adds geometry. It lets us ask stronger questions: when is a direct
@@ -60,13 +60,20 @@ On \(F^n\), the standard inner product is
 \[
 \langle u,v\rangle=\sum_{i=1}^n u_i\overline{v_i}.
 \]
+The standard basis is orthonormal for this particular inner product; it need
+not be orthonormal for an arbitrary inner product on \(F^n\).
+For a square matrix \(C=(c_{ij})\), define its \emph{trace} by
+\[
+\operatorname{tr}(C)=\sum_i c_{ii}.
+\]
 On \(M_{m,n}(F)\), the formula
 \[
 \langle A,B\rangle=\operatorname{tr}(AB^*)
 =\sum_{i=1}^m\sum_{j=1}^n a_{ij}\overline{b_{ij}},
 \qquad B^*=\overline B^{\,t},
 \]
-is an inner product. On the vector space \(P_n(F)\) of polynomials of degree
+is the \emph{Frobenius}, or \emph{Hilbert--Schmidt}, inner product. On the
+vector space \(P_n(F)\) of polynomials of degree
 at most \(n\),
 \[
 \langle p,q\rangle=\int_0^1p(t)\overline{q(t)}\,dt
@@ -101,6 +108,10 @@ For all \(u,v\in V\),
 Equality holds, for nonzero \(u\) and \(v\), if and only if they are linearly
 dependent.
 \end{theorem}
+\begin{proofidea}
+Subtract the projection of \(u\) in the \(v\)-direction, so that \(u-cv\)
+is orthogonal to \(v\), and use nonnegativity of its squared norm.
+\end{proofidea}
 \begin{proof}
 If \(v=0\), the inequality is immediate. Otherwise put
 \[
@@ -336,7 +347,7 @@ so every projection term in the Gram--Schmidt formula vanishes.  Thus
 already orthonormal, then \(\lVert v_i\rVert=1\), so \(e_i=v_i\).
 \end{proof}
 
-\begin{corollary}[Orthonormal bases]\leavevmode\\
+\begin{corollary}[Orthonormal bases]\label{cor:orthonormal-bases}\leavevmode\\
 Each finite-dimensional inner-product space admits an orthonormal basis.
 Every orthonormal set can be enlarged to one.
 \end{corollary}
@@ -378,7 +389,18 @@ orthogonal complement is canonical because it is determined by the inner
 product alone; it separates a vector into a component in the subspace and a
 perpendicular error.
 
-\begin{proposition}[Orthogonal complements]
+The projection formula has already appeared inside Gram--Schmidt. If
+\(W_{k-1}=\operatorname{span}(e_1,\ldots,e_{k-1})\), then its subtraction step
+can be written
+\[
+u_k=v_k-\sum_{j<k}\langle v_k,e_j\rangle e_j
+=v_k-P_{W_{k-1}}v_k.
+\]
+Gram--Schmidt removes the component lying in the subspace already constructed,
+leaving the orthogonal residual. The operator \(P_W\) packages that same
+geometric operation for an arbitrary subspace \(W\).
+
+\begin{proposition}[Orthogonal complements]\label{prop:orthogonal-complements}
 If \(W\leq V\), then \(W^\perp\) is a subspace. In finite dimensions,
 \[
 V=W\oplus W^\perp,
@@ -398,11 +420,11 @@ of \(W\). For \(v\in V\), define
 \[
 P_Wv=\sum_{i=1}^r\langle v,e_i\rangle e_i.
 \]
-Then \(P_Wv\in W\), while, for each \(i\),
+\noindent Then \(P_Wv\in W\), while, for each \(i\),
 \[
 \langle v-P_Wv,e_i\rangle=0.
 \]
-Thus \(v-P_Wv\in W^\perp\), proving \(V=W+W^\perp\). A vector in the
+\noindent Thus \(v-P_Wv\in W^\perp\), proving \(V=W+W^\perp\). A vector in the
 intersection is orthogonal to itself and is therefore zero, so the sum is
 direct. Taking dimensions gives the formula. Since \(W\subseteq
 (W^\perp)^\perp\) and the two spaces have the same dimension, they are
@@ -429,6 +451,20 @@ P_Wv\in W,
 \quad v-P_Wv\in W^\perp,
 \]
 and therefore not on the chosen orthonormal basis.
+
+In fixed orthonormal coordinates, suppose the columns of
+\(Q\in M_{n\times r}(F)\) form an orthonormal basis of \(W\). Then
+\[
+Q^*Q=I_r,\qquad [P_W]=QQ^*.
+\]
+Indeed, \(Q^*x\) records the orthonormal coordinates of the projection of
+\(x\) onto \(W\), and multiplication by \(Q\) reconstructs the vector. Over
+\(\mathbb R\), this is \([P_W]=QQ^t\). Moreover,
+\[
+(QQ^*)^2=Q(Q^*Q)Q^*=QQ^*,\qquad (QQ^*)^*=QQ^*.
+\]
+Thus the matrix formula already anticipates the characterization of
+orthogonal projections as self-adjoint idempotents.
 
 \begin{theorem}[Best approximation]
 For \(v\in V\) and \(w\in W\),
@@ -464,7 +500,8 @@ decomposition.
 
 \section{Linear Functionals and Adjoints}
 
-The algebraic dual \(V^\vee\), developed in Section~5.15, consists of all
+The algebraic dual \(V^\vee\), developed in
+Section~\ref{sec:dual-spaces}, consists of all
 linear measurements on \(V\). In finite-dimensional inner-product spaces,
 the Riesz theorem says that every such measurement is obtained by taking an
 inner product with one uniquely determined vector. It is this theorem that
@@ -622,7 +659,7 @@ Thus the matrix of the adjoint is the conjugate transpose. Over
 \begin{definition}[Hermitian and symmetric matrices]
 For \(A\in M_n(\mathbb C)\), its \emph{conjugate transpose} is
 \[
-A^*=\overline A^{\,\mathsf T}.
+A^*=\overline A^{\,t}.
 \]
 The matrix \(A\) is \emph{Hermitian} if
 \[
@@ -639,7 +676,7 @@ example,
 \begin{pmatrix}2&i\\-i&3\end{pmatrix}
 \]
 is Hermitian.  Over \(\mathbb R\), conjugation has no effect, and the
-corresponding condition \(A^{\mathsf T}=A\) defines a \emph{symmetric}
+corresponding condition \(A^t=A\) defines a \emph{symmetric}
 matrix.
 \end{definition}
 
@@ -656,11 +693,63 @@ T\text{ is self-adjoint}
 [T]_\beta\text{ is Hermitian};
 \]
 over \(\mathbb R\), the corresponding statement uses symmetric matrices.
-The orthonormality of \(\beta\) matters: in an arbitrary basis, the matrix
-of a self-adjoint operator need not literally be Hermitian or symmetric.
+For an arbitrary ordered basis \(\beta=(v_1,\ldots,v_n)\), define its Gram
+matrix by
+\[
+\langle x,y\rangle=[y]_\beta^*G_\beta[x]_\beta,
+\qquad (G_\beta)_{ij}=\langle v_j,v_i\rangle.
+\]
+This ordering reflects our convention that the inner product is linear in
+the first variable. The matrix \(G_\beta\) is Hermitian positive definite,
+and \(G_\beta=I\) exactly when \(\beta\) is orthonormal.  In particular it is
+invertible: for every nonzero coordinate column \(c\),
+\[
+c^*G_\beta c
+=\left\|\sum_i c_iv_i\right\|^2>0,
+\]
+so \(\ker G_\beta=0\). If
+\(A=[T]_\beta\) and \(B=[T^*]_\beta\), then
+\(\langle Tx,y\rangle=\langle x,T^*y\rangle\) gives
+\[
+y^*G_\beta Ax=y^*B^*G_\beta x
+\]
+for all coordinate columns \(x,y\). Consequently,
+\[
+[T^*]_\beta=B=G_\beta^{-1}A^*G_\beta.
+\]
+It follows that
+\[
+T\text{ is self-adjoint}\quad\Longleftrightarrow\quad
+A^*G_\beta=G_\beta A.
+\]
+Over \(\mathbb R\), this becomes \(A^tG_\beta=G_\beta A\). Thus \(A=A^*\)
+is the correct test only in orthonormal coordinates, where \(G_\beta=I\).
+
+For a concrete two-sided warning, use the standard inner product on
+\(\mathbb R^2\) and \(\beta=(e_1,e_1+e_2)\). Then
+\[
+G=\begin{pmatrix}1&1\\1&2\end{pmatrix}.
+\]
+The self-adjoint operator \(T\) with
+\([T]_{\mathrm{std}}=D=\begin{pmatrix}1&0\\0&2\end{pmatrix}\) has
+\[
+[T]_\beta=A=\begin{pmatrix}1&-1\\0&2\end{pmatrix},
+\qquad A^tG=GA=\begin{pmatrix}1&1\\1&3\end{pmatrix},
+\]
+although \(A\) is not symmetric. Conversely, if an operator is defined by
+\[
+[T]_\beta=A=\begin{pmatrix}1&0\\0&2\end{pmatrix},
+\]
+then \(A\) is symmetric, but
+\[
+A^tG=\begin{pmatrix}1&1\\2&4\end{pmatrix}
+\ne\begin{pmatrix}1&2\\1&4\end{pmatrix}=GA.
+\]
+Accordingly \(T\) is not self-adjoint; its standard-coordinate matrix is
+\(\begin{pmatrix}1&1\\0&2\end{pmatrix}\), which is not symmetric.
 \end{remark}
 
-\begin{theorem}[Kernels, images, and adjoints]
+\begin{theorem}[Kernels, images, and adjoints]\label{thm:kernels-images-adjoints}
 For \(T:V\to W\),
 \[
 \ker T^*=(\operatorname{im}T)^\perp,
@@ -691,7 +780,8 @@ w\in\ker T^*
 \]
 This is exactly \(w\in(\operatorname{im}T)^\perp\), proving the first
 identity. Applying it to \(T^*\), using \((T^*)^*=T\) and taking a second
-orthogonal complement in finite dimensions gives
+orthogonal complement in finite dimensions, using
+Proposition~\ref{prop:orthogonal-complements}, gives
 \[
 \operatorname{im}T^*=(\ker T)^\perp.
 \]
@@ -726,18 +816,41 @@ The formula for \(P_W\) shows directly that \(P_W^2=P_W\). If
 \]
 so \(P_W^*=P_W\).
 
-Conversely, suppose \(P^2=P=P^*\). The idempotence gives
+Conversely, suppose \(P^2=P=P^*\). First make the idempotent decomposition
+explicit. For every \(v\in V\),
 \[
-V=\operatorname{im}P\oplus\ker P.
+v=(v-Pv)+Pv,\qquad P(v-Pv)=Pv-P^2v=0.
+\]
+Thus \(v-Pv\in\ker P\), while \(Pv\in\operatorname{im}P\), and hence
+\(V=\ker P+\operatorname{im}P\). If
+\(x\in\ker P\cap\operatorname{im}P\), write \(x=Py\). Then
+\[
+x=Py=P^2y=P(Py)=Px=0.
+\]
+Therefore \(V=\ker P\oplus\operatorname{im}P\). Geometrically, every
+idempotent is the algebraic projection onto \(\operatorname{im}P\) along
+\(\ker P\).
+Hence
+\[
+\dim\ker P=\dim V-\dim\operatorname{im}P.
+\]
+By Proposition~\ref{prop:orthogonal-complements},
+\[
+\dim(\operatorname{im}P)^\perp=\dim V-\dim\operatorname{im}P.
 \]
 If \(x=Pu\in\operatorname{im}P\) and \(y\in\ker P\), then
 \[
 \langle x,y\rangle=\langle Pu,y\rangle
 =\langle u,Py\rangle=0.
 \]
-Thus \(\ker P\subseteq(\operatorname{im}P)^\perp\). The direct-sum
-dimension formula makes the two subspaces equal, so \(P\) is the orthogonal
-projection onto its image.
+\noindent Thus \(\ker P\subseteq(\operatorname{im}P)^\perp\). The two preceding
+displays give
+\[
+\dim\ker P=\dim(\operatorname{im}P)^\perp.
+\]
+Together with \(\ker P\subseteq(\operatorname{im}P)^\perp\), this gives
+\(\ker P=(\operatorname{im}P)^\perp\). Therefore \(P\) is the orthogonal
+projection onto \(\operatorname{im}P\).
 \end{proof}
 
 An ordinary algebraic projection only requires \(P^2=P\). It need not be
@@ -764,7 +877,8 @@ and \emph{normal} if
 \[
 TT^*=T^*T.
 \]
-It is \emph{positive} if it is self-adjoint and
+It is \emph{positive semidefinite}, also called \emph{positive}, if it is
+self-adjoint and
 \[
 \langle Tv,v\rangle\geq0
 \qquad(v\in V),
@@ -827,7 +941,7 @@ Their entries state exactly that both the columns and rows are orthonormal.
 \end{proof}
 
 \begin{proposition}[Basic consequences of the adjoint]
-Every operator \(T^*T\) is self-adjoint and positive. If \(T\) is normal,
+Every operator \(T^*T\) is self-adjoint and positive semidefinite. If \(T\) is normal,
 then
 \[
 \lVert Tv\rVert=\lVert T^*v\rVert
@@ -860,7 +974,32 @@ products identical, while for a unitary or orthogonal operator they both
 equal \(I\), proving the final assertion.
 \end{proof}
 
-\begin{proposition}[Eigenvalue geometry]
+\begin{corollary}[Normal idempotents are orthogonal projections]
+\label{cor:normal-idempotent-projection}
+An operator \(P:V\to V\) is an orthogonal projection if and only if
+\[
+P^2=P\qquad\text{and}\qquad P\text{ is normal}.
+\]
+In particular, every normal idempotent is self-adjoint.
+\end{corollary}
+\begin{proof}
+An orthogonal projection satisfies \(P^2=P=P^*\), so it is normal.
+Conversely, suppose \(P^2=P\) and \(P\) is normal. The idempotent
+decomposition established in the projection characterization gives
+\[
+V=\ker P\oplus\operatorname{im}P.
+\]
+The preceding proposition gives \(\ker P=\ker P^*\), while
+Theorem~\ref{thm:kernels-images-adjoints} gives
+\[
+\operatorname{im}P=(\ker P^*)^\perp=(\ker P)^\perp.
+\]
+Thus the displayed decomposition is orthogonal, and \(P\) is the orthogonal
+projection onto its image. The projection characterization then gives
+\(P=P^*\).
+\end{proof}
+
+\begin{proposition}[Eigenvalue geometry]\label{prop:eigenvalue-geometry}
 Let \(T\) be an endomorphism of a finite-dimensional inner-product space.
 \begin{enumerate}
 \item If \(T\) is self-adjoint, every eigenvalue of \(T\) is real.
@@ -892,7 +1031,13 @@ so \(\lambda=\overline\lambda\). If \(T\) is unitary or orthogonal,
 \[
 \lVert v\rVert=\lVert Tv\rVert=|\lambda|\lVert v\rVert,
 \]
-proving the second claim. For normal \(T\), the preceding proposition gives
+proving the second claim.  For normal \(T\), the operator
+\(T-\lambda I\) is normal as well, because
+\[
+(T-\lambda I)^*=T^*-\overline\lambda I
+\]
+and expansion reduces the required product equality to \(TT^*=T^*T\).
+The preceding proposition applied to \(T-\lambda I\) therefore gives
 \[
 \lVert(T-\lambda I)v\rVert
 =\lVert(T^*-\overline\lambda I)v\rVert.
@@ -997,7 +1142,7 @@ R_\theta=
 \end{pmatrix}
 \]
 is orthogonal and hence normal, but for
-\(\theta\notin\{0,\pi\}\) it has no real eigenvalues.  The real analogue
+\(\theta\not\equiv0,\pi\pmod{2\pi}\) it has no real eigenvalues.  The real analogue
 of unitary diagonalization for general normal operators is orthogonal block
 diagonalization, with real \(1\times1\) blocks and \(2\times2\)
 rotation-type blocks.  Thus the full normal spectral theorem is naturally a
@@ -1019,7 +1164,68 @@ Galois-theoretic proof appears later in Chapter~11; no complex analysis is
 needed elsewhere in this chapter.
 \end{remark}
 
-\begin{theorem}[Complex spectral theorem]
+\begin{theorem}[Schur triangularization]\label{thm:schur-triangularization}
+Let \(V\) be a finite-dimensional complex inner-product space and let
+\(T\in\mathcal L(V)\). Then \(V\) has an orthonormal basis in which the
+matrix of \(T\) is upper triangular. Equivalently, for every
+\(A\in M_n(\mathbb C)\), there is a unitary matrix \(U\) such that
+\(U^*AU\) is upper triangular.
+\end{theorem}
+\begin{proof}
+We induct on \(n=\dim V\). The result is clear for \(n=0\). When \(n>0\),
+the Fundamental Theorem of Algebra gives an eigenvalue \(\lambda\) of \(T\).
+Choose a unit eigenvector \(v_1\) and extend it to an orthonormal basis.
+Since \(\operatorname{span}(v_1)\) is \(T\)-invariant, the matrix has block
+form
+\[
+\begin{pmatrix}\lambda&*\\0&B\end{pmatrix}.
+\]
+We do not claim that \(v_1^\perp\) is \(T\)-invariant; for an arbitrary
+operator it need not be. Rather, \(B\) is simply the lower-right coordinate
+block in the displayed matrix. Regard \(B\) as an operator on the
+\((n-1)\)-dimensional coordinate space and apply induction to it. Changing
+only the remaining orthonormal basis vectors makes \(B\) upper triangular
+and preserves the zero lower-left block. Thus the full matrix is upper
+triangular. In matrix language, the combined orthonormal change of basis is
+unitary and gives \(U^*AU\).
+\end{proof}
+
+\begin{lemma}[Normal upper-triangular matrices are diagonal]
+\label{lem:normal-upper-triangular-diagonal}
+A complex upper-triangular normal matrix is diagonal.
+\end{lemma}
+\begin{proof}
+Induct on the size of \(A=(a_{ij})\). The \((1,1)\)-entries of \(A^*A\)
+and \(AA^*\) are the squared norms of the first column and first row,
+respectively. Upper triangularity and normality therefore give
+\[
+|a_{11}|^2
+=|a_{11}|^2+|a_{12}|^2+\cdots+|a_{1n}|^2.
+\]
+Hence \(a_{12}=\cdots=a_{1n}=0\). The entries below \(a_{11}\) were already
+zero, so
+\[
+A=\begin{pmatrix}a_{11}&0\\0&B\end{pmatrix}.
+\]
+The lower-right block of \(A^*A=AA^*\) says \(B^*B=BB^*\). Thus \(B\) is
+again upper triangular and normal, and induction makes it diagonal.
+\end{proof}
+
+\begin{remark}[From invariant subspaces to Schur]
+Earlier, an invariant subspace produced a block upper-triangular matrix in an
+arbitrary adapted basis. Schur strengthens this over \(\mathbb C\): every
+operator is upper triangular in an orthonormal basis. For normal operators,
+the preceding lemma removes the off-diagonal part:
+\[
+\begin{array}{c}
+\text{invariant subspace}\longrightarrow\text{block triangularization},\\
+\mathbb C+\text{inner product}\longrightarrow\text{Schur triangularization},\\
+\text{normality}\longrightarrow\text{unitary diagonalization}.
+\end{array}
+\]
+\end{remark}
+
+\begin{theorem}[Complex spectral theorem]\label{thm:complex-spectral-theorem}
 For an endomorphism \(T\) of a finite-dimensional complex inner-product
 space, the following are equivalent:
 \begin{enumerate}
@@ -1029,6 +1235,13 @@ space, the following are equivalent:
 \end{enumerate}
 Equivalently, \(T\) is unitarily diagonalizable.
 \end{theorem}
+\begin{proofidea}
+Use the Fundamental Theorem of Algebra to find a nonzero eigenspace \(E\).
+Normality makes \(E\) compatible with both \(T\) and \(T^*\), so \(E^\perp\)
+is invariant under both. The restriction of \(T\) to \(E^\perp\) is therefore
+again normal. Apply induction there and combine orthonormal eigenbases of
+\(E\) and \(E^\perp\).
+\end{proofidea}
 \begin{proof}
 The equivalence of \(2\) and \(3\) is the definition of a matrix in a chosen
 basis. A diagonal matrix commutes with its conjugate transpose, so \(2\)
@@ -1038,18 +1251,171 @@ Algebra supplies an eigenvalue \(\lambda\), and let
 \[
 E=\ker(T-\lambda I).
 \]
-If \(z\in E^\perp\) and \(e\in E\), then
+The corresponding eigenvector shows that \(E\ne0\). If \(e\in E\), then
+\(Te=\lambda e\), and Proposition~\ref{prop:eigenvalue-geometry} gives
+\(T^*e=\overline\lambda e\). Now let \(z\in E^\perp\). Since the inner
+product is conjugate-linear in its second variable,
 \[
 \langle Tz,e\rangle
 =\langle z,T^*e\rangle
-=\langle z,\overline\lambda e\rangle=0.
+=\langle z,\overline\lambda e\rangle
+=\lambda\langle z,e\rangle=0.
 \]
-Thus \(E^\perp\) is \(T\)-invariant. The same calculation with \(T^*\)
-shows that it is \(T^*\)-invariant, so the restriction of \(T\) to
-\(E^\perp\) remains normal. It has smaller dimension unless \(E=V\), and
-the induction hypothesis supplies an orthonormal eigenbasis of \(E^\perp\).
-An orthonormal basis of \(E\), obtained by Gram--Schmidt, together with that
-basis gives an orthonormal eigenbasis of \(V\).
+Thus \(Tz\in E^\perp\). Separately,
+\[
+\langle T^*z,e\rangle
+=\langle z,Te\rangle
+=\langle z,\lambda e\rangle
+=\overline\lambda\langle z,e\rangle=0,
+\]
+so \(T^*z\in E^\perp\) as well.
+
+Both restrictions therefore make sense, and the defining adjoint identity
+shows
+\[
+(T|_{E^\perp})^*=T^*|_{E^\perp}.
+\]
+Consequently,
+\[
+(T|_{E^\perp})(T|_{E^\perp})^*
+=(TT^*)|_{E^\perp}
+=(T^*T)|_{E^\perp}
+=(T|_{E^\perp})^*(T|_{E^\perp}),
+\]
+so the restriction is normal.
+
+By Proposition~\ref{prop:orthogonal-complements},
+\[
+V=E\oplus E^\perp,\qquad
+\dim V=\dim E+\dim E^\perp.
+\]
+If \(E=V\), Corollary~\ref{cor:orthonormal-bases} supplies an orthonormal
+basis of \(E\), all of whose vectors have eigenvalue \(\lambda\), and the
+proof is complete. Otherwise \(E\ne0\) gives
+\(\dim E^\perp<\dim V\), so induction supplies an orthonormal eigenbasis of
+\(E^\perp\). Choose an orthonormal basis of \(E\) using
+Corollary~\ref{cor:orthonormal-bases}; every member is an eigenvector with
+  eigenvalue \(\lambda\). Write these lists as \(\beta_E\) and
+  \(\beta_\perp\). Every vector of \(\beta_E\) is orthogonal to every vector
+  of \(\beta_\perp\), because \(E\perp E^\perp\); hence concatenation preserves
+  orthonormality. Because \(V=E\oplus E^\perp\),
+  Theorem~\ref{thm:bases-internal-direct-sums} shows that the concatenated list
+  is a basis of all of \(V\). It is therefore an orthonormal eigenbasis of
+  \(V\).
+\end{proof}
+
+\begin{proof}[Alternative proof via Schur triangularization]
+By Theorem~\ref{thm:schur-triangularization}, choose an orthonormal basis in
+which \(A=[T]\) is upper triangular. Because \(T\) is normal and the chosen
+basis is orthonormal, \(A\) is normal. Thus \(A\) is normal and upper
+triangular, so
+Lemma~\ref{lem:normal-upper-triangular-diagonal} makes it diagonal. The
+chosen orthonormal basis is therefore an eigenbasis.
+
+The primary proof emphasizes orthogonality of eigenspaces and invariant
+orthogonal complements. The Schur proof emphasizes that every complex
+operator is unitarily triangularizable and that normality eliminates the
+off-diagonal entries.
+\end{proof}
+
+\begin{definition}[Complexification]
+If \(V\) is a real vector space, its \emph{complexification} is
+\[
+V_{\mathbb C}=V\oplus iV=\{x+iy:x,y\in V\},
+\]
+with addition componentwise and
+\[
+(a+ib)(x+iy)=(ax-by)+i(bx+ay).
+\]
+For a real-linear map \(T:V\to V\), define
+\[
+T_{\mathbb C}(x+iy)=Tx+iTy.
+\]
+\end{definition}
+
+\begin{proposition}[Complexification of an inner product and adjoint]
+\label{prop:complexification-adjoint}
+If \(V\) is a real inner-product space, then
+\[
+\langle x+iy,u+iv\rangle_{\mathbb C}
+=\langle x,u\rangle+\langle y,v\rangle
++i\bigl(\langle y,u\rangle-\langle x,v\rangle\bigr)
+\]
+defines a complex inner product, with the first variable linear.  Moreover,
+\[
+(T_{\mathbb C})^*=(T^*)_{\mathbb C}.
+\]
+In particular, \(T=T^*\) implies \(T_{\mathbb C}=(T_{\mathbb C})^*\).
+\end{proposition}
+\begin{proof}
+Additivity in each real component follows from bilinearity of the real inner
+product.  For \(\alpha=a+ib\) and \(z=x+iy\), substitution of
+\(\alpha z=(ax-by)+i(bx+ay)\) gives
+\[
+\langle\alpha z,w\rangle_{\mathbb C}
+=\alpha\langle z,w\rangle_{\mathbb C}.
+\]
+Interchanging \(z=x+iy\) and \(w=u+iv\) leaves the real part fixed and
+negates the imaginary part, so
+\[
+\langle z,w\rangle_{\mathbb C}
+=\overline{\langle w,z\rangle_{\mathbb C}}.
+\]
+Consequently the second variable is conjugate-linear.  Finally,
+\[
+\langle x+iy,x+iy\rangle_{\mathbb C}
+=\langle x,x\rangle+\langle y,y\rangle,
+\]
+which is positive and vanishes only when \(x=y=0\).  Thus this is a complex
+inner product.
+
+Using the real adjoint identity four times gives
+\[
+\begin{aligned}
+\langle T_{\mathbb C}(x+iy),u+iv\rangle_{\mathbb C}
+&=\langle Tx,u\rangle+\langle Ty,v\rangle\\
+&\quad+i\bigl(\langle Ty,u\rangle-\langle Tx,v\rangle\bigr)\\
+&=\langle x,T^*u\rangle+\langle y,T^*v\rangle\\
+&\quad+i\bigl(\langle y,T^*u\rangle-\langle x,T^*v\rangle\bigr)\\
+&=\langle x+iy,(T^*)_{\mathbb C}(u+iv)\rangle_{\mathbb C}.
+\end{aligned}
+\]
+Uniqueness of the adjoint proves the formula.
+\end{proof}
+
+\begin{lemma}[A real eigenvector for a self-adjoint operator]
+\label{lem:real-self-adjoint-eigenvector}
+Every self-adjoint operator on a nonzero finite-dimensional real
+inner-product space has a real eigenvalue and a nonzero real eigenvector.
+\end{lemma}
+\begin{proof}
+The Fundamental Theorem of Algebra applied to \(T_{\mathbb C}\) gives
+\[
+T_{\mathbb C}z=\lambda z
+\]
+for some \(z\ne0\) and \(\lambda\in\mathbb C\).  By
+Proposition~\ref{prop:complexification-adjoint}, \(T_{\mathbb C}\) is
+self-adjoint, so
+\[
+\lambda\langle z,z\rangle
+=\langle T_{\mathbb C}z,z\rangle
+=\langle z,T_{\mathbb C}z\rangle
+=\overline{\lambda}\langle z,z\rangle.
+\]
+Since \(\langle z,z\rangle>0\), we have
+\(\lambda=\overline{\lambda}\).  A complex number is fixed by complex
+conjugation exactly when its imaginary part is zero, so \(\lambda\in\mathbb R\).
+
+Write \(z=x+iy\).  Then
+\[
+Tx+iTy=T_{\mathbb C}z=\lambda z=\lambda x+i\lambda y.
+\]
+Equality of real and imaginary parts gives
+\[
+Tx=\lambda x,\qquad Ty=\lambda y.
+\]
+Because \(z\ne0\), at least one of \(x,y\) is nonzero, and that vector is the
+required real eigenvector.
 \end{proof}
 
 \begin{corollary}[Real spectral theorem]
@@ -1063,39 +1429,203 @@ the following are equivalent:
 \end{corollary}
 \begin{proof}
 The last two conditions are equivalent by coordinates, and either one plainly
-implies self-adjointness. Conversely, complexify \(V\) and extend the real
-inner product to the usual Hermitian inner product on \(V_\mathbb C\). The
-complexified operator is self-adjoint, hence normal; the complex spectral
-theorem applies. Its eigenvalues are real by the preceding eigenvalue
-proposition. If
+implies self-adjointness.  Conversely, induct on \(n=\dim V\).  The case
+\(n=0\) is immediate.  By
+Lemma~\ref{lem:real-self-adjoint-eigenvector}, choose a unit real eigenvector
+\(e_1\) with \(Te_1=\lambda e_1\).  If \(v\in e_1^\perp\), then
 \[
-T_\mathbb C(x+iy)=\lambda(x+iy),
+\langle Tv,e_1\rangle
+=\langle v,Te_1\rangle
+=\langle v,\lambda e_1\rangle
+=\lambda\langle v,e_1\rangle=0,
 \]
-then
+where real scalars require no conjugation.  Thus \(e_1^\perp\) is
+\(T\)-invariant.
+
+For \(v,w\in e_1^\perp\),
 \[
-Tx=\lambda x,
-\qquad
-Ty=\lambda y.
+\langle T|_{e_1^\perp}v,w\rangle
+=\langle Tv,w\rangle
+=\langle v,Tw\rangle
+=\langle v,T|_{e_1^\perp}w\rangle,
 \]
-Thus the complex eigenspaces are complexifications of real eigenspaces.
-They span \(V_\mathbb C\), so the real eigenspaces span \(V\). Distinct
-eigenspaces are orthogonal, and Gram--Schmidt within each one produces a
-real orthonormal eigenbasis.
+so the restriction is self-adjoint.  Induction gives an orthonormal
+eigenbasis \(e_2,\ldots,e_n\) of \(e_1^\perp\).  Finally,
+\[
+V=\operatorname{span}(e_1)\oplus e_1^\perp.
+\]
+Theorem~\ref{thm:bases-internal-direct-sums} says that the combined labelled
+family \((e_1,e_2,\ldots,e_n)\) is a basis; orthogonality and unit lengths make
+it an orthonormal eigenbasis.
 \end{proof}
 
+Complexification was used only to obtain the first real eigenvector.  The rest
+of the proof is the same geometric induction as in the complex case.  The
+older observation remains useful: for real \(\lambda\), the
+\(\lambda\)-eigenspace of \(T_{\mathbb C}\) is the complexification of the
+real \(\lambda\)-eigenspace of \(T\).
+
+\begin{corollary}[Matrix form of the spectral theorem]
+\label{cor:matrix-spectral-theorem}
+Regard \(A\in M_n(\mathbb C)\) as the matrix of
+\(T_A:\mathbb C^n\to\mathbb C^n\) in the standard orthonormal basis
+\(E=(e_1,\ldots,e_n)\) for the standard inner product.  Then
+\[
+A\text{ is normal}
+\quad\Longleftrightarrow\quad
+U^*AU=D
+\quad\Longleftrightarrow\quad
+A=UDU^*
+\]
+for some unitary \(U\) and diagonal \(D\). The columns of \(U\) are an
+orthonormal eigenbasis. Moreover, \(A\) is Hermitian if and only if such a
+factorization exists with \(D\) real diagonal.
+
+Likewise, regard \(A\in M_n(\mathbb R)\) as the matrix of an operator in the
+standard orthonormal basis.  Then
+\[
+A\text{ is symmetric}
+\quad\Longleftrightarrow\quad
+Q^tAQ=D
+\quad\Longleftrightarrow\quad
+A=QDQ^t
+\]
+for some orthogonal \(Q\) and real diagonal \(D\). Thus complex normal
+matrices are unitarily diagonalizable, and real symmetric matrices are
+orthogonally diagonalizable.
+\end{corollary}
+\begin{proof}
+Suppose first that \(A\) is complex and normal.  The complex spectral theorem
+provides an orthonormal eigenbasis
+\(\gamma=(u_1,\ldots,u_n)\), where \(Au_j=\lambda_ju_j\).  Write
+\[
+u_j=u_{1j}e_1+\cdots+u_{nj}e_n,
+\qquad
+[u_j]_E=\begin{pmatrix}u_{1j}\\ \vdots\\ u_{nj}\end{pmatrix},
+\]
+and form the expanded column matrix
+\[
+U=\bigl([u_1]_E\ [u_2]_E\ \cdots\ [u_n]_E\bigr)
+=\begin{pmatrix}
+u_{11}&u_{12}&\cdots&u_{1n}\\
+u_{21}&u_{22}&\cdots&u_{2n}\\
+\vdots&\vdots&\ddots&\vdots\\
+u_{n1}&u_{n2}&\cdots&u_{nn}
+\end{pmatrix}.
+\]
+Its direction is
+\[
+[v]_E=U[v]_\gamma;
+\]
+it converts orthonormal eigenbasis coordinates into standard coordinates.
+Because its columns are orthonormal,
+\[
+U^*U=
+\begin{pmatrix}
+\langle u_1,u_1\rangle&\cdots&\langle u_n,u_1\rangle\\
+\vdots&\ddots&\vdots\\
+\langle u_1,u_n\rangle&\cdots&\langle u_n,u_n\rangle
+\end{pmatrix}
+=I.
+\]
+Thus \(U^{-1}=U^*\).  With \(D=\operatorname{diag}(\lambda_1,\ldots,\lambda_n)\),
+the eigenvalue equations assemble column by column:
+\[
+\begin{aligned}
+AU
+&=A(u_1\ \cdots\ u_n)\\
+&=(Au_1\ \cdots\ Au_n)\\
+&=(\lambda_1u_1\ \cdots\ \lambda_nu_n)\\
+&=UD.
+\end{aligned}
+\]
+Multiplying by \(U^*\) gives
+\[
+U^*AU=D,\qquad A=UDU^*.
+\]
+
+Conversely, suppose \(A=UDU^*\), with \(U\) unitary and \(D\) diagonal.
+Then
+\[
+A^*=UD^*U^*,
+\qquad
+AA^*=UDD^*U^*,
+\qquad
+A^*A=UD^*DU^*.
+\]
+Diagonal matrices \(D\) and \(D^*\) commute, so \(A\) is normal.  A Hermitian
+matrix is normal, and its eigenvalues are real, so in that case \(D\) may be
+chosen real.  Conversely, if \(D\) is real diagonal, then
+\[
+A^*=UD^*U^*=UDU^*=A.
+\]
+
+Over \(\mathbb R\), the real spectral theorem gives an orthonormal eigenbasis
+\(\gamma=(q_1,\ldots,q_n)\).  Put
+\[
+Q=([q_1]_E\ \cdots\ [q_n]_E).
+\]
+Orthonormality gives \(Q^tQ=I\), so \(Q^{-1}=Q^t\), and the same column
+calculation gives
+\[
+AQ=QD,\qquad Q^tAQ=D,\qquad A=QDQ^t.
+\]
+Conversely, if \(A=QDQ^t\) with \(Q\) orthogonal and \(D\) real diagonal,
+then
+\[
+A^t=QD^tQ^t=QDQ^t=A.
+\]
+\end{proof}
+
+\begin{remark}[Warning: ordinary matrix formulas require orthonormal coordinates]
+The familiar equations \(U^*AU=D\) and \(Q^tAQ=D\) are statements in
+orthonormal coordinates, typically the standard bases just used.  If instead
+\(A=[T]_\beta\) for an arbitrary nonorthonormal basis, then even a self-adjoint
+or normal operator can have a coordinate matrix that is not Hermitian,
+symmetric, or normal under the ordinary conjugate transpose.  One should not
+expect an ordinary unitary or orthogonal change within those raw coordinates.
+
+The correct formulas from the earlier Gram-matrix discussion are
+\[
+[T^*]_\beta=G_\beta^{-1}[T]_\beta^*G_\beta,
+\qquad
+T\text{ self-adjoint}\Longleftrightarrow A^*G_\beta=G_\beta A.
+\]
+If \(P\) has as its columns the \(\beta\)-coordinates of an orthonormal
+eigenbasis, then
+\[
+P^*G_\beta P=I,
+\]
+not generally \(P^*P=I\).  The earlier \(\mathbb R^2\) example with
+\(\beta=(e_1,e_1+e_2)\) has
+\[
+G_\beta=\begin{pmatrix}1&1\\1&2\end{pmatrix}
+\]
+and gives a self-adjoint operator whose \(\beta\)-matrix is nonsymmetric.
+Thus
+\[
+\begin{gathered}
+\text{operator orthonormally diagonalizable}\\
+\not\Longrightarrow\\
+\text{every coordinate matrix is ordinarily}\\
+\text{unitarily or orthogonally diagonalizable}.
+\end{gathered}
+\]
+\end{remark}
+
 \begin{remark}[Spectral-theorem implications]
-For a finite-dimensional complex inner-product space, the main implications
-are
+For a finite-dimensional complex inner-product space, the correct implication
+diagram is
 \[
 \text{self-adjoint}
 \ \Longrightarrow\
 \text{normal}
-\ \Longrightarrow\
+\ \Longleftrightarrow\
 \text{unitarily diagonalizable}
 \ \Longrightarrow\
 \text{diagonalizable}.
 \]
-The reverse implications fail without additional hypotheses.  More exactly,
+The unmarked reverse implications fail.  More exactly,
 \[
 T\text{ is normal}
 \quad\Longleftrightarrow\quad
@@ -1117,14 +1647,8 @@ T\text{ normal with real spectrum}
 T\text{ self-adjoint}:
 \]
 in an orthonormal eigenbasis, its diagonal matrix has real entries and hence
-equals its conjugate transpose.  At the matrix level, this says
-\[
-\begin{gathered}
-A\text{ is Hermitian}\\
-\Longleftrightarrow\\
-A\text{ is unitarily diagonalizable with real eigenvalues}.
-\end{gathered}
-\]
+equals its conjugate transpose.  The matrix-level version is exactly the
+real-diagonal case of Corollary~\ref{cor:matrix-spectral-theorem}.
 \end{remark}
 
 \begin{example}[Normal diagonalization]
@@ -1140,6 +1664,75 @@ is diagonalizable only when \(a=0\). For \(a\ne0\), it does not commute
 with its conjugate transpose and is not normal. The spectral theorem
 therefore excludes precisely the Jordan-block obstruction described in
 Chapter~6.
+\end{example}
+
+\begin{remark}[Matrix tests in orthonormal coordinates]
+When a matrix represents an operator in an orthonormal basis, the practical
+tests are
+\[
+\begin{array}{c|c}
+\text{self-adjoint}&A=A^*\\
+\text{normal}&AA^*=A^*A\\
+\text{unitary or orthogonal}&A^*A=I.
+\end{array}
+\]
+For a matrix written in a nonorthonormal basis, use the earlier formula
+\[
+[T^*]_\beta=G_\beta^{-1}[T]_\beta^*G_\beta.
+\]
+The literal conjugate-transpose test is therefore unavailable unless
+\(G_\beta=I\).
+\end{remark}
+
+\begin{example}[A complete spectral-theorem computation]
+Consider the non-diagonal real symmetric matrix
+\[
+A=\begin{pmatrix}1&2\\2&1\end{pmatrix}.
+\]
+Its characteristic polynomial is
+\[
+(1-\lambda)^2-4=(\lambda-3)(\lambda+1),
+\]
+so the eigenvalues are \(3\) and \(-1\).  Their eigenspaces are spanned by
+\((1,1)\) and \((1,-1)\), respectively.  Normalization gives
+\[
+v_+=\frac1{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix},
+\qquad
+v_-=\frac1{\sqrt2}\begin{pmatrix}1\\-1\end{pmatrix}.
+\]
+With
+\[
+U=\frac1{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix},
+\qquad
+\Lambda=\begin{pmatrix}3&0\\0&-1\end{pmatrix},
+\]
+the columns of \(U\) form an orthonormal eigenbasis and direct multiplication
+gives
+\[
+A=U\Lambda U^t.
+\]
+
+The spectral projections are the outer products
+\[
+P_+=v_+v_+^t=\frac12\begin{pmatrix}1&1\\1&1\end{pmatrix},
+\qquad
+P_-=v_-v_-^t=\frac12\begin{pmatrix}1&-1\\-1&1\end{pmatrix}.
+\]
+They satisfy \(P_++P_-=I\), \(P_+P_-=0\), and
+\[
+A=3P_+-P_-.
+\]
+Finally, because \(A\) is self-adjoint, its singular values are the absolute
+values \(3\) and \(1\).  Taking right singular vectors \(v_+,v_-\) and left
+singular vectors \(v_+,-v_-\) gives
+\[
+A=
+\begin{pmatrix}v_+&-v_-\end{pmatrix}
+\begin{pmatrix}3&0\\0&1\end{pmatrix}
+\begin{pmatrix}v_+&v_-\end{pmatrix}^{t}.
+\]
+The comparison displays exactly what SVD forgets: the negative sign of the
+eigenvalue \(-1\) moves into the left singular vector.
 \end{example}
 
 \section{Singular Value Decomposition}
@@ -1325,7 +1918,7 @@ A=U\Sigma V^*.
 \]
 Over \(\mathbb R\), this reads
 \[
-A=U\Sigma V^{\mathsf T}.
+A=U\Sigma V^t.
 \]
 
 \subsection{Spectral decomposition and SVD}
@@ -1379,6 +1972,10 @@ Thus the corresponding singular values are
 \[
 \sigma_i=|\lambda_i|.
 \]
+For a nonzero real number \(a\), define
+\[
+\operatorname{sgn}(a)=\frac{a}{|a|}\in\{-1,1\}.
+\]
 For \(\lambda_i\ne0\), set
 \[
 u_i=\operatorname{sgn}(\lambda_i)v_i.
@@ -1424,7 +2021,7 @@ A=\begin{pmatrix}1&1\\1&1\\0&0\end{pmatrix}.
 \]
 We first compute the operator on the domain:
 \[
-A^{\mathsf T}A
+A^tA
 =\begin{pmatrix}1&1&0\\1&1&0\end{pmatrix}
 \begin{pmatrix}1&1\\1&1\\0&0\end{pmatrix}
 =\begin{pmatrix}2&2\\2&2\end{pmatrix}.
@@ -1437,10 +2034,10 @@ Its characteristic polynomial is
 so its eigenvalues are \(4\) and \(0\).  Solving the two eigenspace
 equations gives
 \[
-(A^{\mathsf T}A-4I)\begin{pmatrix}x\\y\end{pmatrix}=0
+(A^tA-4I)\begin{pmatrix}x\\y\end{pmatrix}=0
 \quad\Longleftrightarrow\quad x=y,
 \qquad
-A^{\mathsf T}A\begin{pmatrix}x\\y\end{pmatrix}=0
+A^tA\begin{pmatrix}x\\y\end{pmatrix}=0
 \quad\Longleftrightarrow\quad x=-y.
 \]
 Normalizing vectors in these two directions gives the orthonormal eigenbasis
@@ -1483,8 +2080,8 @@ V=\begin{pmatrix}
 \]
 Both \(U\) and \(V\) are orthogonal.  Finally, direct multiplication gives
 \[
-U\Sigma V^{\mathsf T}
-=2u_1v_1^{\mathsf T}
+U\Sigma V^t
+=2u_1v_1^t
 =2\begin{pmatrix}1/\sqrt2\\1/\sqrt2\\0\end{pmatrix}
 \begin{pmatrix}1/\sqrt2&1/\sqrt2\end{pmatrix}
 =\begin{pmatrix}1&1\\1&1\\0&0\end{pmatrix}=A.
@@ -1504,9 +2101,9 @@ algebra and in many applications across computer science and engineering.
 \section*{Exercises}
 \begin{exercise}[Basic] Verify that the standard formula on \(\mathbb C^n\)
 is an inner product under the convention of this chapter.\end{exercise}
-\begin{exercise}[Core] Use the complex polarization identity to recover the
-standard inner product of two specified vectors in \(\mathbb C^2\) from their
-norms.\end{exercise}
+\begin{exercise}[Core] Let \(z=(1+i,2)\) and \(w=(i,1-i)\) in \(\mathbb C^2\).
+Use the complex polarization identity to recover \(\langle z,w\rangle\) from
+the relevant norms, and check the result directly.\end{exercise}
 \begin{exercise}[Core] Apply Gram--Schmidt to
 \[
 (1,1,0),\ (1,0,1),\ (0,1,1)
@@ -1520,10 +2117,47 @@ arbitrary point on that line.\end{exercise}
 \begin{pmatrix}1&i\\0&2\end{pmatrix}
 \]
 on \(\mathbb C^2\), and determine its kernel.\end{exercise}
+\begin{exercise}[Core] For each matrix
+\[
+\begin{pmatrix}2&i\\-i&3\end{pmatrix},\qquad
+\begin{pmatrix}0&-1\\1&0\end{pmatrix},\qquad
+\begin{pmatrix}1&1\\0&1\end{pmatrix},
+\]
+decide whether it is self-adjoint or Hermitian, normal, and unitary or
+orthogonal over the appropriate field.  Use standard orthonormal
+coordinates.\end{exercise}
+\begin{exercise}[Core] Find an orthonormal eigenbasis for
+\[
+\begin{pmatrix}2&0&2\\0&3&0\\2&0&2\end{pmatrix},
+\]
+write its orthogonal diagonalization, and compute the spectral projection
+onto each eigenspace.\end{exercise}
+\begin{exercise}[Core] For the preceding symmetric matrix, place the normalized
+eigenvectors explicitly as the columns of \(Q\).  Verify by multiplication
+that
+\[
+Q^tQ=I,\qquad AQ=QD,\qquad Q^tAQ=D,
+\]
+and state precisely which coordinate direction \(Q\) implements.
+\end{exercise}
+\begin{exercise}[Core] Prove directly from an orthonormal diagonalization
+that a normal complex operator with real spectrum is self-adjoint.\end{exercise}
+\begin{exercise}[Further] Begin with the eigenbasis
+\((1,0),(1,1)\) for
+\(\begin{pmatrix}1&1\\0&2\end{pmatrix}\).  Apply Gram--Schmidt across the
+two eigenspaces and verify that the second output is not an eigenvector.
+Then explain why Gram--Schmidt within a single eigenspace is safe.\end{exercise}
+\begin{exercise}[Further] A self-adjoint operator has eigenvalues
+\[
+-4,\quad -1,\quad 0,\quad 3.
+\]
+Determine its singular values and explain how the left and
+right singular vectors may be chosen from an orthonormal eigenbasis.\end{exercise}
 \begin{exercise}[Further] Prove that a positive-definite operator is
 invertible.\end{exercise}
 \begin{exercise}[Further, Challenging] Find an SVD of
 \[
 \begin{pmatrix}1&1\\0&0\end{pmatrix}
 \]
-and identify its nonzero singular subspaces.\end{exercise}
+and identify its right and left singular vectors for the nonzero singular
+value.\end{exercise}
