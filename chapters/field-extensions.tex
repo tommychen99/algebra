@@ -8,7 +8,7 @@ scalars on which a vector space is considered.  This chapter makes adjoining
 elements precise and establishes the results on which separability and Galois
 theory later depend.
 
-\section{Extensions and Degree}
+\section{Extensions and Degree}\label{sec:extensions-degree}
 The vector-space language developed in Chapter~5 is therefore immediately
 available: once \(F\subseteq E\), scalar multiplication by elements of \(F\)
 makes \(E\) into an \(F\)-vector space, and degree is simply its dimension.
@@ -48,7 +48,8 @@ degree: no finite list of real numbers spans all of \(\mathbb R\) over
 \(\mathbb Q\).  The degree is therefore a genuine measure of the amount of
 new scalar information in the extension, not merely a count of symbols.
 The infinite extension \(F(t)/F\), formed by adjoining an indeterminate, will
-appear in \S10.2; its powers \(1,t,t^2,\ldots\) cannot fit into any finite
+appear in Section~\ref{sec:algebraic-transcendental}; its powers
+\(1,t,t^2,\ldots\) cannot fit into any finite
 basis.
 
 The Tower Law is the numerical bookkeeping principle for successive
@@ -92,6 +93,7 @@ Apply the Tower Law and factor the prime integer \([L:F]\).
 \end{proof}
 
 \section{Algebraic and Transcendental Elements}
+\label{sec:algebraic-transcendental}
 \begin{definition}
 For an extension \(E/F\) and \(\alpha\in E\), the element \(\alpha\) is
 \emph{algebraic over \(F\)} if \(f(\alpha)=0\) for some nonzero
@@ -161,7 +163,7 @@ polynomial in the evaluation kernel, which is impossible.
 
 \begin{example}[Two square roots]\label{ex:two-square-roots}
 The simple-extension theorem now lets us complete the calculation suggested
-in \S10.1.  The polynomial \(x^2-3\) has no root in
+in Section~\ref{sec:extensions-degree}.  The polynomial \(x^2-3\) has no root in
 \(\mathbb Q(\sqrt2)\).  Indeed, every element of this field has the form
 \(a+b\sqrt2\) with \(a,b\in\mathbb Q\).  If
 \[

@@ -64,7 +64,7 @@ the difference of two odd integers is even. Such examples are elementary,
 but they train the reader to distinguish closure conditions from merely
 familiar-looking subsets.
 
-\begin{proposition}
+\begin{proposition}\label{prop:module-kernel-image}
 For a module homomorphism \(f:M\to P\), both \(\ker f\) and
 \(\operatorname{im}f\) are submodules.
 \end{proposition}
@@ -800,7 +800,8 @@ exactly that the final Hom map is surjective precisely when every map
 by every test module.
 \end{proof}
 
-\noindent\textbf{Example.} For \(n>1\), the \(\mathbb Z\)-module
+\begin{example}
+For \(n>1\), the \(\mathbb Z\)-module
 \(\mathbb Z/n\mathbb Z\) is not projective.  If
 \[
 0\longrightarrow\mathbb Z\xrightarrow{\times n}\mathbb Z
@@ -809,6 +810,7 @@ by every test module.
 split, then \(\mathbb Z\) would contain a subgroup isomorphic to
 \(\mathbb Z/n\mathbb Z\).  This is impossible because \(\mathbb Z\) has no
 nonzero torsion.
+\end{example}
 
 \begin{theorem}[Injective-module characterization]\label{thm:injective-characterization}
 An \(R\)-module \(E\) is injective if and only if every short exact sequence
@@ -1120,7 +1122,7 @@ finite bases. When the scalar field is clear, we write
 Thus a basis expansion exists because a basis spans and is unique because a
 basis is independent. An \emph{ordered basis} is a basis displayed as an
 ordered finite list; this extra order becomes essential when coordinates are
-introduced in Section~5.11.
+introduced in Section~\ref{sec:matrices-change-basis}.
 
 \begin{proposition}[Subspaces of finite-dimensional spaces]\label{prop:finite-subspaces}
 If \(V\) is finite-dimensional and \(W\leq V\), then \(W\) has a finite
@@ -1322,7 +1324,8 @@ into a numerical conservation law.
 \begin{definition}
 A \emph{linear transformation} \(T:V\to W\) is an \(F\)-module
 homomorphism: \(T(av+bw)=aT(v)+bT(w)\). Its kernel and image are the
-submodules already defined in \S5.1; the image is also called the
+submodules already defined in Section~\ref{sec:modules-submodules}; the image
+is also called the
 \emph{range}. It is injective, surjective, bijective, or
 an isomorphism in the same sense as a module map. An endomorphism is a map
 \(V\to V\), and an automorphism is an invertible endomorphism. The
@@ -1339,9 +1342,10 @@ For finite-dimensional \(V\), define
 \]
 \end{definition}
 
-The kernel and image are subspaces by Proposition~5.2, and the preceding
-subspace theorem supplies their finite bases. Thus the numerical words in the
-definition are legitimate before rank--nullity is invoked.
+The kernel and image are subspaces by
+Proposition~\ref{prop:module-kernel-image}, and the preceding subspace theorem
+supplies their finite bases. Thus the numerical words in the definition are
+legitimate before rank--nullity is invoked.
 
 \begin{theorem}[Rank--nullity]
 If \(T:V\to W\) is linear and \(V\) is finite-dimensional, then
@@ -1729,7 +1733,7 @@ consists of eigenvectors. This computation is the concrete meaning of
 similarity and anticipates diagonalization.
 \end{example}
 
-\subsection{Elementary operations and Gaussian elimination}
+\descriptivesubsection{Elementary operations and Gaussian elimination}
 The matrix of a linear map is a coordinate device, and elementary operations
 are controlled changes of that device.  Over a field \(F\), the three
 \emph{elementary row operations} are
@@ -1770,18 +1774,16 @@ E\begin{pmatrix}1&3\\2&5\\4&7\end{pmatrix}
 \]
 The same entry calculation proves the assertion for all three operations.
 For matrices \(A,B\) of the same size, we say that \(A\) and \(B\) are
-\emph{row equivalent} if \(B=PA\) for some invertible \(P\), equivalently if
-one may pass from \(A\) to \(B\) by elementary row operations.  They are
+\emph{row equivalent} if \(B=PA\) for some invertible \(P\).  They are
 \emph{matrix equivalent} if
 \[
 B=PAQ
 \]
-for invertible matrices \(P,Q\) of compatible sizes, equivalently if one may
-use invertible row and column operations.  Row equivalence changes target
-coordinates (or equations), while matrix equivalence permits independent
-changes of source and target coordinates.  Similarity is different: an
-identity \(B=P^{-1}AP\) represents the same endomorphism in two bases related
-by one change of coordinates.
+for invertible matrices \(P,Q\) of compatible sizes.  Row equivalence changes
+target coordinates (or equations), while matrix equivalence permits
+independent changes of source and target coordinates.  Similarity is
+different: an identity \(B=P^{-1}AP\) represents the same endomorphism in two
+bases related by one change of coordinates.
 
 \begin{definition}
 A matrix is in \emph{row-echelon form} if all zero rows occur below all
@@ -1795,8 +1797,57 @@ locations are \emph{pivot positions}, and the columns containing them are
 \emph{Gaussian elimination} applies elementary row operations until a
 row-echelon form is reached.  \emph{Gauss--Jordan elimination} continues
 until every pivot is \(1\) and is the only nonzero entry in its column; that
-stronger form is called reduced row-echelon form.  The following example
-shows the mechanism rather than hiding it behind the final matrix.
+stronger form is called reduced row-echelon form.
+
+\begin{theorem}[Existence of row-echelon form]
+\label{thm:gaussian-elimination-existence}
+Every matrix over a field can be transformed into row-echelon form by a
+finite sequence of elementary row operations.
+\end{theorem}
+\begin{proof}
+If the matrix is zero, there is nothing to do.  Otherwise choose the leftmost
+column containing a nonzero entry and interchange rows to move such an entry
+into the first available row.  Scale that row if a pivot \(1\) is desired,
+then add multiples of it to the rows below to clear every entry below the
+pivot.  Repeat the same procedure on the strictly smaller submatrix lying
+below and to the right of that pivot.  Each repetition fixes one additional
+pivot row and leaves fewer rows and columns available, so after finitely many
+steps the process stops in row-echelon form.
+\end{proof}
+
+\begin{corollary}[Elementary matrices generate the general linear group]
+\label{cor:elementary-matrices-generate-gl}
+Every invertible \(n\times n\) matrix over a field is a product of elementary
+matrices.
+\end{corollary}
+\begin{proof}
+Gaussian elimination, followed by scaling each pivot to \(1\) and clearing
+the entries above the pivots (that is, Gauss--Jordan reduction), reduces an
+invertible matrix \(P\) to \(I_n\).  Every step is left multiplication by an
+elementary matrix.  Reversing the finite sequence, and observing that the
+inverse of an elementary matrix is elementary, expresses \(P\) as a product
+of elementary matrices.
+\end{proof}
+
+It follows formally that
+\[
+\begin{aligned}
+B=PA\text{ for some invertible }P
+\quad\Longleftrightarrow\quad{}&
+B\text{ is obtained from }A\\
+&\text{by elementary row operations}.
+\end{aligned}
+\]
+Applying the same result on the right gives
+\[
+\begin{gathered}
+B=PAQ\text{ for invertible }P,Q\\
+\Longleftrightarrow\\
+B\text{ is obtained from }A\text{ by elementary row and column operations}.
+\end{gathered}
+\]
+The following example shows the elimination mechanism rather than hiding it
+behind the final matrix.
 
 \begin{example}[Gaussian elimination, one operation at a time]
 Starting with
@@ -1833,7 +1884,7 @@ coordinates, and therefore change the variables unless that coordinate change
 is tracked simultaneously.  They must not be used as ordinary
 equation-preserving operations on \(Ax=b\).
 
-\subsection{Rank, nullity, and rank normal form}
+\descriptivesubsection{Rank, nullity, and rank normal form}
 For \(A\in M_{m\times n}(F)\), let
 \[
 T_A:F^n\longrightarrow F^m,\qquad T_A(x)=Ax,
@@ -2150,50 +2201,212 @@ and therefore
 We will recompute this same determinant by cofactors and elimination below.
 \end{example}
 
-\begin{definition}
-For \(T\in\mathcal{L}(V)\), define \(\det(T)\) by
+\begin{lemma}[Top-degree alternating forms]\label{lem:top-alternating-forms}
+Let \(V\) be \(n\)-dimensional with ordered basis
+\(\beta=(v_1,\ldots,v_n)\).  If \(\eta:V^n\to F\) is alternating and
+\(n\)-multilinear, then
 \[
-\omega_\beta(Tx_1,\ldots,Tx_n)
-=\det(T)\,\omega_\beta(x_1,\ldots,x_n)
-\qquad(x_1,\ldots,x_n\in V).
+\eta(x_1,\ldots,x_n)
+=\eta(v_1,\ldots,v_n)\omega_\beta(x_1,\ldots,x_n)
 \]
+for every \(x_1,\ldots,x_n\in V\).  Consequently, the vector space of
+alternating \(n\)-linear forms on \(V\) is one-dimensional and is spanned by
+\(\omega_\beta\).
+\end{lemma}
+\begin{proof}
+Write
+\[
+x_j=\sum_{i=1}^n a_{ij}v_i.
+\]
+Multilinearity gives
+\[
+\eta(x_1,\ldots,x_n)
+=\sum_{i_1,\ldots,i_n}
+a_{i_1,1}\cdots a_{i_n,n}
+\eta(v_{i_1},\ldots,v_{i_n}).
+\]
+Alternation kills every term with repeated indices.  The surviving tuples are
+precisely
+\[
+(i_1,\ldots,i_n)=(\sigma(1),\ldots,\sigma(n)),
+\qquad \sigma\in S_n.
+\]
+For each such permutation, the sign-change lemma gives
+\[
+\eta(v_{\sigma(1)},\ldots,v_{\sigma(n)})
+=\operatorname{sgn}(\sigma)\eta(v_1,\ldots,v_n).
+\]
+Therefore
+\[
+\begin{aligned}
+\eta(x_1,\ldots,x_n)
+&=\eta(v_1,\ldots,v_n)
+\sum_{\sigma\in S_n}\operatorname{sgn}(\sigma)
+a_{\sigma(1),1}\cdots a_{\sigma(n),n}\\
+&=\eta(v_1,\ldots,v_n)\omega_\beta(x_1,\ldots,x_n).
+\end{aligned}
+\]
+Thus an alternating \(n\)-linear form on an \(n\)-dimensional space has only
+one degree of freedom: its value on one ordered basis.  In particular, the
+single scalar in the displayed identity is fixed for the whole form; it does
+not depend on the tuple \(x_1,\ldots,x_n\).
+\end{proof}
+
+\begin{definition}[Provisional operator determinant]
+Let \(T\in\mathcal{L}(V)\), and let
+\(\beta=(v_1,\ldots,v_n)\) be an ordered basis.  Define
+\[
+\det_\beta(T):=\det([T]_\beta).
+\]
+Equivalently, by the matrix definition,
+\[
+\det_\beta(T)=\omega_\beta(Tv_1,\ldots,Tv_n).
+\]
+At this stage the subscript \(\beta\) is intentional: we have not yet proved
+that this scalar is independent of the chosen ordered basis.
 \end{definition}
 
-The left side is alternating and multilinear in the \(x_i\). The expansion
-used in the proof of Theorem~\ref{thm:det-form} shows that every such form is
-its value on \(\beta\) times \(\omega_\beta\), so the displayed scalar exists
-and is unique; evaluating at \(\beta\) shows that it equals
-\(\omega_\beta(Tv_1,\ldots,Tv_n)\). The identity itself holds for every
-tuple, so evaluating in another ordered basis proves that \(\det(T)\) is
-independent of \(\beta\). Expanding the columns \(Tv_j\) in \(\beta\) gives
-\begin{equation}\label{eq:operator-matrix-det}
-\det(T)=\det([T]_\beta).
-\end{equation}
-This separates the intrinsic operator from its coordinate matrix.
-
-\begin{theorem}[Basic determinant identities]\label{thm:det-identities}
-For endomorphisms \(S,T\) of a finite-dimensional vector space over a field,
+\begin{proposition}[Scaling identity]
+\label{prop:determinant-form-scaling}
+For every \(x_1,\ldots,x_n\in V\),
 \[
-\det(I)=1,\qquad
-\det(S\circ T)=\det(S)\det(T).
+\omega_\beta(Tx_1,\ldots,Tx_n)
+=\det_\beta(T)\omega_\beta(x_1,\ldots,x_n).
 \]
-For square matrices over \(F\),
+\end{proposition}
+\begin{proof}
+Define
 \[
-\det(AB)=\det(A)\det(B),
+\eta_T(x_1,\ldots,x_n):=\omega_\beta(Tx_1,\ldots,Tx_n).
+\]
+Because \(T\) is linear and \(\omega_\beta\) is alternating and multilinear,
+\(\eta_T\) is another alternating \(n\)-linear form.  By
+Lemma~\ref{lem:top-alternating-forms}, there is one scalar \(c\) such that
+\(\eta_T=c\omega_\beta\) as functions on all of \(V^n\); the same \(c\)
+therefore works for every tuple.  Evaluating on the ordered basis determines
+it:
+\[
+c=\eta_T(v_1,\ldots,v_n)
+=\omega_\beta(Tv_1,\ldots,Tv_n)
+=\det([T]_\beta)=\det_\beta(T).
+\]
+This proves the identity.  Conceptually, \(\det_\beta(T)\) is the scalar by
+which \(T\) scales top-dimensional alternating volume relative to \(\beta\).
+\end{proof}
+
+\begin{theorem}[Product identity in a fixed basis]
+\label{thm:provisional-determinant-product}
+For \(S,T\in\mathcal{L}(V)\),
+\[
+\det_\beta(ST)=\det_\beta(S)\det_\beta(T),
 \qquad
-\det(A^t)=\det(A).
+\det_\beta(I)=1.
+\]
+If \(T\) is invertible, then
+\[
+\det_\beta(T^{-1})=\det_\beta(T)^{-1}.
 \]
 \end{theorem}
 \begin{proof}
-The defining identity for determinants gives
+Applying Proposition~\ref{prop:determinant-form-scaling} twice gives
 \[
+\begin{aligned}
 \omega_\beta(STx_1,\ldots,STx_n)
-=\det(S)\det(T)\omega_\beta(x_1,\ldots,x_n),
+&=\det_\beta(S)\omega_\beta(Tx_1,\ldots,Tx_n)\\
+&=\det_\beta(S)\det_\beta(T)
+\omega_\beta(x_1,\ldots,x_n).
+\end{aligned}
 \]
-which proves multiplicativity and \(\det(I)=1\). Matrix multiplicativity
-follows from \eqref{eq:operator-matrix-det} and the composition formula
-proved in \S5.11. Replacing \(\sigma\) by \(\sigma^{-1}\) in
-\eqref{eq:leibniz-form} gives \(\det(A^t)=\det(A)\).
+Applying it directly to \(ST\) gives the same left side with coefficient
+\(\det_\beta(ST)\).  Evaluate both identities at
+\((x_1,\ldots,x_n)=(v_1,\ldots,v_n)\), where
+\(\omega_\beta(v_1,\ldots,v_n)=1\); this compares the coefficients without
+dividing by a value that might be zero and proves the product formula.  The
+identity operator has matrix \(I_n\), whose Leibniz formula has only the
+identity-permutation term, so \(\det_\beta(I)=1\).  If \(T\) is invertible,
+apply the product formula to \(TT^{-1}=I\).
+\end{proof}
+
+\begin{corollary}[Basic matrix determinant identities]
+\label{thm:det-identities}
+For \(A,B\in M_n(F)\),
+\[
+\det(I_n)=1,\qquad
+\det(AB)=\det(A)\det(B),\qquad
+\det(A^t)=\det(A).
+\]
+\end{corollary}
+\begin{proof}
+The identity formula is immediate from the Leibniz formula.  Regard \(A\)
+and \(B\) as the matrices in the standard basis \(e\) of the operators
+\(T_A,T_B:F^n\to F^n\).  Since \([T_AT_B]_e=AB\), the preceding theorem gives
+\[
+\det(AB)=\det_e(T_AT_B)
+=\det_e(T_A)\det_e(T_B)=\det(A)\det(B).
+\]
+For the transpose, the Leibniz formula gives
+\[
+\det(A^t)=
+\sum_{\sigma\in S_n}\operatorname{sgn}(\sigma)
+a_{1,\sigma(1)}\cdots a_{n,\sigma(n)}.
+\]
+Replace \(\sigma\) by \(\tau^{-1}\).  As \(\sigma\) ranges over \(S_n\), so
+does \(\tau\), and \(\operatorname{sgn}(\tau^{-1})
+=\operatorname{sgn}(\tau)\).  Reordering the scalar factors, the selected
+entries become
+\[
+a_{\tau(1),1}\cdots a_{\tau(n),n},
+\]
+which are exactly the Leibniz products for \(A\).  Hence
+\(\det(A^t)=\det(A)\).
+\end{proof}
+
+\begin{theorem}[Basis independence of the operator determinant]
+\label{thm:operator-determinant-basis-independent}
+If \(\beta\) and \(\gamma\) are ordered bases of \(V\), then
+\[
+\det_\gamma(T)=\det_\beta(T).
+\]
+\end{theorem}
+\begin{proof}
+Let \(P\) be the change-of-coordinate matrix, so
+\([T]_\gamma=P^{-1}[T]_\beta P\).  Matrix multiplicativity gives
+\[
+\det_\gamma(T)
+=\det(P^{-1})\det([T]_\beta)\det(P).
+\]
+Since \(I=P^{-1}P\),
+\[
+1=\det(I)=\det(P^{-1})\det(P).
+\]
+Consequently \(\det_\gamma(T)=\det_\beta(T)\).
+\end{proof}
+
+\begin{definition}
+The \emph{determinant of the endomorphism \(T\)} is the well-defined scalar
+\[
+\det(T):=\det_\beta(T),
+\]
+where \(\beta\) is any ordered basis.  Thus, for every ordered basis,
+\begin{equation}\label{eq:operator-matrix-det}
+\det(T)=\det([T]_\beta).
+\end{equation}
+\end{definition}
+
+\begin{corollary}[Intrinsic operator determinant identities]
+For endomorphisms \(S,T\) of a finite-dimensional vector space,
+\[
+\det(ST)=\det(S)\det(T),\qquad \det(I)=1.
+\]
+If \(T\) is invertible, then
+\[
+\det(T^{-1})=\det(T)^{-1}.
+\]
+\end{corollary}
+\begin{proof}
+These are the fixed-basis identities from
+Theorem~\ref{thm:provisional-determinant-product}, now written using the
+basis-independent definition.
 \end{proof}
 
 The elementary-operation rules are consequences, not new axioms.  If
@@ -2454,7 +2667,7 @@ No determinant-changing operation occurred, so the triangular formula gives
 \(\det B=(1)(-3)(-7/3)=7\), agreeing with both earlier methods.
 \end{remark}
 
-\subsection{Determinants over commutative rings}
+\descriptivesubsection{Determinants over commutative rings}
 The Leibniz expression uses only addition, multiplication, commutativity,
 and the elements \(1\) and \(-1\). It therefore has a useful scope beyond
 fields.
@@ -2477,24 +2690,30 @@ and the Laplace and adjugate identities \eqref{eq:adjugate} remain valid.
 \end{theorem}
 \begin{proof}
 The uniqueness, cancellation, and multilinearity arguments in
-Theorem~\ref{thm:det-form} use no division, only commutativity and the sign
-of a permutation. The structural proof of multiplicativity and the cofactor
-proof use the same operations, and hence carry over word for word.
+Theorem~\ref{thm:det-form} use no division, only addition, multiplication,
+commutativity, and permutation signs.  In particular, the coordinate proof
+that every top-degree alternating \(n\)-linear form on \(R^n\) is a scalar
+multiple of the normalized determinant form uses only those operations.
+Therefore the scaling-identity and product-identity arguments extend to free
+modules over a commutative ring.  The cofactor proof likewise uses no
+division.
 \end{proof}
 
 If \(P\) is an invertible change-of-basis matrix of a finite free
-\(R\)-module \(F\), then
+\(R\)-module \(M\), then
 \[
 \det(P)\det(P^{-1})=1.
 \]
-Consequently, for an endomorphism \(T:F\to F\), the value
+Consequently, for an endomorphism \(T:M\to M\), the value
 \[
 \det(T)=\det([T]_\beta)
 \]
 is independent of the ordered basis \(\beta\): two matrices are related by
 \(P^{-1}[T]_\beta P\), and determinant multiplicativity cancels the
-two unit determinants. Thus the preceding field construction extends exactly
-to finite free modules, not to arbitrary finitely generated modules.
+two unit determinants.  Thus the present basis-and-matrix construction
+extends directly to finite free modules.  An arbitrary finitely generated
+module need not possess a basis, so we do not define an operator determinant
+for such modules here.
 
 \begin{corollary}[Invertibility over a commutative ring]
 For \(A\in M_n(R)\),
@@ -2849,7 +3068,7 @@ when \(j\geq2\), and zeros elsewhere.  This is precisely
 \(J_k(\lambda)\).
 \end{proof}
 
-\subsection{Kernel-growth blueprint for assembling chains}
+\descriptivesubsection{Kernel-growth blueprint for assembling chains}
 The following discussion is a blueprint for the construction, not by itself
 a complete proof that a jointly independent spanning family of chains can
 always be chosen.  The essential bookkeeping is clearest for a nilpotent
