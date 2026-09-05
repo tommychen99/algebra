@@ -156,6 +156,22 @@ Thus finite-dimensional vector spaces have a canonical isomorphism
 V\cong V^{\vee\vee},
 \]
 even though an isomorphism with the first dual is usually noncanonical.
+This canonical character is expressed by the naturality identity
+\begin{equation}\label{eq:double-dual-naturality}
+\iota_W\circ T=T^{\vee\vee}\circ\iota_V
+\qquad(T:V\to W).
+\end{equation}
+Indeed, for \(v\in V\) and \(\varphi\in W^\vee\),
+\[
+\begin{aligned}
+\bigl(T^{\vee\vee}\iota_V(v)\bigr)(\varphi)
+&=\iota_V(v)(\varphi\circ T)\\
+&=(\varphi\circ T)(v)\\
+&=\varphi(Tv)\\
+&=\iota_W(Tv)(\varphi).
+\end{aligned}
+\]
+Thus evaluation commutes with every linear map and requires no basis choice.
 
 \begin{definition}
 For a subspace \(W\leq V\), its \emph{annihilator} is
@@ -180,6 +196,114 @@ of \(V\).  Its dual basis shows that \(W^\circ\) has basis
 (u_1^\vee,\ldots,u_s^\vee).
 \]
 Since \(r+s=\dim V\), the result follows.
+\end{proof}
+
+\begin{theorem}[Dual maps, kernels, and images]\label{thm:dual-map-kernel-image}
+Let \(T:V\to W\) be a linear map between finite-dimensional vector spaces.
+Then
+\[
+\ker(T^\vee)=(\operatorname{im}T)^\circ,
+\qquad
+\operatorname{im}(T^\vee)=(\ker T)^\circ.
+\]
+Consequently,
+\[
+\operatorname{rank}(T^\vee)=\operatorname{rank}(T).
+\]
+\end{theorem}
+\begin{proof}
+For \(\varphi\in W^\vee\), every equivalence is direct:
+\[
+\begin{aligned}
+\varphi\in\ker(T^\vee)
+&\Longleftrightarrow T^\vee\varphi=0\\
+&\Longleftrightarrow \varphi\circ T=0\\
+&\Longleftrightarrow \varphi\text{ vanishes on }\operatorname{im}T\\
+&\Longleftrightarrow \varphi\in(\operatorname{im}T)^\circ.
+\end{aligned}
+\]
+Hence, using the annihilator dimension formula and rank--nullity,
+\[
+\begin{aligned}
+\operatorname{rank}(T^\vee)
+&=\dim W^\vee-\dim\ker(T^\vee)\\
+&=\dim W-\bigl(\dim W-\dim\operatorname{im}T\bigr)\\
+&=\operatorname{rank}T.
+\end{aligned}
+\]
+If \(\varphi=T^\vee\psi=\psi\circ T\) and \(v\in\ker T\), then
+\(\varphi(v)=\psi(Tv)=0\).  Thus
+\(\operatorname{im}(T^\vee)\subseteq(\ker T)^\circ\).  The two spaces have
+the same dimension, because
+\[
+\dim\operatorname{im}(T^\vee)=\operatorname{rank}T
+=\dim V-\dim\ker T=\dim(\ker T)^\circ.
+\]
+The containment is therefore equality.
+\end{proof}
+
+In dual bases,
+\([T^\vee]=[T]^t\).  The theorem therefore yields
+\[
+\operatorname{rank}(A^t)=\operatorname{rank}(A),
+\]
+giving the conceptual dual-space explanation of the row-rank equals
+column-rank theorem proved earlier by elementary matrix methods.
+
+\begin{proposition}[Quotient dual]\label{prop:quotient-dual}
+If \(W\leq V\) and \(\pi:V\to V/W\) is the quotient map, then
+\[
+\pi^\vee:(V/W)^\vee\longrightarrow V^\vee
+\]
+is injective with image \(W^\circ\).  Hence
+\[
+(V/W)^\vee\cong W^\circ.
+\]
+\end{proposition}
+\begin{proof}
+Because \(\pi\) is surjective, \(\psi\circ\pi=0\) implies \(\psi=0\), so
+\(\pi^\vee\) is injective.  Theorem~\ref{thm:dual-map-kernel-image} gives
+\[
+\operatorname{im}(\pi^\vee)=(\ker\pi)^\circ=W^\circ.
+\]
+\end{proof}
+
+\begin{proposition}[Annihilator identities]\label{prop:annihilator-identities}
+For subspaces \(U,W\leq V\), with \(V\) finite-dimensional,
+\[
+U\subseteq W\Longrightarrow W^\circ\subseteq U^\circ,
+\qquad
+(U+W)^\circ=U^\circ\cap W^\circ,
+\]
+\[
+(U\cap W)^\circ=U^\circ+W^\circ,
+\qquad
+W^{\circ\circ}=W
+\]
+under the evaluation identification \(V\cong V^{\vee\vee}\).
+\end{proposition}
+\begin{proof}
+A functional vanishing on \(W\) certainly vanishes on \(U\subseteq W\),
+which proves reversal of inclusions.  A functional vanishes on \(U+W\)
+exactly when it vanishes on both summands, proving the second identity.
+
+Every element of \(U^\circ+W^\circ\) vanishes on \(U\cap W\), so
+\[
+U^\circ+W^\circ\subseteq(U\cap W)^\circ.
+\]
+The dimension formula for sums and intersections gives
+\[
+\begin{aligned}
+\dim(U^\circ+W^\circ)
+&=\dim U^\circ+\dim W^\circ-\dim(U^\circ\cap W^\circ)\\
+&=(\dim V-\dim U)+(\dim V-\dim W)-\dim(U+W)^\circ\\
+&=\dim V-\dim(U\cap W),
+\end{aligned}
+\]
+which is the dimension of \((U\cap W)^\circ\); hence equality holds.
+Finally, evaluation sends every \(w\in W\) to a functional on \(V^\vee\)
+that vanishes on \(W^\circ\), so \(W\subseteq W^{\circ\circ}\).  Both spaces
+have dimension \(\dim W\), and therefore they are equal.
 \end{proof}
 
 \section{Bilinear and Quadratic Forms}\label{sec:bilinear-quadratic-forms}
@@ -213,8 +337,20 @@ Every alternating bilinear form is skew-symmetric, by expanding
 0=B(x+y,x+y).
 \]
 Conversely, a skew-symmetric form is alternating only when the
-characteristic is not \(2\).  This distinction is essential in
+characteristic is not \(2\), in the sense of
+Definition~\ref{def:ring-characteristic}. This distinction is essential in
 characteristic \(2\).
+In every ordered basis \(\beta\),
+\[
+B\text{ symmetric}\Longleftrightarrow[B]_\beta^t=[B]_\beta,
+\qquad
+B\text{ skew-symmetric}\Longleftrightarrow[B]_\beta^t=-[B]_\beta.
+\]
+Alternating always implies the second condition.  If
+\(\operatorname{char}F\ne2\), the second condition forces
+\(2B(v,v)=0\) and hence \(B(v,v)=0\).  In characteristic \(2\), however,
+\(-A=A\), so the transpose equation merely says that \(A\) is symmetric; an
+alternating form must additionally have zero diagonal.
 
 \begin{proposition}[Matrix and congruence]\label{prop:bilinear-matrix}
 For an ordered basis \(\beta=(v_1,\ldots,v_n)\), put
@@ -298,6 +434,40 @@ and
 \]
 \end{definition}
 
+\begin{definition}
+The \emph{rank of a bilinear form} is
+\[
+\operatorname{rank}B:=\operatorname{rank}\Phi_B.
+\]
+\end{definition}
+
+\begin{proposition}[Rank and radicals of a bilinear form]
+For every ordered basis \(\beta\),
+\[
+\operatorname{rank}B=\operatorname{rank}[B]_\beta.
+\]
+This number is independent of the basis.  Moreover,
+\[
+\dim\operatorname{rad}_L(B)=\dim V-\operatorname{rank}B,
+\qquad
+\dim\operatorname{rad}_R(B)=\dim V-\operatorname{rank}B.
+\]
+\end{proposition}
+\begin{proof}
+In \(\beta\) and its dual basis, the matrix of \(\Phi_B\) is
+\([B]_\beta^t\).  Equality of row and column rank therefore gives
+\[
+\operatorname{rank}\Phi_B
+=\operatorname{rank}[B]_\beta^t
+=\operatorname{rank}[B]_\beta.
+\]
+Alternatively, basis independence follows directly from
+\([B]_{\beta'}=P^t[B]_\beta P\) and invariance of rank under multiplication
+by invertible matrices.  Rank--nullity applied to \(\Phi_B\) proves the
+left-radical formula.  The right-radical formula follows in the same way from
+\(\Psi_B\), whose matrix is \([B]_\beta\).
+\end{proof}
+
 \begin{proposition}[Nondegeneracy criterion]
 For a finite-dimensional vector space, the following are equivalent:
 \begin{enumerate}
@@ -332,11 +502,70 @@ congruence formula in Proposition~\ref{prop:bilinear-matrix} shows that
 matrix invertibility is independent of the chosen basis.
 \end{proof}
 
+Equivalently, in finite dimension,
+\[
+\begin{aligned}
+B\text{ nondegenerate}
+&\Longleftrightarrow \operatorname{rank}B=\dim V\\
+&\Longleftrightarrow [B]_\beta\text{ is invertible}
+\Longleftrightarrow \det[B]_\beta\ne0.
+\end{aligned}
+\]
+A chosen nondegenerate bilinear form therefore supplies the isomorphism
+\[
+\Phi_B:V\xrightarrow{\ \sim\ }V^\vee,\qquad v\longmapsto B(v,-).
+\]
+This is precisely the extra structure missing from the bare vector space:
+there is no preferred isomorphism \(V\cong V^\vee\), but a nondegenerate form
+provides one.
+
 For a symmetric bilinear form, \(B(v,w)=B(w,v)\), so the two radicals
 coincide.  In that case we write their common value as \(\operatorname{rad}(B)\).
 
 \begin{definition}
-Assume \(\operatorname{char}F\ne2\).  A quadratic form associated with a
+For a symmetric bilinear form \(B\) and a subspace \(W\leq V\), define
+\[
+W^{\perp_B}=\{v\in V:B(v,w)=0\text{ for every }w\in W\}.
+\]
+\end{definition}
+
+\begin{proposition}[Orthogonal complements for a bilinear form]
+If \(B\) is nondegenerate on finite-dimensional \(V\), then
+\[
+\dim W^{\perp_B}=\dim V-\dim W.
+\]
+Moreover,
+\[
+V=W\oplus W^{\perp_B}
+\quad\Longleftrightarrow\quad
+B|_W\text{ is nondegenerate}.
+\]
+\end{proposition}
+\begin{proof}
+The isomorphism \(\Phi_B:V\to V^\vee\) carries \(W^{\perp_B}\) onto the
+annihilator \(W^\circ\).  The annihilator dimension formula gives the first
+claim.  Also,
+\[
+W\cap W^{\perp_B}=\operatorname{rad}(B|_W).
+\]
+Thus the sum is direct exactly when \(B|_W\) is nondegenerate; in that case
+the dimension formula shows that the direct sum has dimension \(\dim V\) and
+therefore equals \(V\).  The converse is immediate from the displayed
+intersection.
+\end{proof}
+
+Unlike the positive-definite case, nondegeneracy of \(B\) on \(V\) alone does
+not guarantee this direct sum.  For example, on \(F^2\) with
+\[
+[B]=\begin{pmatrix}0&1\\1&0\end{pmatrix},
+\]
+the form is nondegenerate, but \(e_1\) is isotropic and
+\(Fe_1=(Fe_1)^{\perp_B}\).  Thus isotropic vectors can make
+\(W\cap W^{\perp_B}\ne0\).
+
+\begin{definition}
+Assume \(\operatorname{char}F\ne2\), in the sense of
+Definition~\ref{def:ring-characteristic}. A quadratic form associated with a
 symmetric bilinear form \(B\) is
 \[
 q(v)=B(v,v).
@@ -350,6 +579,40 @@ B(x,y)
 \]
 Characteristic \(2\) requires a separate theory: a quadratic form must not
 there be identified blindly with a symmetric bilinear form.
+
+In coordinates, if \(A=[B]_\beta=A^t\) and
+\(x=(x_1,\ldots,x_n)^t\), then
+\[
+q(x)=x^tAx
+=\sum_i a_{ii}x_i^2+2\sum_{i<j}a_{ij}x_ix_j.
+\]
+Conversely, the polarization formula recovers the unique symmetric bilinear
+form from \(q\).  If \(x=Py\) and \(P^tAP=D\), then
+\[
+q(Py)=(Py)^tA(Py)=y^tP^tAPy=y^tDy
+=d_1y_1^2+\cdots+d_ny_n^2.
+\]
+Thus congruence is exactly the coordinate change that diagonalizes a
+quadratic form.
+
+\begin{example}[Completing the square]
+Over a field of characteristic not \(2\), consider
+\[
+q(x,y)=x^2+4xy+3y^2.
+\]
+The cross term disappears visibly:
+\[
+q(x,y)=(x+2y)^2-y^2.
+\]
+Set \(u=x+2y\) and \(v=y\), equivalently
+\[
+\begin{pmatrix}x\\y\end{pmatrix}
+=\begin{pmatrix}1&-2\\0&1\end{pmatrix}
+\begin{pmatrix}u\\v\end{pmatrix}.
+\]
+Then \(q=u^2-v^2\).  This is the coordinate mechanism behind diagonalization,
+not a classification of all quadratic forms.
+\end{example}
 
 \begin{theorem}[Diagonalization of symmetric bilinear forms]
 Suppose that \(\operatorname{char}F\ne2\).  Every symmetric bilinear form on

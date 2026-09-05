@@ -625,7 +625,7 @@ If \(G\) is finite, then \(g^{|G|}=e\) for every \(g\in G\).
 The order of \(g\) divides \(|G|\).
 \end{proof}
 
-\begin{theorem}[Fermat's Little Theorem]
+\begin{theorem}[Fermat's Little Theorem]\label{thm:fermat-little}
 If \(p\) is prime and \(a\in\mathbb Z\) satisfies \(p\nmid a\), then
 \[
 a^{p-1}\equiv1\pmod p.
@@ -952,9 +952,14 @@ The order of \((g,h)\) is the least positive integer \(k\) for which both
 \(g^k=e\) and \(h^k=e\).  Thus its order is \(\operatorname{lcm}(m,n)\).
 If \(m\) and \(n\) are coprime, this least common multiple is \(mn\), the
 order of the product, so \((g,h)\) is a generator.  Conversely, suppose a
-single element generated \(C_m\times C_n\).  Its order would be \(mn\), but
-the order of every element divides \(\operatorname{lcm}(m,n)\).  Therefore
-\(mn\mid\operatorname{lcm}(m,n)\), which forces \(\gcd(m,n)=1\).
+single element generated \(C_m\times C_n\). For a general element \((x,y)\),
+\[
+|(x,y)|=\operatorname{lcm}(|x|,|y|).
+\]
+Since \(|x|\mid m\) and \(|y|\mid n\), this order divides
+\(\operatorname{lcm}(m,n)\). A generator would have order \(mn\), so this
+can happen only when \(\operatorname{lcm}(m,n)=mn\), equivalently
+\(\gcd(m,n)=1\).
 \end{proof}
 
 This example contrasts direct products with quotients.  A quotient imposes
@@ -1172,7 +1177,7 @@ Let \(C_{12}=\langle g\rangle\).  Determine
 gcd/lcm pattern for two subgroups of a finite cyclic group.
 \end{exercise}
 \begin{exercise}[Core]
-Let \(H\leq G\) be the unique subgroup of \(G\) having its order.  Prove
+Suppose \(H\leq G\) is the unique subgroup of \(G\) of order \(|H|\). Prove
 that \(H\trianglelefteq G\).  Apply this criterion to the subgroup of order
 three in a cyclic group of order twelve.
 \end{exercise}

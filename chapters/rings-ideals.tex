@@ -259,6 +259,58 @@ are inverse ideal-preserving maps. Finally,
 \((r+I)+(K/I)\mapsto r+K\) is well-defined and has zero kernel.
 \end{proof}
 
+\section{Characteristic and the Prime Subring}
+Let \(R\) be a ring with identity. The canonical homomorphism
+\[
+\iota:\mathbb Z\longrightarrow R,\qquad n\longmapsto n1_R
+\]
+records how the integers act inside \(R\). Its kernel is an ideal of
+\(\mathbb Z\), so it is either \(\{0\}\) or \(n\mathbb Z\) for a unique
+integer \(n>0\).
+
+\begin{definition}\label{def:ring-characteristic}
+If \(\ker\iota=\{0\}\), the \emph{characteristic} of \(R\) is \(0\). If
+\(\ker\iota=n\mathbb Z\) with \(n>0\), its characteristic is \(n\). The image
+of \(\iota\) is the \emph{prime subring} of \(R\).
+\end{definition}
+
+Under this definition the zero ring has characteristic \(1\), since
+\(1_R=0\) and therefore \(\ker\iota=\mathbb Z\).
+
+The First Isomorphism Theorem gives
+\[
+\operatorname{im}\iota\cong\mathbb Z/\ker\iota.
+\]
+Thus in characteristic \(0\) the prime subring is isomorphic to
+\(\mathbb Z\), while in characteristic \(p>0\) it is
+\(\mathbb Z/p\mathbb Z\), and hence isomorphic to \(\mathbb F_p\) when
+\(p\) is prime.
+
+\begin{proposition}[Characteristic of a domain]
+\label{prop:domain-characteristic}
+If \(R\) is a nonzero integral domain, then
+\(\operatorname{char}R\) is either \(0\) or a prime.
+\end{proposition}
+\begin{proof}
+Suppose \(\operatorname{char}R=n>0\). If \(n=ab\) with
+\(1<a,b<n\), then minimality of \(n\) gives
+\[
+a1_R\ne0,\qquad b1_R\ne0,
+\]
+whereas
+\[
+(a1_R)(b1_R)=n1_R=0.
+\]
+This contradicts the absence of zero divisors. Hence \(n\) is prime.
+\end{proof}
+
+For example,
+\[
+\operatorname{char}\mathbb Z=\operatorname{char}\mathbb Q=0,\qquad
+\operatorname{char}\mathbb F_p=p,\qquad
+\operatorname{char}(\mathbb Z/n\mathbb Z)=n\quad(n\geq2).
+\]
+
 \begin{example}[Group rings]
 Let \(R\) be a commutative ring and \(G\) a group.  The \emph{group ring}
 \(R[G]\) consists of finite formal sums
@@ -293,7 +345,7 @@ A proper ideal \(\mathfrak p\) is \emph{prime} if
 A proper ideal \(\mathfrak m\) is \emph{maximal} if no ideal is strictly
 between \(\mathfrak m\) and \(R\).
 \end{definition}
-\begin{theorem}
+\begin{theorem}\label{thm:prime-maximal-quotient}
 \(\mathfrak p\) is prime iff \(R/\mathfrak p\) is a domain, and
 \(\mathfrak m\) is maximal iff \(R/\mathfrak m\) is a field. Hence every
 maximal ideal is prime.

@@ -280,7 +280,7 @@ proofs are a model use of actions: choose a finite set on which a \(p\)-group
 acts, observe that nontrivial orbit sizes are divisible by \(p\), and extract
 a fixed point from a count not divisible by \(p\).
 
-\begin{theorem}[Cauchy]
+\begin{theorem}[Cauchy]\label{thm:cauchy}
 If a prime \(p\) divides the order of a finite group \(G\), then \(G\) has an
 element of order \(p\).
 \end{theorem}
@@ -445,7 +445,10 @@ so \(N\times\{e_H\}\) is normal. The two subgroups meet only in
 
 An internal semidirect product is equivalently a split short exact sequence
 \[e\longrightarrow N\longrightarrow G\longrightarrow H\longrightarrow e.\]
-Here ``split'' means that the quotient map \(q:G\to H\) has a homomorphic
+Here the notation means that \(N\to G\) is injective, \(G\to H\) is
+surjective, and the image of \(N\to G\) is the kernel of \(G\to H\).
+The word ``split'' means that the quotient map \(q:G\to H\) has a
+group-homomorphic
 section \(s:H\to G\). Then \(q\) restricted to \(s(H)\) is inverse to \(s\),
 so \(N\cap s(H)=\{e\}\), where \(N=\ker q\). Moreover, if \(g\in G\) and
 \(h=q(g)\), then
@@ -456,7 +459,8 @@ so \(gs(h)^{-1}\in N\) and \(g\in Ns(H)\). Hence \(G=Ns(H)\), and
 Proposition~\ref{prop:internal-semiproduct} applies. Conversely, an internal
 semidirect product gives \(G/N\cong H\), and the inclusion of the complement
 gives a homomorphic section. This is only a first encounter with extensions,
-but it explains why semidirect products are ubiquitous.
+but it explains why semidirect products are ubiquitous. The full
+module-theoretic language of exact sequences is developed in Chapter~5.
 
 \begin{example}
 Let \(C_2=\langle s\rangle\) act on \(C_3=\langle r\rangle\) by inversion,
@@ -489,7 +493,14 @@ law for conjugation.
 \section{Composition Series, Solvability, and Nilpotence}
 
 Composition series make precise the idea of breaking a group into indivisible
-layers.  A simple group has no nontrivial proper normal subgroup, so it cannot
+layers. A nontrivial group is \emph{simple} if it has no nontrivial proper
+normal subgroup. A \emph{normal series} is a finite chain
+\[
+G=G_0\trianglerighteq G_1\trianglerighteq\cdots
+\trianglerighteq G_r=\{e\},
+\qquad G_{i+1}\trianglelefteq G_i,
+\]
+and its factors are \(G_i/G_{i+1}\). A simple group cannot
 be decomposed further by quotients.  Jordan--H\"older says that, although the
 intermediate subgroups may differ, the resulting simple layers are intrinsic.
 
@@ -646,13 +657,17 @@ nontrivial, and Cauchy's theorem gives a central subgroup \(C\) of order
 \[
  \{e\}=\overline Z_0\leq\overline Z_1\leq\cdots\leq\overline Z_c=G/C.
 \]
-Let \(Z_i\) be the inverse image of \(\overline Z_i\) in \(G\).  Then
+Let \(\pi:G\to G/C\) be the quotient map and define
+\(Z_i=\pi^{-1}(\overline Z_i)\). Then
 \(Z_0=C\), and the chain
 \[
  \{e\}\leq C=Z_0\leq Z_1\leq\cdots\leq Z_c=G
 \]
-is central: if \(z\in Z_{i+1}\) and \(g\in G\), then the image of \(z\)
-is central modulo \(\overline Z_i\), so \([z,g]\in Z_i\).  The first step
+is central: if \(z\in Z_{i+1}\) and \(g\in G\), then
+\(\pi(z)\overline Z_i\) is central in
+\((G/C)/\overline Z_i\). Hence
+\(\pi([z,g])\in\overline Z_i\), so
+\([z,g]\in\pi^{-1}(\overline Z_i)=Z_i\). The first step
 is central because \(C\leq Z(G)\).  Thus this is a central series from
 \(1\) to \(G\), proving that \(G\) is nilpotent.
 \end{proof}
@@ -706,9 +721,11 @@ For every \(n\geq5\), \(A_n\) is not solvable. Consequently \(S_n\) is not
 solvable for \(n\geq5\).
 \end{theorem}
 \begin{proof}
-We use the standard theorem that \(A_n\) is a nonabelian simple group for
-\(n\geq5\); its proof is outside the present Sylow-and-composition-series
-scope. Since \(A_n\) is nonabelian, its derived subgroup \([A_n,A_n]\) is
+As a standard external input, we use that \(A_n\) is a nonabelian simple
+group for \(n\geq5\). Its proof is outside the present
+Sylow-and-composition-series scope, and this result is not used in the later
+internal dependency chain. Since \(A_n\) is nonabelian, its derived subgroup
+\([A_n,A_n]\) is
 nontrivial. It is normal, so simplicity gives
 \([A_n,A_n]=A_n\). The derived series therefore never reaches the trivial
 group, and \(A_n\) is not solvable. If \(S_n\) were solvable, its subgroup
