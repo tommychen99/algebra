@@ -1,0 +1,407 @@
+\section{Jordan Canonical Form}\label{sec:jordan-canonical-form}
+Chapter~5 showed that when a split characteristic polynomial does not supply
+enough ordinary eigenvectors, generalized eigenspaces recover the missing
+directions, and one Jordan chain produces one Jordan block. The preceding
+section proved
+\[
+V=\bigoplus_\lambda G_\lambda(T).
+\]
+The remaining question is whether each generalized eigenspace contains enough
+compatible chains. The PID structure theorem answers it exactly.
+
+\begin{theorem}[Jordan canonical form]\label{thm:jordan-canonical-form}
+If \(\chi_T\) splits over \(F\), then some basis \(\beta\) gives
+\[
+[T]_\beta=\bigoplus_{\lambda,j}J_{k_{\lambda,j}}(\lambda).
+\]
+The multiset of blocks is unique up to permutation.
+\end{theorem}
+\begin{proof}
+Every irreducible factor occurring in \(V_T\) is linear, so the
+elementary-divisor decomposition is
+\[
+V_T\cong\bigoplus_{\lambda,j}
+F[x]/((x-\lambda)^{k_{\lambda,j}}).
+\]
+The \(\lambda\)-summands form \(G_\lambda(T)\). By
+Proposition~\ref{prop:jordan-chain-cyclic-module}, each cyclic summand
+supplies a Jordan-chain basis and one block
+\(J_{k_{\lambda,j}}(\lambda)\). Concatenating these bases proves existence.
+Uniqueness of the elementary divisors proves uniqueness of the block
+multiset, since \((x-\lambda)^k\) corresponds to exactly one
+\(J_k(\lambda)\).
+\end{proof}
+
+\begin{corollary}[Kernel growth and block counting]
+\label{cor:jordan-kernel-growth}
+For \(K_j=\ker(T-\lambda I)^j\), \(K_0=0\), and
+\(c_j=\dim K_j-\dim K_{j-1}\),
+\[
+\begin{aligned}
+c_j&=\#\{\lambda\text{-blocks of size at least }j\},\\
+c_j-c_{j+1}&=\#\{\lambda\text{-blocks of size exactly }j\}.
+\end{aligned}
+\]
+Consequently the number of \(\lambda\)-blocks is
+\(\dim E_\lambda\), and their total size is
+\[
+\dim G_\lambda(T)=d_\lambda,
+\]
+the algebraic multiplicity. The largest block size is the exponent of
+\(x-\lambda\) in \(m_T\).
+\end{corollary}
+\begin{proof}
+A block of size \(k\) contributes \(\min(j,k)\) to \(\dim K_j\), hence one
+to \(c_j\) exactly when \(k\geq j\). Blocks for other eigenvalues contribute
+zero. Summing proves the formulas. The remaining statements follow at
+\(j=1\), by summing all block sizes, and by taking the least common multiple
+of the elementary divisors.
+\end{proof}
+
+Since \(E_\lambda\subseteq G_\lambda(T)\) and
+\(\dim G_\lambda(T)=d_\lambda\),
+\[
+E_\lambda=G_\lambda(T)\quad\Longleftrightarrow\quad
+\dim E_\lambda=d_\lambda.
+\]
+Thus no generalized vectors beyond ordinary eigenvectors are needed exactly
+when the eigenspace accounts for the full algebraic multiplicity.
+
+\begin{corollary}[Diagonalizability and the minimal polynomial]
+\label{cor:diagonalizable-minimal-polynomial}
+\(T\) is diagonalizable over \(F\) if and only if \(m_T\) is a product of
+distinct linear factors over \(F\).
+\end{corollary}
+\begin{proof}
+If \(m_T\) has distinct linear factors, every elementary divisor divides
+\(m_T\), so every exponent and every Jordan-block size is \(1\). Conversely,
+a diagonal operator has minimal polynomial equal to the product of the
+distinct factors \(x-\lambda\) belonging to its eigenvalues.
+\end{proof}
+
+\begin{example}[What the second kernel detects]
+If \(d_\lambda=4\) and \(\dim E_\lambda=2\), the two block patterns are
+\(3+1\) and \(2+2\). They have
+\[
+\dim\ker(T-\lambda I)^2=3\quad\text{and}\quad4,
+\]
+respectively.
+\end{example}
+
+\section{Rational Canonical Form}\label{sec:rational-canonical-form}
+Jordan form may fail over the base field. Over \(\mathbb R\),
+\[
+A=\begin{pmatrix}0&-1\\1&0\end{pmatrix},\qquad \chi_A=x^2+1,
+\]
+has no real eigenvalues. Yet \(v=e_1\) and \(Av=e_2\) form a basis, while
+\(A^2v=-v\). When eigenvectors are unavailable, an orbit
+\(v,Tv,T^2v,\ldots\) can replace them.
+
+\descriptivesubsection{From an orbit to a companion block}
+For \(0\ne v\in V\), the cyclic subspace
+\[
+W=F[x]v=\operatorname{span}\{v,Tv,T^2v,\ldots\}
+\]
+is \(T\)-invariant: applying \(T\) to a finite linear combination of orbit
+vectors produces another such combination. Finite dimensionality forces a
+dependence among \(v,Tv,T^2v,\ldots\). If \(m=\dim W\), the first dependence
+occurs when \(T^mv\) is adjoined, so
+\[
+\beta=(v,Tv,\ldots,T^{m-1}v)
+\]
+is a basis of \(W\). The coefficient of \(T^mv\) in that first relation is
+nonzero; dividing by it normalizes the relation to
+\[
+T^mv+a_{m-1}T^{m-1}v+\cdots+a_1Tv+a_0v=0,
+\]
+or, solving for the first dependent orbit vector,
+\[
+T^mv=-a_0v-a_1Tv-\cdots-a_{m-1}T^{m-1}v.
+\]
+
+Now read the action of \(T\) on \(\beta\):
+\[
+T(v)=Tv,\quad T(Tv)=T^2v,\quad\ldots,\quad
+T(T^{m-2}v)=T^{m-1}v,
+\]
+while
+\[
+T(T^{m-1}v)
+=-a_0v-a_1Tv-\cdots-a_{m-1}T^{m-1}v.
+\]
+The first formula gives column \(1\) with a \(1\) in row \(2\), column \(2\)
+with a \(1\) in row \(3\), and so on through column \(m-1\), with a \(1\)
+in row \(m\). The last formula gives the final coordinate column
+\((-a_0,-a_1,\ldots,-a_{m-1})^{\mathsf T}\). Therefore
+\[
+[T|_W]_\beta=C_d=
+\begin{pmatrix}
+0&0&\cdots&0&-a_0\\
+1&0&\cdots&0&-a_1\\
+0&1&\cdots&0&-a_2\\
+\vdots&&\ddots&\vdots&\vdots\\
+0&0&\cdots&1&-a_{m-1}
+\end{pmatrix},
+\quad d=x^m+a_{m-1}x^{m-1}+\cdots+a_0.
+\]
+The companion matrix is therefore not an artificial matrix recipe: it is
+forced by the natural orbit basis of a cyclic operator. The first relation
+also says that no polynomial of degree below \(m\) annihilates \(v\), while
+\(d(T)v=0\). Hence
+\[
+\operatorname{Ann}(v)=(d),\qquad F[x]v\cong F[x]/(d).
+\]
+Hence
+\[
+\boxed{\text{cyclic invariant subspace}\longleftrightarrow
+F[x]/(d)\longleftrightarrow C_d}.
+\]
+The parallel with the split case is concise:
+\[
+\text{Jordan chain}\longrightarrow\text{Jordan block},
+\qquad
+\text{cyclic orbit}\longrightarrow\text{companion block}.
+\]
+
+If \(V=F[x]v\), then \(\operatorname{Ann}(v)=\operatorname{Ann}(V_T)\), so
+\(m_T=d\). Cayley--Hamilton gives \(m_T\mid\chi_T\), while
+\[
+\deg m_T=\deg d=\dim V=\deg\chi_T.
+\]
+Both polynomials are monic, hence
+\[
+m_T=\chi_T=d.
+\]
+
+\begin{theorem}[Characteristic polynomial of a companion matrix]
+\label{thm:companion-characteristic}
+\(\chi_{C_d}=d\).
+\end{theorem}
+\begin{proof}
+Put \(D_m(x)=\det(xI-C_d)\). Explicitly,
+\[
+xI-C_d=
+\begin{pmatrix}
+x&0&\cdots&0&a_0\\
+-1&x&\cdots&0&a_1\\
+0&-1&\ddots&0&a_2\\
+\vdots&\ddots&\ddots&x&\vdots\\
+0&\cdots&0&-1&x+a_{m-1}
+\end{pmatrix}.
+\]
+Expand along the first row. Only its first entry \(x\) and final entry
+\(a_0\) are nonzero. Deleting the first row and first column leaves the
+companion-type determinant
+\[
+D_{m-1}(x)
+=x^{m-1}+a_{m-1}x^{m-2}+\cdots+a_2x+a_1.
+\]
+Thus the first contribution is \(xD_{m-1}(x)\). The minor belonging to
+\(a_0\) is upper triangular with every diagonal entry equal to \(-1\), so
+its determinant is \((-1)^{m-1}\). The cofactor sign is
+\((-1)^{1+m}\), and
+\[
+(-1)^{1+m}(-1)^{m-1}=(-1)^{2m}=1.
+\]
+Hence the \(a_0\)-contribution is \(+a_0\), and
+\[
+D_m(x)=xD_{m-1}(x)+a_0.
+\]
+The base case is \(D_1(x)=x+a_0\). Induction therefore gives
+\[
+D_m(x)=x^m+a_{m-1}x^{m-1}+\cdots+a_1x+a_0=d(x).
+\]
+\end{proof}
+
+What if no single cyclic vector generates all of \(V\)? The invariant-factor
+decomposition supplies several cyclic pieces.
+
+\begin{theorem}[Rational canonical form]\label{thm:rational-canonical-form}
+Over every field, unique monic nonconstant invariant factors
+\(d_1\mid\cdots\mid d_r\) give a basis in which
+\[
+[T]=C_{d_1}\oplus\cdots\oplus C_{d_r}.
+\]
+Moreover \(m_T=d_r\) and \(\chi_T=d_1\cdots d_r\).
+\end{theorem}
+\begin{proof}
+The invariant-factor theorem gives
+\[
+V_T\cong F[x]/(d_1)\oplus\cdots\oplus F[x]/(d_r),
+\qquad d_1\mid\cdots\mid d_r.
+\]
+Translating back to linear algebra gives
+\[
+V=W_1\oplus\cdots\oplus W_r,
+\]
+where each \(W_i\) is \(T\)-invariant and cyclic. Choose a cyclic generator
+\(v_i\) and the orbit basis
+\[
+\beta_i=(v_i,Tv_i,\ldots,T^{\deg d_i-1}v_i).
+\]
+The preceding derivation gives
+\([T|_{W_i}]_{\beta_i}=C_{d_i}\). Concatenating the \(\beta_i\) gives a
+basis \(\beta\) of \(V\) with
+\[
+[T]_\beta=C_{d_1}\oplus\cdots\oplus C_{d_r}.
+\]
+This proves existence: invariant factors give cyclic subspaces, orbit bases,
+and then companion blocks. Uniqueness of the invariant factors gives
+uniqueness of the rational canonical form. Finally, the annihilator is
+generated by \(\operatorname{lcm}(d_1,\ldots,d_r)=d_r\), while the companion
+characteristic-polynomial theorem and direct sums give
+\(\chi_T=d_1\cdots d_r\).
+\end{proof}
+
+\begin{theorem}[The \(xI-A\) computational bridge]
+\label{thm:operator-cokernel-presentation}
+If \(A=[T]_\beta\), then \(V_T\cong\operatorname{coker}(xI-A)\). If
+\[
+P(x)(xI-A)Q(x)=\operatorname{diag}(1,\ldots,1,d_1,\ldots,d_r)
+\]
+is Smith form over \(F[x]\), the nonunit entries are the invariant factors,
+and
+\[
+\operatorname{RCF}(A)=\bigoplus_iC_{d_i}.
+\]
+\end{theorem}
+\begin{proof}
+Write \(\beta=(v_1,\ldots,v_n)\) and \(A=(a_{ij})\). Define an
+\(F[x]\)-linear map
+\[
+\Phi:F[x]^n\longrightarrow V_T,\qquad \Phi(e_i)=v_i.
+\]
+It is surjective because the \(v_i\) form an \(F\)-basis and constants in
+\(F[x]\) already produce every \(F\)-linear combination. Column \(j\) of
+\(xI-A\) is
+\[
+xe_j-\sum_i a_{ij}e_i.
+\]
+Under \(\Phi\), it maps to
+\[
+x\cdot v_j-\sum_i a_{ij}v_i
+=Tv_j-Tv_j=0.
+\]
+Therefore \(\operatorname{im}(xI-A)\subseteq\ker\Phi\), and \(\Phi\)
+induces a surjective map
+\[
+\overline\Phi:\operatorname{coker}(xI-A)\longrightarrow V_T.
+\]
+
+For the inverse, send
+\[
+\sum_i c_iv_i\in V
+\]
+to the cokernel class of the constant vector
+\((c_1,\ldots,c_n)^{\mathsf T}\). In the cokernel, the
+column relations above say
+\[
+x[e_j]=\sum_i a_{ij}[e_i].
+\]
+This is exactly the coordinate formula for \(Tv_j\), so the proposed map
+respects multiplication by \(x\), and therefore by every polynomial in
+\(F[x]\). It is an \(F[x]\)-module map. The two composites fix the
+generators \(v_i\) and \([e_i]\), respectively, so they are inverse and
+\(V_T\cong\operatorname{coker}(xI-A)\).
+
+Finally, multiplication on the left and right by the invertible matrices
+\(P(x)\) and \(Q(x)\) does not change the cokernel up to isomorphism. The
+Smith diagonal therefore presents
+\[
+\bigoplus_iF[x]/(d_i);
+\]
+unit entries present zero modules. Thus its monic nonunit diagonal entries
+are exactly the invariant factors.
+\end{proof}
+
+\begin{example}[A complete rational-form calculation]
+Over \(\mathbb R\), take
+\[
+A=\begin{pmatrix}0&-1&0\\1&0&0\\0&0&2\end{pmatrix},\qquad
+xI-A=\begin{pmatrix}x&1&0\\-1&x&0\\0&0&x-2\end{pmatrix}.
+\]
+Let \(\Delta_1\) be the monic gcd of the entries, \(\Delta_2\) the monic gcd
+of the \(2\times2\) minors, and \(\Delta_3=\det(xI-A)\). For Smith factors,
+\[
+d_1=\Delta_1,\qquad d_1d_2=\Delta_2,\qquad
+d_1d_2d_3=\Delta_3.
+\]
+Here \(\Delta_1=1\) because \(xI-A\) contains the unit entry \(1\). Among
+the \(2\times2\) minors are
+\[
+x-2,\qquad x(x-2),\qquad x^2+1.
+\]
+Any common divisor must divide both \(x-2\) and \(x^2+1\). These are
+coprime in \(\mathbb R[x]\), since \(x-2\) does not divide \(x^2+1\):
+evaluation at \(x=2\) gives \(5\ne0\). Hence \(\Delta_2=1\). Finally,
+\[
+\Delta_3=\det(xI-A)=(x^2+1)(x-2).
+\]
+Consequently \(d_1=d_2=1\) and
+\(d_3=(x^2+1)(x-2)\). Thus the Smith form is
+\(\operatorname{diag}(1,1,d)\), where
+\(d=x^3-2x^2+x-2\), and
+\[
+\operatorname{RCF}(A)=C_d=
+\begin{pmatrix}0&0&2\\1&0&-1\\0&1&2\end{pmatrix}.
+\]
+Over \(\mathbb C\), \(d=(x-i)(x+i)(x-2)\), so the Jordan form is
+\(\operatorname{diag}(i,-i,2)\).
+\end{example}
+
+\descriptivesubsection{Using canonical forms to test similarity}
+\[
+\begin{aligned}
+A\sim B
+&\quad\Longleftrightarrow\quad
+\operatorname{RCF}(A)=\operatorname{RCF}(B)\\
+&\quad\Longleftrightarrow\quad
+\text{\(A\) and \(B\) have the same invariant factors}
+\end{aligned}
+\]
+over every field. When the characteristic polynomials split over \(F\),
+\[
+\begin{aligned}
+A\sim B
+&\quad\Longleftrightarrow\quad
+\text{\(A\) and \(B\) have the same Jordan-block multiset}\\
+&\quad\Longleftrightarrow\quad
+\text{\(A\) and \(B\) have the same elementary divisors}.
+\end{aligned}
+\]
+Efficient tests proceed through
+\[
+\chi\longrightarrow m\longrightarrow\dim E_\lambda
+\longrightarrow\dim\ker(A-\lambda I)^k
+\longrightarrow\text{full block data}.
+\]
+A mismatch at any stage proves nonsimilarity. Matching characteristic
+polynomials is not sufficient: \(I_2\) and
+\(\begin{pmatrix}1&1\\0&1\end{pmatrix}\) have the same characteristic
+polynomial but different minimal polynomials. Even characteristic and minimal
+polynomials together need not determine all blocks in higher dimensions.
+For example, the nilpotent block patterns
+\[
+3+3\qquad\text{and}\qquad3+2+1
+\]
+both have characteristic polynomial \(x^6\) and minimal polynomial \(x^3\),
+but they are not similar: their kernel dimensions are \(2\) and \(3\),
+respectively. Solving \(B=P^{-1}AP\) directly is usually a poor first
+strategy; construct \(P\) only when an explicit basis change is asked.
+
+\descriptivesubsection{Jordan form versus rational form}
+\[
+\begin{array}{c|c}
+\text{Jordan form}&\text{Rational form}\\ \hline
+\chi_T\text{ splits}&\text{every field}\\
+\text{elementary divisors}&\text{invariant factors}\\
+F[x]/((x-\lambda)^k)&F[x]/(d_i)\\
+\text{Jordan-chain basis}&\text{cyclic orbit basis}\\
+J_k(\lambda)&C_{d_i}
+\end{array}
+\]
+These are the matrix manifestations of the two PID decompositions. Factoring
+\(d\) into coprime prime powers and applying CRT decomposes \(F[x]/(d)\)
+into \(F[x]/(p^e)\). When \(p=x-\lambda\), those pieces become Jordan
+blocks. Rational form is field-independent classification; Jordan form is
+the split-polynomial refinement.

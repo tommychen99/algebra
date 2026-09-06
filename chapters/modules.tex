@@ -173,10 +173,16 @@ are assembled into a new module. There is also an internal version. Let
 The sum is meaningful because \((m_i)\) has finite support.
 
 \begin{definition}
-We say that \(M=\bigoplus_{i\in I}M_i\) is an \emph{internal direct sum} if
-\(\Sigma\) is an isomorphism. Equivalently, every \(m\in M\) has a unique
-expression \(m=\sum_i m_i\), with \(m_i\in M_i\) and only finitely many
-\(m_i\) nonzero.
+We say that
+\[
+M=\bigoplus_{i\in I}M_i
+\]
+is an \emph{internal direct sum} if \(\Sigma\) is an isomorphism.
+Equivalently, every \(m\in M\) has a unique expression
+\[
+m=\sum_i m_i,
+\]
+with \(m_i\in M_i\) and only finitely many \(m_i\) nonzero.
 \end{definition}
 
 Thus the summation map is the precise bridge between the external direct sum
@@ -203,15 +209,36 @@ exactly of the tuples satisfying \(m_1+\cdots+m_n=0\). Hence it is an
 isomorphism precisely when condition \(2\) holds, proving
 \(1\Longleftrightarrow2\).
 
-Condition \(2\) gives existence. If \(\sum_i m_i=\sum_i m'_i\), then
-\(\sum_i(m_i-m'_i)=0\), so \(m_i=m'_i\) for every \(i\); thus the expression
-is unique. Conversely, uniqueness applied to the zero element proves that
+Condition \(2\) gives existence. If
+\[
+\sum_i m_i=\sum_i m'_i,
+\]
+then
+\[
+\sum_i(m_i-m'_i)=0,
+\]
+so \(m_i=m'_i\) for every \(i\); thus the expression is unique. Conversely,
+uniqueness applied to the zero element proves that
 every zero relation is trivial. Hence \(2\Longleftrightarrow3\).
 
-If \(2\) holds and \(x\in M_i\cap\sum_{j\ne i}M_j\), write
-\(x=\sum_{j\ne i}m_j\). Then \(x-\sum_{j\ne i}m_j=0\) is a zero relation,
-so \(x=0\), proving \(4\). Finally, under \(4\), a relation
-\(\sum_i m_i=0\) gives
+If \(2\) holds and
+\[
+x\in M_i\cap\sum_{j\ne i}M_j,
+\]
+write
+\[
+x=\sum_{j\ne i}m_j.
+\]
+Then
+\[
+x-\sum_{j\ne i}m_j=0
+\]
+is a zero relation, so \(x=0\), proving \(4\). Finally, under \(4\), a
+relation
+\[
+\sum_i m_i=0
+\]
+gives
 \[
 m_i=-\sum_{j\ne i}m_j\in M_i\cap\sum_{j\ne i}M_j=\{0\}
 \]
@@ -1285,7 +1312,10 @@ For each \(i\), choose a basis
 into the \(i\)-th coordinate of the direct sum, with zero in every other
 coordinate, and concatenate the resulting lists. This list spans: if
 \(x=(x_1,\ldots,x_n)\), expand each coordinate as
-\(x_i=\sum_j a_{ij}e_{ij}\), and then \(x\) is the sum of the corresponding
+\[
+x_i=\sum_j a_{ij}e_{ij},
+\]
+and then \(x\) is the sum of the corresponding
   inserted basis vectors with coefficients \(a_{ij}\). Equivalently, this is
   the basis supplied by Theorem~\ref{thm:bases-internal-direct-sums} for the
   coordinate summands.
@@ -2901,8 +2931,11 @@ then it is diagonalizable; this is sufficient but not necessary, as the
 identity operator shows. A split characteristic polynomial is necessary for
 diagonalizability, because a diagonal matrix displays all its eigenvalues in
 the field, but it is not sufficient, as a nontrivial Jordan block shows. The
-true criterion is \(\sum_\lambda\dim E_\lambda=\dim V\). When \(\chi_T\)
-splits, Proposition~\ref{prop:eigenvalue-multiplicities} says equivalently
+true criterion is
+\[
+\sum_\lambda\dim E_\lambda=\dim V.
+\]
+When \(\chi_T\) splits, Proposition~\ref{prop:eigenvalue-multiplicities} says equivalently
 that geometric and algebraic multiplicities agree for every eigenvalue.
 
 \begin{remark}[Practical diagonalization test]
@@ -2936,7 +2969,27 @@ what the module structure in Chapter~6 records.
 \section{Beyond Diagonalization: Generalized Eigenvectors and Jordan Chains}
 \label{sec:generalized-eigenvectors-jordan-chains}
 
-Return to the obstruction
+Suppose
+\[
+\chi_T(x)=\prod_\lambda(x-\lambda)^{d_\lambda}
+\]
+splits over \(F\). By Theorem~\ref{thm:diagonalization-criterion}, the eigenspaces for
+distinct eigenvalues always form an internal direct sum, but it need not be
+all of \(V\):
+\[
+\bigoplus_\lambda E_\lambda\subseteq V.
+\]
+Moreover, \(\dim E_\lambda\leq d_\lambda\), and \(T\) is diagonalizable
+exactly when equality holds for every \(\lambda\), equivalently when
+\[
+\sum_\lambda\dim E_\lambda=\dim V.
+\]
+Thus failure of diagonalization means
+that an ordinary eigenspace does not contain enough independent eigenvectors.
+The direct sum is still defined and direct; it is simply proper. Where are
+the missing directions?
+
+Return to the standard obstruction
 \[
 J=\begin{pmatrix}1&1\\0&1\end{pmatrix}.
 \]
@@ -2978,8 +3031,17 @@ Consequently, if \(n=\dim V\), then
 \[
 G_\lambda(T)=\ker(T-\lambda I)^n.
 \]
-This is a subspace, and it is \(T\)-invariant because \(T\) commutes with
-every polynomial in \(T\).
+This is a subspace, and
+\[
+E_\lambda=\ker(T-\lambda I)\subseteq G_\lambda(T).
+\]
+Its invariance is explicit. If \(v\in G_\lambda(T)\), choose \(k\) with
+\((T-\lambda I)^kv=0\). Since \(T\) commutes with \(T-\lambda I\),
+\[
+(T-\lambda I)^k(Tv)=T(T-\lambda I)^kv=0.
+\]
+Therefore \(Tv\in G_\lambda(T)\), so
+\(T(G_\lambda(T))\subseteq G_\lambda(T)\).
 
 \begin{example}[The missing direction recovered]
 For the matrix \(J\) above,
@@ -3057,16 +3119,41 @@ and the matrix of the restriction of \(T\) in this ordered basis is
 \(J_k(\lambda)\).
 \end{proposition}
 \begin{proof}
-The chain equations say
+Put \(W=\operatorname{span}(v_1,\ldots,v_k)\). The chain equations give
 \[
 Tv_1=\lambda v_1,\qquad
 Tv_j=v_{j-1}+\lambda v_j\quad(j\geq2).
 \]
-These formulas prove invariance.  They also give the coordinate columns:
+Thus \(Tv_1\in W\) and \(Tv_j\in W\) for every \(j\geq2\). Since \(T\)
+sends every vector in a spanning set of \(W\) back into \(W\), linearity
+gives \(T(W)\subseteq W\): for
+\[
+w=\sum_ja_jv_j,
+\qquad
+Tw=\sum_ja_jTv_j\in W.
+\]
+Hence
+\(T|_W:W\to W\) is defined.
+
+Now read the coordinate columns in \(\beta=(v_1,\ldots,v_k)\):
 the \(j\)-th column has \(\lambda\) in row \(j\), a \(1\) in row \(j-1\)
 when \(j\geq2\), and zeros elsewhere.  This is precisely
-\(J_k(\lambda)\).
+\([T|_W]_\beta=J_k(\lambda)\). The \(1\)'s lie on the superdiagonal because
+row \(j-1\) is immediately above row \(j\).
 \end{proof}
+
+The inequality \(\dim E_\lambda<d_\lambda\) means that at least one
+nontrivial \(\lambda\)-block is needed, not that there is one chain of length
+\(d_\lambda\). Chapter~6 will prove that the full picture is
+\[
+G_\lambda(T)=W_1\oplus\cdots\oplus W_r,
+\qquad r=\dim E_\lambda,\qquad
+\sum_i\dim W_i=d_\lambda,
+\]
+with one Jordan-chain basis on each \(W_i\). A single chain of length
+\(d_\lambda\) occurs only when \(\dim E_\lambda=1\). For example, block
+sizes \(2+1\) give \(d_\lambda=3\) and \(\dim E_\lambda=2\), but no chain
+of length \(3\).
 
 \descriptivesubsection{Kernel-growth blueprint for assembling chains}
 The following discussion is a blueprint for the construction, not by itself

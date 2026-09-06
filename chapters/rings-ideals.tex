@@ -439,8 +439,13 @@ Moreover,
 For \(n=2\), both assertions were just proved.  Suppose they hold for
 \(I_1,\ldots,I_{n-1}\), and put \(J=I_1\cap\cdots\cap I_{n-1}\).  For each
 \(i<n\), choose \(a_i\in I_i\), \(b_i\in I_n\) with \(a_i+b_i=1\).
-Then \(\prod_{i<n}a_i\in J\), while
-\(1-\prod_{i<n}a_i\in I_n\), by expanding the product.  Thus \(J+I_n=R\).
+Then
+\[
+\prod_{i<n}a_i\in J,
+\qquad
+1-\prod_{i<n}a_i\in I_n,
+\]
+by expanding the product. Thus \(J+I_n=R\).
 The two-ideal theorem and the induction hypothesis now give
 \[
 R/(J\cap I_n)\cong R/J\times R/I_n

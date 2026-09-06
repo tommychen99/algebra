@@ -30,7 +30,7 @@ against an unproved result silently becoming a dependency.
 
 ## Current development status
 
-All four parts of the manuscript are developed.  Version 1.3 substantially
+All four parts of the manuscript are developed.  Version 1.4 substantially
 revises the dependency chain from Chapter 5 generalized eigenvectors and
 Jordan chains through Chapter 6 \(F[x]\)-modules, PID classification, and
 canonical forms to Chapter 7 spectral theory.  Core results are proved in the

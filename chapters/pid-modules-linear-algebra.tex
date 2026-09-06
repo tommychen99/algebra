@@ -5,7 +5,7 @@ enough eigenvectors. This chapter asks what remains when it does not. The
 answer comes from viewing a linear operator as multiplication by \(x\), and
 from the remarkable fact that finitely generated modules over a principal
 ideal domain have a complete decomposition theory. The same theorem therefore
-classifies finitely generated abelian groups and produces rational and Jordan
+classifies finitely generated abelian groups and produces Jordan and rational
 canonical forms.
 
 The first half of the chapter deliberately uses three different viewpoints.
@@ -427,8 +427,11 @@ submodules \(E_p\) and a decomposition
 T(M)=\bigoplus_p E_p.
 \]
 Each \(E_p\) is killed by a power of \(p\), so
-\(E_p\subseteq M_p\). Conversely, suppose
-\(m\in M_p\) and write \(m=\sum_qm_q\), with \(m_q\in E_q\).
+\(E_p\subseteq M_p\). Conversely, suppose \(m\in M_p\) and write
+\[
+m=\sum_qm_q,
+\qquad m_q\in E_q.
+\]
 For \(q\ne p\), some powers \(p^e\) and \(q^f\) kill \(m_q\). Since
 distinct prime representatives are relatively prime, B\'ezout gives
 \(up^e+vq^f=1\), and therefore
@@ -1222,12 +1225,55 @@ becomes a finitely generated torsion \(F[x]\)-module, and the PID structure
 theorem answers both questions: the blocks are its cyclic summands, whose
 types are intrinsic.
 
-Let \(T:V\to V\) be linear over a field \(F\). Define
-\[p(x)\cdot v=p(T)v,\qquad
-p(T)=a_0I+a_1T+\cdots+a_nT^n.\]
-Because \((pq)(T)=p(T)q(T)\), the module axioms hold.
-Write \(V_T\) when the operator defining this \(F[x]\)-module structure
-needs to be displayed.
+\begin{theorem}[Operator--module correspondence]
+\label{thm:operator-module-correspondence}
+For every \(F\)-vector space \(V\), \(F\)-linear operators \(T:V\to V\)
+correspond bijectively to \(F[x]\)-module structures on \(V\) whose constant
+polynomials act by the original scalar multiplication. The correspondence
+does not require finite dimensionality.
+\end{theorem}
+\begin{proof}
+Given \(T\), define \(p(x)\cdot v=p(T)v\). The identities
+\[
+(p+q)(T)=p(T)+q(T),\quad (pq)(T)=p(T)q(T),\quad 1(T)=I
+\]
+give the module laws, and \(a(T)=aI\) for \(a\in F\).
+
+Conversely, from a compatible action define \(T(v)=x\cdot v\). Then
+\[
+T(v+w)=x\cdot v+x\cdot w
+\]
+and
+\[
+T(av)=x\cdot(a\cdot v)=(xa)\cdot v=(ax)\cdot v
+=a\cdot(x\cdot v)=aT(v),
+\]
+so \(T\) is \(F\)-linear. Starting from \(T\) recovers \(x\cdot v=Tv\).
+Starting from an action, \(x^j\cdot v=T^jv\), so for
+\(p=a_0+\cdots+a_nx^n\),
+\[
+p(x)\cdot v=a_0v+a_1Tv+\cdots+a_nT^nv=p(T)v.
+\]
+Thus the constructions are inverse.
+\end{proof}
+\[
+\boxed{\text{one operator on \(V\)}
+\longleftrightarrow
+\text{one compatible \(F[x]\)-module structure on \(V\)}}.
+\]
+Write \(V_T\) for the resulting module. The dictionary now proceeds as
+\[
+\begin{gathered}
+T\longleftrightarrow V_T,\\
+T\text{-invariant subspaces}\longleftrightarrow F[x]\text{-submodules},\\
+\phi T=S\phi\longleftrightarrow F[x]\text{-module maps}.
+\end{gathered}
+\]
+In particular, Proposition~\ref{prop:intertwiner-module-map} will give
+\[
+A\sim B\quad\Longleftrightarrow\quad V_A\cong V_B
+\quad\text{as \(F[x]\)-modules}.
+\]
 
 Recall from Section~\ref{sec:matrices-change-basis} the direct sums of
 operators and their block-diagonal matrices. Direct calculation on pairs
@@ -1292,25 +1338,11 @@ are linearly dependent, so a nonzero polynomial \(f_i\) satisfies
 basis vector and hence all of \(V\).  In particular every vector is torsion.
 \end{proof}
 
-For a monic polynomial
-\[
-d(x)=x^m+a_{m-1}x^{m-1}+\cdots+a_0
-\]
-define its \emph{companion matrix} by
-\[
-C_d=
-\begin{pmatrix}
-0&0&\cdots&0&-a_0\\
-1&0&\cdots&0&-a_1\\
-0&1&\cdots&0&-a_2\\
-\vdots&&\ddots&\vdots&\vdots\\
-0&0&\cdots&1&-a_{m-1}
-\end{pmatrix}.
-\]
-The next proposition derives this matrix directly from the first polynomial
-relation in an operator orbit.
+We next isolate the module structure of one operator orbit. Its coordinate
+matrix will be derived, column by column, when rational canonical form is
+introduced in Section~\ref{sec:rational-canonical-form}.
 
-\begin{proposition}[Cyclic subspaces, companion matrices, and annihilators]
+\begin{proposition}[Cyclic subspaces and annihilators]
 \label{prop:cyclic-subspace-annihilator}
 Let \(0\ne v\in V\), and let
 \[
@@ -1326,9 +1358,7 @@ d(x)=x^m+a_{m-1}x^{m-1}+\cdots+a_1x+a_0
 \]
 generating \(\operatorname{Ann}_{F[x]}(v)\), and
 \[
-F[x]v\cong F[x]/(d),
-\qquad
-[T|_W]_\beta=C_d.
+F[x]v\cong F[x]/(d).
 \]
 \end{proposition}
 \begin{proof}
@@ -1359,29 +1389,6 @@ This deliberate normalization makes
 \(d(x)=x^m+a_{m-1}x^{m-1}+\cdots+a_1x+a_0\) monic, matching the convention
 for generators of ideals in \(F[x]\).
 
-On the orbit basis, the action is
-\[
-T(v)=Tv,\quad T(Tv)=T^2v,\quad\ldots,\quad
-T(T^{m-2}v)=T^{m-1}v,
-\]
-while the last basis vector satisfies
-\[
-T(T^{m-1}v)=-a_0v-a_1Tv-\cdots-a_{m-1}T^{m-1}v.
-\]
-Reading these coordinate columns gives
-\[
-[T|_W]_\beta=C_d=
-\begin{pmatrix}
-0&0&\cdots&0&-a_0\\
-1&0&\cdots&0&-a_1\\
-0&1&\cdots&0&-a_2\\
-\vdots&&\ddots&\vdots&\vdots\\
-0&0&\cdots&1&-a_{m-1}
-\end{pmatrix}.
-\]
-Thus a companion matrix is precisely the matrix of \(T\) on a cyclic
-\(T\)-invariant subspace in its natural orbit basis.
-
 The normalized relation says \(d(T)v=0\), so
 \(d\in\operatorname{Ann}_{F[x]}(v)\). No nonzero polynomial of degree less
 than \(m\) can annihilate \(v\), since it would give a dependence among
@@ -1399,6 +1406,16 @@ has kernel \((d)\). The First Isomorphism Theorem gives
 abstract cyclic-module description identical.
 \end{proof}
 
+Thus §6.9 supplies the structural part of the dictionary:
+\[
+F[x]v\cong F[x]/(d)
+\quad\longleftrightarrow\quad
+\text{one cyclic \(T\)-invariant subspace}.
+\]
+Section~\ref{sec:rational-canonical-form} will realize this module in its
+orbit basis and obtain the companion block \(C_d\).
+
+\iffalse
 \begin{theorem}[The \(xI-A\) presentation]
 \label{thm:operator-cokernel-presentation}
 Let \(V\) have ordered basis \(\beta=(v_1,\ldots,v_n)\), let
@@ -1422,9 +1439,15 @@ of \(xI_n-A\) maps to
 xv_j-\sum_i a_{ij}v_i=Tv_j-Tv_j=0,
 \]
 so the map factors through the cokernel. Conversely, send
-\(\sum_i c_iv_i\) to the class of the constant vector \((c_i)\). In the
-cokernel, the displayed column relations say
-\(x[e_j]=\sum_i a_{ij}[e_i]\), so this inverse candidate respects the action
+\[
+\sum_i c_iv_i
+\]
+to the class of the constant vector \((c_i)\). In the cokernel, the displayed
+column relations say
+\[
+x[e_j]=\sum_i a_{ij}[e_i],
+\]
+so this inverse candidate respects the action
 of \(x\), hence every polynomial. The two induced maps are inverse on the
 displayed generators.
 
@@ -1444,9 +1467,11 @@ Thus
 \]
 The matrix \(xI-A\) is a matrix over \(F[x]\), and its Smith equivalence is
 the computational bridge from presentations to similarity classification.
+\fi
 
 The cyclic-subspace proposition is the first half of the canonical-form dictionary:
-a cyclic module \(F[x]/(d)\) is a companion block.  The special case
+a cyclic module \(F[x]/(d)\) will be realized as a companion block \(C_d\) in
+Section~\ref{sec:rational-canonical-form}.  The special case
 \(d=(x-\lambda)^k\) is the Jordan-chain block described below.
 
 \[
@@ -1461,8 +1486,10 @@ p(T)v=0&p(x)\text{ annihilates }v\\
 \text{Jordan block }J_k(\lambda)&F[x]/((x-\lambda)^k)
 \end{array}
 \]
-This dictionary synthesizes the correspondences proved in this section and
-turns the linear-algebra questions into the PID classification problem.
+The following dictionary previews the correspondences developed in the
+remainder of this section and completed in
+Section~\ref{sec:rational-canonical-form}. It turns the linear-algebra
+questions into the PID classification problem.
 
 \begin{definition}
 For an irreducible polynomial \(p\in F[x]\), the \emph{\(p\)-primary
@@ -1631,7 +1658,10 @@ Choose a basis \(\beta=(v_1,\ldots,v_n)\), write
 \(A=(a_{ij})=[T]_\beta\), and regard the basis as the row vector
 \(\mathbf v=(v_1,\ldots,v_n)\). For a matrix of operators \(Q=(q_{ij})\),
 the \(j\)-th entry of \(\mathbf vQ\) means
-\(\sum_i q_{ij}(v_i)\). Since column \(j\) of \(A\) gives the coordinates of
+\[
+\sum_i q_{ij}(v_i).
+\]
+Since column \(j\) of \(A\) gives the coordinates of
 \(Tv_j\), the coordinate relations are exactly
 \begin{equation}\label{eq:cayley-hamilton-relation-matrix}
 \mathbf v(TI_n-A)=0.
@@ -1703,6 +1733,7 @@ V=G_{\lambda_1}(T)\oplus\cdots\oplus G_{\lambda_s}(T).
 This proves the generalized-eigenspace decomposition promised in Chapter~5,
 using only results already established.
 
+\iffalse
 \section{Rational Canonical Form}
 Rational canonical form exists over every field; it is the field-independent
 classification of linear operators. Jordan form is available only when the
@@ -1915,7 +1946,10 @@ Finally, if the rational form has invariant factors
 \(d_1\mid\cdots\mid d_r\), then
 \(m_T=d_r\) and \(\chi_T=d_1\cdots d_r\). All \(d_i\) are nonconstant, so
 equality of these monic polynomials forces
-\(\sum_i\deg d_i=\deg d_r\), hence \(r=1\).
+\[
+\sum_i\deg d_i=\deg d_r,
+\]
+hence \(r=1\).
 \end{proof}
 
 \begin{remark}[Cayley--Hamilton from the PID structure theorem]
@@ -2198,6 +2232,9 @@ Jordan form when splitting is available.
 Rational canonical form is the field-independent classification.  Jordan
 form is its split-polynomial refinement.
 \end{remark}
+\fi
+
+\input{chapters/canonical-forms-revised}
 
 \section*{Exercises}
 \begin{exercise}[Basic] Classify
@@ -2267,7 +2304,7 @@ the matrix
 \]
 are similar.  Justify the answer using elementary divisors rather than an
 attempt to solve directly for a change-of-basis matrix.\end{exercise}
-\begin{exercise}[Further, Challenging] Determine the rational and Jordan
+\begin{exercise}[Further, Challenging] Determine the Jordan and rational
 canonical forms of an operator whose elementary divisors are
 \((x-1)^3,(x-1),(x+2)^2\).\end{exercise}
 \begin{exercise}[Looking Ahead] For a Jordan matrix, read off
