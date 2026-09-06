@@ -4,7 +4,7 @@
 
 Tommy Chen
 
-Version 1.3
+Version 1.4
 
 [Read the compiled PDF](main.pdf)
 
@@ -15,6 +15,17 @@ for all mathematical content, editorial decisions, and the published work.
 The repository is <https://github.com/tommychen99/algebra>.
 
 ## Release notes
+
+**Version 1.4** collects all revisions made after Version 1.3. It standardizes
+the section-based shared numbering of theorem-style results and strengthens
+the determinant development, including the intrinsic operator determinant.
+Chapter 5 now motivates generalized eigenspaces and Jordan chains more
+explicitly; Chapter 6 develops the operator--\(F[x]\)-module correspondence,
+Jordan form before rational form, companion matrices, the \(xI-A\) presentation,
+and similarity tests in a more detailed pedagogical sequence. Chapter 8 gains
+a fuller tensor-product and exterior-power treatment and consistently uses
+``elementary tensor.'' The release also moves indexed operations out of inline
+prose and into displayed mathematics throughout the manuscript.
 
 **Version 1.3** makes Chapters 5--7 a single pedagogical progression from
 ordinary diagonalization through generalized eigenvectors and Jordan chains,
@@ -31,14 +42,19 @@ form is also proved by annihilator--cancellation and, presentation-theoretically
 through Smith normal form, determinantal/Fitting ideals, and presentation
 independence. The \(xI-A\) presentation now connects Smith reduction directly
 to \(F[x]\)-module operator classification. Expanded treatments of the minimal
-polynomial, Cayley--Hamilton, rational and Jordan canonical forms, examples,
+polynomial, Cayley--Hamilton, Jordan and rational canonical forms, examples,
 and exercises complete the revision.  It also adds a selective treatment of
 elementary matrix operations, Gaussian elimination, rank normal form, row and
 column rank, an expanded determinant development and Cramer's rule, stronger
 duality and forms material, and fully explicit real and matrix spectral
 theorems.  A final cleanup makes row and matrix equivalence explicit, justifies
 the original pivot-column basis statement, and displays the adjugate step in
-the \(2\times2\) inverse example.
+the \(2\times2\) inverse example.  It also clarifies the passage from matrix
+determinants to the intrinsic determinant of an operator and adopts
+section-based shared numbering for theorem-style results.
+It further strengthens the operator--\(F[x]\)-module correspondence, develops
+Jordan and rational canonical forms in pedagogical order with explicit
+similarity applications, and improves the tensor-product exposition.
 
 **Version 1.22** completes the Part II expansion and numbering cleanup.  It
 strengthens rings, ideals, localization, factorization, and polynomial rings;
